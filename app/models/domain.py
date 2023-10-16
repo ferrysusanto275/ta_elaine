@@ -51,7 +51,7 @@ class domainModel:
         query="UPDATE "+self.table_name
         query+=" SET nama=%s, bobot=%s"
         query+=" WHERE id=%s"
-        db.execute_query(query,(nama,id))
+        db.execute_query(query,(nama,bobot,id))
         db.commit()
         return True
     def delete(self,id):
