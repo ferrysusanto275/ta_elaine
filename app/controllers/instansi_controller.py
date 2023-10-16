@@ -1,6 +1,11 @@
 from flask import Blueprint,jsonify,request
 from app.models.instansi import instansiModel
 model=instansiModel();
+def validasiInput():
+    nama = request.json.get('nama')
+    if not nama:
+        return jsonify({'message': 'Nama is required'}), 400
+    return [nama]
 instansi_bp=Blueprint(model.table_name,__name__)
 @instansi_bp.route('/'+model.table_name)
 def get_all():
@@ -14,22 +19,17 @@ def get_by_id(id):
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 @instansi_bp.route('/'+model.table_name,methods=['POST'])
 def create():
-    nama = request.json.get('nama')
-    if not nama:
-        return jsonify({'message': 'Nama is required'}), 400
-    if model.create(nama):
+    data=validasiInput()
+    if model.create(data[0]):
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
 @instansi_bp.route('/'+model.table_name+'/<string:id>', methods=['PUT'])
 def update(id):
-    nama = request.json.get('nama')
-    if not nama:
-        return jsonify({'message': 'Nama is required'}), 400
-
+    data=validasiInput()
     instansi = model.getById(id)
     if instansi:
-        if model.update( nama,id):
+        if model.update( data[0],id):
             return jsonify({'message': model.table_name.capitalize()+' updated'})
         else:
             return jsonify({'message': 'Failed to update '+model.table_name}), 500
