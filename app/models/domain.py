@@ -3,7 +3,7 @@ from datetime import datetime
 
 class domainModel:
     table_name="domain"
-    prefix="i"
+    prefix="d"
     def getAll(self):
         query="SELECT * FROM "+self.table_name;
         cur= db.execute_query(query)
