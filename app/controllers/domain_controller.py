@@ -1,6 +1,6 @@
 from flask import Blueprint,jsonify,request
-from app.models.instansi import instansiModel
-model=instansiModel();
+from app.models.domain import domainModel
+model=domainModel();
 instansi_bp=Blueprint(model.table_name,__name__)
 @instansi_bp.route('/'+model.table_name)
 def get_all():
