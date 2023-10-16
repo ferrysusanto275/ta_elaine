@@ -26,6 +26,8 @@ def get_by_id(id):
 @domain_bp.route('/'+model.table_name,methods=['POST'])
 def create():
     data=validasiInput()
+    if(not isinstance(data,list)):
+        return data
     if model.create(data[0],data[1]):
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
@@ -33,6 +35,8 @@ def create():
 @domain_bp.route('/'+model.table_name+'/<string:id>', methods=['PUT'])
 def update(id):
     data=validasiInput()
+    if(not isinstance(data,list)):
+        return data
     instansi = model.getById(id)
     if instansi:
         if model.update( data[0],data[1],id):
