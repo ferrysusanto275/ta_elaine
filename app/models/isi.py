@@ -14,41 +14,41 @@ class isiModel:
         for row in result:
             instansi=instansi_model.getById(row[0])
             indikator=indikator_model.getById(row[1])
-            data.append({"instansi":instansi,"indikator":indikator,"value":row[2]})
+            data.append({"instansi":instansi,"indikator":indikator,"year":row[2],"value":row[3]})
         cur.close()
         return data
     
-    def getById(self,instansi,indikator):
+    def getById(self,instansi,indikator,year):
         query="SELECT * FROM "+self.table_name;
-        query+=" WHERE instansi=%s AND indikator=%s"
-        cur= db.execute_query(query,(instansi,indikator))
+        query+=" WHERE instansi=%s AND indikator=%s AND year=%s"
+        cur= db.execute_query(query,(instansi,indikator,year))
         result=cur.fetchone()
         data=result
         if(result):
             instansi=instansi_model.getById(result[0])
             indikator=indikator_model.getById(result[1])
-            data.append({"instansi":instansi,"indikator":indikator,"value":result[2]})
+            data.append({"instansi":instansi,"indikator":indikator,"year":result[2],"value":result[3]})
         cur.close()
         return data
     
-    def create(self,instansi,indikator,value):
+    def create(self,instansi,indikator,year,value):
         query="INSERT INTO "+self.table_name
-        query+=" (instansi,indikator,value)"
+        query+=" (instansi,indikator,year,value)"
         query+=" VALUES (%s,%s,%s)"
-        cur=db.execute_query(query,(instansi,indikator,value))
+        cur=db.execute_query(query,(instansi,indikator,year,value))
         db.commit()
         cur.close()
         return True
-    def update(self,instansi,indikator,value):
+    def update(self,instansi,indikator,year,value):
         query="UPDATE "+self.table_name
         query+=" SET value=%s "
-        query+=" WHERE instansi=%s AND indikator=%s"
-        db.execute_query(query,(value,instansi,indikator))
+        query+=" WHERE instansi=%s AND indikator=%s AND year=%s"
+        db.execute_query(query,(value,instansi,indikator,year))
         db.commit()
         return True
-    def delete(self,instansi,indikator):
+    def delete(self,instansi,indikator,year):
         query="DELETE FROM "+self.table_name
-        query+=" WHERE instansi=%s AND indikator=%s"
-        db.execute_query(query,(instansi,indikator))
+        query+=" WHERE instansi=%s AND indikator=%s AND year=%s"
+        db.execute_query(query,(instansi,indikator,year))
         db.commit()
         return True
