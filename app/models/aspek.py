@@ -18,14 +18,14 @@ class aspekModel:
         cur.close()
         return data
 
-    def getAll_byIndex(self,domain,instansi):
-        query="SELECT *,(SELECT SUM(i.value*m.bobot) FROM `indikator` m JOIN isi i ON m.id=i.indikator WHERE m.aspek=aspek.id AND i.instansi=%s)*1/bobot na FROM "+self.table_name
+    def getAll_byIndex(self,domain,instansi,year):
+        query="SELECT *,(SELECT SUM(i.value*m.bobot) FROM `indikator` m JOIN isi i ON m.id=i.indikator WHERE m.aspek=aspek.id AND i.instansi=%s AND i.year=%s)*1/bobot na FROM "+self.table_name
         query+=" WHERE domain=%s"
-        cur= db.execute_query(query,(instansi,domain))
+        cur= db.execute_query(query,(instansi,year,domain))
         result=cur.fetchall()
         domain=domain_model.getById(domain)
         instansi=instansi_model.getById(instansi)
-        data=[{"domain":domain,"instansi":instansi,"jml_aspek":len(result)}]
+        data=[{"domain":domain,"instansi":instansi,"year":year,"jml_aspek":len(result)}]
         jml_res=0
         for row in result:
             result=row[4]*row[3]

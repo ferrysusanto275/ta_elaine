@@ -23,8 +23,8 @@ def validasiInput():
     if not cekDomain:
         return jsonify({'message': 'Domain not found'}), 400
     return [nama,bobot,domain]
-@aspek_bp.route('/index_'+model.table_name+'/<string:instansi>/<string:domain>')
-def get_by_index(domain,instansi):
+@aspek_bp.route('/index_'+model.table_name+'/<string:instansi>/<string:year>/<string:domain>')
+def get_by_index(domain,instansi,year):
     if not domain:
         return jsonify({'message': 'domain is required'}), 400
     cekDomain=domain_model.getById(domain)
@@ -35,7 +35,11 @@ def get_by_index(domain,instansi):
     cekInstansi=instansi_model.getById(instansi)
     if not cekInstansi:
         return jsonify({'message': 'Instansi not found'}), 400
-    aspek = model.getAll_byIndex(domain=domain,instansi=instansi)
+    if not year:
+        return jsonify({'message': 'Year is required'}), 400
+    if not isinstance(year, (int, float, complex)):
+        return jsonify({'message': 'Year is must number'}), 400
+    aspek = model.getAll_byIndex(domain=domain,instansi=instansi,year=year)
     if aspek:
         return jsonify(aspek)
     else:
