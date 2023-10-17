@@ -18,14 +18,14 @@ class indikatorModel:
         cur.close()
         return data
     
-    def getAll_byIndex(self,aspek,instansi):
-        query="SELECT *,(SELECT `value` FROM isi WHERE indikator=id AND instansi=%s) as ni FROM "+self.table_name;
+    def getAll_byIndex(self,aspek,instansi,year):
+        query="SELECT *,(SELECT `value` FROM isi WHERE indikator=id AND instansi=%s AND year=%s) as ni FROM "+self.table_name;
         query+=" WHERE aspek=%s"
-        cur= db.execute_query(query,(instansi,aspek))
+        cur= db.execute_query(query,(instansi,year,aspek))
         result=cur.fetchall()
         aspek=aspek_model.getById(aspek)
         instansi=instansi_model.getById(instansi)
-        data=[{"aspek":aspek,"instansi":instansi,'jml_indikator':len(result)}]
+        data=[{"aspek":aspek,"instansi":instansi,"year":year,'jml_indikator':len(result)}]
         jml_res=0
         for row in result:
             result=row[3]*row[4]
