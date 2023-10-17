@@ -1,7 +1,9 @@
 from app.utils.database import db
 from datetime import datetime
 from app.models.domain import domainModel
-domain_model=domainModel();
+from app.models.instansi import instansiModel
+instansi_model = instansiModel()
+domain_model=domainModel()
 class aspekModel:
     table_name="aspek"
     prefix="a"
@@ -13,6 +15,24 @@ class aspekModel:
         for row in result:
             domain=domain_model.getById(row[1])
             data.append({"id":row[0],"domain":domain,"nama":row[2],"bobot":row[3]})
+        cur.close()
+        return data
+
+    def getAll_byIndex(self,domain,instansi):
+        query="SELECT *,(SELECT SUM(i.value*m.bobot) FROM `indikator` m JOIN isi i ON m.id=i.indikator WHERE m.aspek=aspek.id AND i.instansi=%s)*1/bobot na FROM "+self.table_name
+        query+=" WHERE domain=%s"
+        cur= db.execute_query(query,(instansi,domain))
+        result=cur.fetchall()
+        domain=domain_model.getById(domain)
+        instansi=instansi_model.getById(instansi)
+        data=[{"domain":domain,"instansi":instansi,"jml_aspek":len(result)}]
+        jml_res=0
+        for row in result:
+            result=row[4]*row[3]
+            jml_res+=result
+            data.append({"id":row[0],"nama":row[2],"bobot":row[3],"NA":row[4],"hasil":result})
+        data.append({"Jumlah (NA X BA)":jml_res})
+        data.append({"Index":1/domain['bobot']*jml_res})
         cur.close()
         return data
     

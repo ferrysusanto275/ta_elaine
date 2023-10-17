@@ -1,8 +1,10 @@
 from flask import Blueprint,jsonify,request
 from app.models.aspek import aspekModel
 from app.models.domain import domainModel
+from app.models.instansi import instansiModel
 model=aspekModel()
 domain_model=domainModel()
+instansi_model=instansiModel()
 aspek_bp=Blueprint(model.table_name,__name__)
 def validasiInput():
     nama = request.json.get('nama')
@@ -21,6 +23,23 @@ def validasiInput():
     if not cekDomain:
         return jsonify({'message': 'Domain not found'}), 400
     return [nama,bobot,domain]
+@aspek_bp.route('/index_'+model.table_name+'/<string:instansi>/<string:domain>')
+def get_by_index(domain,instansi):
+    if not domain:
+        return jsonify({'message': 'domain is required'}), 400
+    cekDomain=domain_model.getById(domain)
+    if not cekDomain:
+        return jsonify({'message': 'Domain not found'}), 400
+    if not instansi:
+        return jsonify({'message': 'Domain is required'}), 400
+    cekInstansi=instansi_model.getById(instansi)
+    if not cekInstansi:
+        return jsonify({'message': 'Instansi not found'}), 400
+    aspek = model.getAll_byIndex(domain=domain,instansi=instansi)
+    if aspek:
+        return jsonify(aspek)
+    else:
+        return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 @aspek_bp.route('/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());

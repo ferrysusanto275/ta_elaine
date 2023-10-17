@@ -1,7 +1,9 @@
 from app.utils.database import db
 from datetime import datetime
 from app.models.aspek import aspekModel
+from app.models.instansi import instansiModel
 aspek_model=aspekModel();
+instansi_model=instansiModel();
 class indikatorModel:
     table_name="indikator"
     prefix="in"
@@ -13,6 +15,24 @@ class indikatorModel:
         for row in result:
             aspek=aspek_model.getById(row[1])
             data.append({"id":row[0],"aspek":aspek,"nama":row[2],"bobot":row[3]})
+        cur.close()
+        return data
+    
+    def getAll_byIndex(self,aspek,instansi):
+        query="SELECT *,(SELECT `value` FROM isi WHERE indikator=id AND instansi=%s) as ni FROM "+self.table_name;
+        query+=" WHERE aspek=%s"
+        cur= db.execute_query(query,(instansi,aspek))
+        result=cur.fetchall()
+        aspek=aspek_model.getById(aspek)
+        instansi=instansi_model.getById(instansi)
+        data=[{"aspek":aspek,"instansi":instansi,'jml_indikator':len(result)}]
+        jml_res=0
+        for row in result:
+            result=row[3]*row[4]
+            jml_res+=result
+            data.append({"id":row[0],"nama":row[2],"bobot":row[3],"NI":row[4],"hasil":result})
+        data.append({"Jumlah (NI X BI)":jml_res})
+        data.append({"Index":1/aspek['bobot']*jml_res})
         cur.close()
         return data
     

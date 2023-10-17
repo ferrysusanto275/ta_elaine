@@ -1,9 +1,11 @@
 from flask import Blueprint,jsonify,request
 from app.models.aspek import aspekModel
 from app.models.indikator import indikatorModel
+from app.models.instansi import instansiModel
 model=indikatorModel()
 aspek_model=aspekModel()
 indikator_bp=Blueprint(model.table_name,__name__)
+instansi_model=instansiModel();
 def validasiInput():
     nama = request.json.get('nama')
     if not nama:
@@ -31,6 +33,25 @@ def get_by_id(id):
         return jsonify(instansi)
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
+
+@indikator_bp.route('/index_'+model.table_name+'/<string:instansi>/<string:aspek>')
+def get_by_aspek_instansi(aspek,instansi):
+    if not aspek:
+        return jsonify({'message': 'Aspek is required'}), 400
+    cekAspek=aspek_model.getById(aspek)
+    if not cekAspek:
+        return jsonify({'message': 'Aspek not found'}), 400
+    if not instansi:
+        return jsonify({'message': 'Instansi is required'}), 400
+    cekInstansi=instansi_model.getById(instansi)
+    if not cekInstansi:
+        return jsonify({'message': 'Instansi not found'}), 400
+    indikator = model.getAll_byIndex(aspek,instansi)
+    if indikator:
+        return jsonify(indikator)
+    else:
+        return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
+
 @indikator_bp.route('/'+model.table_name,methods=['POST'])
 def create():
     data=validasiInput()
