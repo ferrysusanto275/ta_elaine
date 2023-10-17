@@ -44,7 +44,7 @@ def validasiValue():
 @isi_bp.route('/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
-@isi_bp.route('/'+model.table_name+'/<string:instansi>/<string:indikator>/<number:year>')
+@isi_bp.route('/'+model.table_name+'/<string:instansi>/<string:indikator>/<string:year>')
 def get_by_id(instansi,indikator,year):
     isi = model.getById(instansi,indikator,year)
     if isi:
@@ -54,16 +54,18 @@ def get_by_id(instansi,indikator,year):
 @isi_bp.route('/'+model.table_name,methods=['POST'])
 def create():
     data=validasiInput()
-    cekisi = model.getById(instansi=data[0],indikator=data[1],value=data[2])
+    if not isinstance(data,list):return data
+    cekisi = model.getById(instansi=data[0],indikator=data[1],year=data[3])
+    # print(data)
+    # return jsonify(cekisi)
     if not cekisi:
-        if not isinstance(data,list):return data
-        if model.create(instansi=data[0],indikator=data[1],value=data[2],value=data[3]):
+        if model.create(instansi=data[0],indikator=data[1],value=data[2],year=data[3]):
             return jsonify({'message': model.table_name.capitalize()+' created'}), 201
         else:
             return jsonify({'message': 'Failed to create '+model.table_name}), 500
     else:
         return jsonify({'message': model.table_name.capitalize()+' is already available'}), 500
-@isi_bp.route('/'+model.table_name+'/<string:instansi>/<string:indikator>/<number:year>', methods=['PUT'])
+@isi_bp.route('/'+model.table_name+'/<string:instansi>/<string:indikator>/<string:year>', methods=['PUT'])
 def update(instansi,indikator,year):
     id=validasiId(instansi,indikator,year)
     if not isinstance(id,list):return id
@@ -78,7 +80,7 @@ def update(instansi,indikator,year):
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
-@isi_bp.route('/'+model.table_name+'/<string:instansi>/<string:indikator>/<number:year>', methods=['DELETE'])
+@isi_bp.route('/'+model.table_name+'/<string:instansi>/<string:indikator>/<string:year>', methods=['DELETE'])
 def delete_user(instansi,indikator,year):
     isi = model.getById(instansi,indikator,year)
     if isi:

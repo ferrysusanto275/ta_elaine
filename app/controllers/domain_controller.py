@@ -19,7 +19,7 @@ def validasiInput():
 def get_all():
     return jsonify(model.getAll());
 @domain_bp.route('/index_'+model.table_name+'/<string:instansi>')
-def get_all():
+def get_all_index(instansi):
     return jsonify(model.getAll());
 @domain_bp.route('/'+model.table_name+'/<string:id>')
 def get_by_id(id):

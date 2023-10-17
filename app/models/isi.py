@@ -27,14 +27,15 @@ class isiModel:
         if(result):
             instansi=instansi_model.getById(result[0])
             indikator=indikator_model.getById(result[1])
-            data.append({"instansi":instansi,"indikator":indikator,"year":result[2],"value":result[3]})
+            data={"instansi":instansi,"indikator":indikator,"year":result[2],"value":result[3]}
+            # data.append({"instansi":instansi,"indikator":indikator,"tahun":result[2],"value":result[3]})
         cur.close()
         return data
     
     def create(self,instansi,indikator,year,value):
         query="INSERT INTO "+self.table_name
         query+=" (instansi,indikator,year,value)"
-        query+=" VALUES (%s,%s,%s)"
+        query+=" VALUES (%s,%s,%s,%s)"
         cur=db.execute_query(query,(instansi,indikator,year,value))
         db.commit()
         cur.close()
