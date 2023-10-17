@@ -1,6 +1,8 @@
 from flask import Blueprint,jsonify,request
 from app.models.domain import domainModel
+from app.models.aspek import aspekModel
 model=domainModel();
+aspek_model=aspekModel();
 domain_bp=Blueprint(model.table_name,__name__)
 def validasiInput():
     nama = request.json.get('nama')
@@ -14,6 +16,9 @@ def validasiInput():
         return jsonify({'message': 'Bobot is must number'}), 400
     return [nama,bobot]
 @domain_bp.route('/'+model.table_name)
+def get_all():
+    return jsonify(model.getAll());
+@domain_bp.route('/index_'+model.table_name+'/<string:instansi>')
 def get_all():
     return jsonify(model.getAll());
 @domain_bp.route('/'+model.table_name+'/<string:id>')
