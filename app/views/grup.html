@@ -4,17 +4,17 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Penilaian Kinerja SPBE</title>
+  <title>Penilaian Kinerja SPBE| Grup</title>
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
 
 <body>
   <div id="warpper">
     <div id="side_menu">
-      <a href="/" class="link active">Home</a>
+      <a href="/" class="link">Home</a>
       <p>Master Data</p>
       <a href="/predikat" class="link">Predikat</a>
-      <a href="/grup" class="link">Grup Instansi</a>
+      <a href="/grup" class="link active">Grup Instansi</a>
       <a href="/instansi" class="link">Instansi</a>
       <a href="/domain" class="link">Domain</a>
       <a href="/aspek" class="link">Aspek</a>
@@ -29,10 +29,25 @@
     </div>
     <div id="container">
       <h1>Penilaian Kinerja SPBE</h1>
-      <div id="main_container"></div>
+      <div id="main_container">
+        <legend>Data Master Group</legend>
+        <table class="tabel" id="tabel_data">
+          <thead>
+            <th>No</th>
+            <th>Nama</th>
+            <th>Aksi</th>
+          </thead>
+          <tbody id="body_data">
+            <tr>
+              <td colspan="3" class="text_center">No Data</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
   <script src="assets/js/main.js"></script>
+  <script src="assets/js/grup.js"></script>
 </body>
 
 </html>

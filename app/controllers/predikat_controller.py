@@ -1,31 +1,29 @@
 from flask import Blueprint,jsonify,request
-from app.models.instansi import instansiModel
-from app.models.grup_instansi import grup_instansiModel
-model=instansiModel()
-grup_model = grup_instansiModel()
+from app.models.predikat import predikat_model
+model=predikat_model()
 def validasiInput():
     nama = request.json.get('nama')
     if not nama:
         return jsonify({'message': 'Nama is required'}), 400
-    grup = request.json.get('grup')
-    if not grup:
-        return jsonify({'message': 'grup is required'}), 400
-    cekGrup = grup_model.getById(grup)    
-    if not cekGrup:
-        return jsonify({'message': 'Grup not found'}), 400
-    return [nama, grup]
-instansi_bp=Blueprint(model.table_name,__name__)
-@instansi_bp.route('/api/'+model.table_name)
+    batas_bawah = request.json.get('batas_bawah')
+    if not batas_bawah:
+        return jsonify({'message': 'batas bawah is required'}), 400
+        # cek value number atau bukan
+    if not isinstance(batas_bawah, (int, float, complex)):
+        return jsonify({'message': 'Batas bawah is must number'}), 400
+    return [nama, batas_bawah]
+predikat_bp=Blueprint(model.table_name,__name__)
+@predikat_bp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
-@instansi_bp.route('/api/'+model.table_name+'/<string:id>')
+@predikat_bp.route('/api/'+model.table_name+'/<string:id>')
 def get_by_id(id):
-    instansi = model.getById(id)
-    if instansi:
-        return jsonify(instansi)
+    predikat = model.getById(id)
+    if predikat:
+        return jsonify(predikat)
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
-@instansi_bp.route('/api/'+model.table_name,methods=['POST'])
+@predikat_bp.route('/api/'+model.table_name,methods=['POST'])
 def create():
     data=validasiInput()
     if not isinstance(data,list):return data
@@ -33,12 +31,12 @@ def create():
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
-@instansi_bp.route('/api/'+model.table_name+'/<string:id>', methods=['PUT'])
+@predikat_bp.route('/api/'+model.table_name+'/<string:id>', methods=['PUT'])
 def update(id):
     data=validasiInput()
     if not isinstance(data,list):return data
-    instansi = model.getById(id)
-    if instansi:
+    predikat = model.getById(id)
+    if predikat:
         if model.update( data[0],id, data[1]):
             return jsonify({'message': model.table_name.capitalize()+' updated'})
         else:
@@ -46,10 +44,10 @@ def update(id):
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
-@instansi_bp.route('/api/'+model.table_name+'/<string:id>', methods=['DELETE'])
+@predikat_bp.route('/api/'+model.table_name+'/<string:id>', methods=['DELETE'])
 def delete_user(id):
-    instansi = model.getById(id)
-    if instansi:
+    predikat = model.getById(id)
+    if predikat:
         if model.delete(id):
             return jsonify({'message': model.table_name.capitalize()+' deleted'})
         else:

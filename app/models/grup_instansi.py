@@ -1,11 +1,8 @@
 from app.utils.database import db
-from app.models.grup_instansi import grup_instansiModel
 from datetime import datetime
 
-Grup_instansi= grup_instansiModel();
-
-class instansiModel:
-    table_name="instansi"
+class grup_instansiModel:
+    table_name="grup_instansi"
     prefix="i"
     def getAll(self):
         query="SELECT * FROM "+self.table_name;
@@ -13,8 +10,7 @@ class instansiModel:
         result=cur.fetchall()
         data=[]
         for row in result:
-            grup=Grup_instansi.getById(row[2])
-            data.append({"id":row[0],"nama":row[1],"grup":grup})
+            data.append({"id":row[0],"nama":row[1]})
         cur.close()
         return data
     def getById(self,id):
@@ -24,8 +20,7 @@ class instansiModel:
         result=cur.fetchone()
         data=result
         if(result):
-            grup=Grup_instansi.getById(result[2])
-            data={"id":result[0],"name":result[1],"grup":grup}
+            data={"id":result[0],"name":result[1]}
         cur.close()
         return data
     def getLastId(self,code):
@@ -42,21 +37,21 @@ class instansiModel:
         strIdx=strIdx[-5:]
         cur.close()
         return code+strIdx
-    def create(self,nama,grup):
+    def create(self,nama):
         current_date = datetime.now().date()
         code=self.prefix+current_date.strftime("%Y%m%d")
         query="INSERT INTO "+self.table_name
-        query+=" (id, nama,grup_instansi)"
-        query+=" VALUES (%s, %s,%s)"
-        cur=db.execute_query(query,(self.getLastId(code),nama,grup))
+        query+=" (id, nama)"
+        query+=" VALUES (%s, %s)"
+        cur=db.execute_query(query,(self.getLastId(code),nama))
         db.commit()
         cur.close()
         return True
-    def update(self,nama,id,grup):
+    def update(self,nama,id):
         query="UPDATE "+self.table_name
-        query+=" SET nama=%s AND grup_instansi=%s"
+        query+=" SET nama=%s"
         query+=" WHERE id=%s"
-        db.execute_query(query,(nama,grup,id))
+        db.execute_query(query,(nama,id))
         db.commit()
         return True
     def delete(self,id):

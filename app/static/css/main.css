@@ -1,8 +1,9 @@
 * {
   margin: 0;
   padding: 0;
-  line-height: 0;
+  line-height: normal;
 }
+
 :root {
   --bg1: #29bf12;
   --bg2: #abff4f;
@@ -10,11 +11,13 @@
   --b4: #f21b3f;
   --bg5: #ff9914;
 }
+
 body {
   display: flex;
   background-color: #ebebeb;
   justify-content: center;
 }
+
 #warpper {
   max-width: 1000px;
   width: 100vw;
@@ -25,27 +28,70 @@ body {
   flex-wrap: wrap;
   flex-direction: column;
 }
+
 #side_menu {
   background-color: var(--bg3);
   height: 100vh;
   width: 25%;
   max-width: 250px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
 }
+
+.link {
+  width: 100%;
+  text-decoration: none;
+  font-size: 1rem;
+  background-color: var(--b4);
+  vertical-align: middle;
+  text-align: center;
+  padding: 5px;
+  color: black;
+}
+
+.link:hover {
+  background-color: var(--bg1);
+}
+
+.link.active {
+  background-color: var(--bg5);
+}
+
 #container {
   width: 80%;
   height: 100vh;
   display: flex;
   flex-direction: column;
 }
+
 #container h1 {
-  line-height: 10vh;
-  font-size: 10vh;
+  font-size: 4rem;
   text-align: center;
   color: var(--bg5);
   height: 10vh;
 }
+
 #main_container {
-  width: 100%;
+  width: 80%;
   height: 60vh;
-  background-color: var(--b3);
+  border-radius: 25px;
+  background-color: white;
+  margin-left: 10%;
+  padding: 10px;
+}
+
+.tabel {
+  border: 1px solid black;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.tabel th,
+.tabel td {
+  border: 1px solid black;
+}
+
+.text_center {
+  text-align: center !important;
 }

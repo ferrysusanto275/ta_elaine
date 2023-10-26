@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 17, 2023 at 06:36 PM
+-- Generation Time: Oct 26, 2023 at 04:38 PM
 -- Server version: 10.1.38-MariaDB
 -- PHP Version: 5.6.40
 
@@ -50,6 +50,17 @@ CREATE TABLE `domain` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `grup_instansi`
+--
+
+CREATE TABLE `grup_instansi` (
+  `id` varchar(25) NOT NULL,
+  `nama` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `indikator`
 --
 
@@ -68,7 +79,8 @@ CREATE TABLE `indikator` (
 
 CREATE TABLE `instansi` (
   `id` varchar(25) NOT NULL,
-  `nama` varchar(255) NOT NULL
+  `nama` varchar(255) NOT NULL,
+  `group_instansi` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -80,8 +92,20 @@ CREATE TABLE `instansi` (
 CREATE TABLE `isi` (
   `instansi` varchar(25) NOT NULL,
   `indikator` varchar(25) NOT NULL,
-  `year` year(4) NOT NULL,
-  `value` decimal(11,2) NOT NULL
+  `value` decimal(11,2) NOT NULL,
+  `year` year(4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `predikat`
+--
+
+CREATE TABLE `predikat` (
+  `id` varchar(25) NOT NULL,
+  `nama` varchar(100) NOT NULL,
+  `batas_bawah` decimal(11,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -116,7 +140,7 @@ ALTER TABLE `instansi`
 -- Indexes for table `isi`
 --
 ALTER TABLE `isi`
-  ADD PRIMARY KEY (`instansi`,`indikator`,`year`);
+  ADD PRIMARY KEY (`instansi`,`indikator`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
