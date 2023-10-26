@@ -84,3 +84,4 @@ class indikatorModel:
         db.execute_query(query,(id,))
         db.commit()
         return True
+   

@@ -7,17 +7,17 @@ def validasiInput():
         return jsonify({'message': 'Nama is required'}), 400
     return [nama]
 instansi_bp=Blueprint(model.table_name,__name__)
-@instansi_bp.route('/'+model.table_name)
+@instansi_bp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
-@instansi_bp.route('/'+model.table_name+'/<string:id>')
+@instansi_bp.route('/api/'+model.table_name+'/<string:id>')
 def get_by_id(id):
     instansi = model.getById(id)
     if instansi:
         return jsonify(instansi)
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
-@instansi_bp.route('/'+model.table_name,methods=['POST'])
+@instansi_bp.route('/api/'+model.table_name,methods=['POST'])
 def create():
     data=validasiInput()
     if not isinstance(data,list):return data
@@ -25,7 +25,7 @@ def create():
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
-@instansi_bp.route('/'+model.table_name+'/<string:id>', methods=['PUT'])
+@instansi_bp.route('/api/'+model.table_name+'/<string:id>', methods=['PUT'])
 def update(id):
     data=validasiInput()
     if not isinstance(data,list):return data
@@ -38,7 +38,7 @@ def update(id):
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
-@instansi_bp.route('/'+model.table_name+'/<string:id>', methods=['DELETE'])
+@instansi_bp.route('/api/'+model.table_name+'/<string:id>', methods=['DELETE'])
 def delete_user(id):
     instansi = model.getById(id)
     if instansi:

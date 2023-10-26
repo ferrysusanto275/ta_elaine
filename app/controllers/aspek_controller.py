@@ -23,7 +23,7 @@ def validasiInput():
     if not cekDomain:
         return jsonify({'message': 'Domain not found'}), 400
     return [nama,bobot,domain]
-@aspek_bp.route('/index_'+model.table_name+'/<string:instansi>/<string:year>/<string:domain>')
+@aspek_bp.route('/api/index_'+model.table_name+'/<string:instansi>/<string:year>/<string:domain>')
 def get_by_index(domain,instansi,year):
     if not domain:
         return jsonify({'message': 'domain is required'}), 400
@@ -44,17 +44,17 @@ def get_by_index(domain,instansi,year):
         return jsonify(aspek)
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
-@aspek_bp.route('/'+model.table_name)
+@aspek_bp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
-@aspek_bp.route('/'+model.table_name+'/<string:id>')
+@aspek_bp.route('/api/'+model.table_name+'/<string:id>')
 def get_by_id(id):
     instansi = model.getById(id)
     if instansi:
         return jsonify(instansi)
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
-@aspek_bp.route('/'+model.table_name,methods=['POST'])
+@aspek_bp.route('/api/'+model.table_name,methods=['POST'])
 def create():
     data=validasiInput()
     if not isinstance(data,list):return data
@@ -62,7 +62,7 @@ def create():
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
-@aspek_bp.route('/'+model.table_name+'/<string:id>', methods=['PUT'])
+@aspek_bp.route('/api/'+model.table_name+'/<string:id>', methods=['PUT'])
 def update(id):
     data=validasiInput()
     if not isinstance(data,list):return data
@@ -75,7 +75,7 @@ def update(id):
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
-@aspek_bp.route('/'+model.table_name+'/<string:id>', methods=['DELETE'])
+@aspek_bp.route('/api/'+model.table_name+'/<string:id>', methods=['DELETE'])
 def delete_user(id):
     instansi = model.getById(id)
     if instansi:

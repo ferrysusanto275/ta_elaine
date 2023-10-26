@@ -23,10 +23,11 @@ def validasiInput():
     if not cekAspek:
         return jsonify({'message': 'Aspek not found'}), 400
     return [nama,bobot,aspek]
-@indikator_bp.route('/'+model.table_name)
+@indikator_bp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
-@indikator_bp.route('/'+model.table_name+'/<string:id>')
+
+@indikator_bp.route('/api/'+model.table_name+'/<string:id>')
 def get_by_id(id):
     instansi = model.getById(id)
     if instansi:
@@ -34,7 +35,7 @@ def get_by_id(id):
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
-@indikator_bp.route('/index_'+model.table_name+'/<string:instansi>/<string:year>/<string:aspek>')
+@indikator_bp.route('/api/index_'+model.table_name+'/<string:instansi>/<string:year>/<string:aspek>')
 def get_by_aspek_instansi(aspek,instansi,year):
     if not aspek:
         return jsonify({'message': 'Aspek is required'}), 400
@@ -57,7 +58,7 @@ def get_by_aspek_instansi(aspek,instansi,year):
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
-@indikator_bp.route('/'+model.table_name,methods=['POST'])
+@indikator_bp.route('/api/'+model.table_name,methods=['POST'])
 def create():
     data=validasiInput()
     if not isinstance(data,list):return data
@@ -65,7 +66,7 @@ def create():
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
-@indikator_bp.route('/'+model.table_name+'/<string:id>', methods=['PUT'])
+@indikator_bp.route('/api/'+model.table_name+'/<string:id>', methods=['PUT'])
 def update(id):
     data=validasiInput()
     if not isinstance(data,list):return data
@@ -78,7 +79,7 @@ def update(id):
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
-@indikator_bp.route('/'+model.table_name+'/<string:id>', methods=['DELETE'])
+@indikator_bp.route('/api/'+model.table_name+'/<string:id>', methods=['DELETE'])
 def delete_user(id):
     instansi = model.getById(id)
     if instansi:

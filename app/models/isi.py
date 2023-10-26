@@ -53,3 +53,13 @@ class isiModel:
         db.execute_query(query,(instansi,indikator,year))
         db.commit()
         return True
+     # dapetin semua tahun yang ada di tabel isi
+    def getAllYear(self):
+        query="SELECT DISTINCT(year) FROM "+self.table_name;
+        cur= db.execute_query(query)
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            data.append(row[0])
+        cur.close()
+        return data

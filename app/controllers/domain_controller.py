@@ -15,20 +15,20 @@ def validasiInput():
     if not isinstance(bobot, (int, float, complex)):
         return jsonify({'message': 'Bobot is must number'}), 400
     return [nama,bobot]
-@domain_bp.route('/'+model.table_name)
+@domain_bp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
-@domain_bp.route('/index_'+model.table_name+'/<string:instansi>')
+@domain_bp.route('/api/index_'+model.table_name+'/<string:instansi>')
 def get_all_index(instansi):
     return jsonify(model.getAll());
-@domain_bp.route('/'+model.table_name+'/<string:id>')
+@domain_bp.route('/api/'+model.table_name+'/<string:id>')
 def get_by_id(id):
     instansi = model.getById(id)
     if instansi:
         return jsonify(instansi)
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
-@domain_bp.route('/'+model.table_name,methods=['POST'])
+@domain_bp.route('/api/'+model.table_name,methods=['POST'])
 def create():
     data=validasiInput()
     if not isinstance(data,list):return data
@@ -36,7 +36,7 @@ def create():
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
-@domain_bp.route('/'+model.table_name+'/<string:id>', methods=['PUT'])
+@domain_bp.route('/api/'+model.table_name+'/<string:id>', methods=['PUT'])
 def update(id):
     data=validasiInput()
     if not isinstance(data,list):return data
@@ -49,7 +49,7 @@ def update(id):
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
-@domain_bp.route('/'+model.table_name+'/<string:id>', methods=['DELETE'])
+@domain_bp.route('/api/'+model.table_name+'/<string:id>', methods=['DELETE'])
 def delete_user(id):
     instansi = model.getById(id)
     if instansi:
