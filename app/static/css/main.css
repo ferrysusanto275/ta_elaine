@@ -95,3 +95,10 @@ body {
 .text_center {
   text-align: center !important;
 }
+.add {
+  background-color: var(--bg3);
+  border: none;
+  border-radius: 25px;
+  padding: 5px 10px;
+  margin: 5px;
+}
