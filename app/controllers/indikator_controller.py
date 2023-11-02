@@ -89,3 +89,6 @@ def delete_user(id):
             return jsonify({'message': 'Failed to delete '+model.table_name}), 500
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
+@indikator_bp.route('/api/'+model.table_name+'/aspek/<string:aspek>')
+def get_all_by_aspek(aspek):
+    return jsonify(model.getAllByAspek(aspek));

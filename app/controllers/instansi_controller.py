@@ -18,6 +18,9 @@ instansi_bp=Blueprint(model.table_name,__name__)
 @instansi_bp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
+@instansi_bp.route('/api/'+model.table_name+'/grup/<string:grup>')
+def get_all_by_grup(grup):
+    return jsonify(model.getAllByGrup(grup));
 @instansi_bp.route('/api/'+model.table_name+'/<string:id>')
 def get_by_id(id):
     instansi = model.getById(id)

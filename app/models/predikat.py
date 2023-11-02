@@ -49,7 +49,7 @@ class predikat_model:
         return True
     def update(self,nama,id, batas_bawah):
         query="UPDATE "+self.table_name
-        query+=" SET nama=%s AND batas_bawah=%s"
+        query+=" SET nama=%s,batas_bawah=%s"
         query+=" WHERE id=%s"
         db.execute_query(query,(nama, batas_bawah, id))
         db.commit()

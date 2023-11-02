@@ -84,4 +84,15 @@ class indikatorModel:
         db.execute_query(query,(id,))
         db.commit()
         return True
+    def getAllByAspek(self,aspek):
+        query="SELECT * FROM "+self.table_name;
+        query+=" WHERE aspek=%s"
+        cur= db.execute_query(query,(aspek,))
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            # aspek=Grup_instansi.getById(row[2])
+            data.append({"id":row[0],"nama":row[2], "bobot":row[3]})
+        cur.close()
+        return data
    

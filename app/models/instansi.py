@@ -17,6 +17,17 @@ class instansiModel:
             data.append({"id":row[0],"nama":row[1],"grup":grup})
         cur.close()
         return data
+    def getAllByGrup(self,grup):
+        query="SELECT * FROM "+self.table_name;
+        query+=" WHERE group_instansi=%s"
+        cur= db.execute_query(query,(grup,))
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            # grup=Grup_instansi.getById(row[2])
+            data.append({"id":row[0],"nama":row[1]})
+        cur.close()
+        return data
     def getById(self,id):
         query="SELECT * FROM "+self.table_name;
         query+=" WHERE id=%s"
@@ -46,7 +57,7 @@ class instansiModel:
         current_date = datetime.now().date()
         code=self.prefix+current_date.strftime("%Y%m%d")
         query="INSERT INTO "+self.table_name
-        query+=" (id, nama,grup_instansi)"
+        query+=" (id, nama,group_instansi)"
         query+=" VALUES (%s, %s,%s)"
         cur=db.execute_query(query,(self.getLastId(code),nama,grup))
         db.commit()
@@ -54,7 +65,7 @@ class instansiModel:
         return True
     def update(self,nama,id,grup):
         query="UPDATE "+self.table_name
-        query+=" SET nama=%s AND grup_instansi=%s"
+        query+=" SET nama=%s , group_instansi=%s"
         query+=" WHERE id=%s"
         db.execute_query(query,(nama,grup,id))
         db.commit()

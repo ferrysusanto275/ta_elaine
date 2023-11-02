@@ -35,7 +35,18 @@ class aspekModel:
         data.append({"Index":1/domain['bobot']*jml_res})
         cur.close()
         return data
-    
+
+    def getAllByDomain(self,domain):
+        query="SELECT * FROM "+self.table_name;
+        query+=" WHERE domain=%s"
+        cur= db.execute_query(query,(domain,))
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            # domain=Grup_instansi.getById(row[2])
+            data.append({"id":row[0],"nama":row[2], "bobot":row[3]})
+        cur.close()
+        return data
     def getById(self,id):
         query="SELECT * FROM "+self.table_name;
         query+=" WHERE id=%s"
