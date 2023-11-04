@@ -3,7 +3,7 @@ from datetime import datetime
 
 class grup_instansiModel:
     table_name="grup_instansi"
-    prefix="i"
+    prefix="gi"
     def getAll(self):
         query="SELECT * FROM "+self.table_name;
         cur= db.execute_query(query)
