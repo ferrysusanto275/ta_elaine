@@ -92,3 +92,9 @@ def delete_user(id):
 @indikator_bp.route('/api/'+model.table_name+'/aspek/<string:aspek>')
 def get_all_by_aspek(aspek):
     return jsonify(model.getAllByAspek(aspek));
+@indikator_bp.route('/api/'+model.table_name+'/domain')
+def get_all_domain():
+    return jsonify(model.getAllDomain());
+@indikator_bp.route('/api/'+model.table_name+'/domain/<string:domain>')
+def get_all_aspek(domain):
+    return jsonify(model.getAllAspek(domain));

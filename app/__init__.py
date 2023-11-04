@@ -39,6 +39,12 @@ def indikator():
 @app.route("/assets/js/indikator.js")
 def indikatorJs():
     return send_file("static/js/indikator.js")
+@app.route("/isi")
+def isi():
+    return render_template("isi.html")
+@app.route("/assets/js/isi.js")
+def isiJs():
+    return send_file("static/js/isi.js")
 # static page
 @app.route("/assets/js/main.js")
 def mainJs():

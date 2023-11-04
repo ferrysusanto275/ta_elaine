@@ -41,7 +41,7 @@ def validasiValue():
         return jsonify({'message': 'Value is must number'}), 400
     return [value]
 
-@isi_bp.route('/'+model.table_name)
+@isi_bp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
 @isi_bp.route('/api/'+model.table_name+'/<string:instansi>/<string:indikator>/<string:year>')
@@ -93,3 +93,6 @@ def delete_user(instansi,indikator,year):
 @isi_bp.route('/api/year')
 def get_allYear():
     return jsonify(model.getAllYear());
+@isi_bp.route('/api/'+model.table_name+'/aspek/<string:instansi>/<string:aspek>/<string:year>')
+def getAllbyYearInstansiAspek(year,aspek,instansi):
+    return jsonify(model.getAllbyYearInstansiAspek(year,aspek,instansi));

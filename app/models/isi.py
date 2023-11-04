@@ -63,3 +63,13 @@ class isiModel:
             data.append(row[0])
         cur.close()
         return data
+    def getAllbyYearInstansiAspek(self,year,aspek,instansi):
+        query="SELECT * FROM "+self.table_name+" m JOIN indikator i ON m.indikator=i.id";
+        query+=" WHERE m.year=%s AND m.instansi=%s AND i.aspek=%s"
+        cur= db.execute_query(query,(year,instansi,aspek))
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            data.append(row[0])
+        cur.close()
+        return data
