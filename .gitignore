@@ -1,1 +1,2 @@
 app/utils/config.py
+*.pyc
