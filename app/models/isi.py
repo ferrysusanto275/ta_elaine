@@ -70,6 +70,8 @@ class isiModel:
         result=cur.fetchall()
         data=[]
         for row in result:
-            data.append(row[0])
+            instansi=instansi_model.getById(row[0])
+            indikator=indikator_model.getById(row[1])
+            data.append({"instansi":instansi,"indikator":indikator,"year":row[2],"value":row[3]})
         cur.close()
         return data
