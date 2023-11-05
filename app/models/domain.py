@@ -1,6 +1,6 @@
-from app.utils.database import db
+from app.utils.database import Database
 from datetime import datetime
-
+db=Database()
 class domainModel:
     table_name="domain"
     prefix="d"

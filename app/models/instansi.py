@@ -1,7 +1,7 @@
-from app.utils.database import db
+from app.utils.database import Database
 from app.models.grup_instansi import grup_instansiModel
 from datetime import datetime
-
+db= Database()
 Grup_instansi= grup_instansiModel();
 
 class instansiModel:

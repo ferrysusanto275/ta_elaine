@@ -1,7 +1,8 @@
-from app.utils.database import db
+from app.utils.database import Database
 from datetime import datetime
 from app.models.aspek import aspekModel
 from app.models.instansi import instansiModel
+db=Database()
 aspek_model=aspekModel();
 instansi_model=instansiModel();
 class indikatorModel:

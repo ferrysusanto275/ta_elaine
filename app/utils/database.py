@@ -20,4 +20,4 @@ class Database:
     def close(self):
         self.connection.close()
 
-db = Database()
+# db = Database()

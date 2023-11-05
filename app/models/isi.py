@@ -1,9 +1,10 @@
-from app.utils.database import db
+from app.utils.database import Database
 from datetime import datetime
 from app.models.instansi import instansiModel
 from app.models.indikator import indikatorModel
 indikator_model=indikatorModel();
 instansi_model=instansiModel();
+db=Database()
 class isiModel:
     table_name="isi"
     def getAll(self):
