@@ -2,6 +2,7 @@ const instansi_cb_filter = document.getElementById("instansi_cb_filter");
 const domain_cb_filter = document.getElementById("domain_cb_filter");
 const aspek_cb_filter = document.getElementById("aspek_cb_filter");
 const year_tf_filter = document.getElementById("year_tf_filter");
+const bobot_aspek = document.getElementById("bobot_aspek");
 const url_api = base_api_url + "isi";
 const indikator_api = base_api_url + "indikator";
 const instansi_api = base_api_url + "instansi";
@@ -95,7 +96,7 @@ const create_option_aspek = () => {
         option.textContent = element.nama;
         aspek_cb_filter.appendChild(option);
         if (i == 0) selected_aspek = element.id;
-        load_data();
+        handle_filter_aspek();
       });
     })
     .catch((error) => {
@@ -184,6 +185,7 @@ const handle_filter_aspek = () => {
     })
     .then((data) => {
       aspek_data = data;
+      bobot_aspek.innerHTML = aspek_data.bobot;
       load_data();
     })
     .catch((error) => {
