@@ -15,7 +15,7 @@ class isiModel:
             instansi=instansi_model.getById(row[0])
             indikator=indikator_model.getById(row[1])
             data.append({"instansi":instansi,"indikator":indikator,"year":row[2],"value":row[3]})
-        cur.close()
+        # db.close()
         return data
     
     def getById(self,instansi,indikator,year):
@@ -29,7 +29,7 @@ class isiModel:
             indikator=indikator_model.getById(result[1])
             data={"instansi":instansi,"indikator":indikator,"year":result[2],"value":result[3]}
             # data.append({"instansi":instansi,"indikator":indikator,"tahun":result[2],"value":result[3]})
-        cur.close()
+        # db.close()
         return data
     
     def create(self,instansi,indikator,year,value):
@@ -38,7 +38,7 @@ class isiModel:
         query+=" VALUES (%s,%s,%s,%s)"
         cur=db.execute_query(query,(instansi,indikator,year,value))
         db.commit()
-        cur.close()
+        # db.close()
         return True
     def update(self,instansi,indikator,year,value):
         query="UPDATE "+self.table_name
@@ -61,7 +61,7 @@ class isiModel:
         data=[]
         for row in result:
             data.append(row[0])
-        cur.close()
+        # db.close()
         return data
     def getAllbyYearInstansiAspek(self,year,aspek,instansi):
         query="SELECT * FROM "+self.table_name+" m JOIN indikator i ON m.indikator=i.id";
@@ -73,5 +73,5 @@ class isiModel:
             instansi=instansi_model.getById(row[0])
             indikator=indikator_model.getById(row[1])
             data.append({"instansi":instansi,"indikator":indikator,"year":row[3],"value":row[2]})
-        cur.close()
+        # db.close()
         return data

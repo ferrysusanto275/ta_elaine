@@ -11,7 +11,7 @@ class predikat_model:
         data=[]
         for row in result:
             data.append({"id":row[0],"nama":row[1],"batas_bawah":row[2]})
-        cur.close()
+        # db.close()
         return data
     def getById(self,id):
         query="SELECT * FROM "+self.table_name;
@@ -21,7 +21,7 @@ class predikat_model:
         data=result
         if(result):
             data={"id":result[0],"name":result[1],"batas_bawah":result[2]}
-        cur.close()
+        # db.close()
         return data
     def getLastId(self,code):
         code_q=code+"%"
@@ -35,7 +35,7 @@ class predikat_model:
         idx+=1;
         strIdx="00000"+str(idx)
         strIdx=strIdx[-5:]
-        cur.close()
+        # db.close()
         return code+strIdx
     def create(self,nama, batas_bawah):
         current_date = datetime.now().date()
@@ -45,7 +45,7 @@ class predikat_model:
         query+=" VALUES (%s, %s, %s)"
         cur=db.execute_query(query,(self.getLastId(code),nama, batas_bawah))
         db.commit()
-        cur.close()
+        # db.close()
         return True
     def update(self,nama,id, batas_bawah):
         query="UPDATE "+self.table_name

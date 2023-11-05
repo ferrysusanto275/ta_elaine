@@ -18,6 +18,6 @@ class Database:
     def commit(self):
         self.connection.commit()
     def close(self):
-        self.connection.cursor.close()
+        self.connection.close()
 
 db = Database()

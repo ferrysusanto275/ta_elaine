@@ -11,7 +11,7 @@ class grup_instansiModel:
         data=[]
         for row in result:
             data.append({"id":row[0],"nama":row[1]})
-        cur.close()
+        # db.close()
         return data
     def getById(self,id):
         query="SELECT * FROM "+self.table_name;
@@ -21,7 +21,7 @@ class grup_instansiModel:
         data=result
         if(result):
             data={"id":result[0],"name":result[1]}
-        cur.close()
+        # db.close()
         return data
     def getLastId(self,code):
         code_q=code+"%"
@@ -35,7 +35,7 @@ class grup_instansiModel:
         idx+=1;
         strIdx="00000"+str(idx)
         strIdx=strIdx[-5:]
-        cur.close()
+        # db.close()
         return code+strIdx
     def create(self,nama):
         current_date = datetime.now().date()
@@ -45,7 +45,7 @@ class grup_instansiModel:
         query+=" VALUES (%s, %s)"
         cur=db.execute_query(query,(self.getLastId(code),nama))
         db.commit()
-        cur.close()
+        # db.close()
         return True
     def update(self,nama,id):
         query="UPDATE "+self.table_name
