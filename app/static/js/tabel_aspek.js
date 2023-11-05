@@ -93,15 +93,33 @@ const load_data = async () => {
     let list_aspek = (await res_aspek).json();
     tabel_body.innerHTML = "";
     let jml = 0;
-    (await list_aspek).forEach((element) => {
+    (await list_aspek).forEach(async (element) => {
       const newRow = document.createElement("tr");
       const cell1 = document.createElement("td");
       cell1.textContent = element.nama;
       newRow.appendChild(cell1);
       const cell2 = document.createElement("td");
       let na = 0;
-
-      cell2.textContent = na;
+      let res_isi = await fetch(
+        url_api +
+          "/aspek/" +
+          instansi_cb_filter.value +
+          "/" +
+          element.id +
+          "/" +
+          year_tf_filter.value
+      );
+      if (!(await res_isi.ok)) {
+        throw new Error("Network response was not ok");
+      }
+      let list_isi = (await res_isi).json();
+      let jml_indikator = 0;
+      (await list_isi).forEach((element) => {
+        jml_indikator +=
+          parseFloat(element.indikator.bobot) * parseFloat(element.value);
+      });
+      na = jml_indikator / parseFloat(element.bobot);
+      cell2.textContent = na.toFixed(2);
       newRow.appendChild(cell2);
       const cell3 = document.createElement("td");
       cell3.textContent = element.bobot;
