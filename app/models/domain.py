@@ -1,19 +1,22 @@
 from app.utils.database import Database
 from datetime import datetime
-db=Database()
+
 class domainModel:
     table_name="domain"
     prefix="d"
     def getAll(self):
+        db=Database()
         query="SELECT * FROM "+self.table_name;
         cur= db.execute_query(query)
         result=cur.fetchall()
         data=[]
         for row in result:
             data.append({"id":row[0],"nama":row[1],"bobot":row[2]})
-        # db.close()
+        cur.close()
+        db.close()
         return data
     def getById(self,id):
+        db=Database()
         query="SELECT * FROM "+self.table_name;
         query+=" WHERE id=%s"
         cur= db.execute_query(query,(id,))
@@ -21,9 +24,12 @@ class domainModel:
         data=result
         if(result):
             data={"id":result[0],"name":result[1],"bobot":result[2]}
-        # db.close()
+        cur.close()
+        db.close()
+
         return data
     def getLastId(self,code):
+        db=Database()
         code_q=code+"%"
         query="SELECT MAX(id) FROM "+self.table_name
         query+=" WHERE id LIKE %s"
@@ -35,9 +41,11 @@ class domainModel:
         idx+=1;
         strIdx="00000"+str(idx)
         strIdx=strIdx[-5:]
-        # db.close()
+        cur.close()
+        db.close()
         return code+strIdx
     def create(self,nama,bobot):
+        db=Database()
         current_date = datetime.now().date()
         code=self.prefix+current_date.strftime("%Y%m%d")
         query="INSERT INTO "+self.table_name
@@ -45,18 +53,25 @@ class domainModel:
         query+=" VALUES (%s, %s,%s)"
         cur=db.execute_query(query,(self.getLastId(code),nama,bobot))
         db.commit()
-        # db.close()
+        cur.close()
+        db.close()
         return True
     def update(self,nama,bobot,id):
+        db=Database()
         query="UPDATE "+self.table_name
         query+=" SET nama=%s, bobot=%s"
         query+=" WHERE id=%s"
-        db.execute_query(query,(nama,bobot,id))
+        cur=db.execute_query(query,(nama,bobot,id))
         db.commit()
+        cur.close()
+        db.close()
         return True
     def delete(self,id):
+        db=Database()
         query="DELETE FROM "+self.table_name
         query+=" WHERE id=%s"
-        db.execute_query(query,(id,))
+        cur=db.execute_query(query,(id,))
         db.commit()
+        cur.close()
+        db.close()
         return True

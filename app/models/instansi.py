@@ -1,13 +1,14 @@
 from app.utils.database import Database
 from app.models.grup_instansi import grup_instansiModel
 from datetime import datetime
-db= Database()
-Grup_instansi= grup_instansiModel();
+
 
 class instansiModel:
     table_name="instansi"
     prefix="i"
     def getAll(self):
+        db= Database()
+        Grup_instansi= grup_instansiModel();
         query="SELECT * FROM "+self.table_name;
         cur= db.execute_query(query)
         result=cur.fetchall()
@@ -15,9 +16,11 @@ class instansiModel:
         for row in result:
             grup=Grup_instansi.getById(row[2])
             data.append({"id":row[0],"nama":row[1],"grup":grup})
-        # db.close()
+        cur.close()
+        db.close()
         return data
     def getAllByGrup(self,grup):
+        db= Database()
         query="SELECT * FROM "+self.table_name;
         query+=" WHERE group_instansi=%s"
         cur= db.execute_query(query,(grup,))
@@ -26,9 +29,12 @@ class instansiModel:
         for row in result:
             # grup=Grup_instansi.getById(row[2])
             data.append({"id":row[0],"nama":row[1]})
-        # db.close()
+        cur.close()
+        db.close()
         return data
     def getById(self,id):
+        db= Database()
+        Grup_instansi= grup_instansiModel();
         query="SELECT * FROM "+self.table_name;
         query+=" WHERE id=%s"
         cur= db.execute_query(query,(id,))
@@ -37,9 +43,11 @@ class instansiModel:
         if(result):
             grup=Grup_instansi.getById(result[2])
             data={"id":result[0],"name":result[1],"grup":grup}
-        # db.close()
+        cur.close()
+        db.close()
         return data
     def getLastId(self,code):
+        db= Database()
         code_q=code+"%"
         query="SELECT MAX(id) FROM "+self.table_name
         query+=" WHERE id LIKE %s"
@@ -51,9 +59,11 @@ class instansiModel:
         idx+=1;
         strIdx="00000"+str(idx)
         strIdx=strIdx[-5:]
-        # db.close()
+        cur.close()
+        db.close()
         return code+strIdx
     def create(self,nama,grup):
+        db= Database()
         current_date = datetime.now().date()
         code=self.prefix+current_date.strftime("%Y%m%d")
         query="INSERT INTO "+self.table_name
@@ -61,18 +71,25 @@ class instansiModel:
         query+=" VALUES (%s, %s,%s)"
         cur=db.execute_query(query,(self.getLastId(code),nama,grup))
         db.commit()
-        # db.close()
+        cur.close()
+        db.close()
         return True
     def update(self,nama,id,grup):
+        db= Database()
         query="UPDATE "+self.table_name
         query+=" SET nama=%s , group_instansi=%s"
         query+=" WHERE id=%s"
-        db.execute_query(query,(nama,grup,id))
+        cur=db.execute_query(query,(nama,grup,id))
         db.commit()
+        cur.close()
+        db.close()
         return True
     def delete(self,id):
+        db= Database()
         query="DELETE FROM "+self.table_name
         query+=" WHERE id=%s"
-        db.execute_query(query,(id,))
+        cur=db.execute_query(query,(id,))
         db.commit()
+        cur.close()
+        db.close()
         return True

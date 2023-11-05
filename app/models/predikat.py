@@ -1,19 +1,21 @@
 from app.utils.database import Database
 from datetime import datetime
-db=Database()
 class predikat_model:
     table_name="predikat"
     prefix="p"
     def getAll(self):
+        db=Database()
         query="SELECT * FROM "+self.table_name;
         cur= db.execute_query(query)
         result=cur.fetchall()
         data=[]
         for row in result:
             data.append({"id":row[0],"nama":row[1],"batas_bawah":row[2]})
-        # db.close()
+        cur.close()
+        db.close()
         return data
     def getById(self,id):
+        db=Database()
         query="SELECT * FROM "+self.table_name;
         query+=" WHERE id=%s"
         cur= db.execute_query(query,(id,))
@@ -21,9 +23,11 @@ class predikat_model:
         data=result
         if(result):
             data={"id":result[0],"name":result[1],"batas_bawah":result[2]}
-        # db.close()
+        cur.close()
+        db.close()
         return data
     def getLastId(self,code):
+        db=Database()
         code_q=code+"%"
         query="SELECT MAX(id) FROM "+self.table_name
         query+=" WHERE id LIKE %s"
@@ -35,9 +39,11 @@ class predikat_model:
         idx+=1;
         strIdx="00000"+str(idx)
         strIdx=strIdx[-5:]
-        # db.close()
+        cur.close()
+        db.close()
         return code+strIdx
     def create(self,nama, batas_bawah):
+        db=Database()
         current_date = datetime.now().date()
         code=self.prefix+current_date.strftime("%Y%m%d")
         query="INSERT INTO "+self.table_name
@@ -45,18 +51,25 @@ class predikat_model:
         query+=" VALUES (%s, %s, %s)"
         cur=db.execute_query(query,(self.getLastId(code),nama, batas_bawah))
         db.commit()
-        # db.close()
+        cur.close()
+        db.close()
         return True
     def update(self,nama,id, batas_bawah):
+        db=Database()
         query="UPDATE "+self.table_name
         query+=" SET nama=%s,batas_bawah=%s"
         query+=" WHERE id=%s"
-        db.execute_query(query,(nama, batas_bawah, id))
+        cur=db.execute_query(query,(nama, batas_bawah, id))
         db.commit()
+        cur.close()
+        db.close()
         return True
     def delete(self,id):
+        db=Database()
         query="DELETE FROM "+self.table_name
         query+=" WHERE id=%s"
-        db.execute_query(query,(id,))
+        cur=db.execute_query(query,(id,))
         db.commit()
+        cur.close()
+        db.close()
         return True

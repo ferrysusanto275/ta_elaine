@@ -6,6 +6,7 @@ const url_api = base_api_url + "isi";
 const indikator_api = base_api_url + "indikator";
 const instansi_api = base_api_url + "instansi";
 const domain_api = base_api_url + "domain";
+const tabel_body = document.getElementById("body_data");
 let domain_data = {};
 let selected_domain = "";
 let selected_instansi = "";
@@ -70,16 +71,53 @@ const create_option_domain = () => {
         option.value = element.id;
         option.textContent = element.nama;
         domain_cb_filter.appendChild(option);
-        if (i == 0) selected_domain = element.id;
-        handle_change_filter();
+        if (i == 0) {
+          selected_domain = element.id;
+        }
       });
+      handle_change_filter();
     })
     .catch((error) => {
       console.error("Ada kesalahan:", error);
     });
 };
 
-const load_data = async () => {};
+const load_data = async () => {
+  try {
+    let res_aspek = await fetch(
+      `${indikator_api}/domain/${domain_cb_filter.value}`
+    );
+    if (!(await res_aspek.ok)) {
+      throw new Error("Network response was not ok");
+    }
+    let list_aspek = (await res_aspek).json();
+    tabel_body.innerHTML = "";
+    let jml = 0;
+    (await list_aspek).forEach((element) => {
+      const newRow = document.createElement("tr");
+      const cell1 = document.createElement("td");
+      cell1.textContent = element.nama;
+      newRow.appendChild(cell1);
+      const cell2 = document.createElement("td");
+      let na = 0;
+
+      cell2.textContent = na;
+      newRow.appendChild(cell2);
+      const cell3 = document.createElement("td");
+      cell3.textContent = element.bobot;
+      newRow.appendChild(cell3);
+      const cell4 = document.createElement("td");
+      let NB = parseFloat(element.bobot) * na;
+      jml += NB;
+      cell4.textContent = NB.toFixed(2);
+      newRow.appendChild(cell4);
+
+      tabel_body.appendChild(newRow);
+    });
+  } catch (error) {
+    console.error("Ada kesalahan:", error);
+  }
+};
 const handle_change_filter = () => {
   fetch(domain_api + "/" + domain_cb_filter.value)
     .then((response) => {
