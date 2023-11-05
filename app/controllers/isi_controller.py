@@ -20,8 +20,8 @@ def validasiId(instansi,indikator,year):
     if not year:
         return jsonify({'message': 'Year is required'}), 400
     # cek value number atau bukan
-    if not isinstance(year, (int, float, complex)):
-        return jsonify({'message': 'Year is must number'}), 400
+    # if not isinstance(year, (int, float, complex)):
+    #     return jsonify({'message': 'Year is must number'}), 400
     return[instansi,indikator,year]
 def validasiInput():
     instansi = request.json.get('instansi')

@@ -14,7 +14,10 @@ class Database:
         cursor = self.connection.cursor()
         cursor.execute(query, params)
         return cursor
+    
     def commit(self):
         self.connection.commit()
+    def close(self):
+        self.connection.cursor.close()
 
 db = Database()

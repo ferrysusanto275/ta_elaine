@@ -72,6 +72,6 @@ class isiModel:
         for row in result:
             instansi=instansi_model.getById(row[0])
             indikator=indikator_model.getById(row[1])
-            data.append({"instansi":instansi,"indikator":indikator,"year":row[2],"value":row[3]})
+            data.append({"instansi":instansi,"indikator":indikator,"year":row[3],"value":row[2]})
         cur.close()
         return data

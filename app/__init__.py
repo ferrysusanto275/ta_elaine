@@ -45,6 +45,18 @@ def isi():
 @app.route("/assets/js/isi.js")
 def isiJs():
     return send_file("static/js/isi.js")
+@app.route("/index_indikator_instansi")
+def tabel_indikator():
+    return render_template("tabel_indikator.html")
+@app.route("/assets/js/tabel_indikator.js")
+def tabel_indikatorJs():
+    return send_file("static/js/tabel_indikator.js")
+@app.route("/index_aspek_instansi")
+def tabel_indikator():
+    return render_template("tabel_aspek.html")
+@app.route("/assets/js/tabel_aspek.js")
+def tabel_aspekJs():
+    return send_file("static/js/tabel_aspek.js")
 # static page
 @app.route("/assets/js/main.js")
 def mainJs():

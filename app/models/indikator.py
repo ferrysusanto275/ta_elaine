@@ -108,7 +108,7 @@ class indikatorModel:
         
         query="SELECT DISTINCT(a.id),a.nama FROM `indikator` m JOIN aspek a ON m.aspek=a.id "
         query+=" WHERE a.domain=%s"        
-        print(query)
+        # print(query)
         cur= db.execute_query(query,(domain,))
         result=cur.fetchall()
         data=[]

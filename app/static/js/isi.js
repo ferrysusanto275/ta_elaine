@@ -36,7 +36,7 @@ const handle_delete = (instansi, indikator, year) => {
     });
 };
 const load_data = () => {
-  let url_tuju = `${url_api}/aspek/${selected_instansi}/${selected_aspek}/${selected_year}`;
+  let url_tuju = `${url_api}/aspek/${selected_instansi}/${selected_aspek}/${year_tf_filter.value}`;
   fetch(url_tuju)
     .then((response) => {
       if (!response.ok) {
@@ -55,7 +55,8 @@ const load_data = () => {
           cell1.textContent = i + 1;
           newRow.appendChild(cell1);
           let cell2 = document.createElement("td");
-          cell2.textContent = element.indikator.nama;
+          console.log(element.indikator)
+          cell2.textContent = element.indikator.name;
           newRow.appendChild(cell2);
           let cell3 = document.createElement("td");
           cell3.textContent = element.value;
@@ -111,7 +112,7 @@ const clear_modal_form = () => {
 };
 const handle_submit = async () => {
   try {
-    let url_id = `${url_api}/${selected_instansi}/${indikator_cb.value}/${year_tf.value}`;
+    let url_id = `${url_api}/${selected_instansi}/${indikator_cb.value}/${parseFloat(year_tf.value)}`;
     let url_tuju = url_api;
     let data = {
       value: parseFloat(value_tf.value),
@@ -240,6 +241,7 @@ const create_option_aspek = () => {
         aspek_cb_filter.appendChild(option_filter);
         if (i == 0) selected_aspek = element.id;
         create_option_indikator();
+        load_data()
       });
     })
     .catch((error) => {
