@@ -52,7 +52,7 @@ def tabel_indikator():
 def tabel_indikatorJs():
     return send_file("static/js/tabel_indikator.js")
 @app.route("/index_aspek_instansi")
-def tabel_indikator():
+def tabel_aspek():
     return render_template("tabel_aspek.html")
 @app.route("/assets/js/tabel_aspek.js")
 def tabel_aspekJs():
