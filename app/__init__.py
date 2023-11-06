@@ -57,6 +57,12 @@ def tabel_aspek():
 @app.route("/assets/js/tabel_aspek.js")
 def tabel_aspekJs():
     return send_file("static/js/tabel_aspek.js")
+@app.route("/index_domain_instansi")
+def tabel_domain():
+    return render_template("tabel_domain.html")
+@app.route("/assets/js/tabel_domain.js")
+def tabel_domainJs():
+    return send_file("static/js/tabel_domain.js")
 # static page
 @app.route("/assets/js/main.js")
 def mainJs():

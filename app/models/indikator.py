@@ -116,12 +116,12 @@ class indikatorModel:
         return data
     def getAllDomain(self):
         db=Database()
-        query="SELECT DISTINCT(d.id),d.nama FROM `indikator` m JOIN aspek a ON m.aspek=a.id JOIN domain d on a.domain=d.id"
+        query="SELECT DISTINCT(d.id),d.nama,d.bobot FROM `indikator` m JOIN aspek a ON m.aspek=a.id JOIN domain d on a.domain=d.id"
         cur= db.execute_query(query)
         result=cur.fetchall()
         data=[]
         for row in result:
-            data.append({"id":row[0],"nama":row[1]})
+            data.append({"id":row[0],"nama":row[1],"bobot":row[2]})
         cur.close()
         db.close()
         return data

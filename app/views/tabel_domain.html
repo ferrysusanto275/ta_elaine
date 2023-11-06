@@ -24,31 +24,23 @@
         <a href="/index_indikator_instansi" class="link"
           >Tabel Index Indikator per Instansi</a
         >
-        <a href="/index_aspek_instansi" class="link active"
+        <a href="/index_aspek_instansi" class="link"
           >Tabel Index Aspek per Instansi</a
         >
-        <a href="/index_domain_instansi" class="link"
+        <a href="/index_domain_instansi" class="link active"
           >Tabel Index Domain per Instansi</a
         >
       </div>
       <div id="container">
         <h1>Penilaian Kinerja SPBE</h1>
         <div id="main_container">
-          <legend>Tabel Index Aspek</legend>
+          <legend>Tabel Index Domain</legend>
           <!-- filter -->
           <div id="filter">
             <label for="instansi_cb_filter">Instansi</label>
             <select
               name="instansi"
               id="instansi_cb_filter"
-              class="form_control"
-            ></select>
-          </div>
-          <div id="filter">
-            <label for="domain_cb_filter">Domain</label>
-            <select
-              name="domain"
-              id="domain_cb_filter"
               class="form_control"
             ></select>
           </div>
@@ -64,16 +56,12 @@
               value="2021"
             />
           </div>
-          <div id="filter">
-            <label for="bobot">Bobot Domain BD (%)</label>
-            <span id="bobot_domain"> </span>
-          </div>
           <table class="tabel" id="tabel_data">
             <thead>
-              <th>Nama Aspek</th>
-              <th>Nilai Index Aspek NA</th>
-              <th>Bobot Aspek BA (%)</th>
-              <th>NA x BA (%)</th>
+              <th>Nama Domain</th>
+              <th>Nilai Index Domain ND</th>
+              <th>Bobot Domain BD (%)</th>
+              <th>ND x BD (%)</th>
             </thead>
             <tbody id="body_data">
               <tr>
@@ -85,6 +73,6 @@
       </div>
     </div>
     <script src="assets/js/main.js"></script>
-    <script src="assets/js/tabel_aspek.js"></script>
+    <script src="assets/js/tabel_domain.js"></script>
   </body>
 </html>
