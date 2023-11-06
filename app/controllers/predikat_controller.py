@@ -54,3 +54,6 @@ def delete_user(id):
             return jsonify({'message': 'Failed to delete '+model.table_name}), 500
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
+@predikat_bp.route('/api/'+model.table_name+'/nilai/<string:nilai>')
+def get_all_nilai(nilai):
+    return jsonify(model.getAllNilai(nilai));

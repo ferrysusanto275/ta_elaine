@@ -73,3 +73,16 @@ class predikat_model:
         cur.close()
         db.close()
         return True
+    def getAllNilai(self,nilai):
+        db=Database()
+        query="SELECT * FROM "+self.table_name
+        query+=" WHERE batas_bawah <= %s"
+        query+=" ORDER BY batas_bawah DESC LIMIT 1"
+        cur= db.execute_query(query,(nilai,))
+        result=cur.fetchone()
+        data=result
+        if(result):
+            data={"id":result[0],"name":result[1],"batas_bawah":result[2]}
+        cur.close()
+        db.close()
+        return data

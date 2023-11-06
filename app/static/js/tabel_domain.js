@@ -4,6 +4,7 @@ const tabel_body = document.getElementById("body_data");
 const url_api = base_api_url + "isi";
 const indikator_api = base_api_url + "indikator";
 const instansi_api = base_api_url + "instansi";
+const predikat_api = base_api_url + "predikat/nilai/";
 const cek_instansi = () => {
   fetch(instansi_api)
     .then((response) => {
@@ -118,15 +119,31 @@ const load_data = async () => {
     newRow.appendChild(cell2);
     tabel_body.appendChild(newRow);
 
-    let newRow1 = document.createElement("tr");
+    let rowIndex = document.createElement("tr");
     let cell11 = document.createElement("td");
     cell11.setAttribute("colspan", 3);
     cell11.textContent = `Indeks SPEBE = 1/100 x ${jml_akhir}`;
-    newRow1.appendChild(cell11);
+    rowIndex.appendChild(cell11);
     let cell21 = document.createElement("td");
     cell21.textContent = (jml_akhir / 100).toFixed(2);
-    newRow1.appendChild(cell21);
-    tabel_body.appendChild(newRow1);
+    rowIndex.appendChild(cell21);
+    tabel_body.appendChild(rowIndex);
+
+    let res_predikat = await fetch(`${predikat_api}${jml_akhir / 100}`);
+    if (!(await res_predikat.ok)) {
+      throw new Error("Network response was not ok");
+    }
+    let predikat = await res_predikat.json();
+    let rowPredikat = document.createElement("tr");
+    let cell1_predikat = document.createElement("td");
+    cell1_predikat.setAttribute("colspan", 3);
+    cell1_predikat.textContent = `Predikat`;
+    rowPredikat.appendChild(cell1_predikat);
+    let cell2_predikat = document.createElement("td");
+    cell2_predikat.textContent = predikat.name;
+
+    rowPredikat.appendChild(cell2_predikat);
+    tabel_body.appendChild(rowPredikat);
   } catch (error) {
     console.error("Ada kesalahan:", error);
   }
