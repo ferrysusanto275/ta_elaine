@@ -55,7 +55,7 @@ const load_data = () => {
           cell1.textContent = i + 1;
           newRow.appendChild(cell1);
           let cell2 = document.createElement("td");
-          console.log(element.indikator)
+          console.log(element.indikator);
           cell2.textContent = element.indikator.name;
           newRow.appendChild(cell2);
           let cell3 = document.createElement("td");
@@ -112,7 +112,9 @@ const clear_modal_form = () => {
 };
 const handle_submit = async () => {
   try {
-    let url_id = `${url_api}/${selected_instansi}/${indikator_cb.value}/${parseFloat(year_tf.value)}`;
+    let url_id = `${url_api}/${selected_instansi}/${
+      indikator_cb.value
+    }/${parseFloat(year_tf.value)}`;
     let url_tuju = url_api;
     let data = {
       value: parseFloat(value_tf.value),
@@ -241,7 +243,7 @@ const create_option_aspek = () => {
         aspek_cb_filter.appendChild(option_filter);
         if (i == 0) selected_aspek = element.id;
         create_option_indikator();
-        load_data()
+        load_data();
       });
     })
     .catch((error) => {
@@ -304,12 +306,12 @@ const handle_filter_instansi = () => {
   load_data();
 };
 const handle_filter_year = () => {
-  if (year_cb.value == selected_year) {
-    selected_year = year_cb_filter.value;
-    year_cb.value = year_cb_filter.value;
+  if (year_tf.value == selected_year) {
+    selected_year = year_tf_filter.value;
+    year_tf.value = year_tf_filter.value;
   } else {
-    selected_year = year_cb.value;
-    year_cb_filter.value = year_cb.value;
+    selected_year = year_tf.value;
+    year_tf_filter.value = year_tf.value;
   }
   load_data();
 };
