@@ -7,7 +7,7 @@ def validasiInput():
         return jsonify({'message': 'Nama is required'}), 400
     batas_bawah = request.json.get('batas_bawah')
     if not batas_bawah:
-        return jsonify({'message': 'batas bawah is required'}), 400
+        batas_bawah=0
         # cek value number atau bukan
     if not isinstance(batas_bawah, (int, float, complex)):
         return jsonify({'message': 'Batas bawah is must number'}), 400
