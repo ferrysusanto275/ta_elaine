@@ -90,10 +90,10 @@ const load_data = async () => {
     if (!(await res_aspek.ok)) {
       throw new Error("Network response was not ok");
     }
-    let list_aspek = (await res_aspek).json();
+    let list_aspek = await res_aspek.json();
     tabel_body.innerHTML = "";
     let jml = 0;
-    (await list_aspek).forEach(async (element) => {
+    for (const element of list_aspek) {
       const newRow = document.createElement("tr");
       const cell1 = document.createElement("td");
       cell1.textContent = element.nama;
@@ -131,7 +131,26 @@ const load_data = async () => {
       newRow.appendChild(cell4);
 
       tabel_body.appendChild(newRow);
-    });
+    }
+    let newRow = document.createElement("tr");
+    let cell1 = document.createElement("td");
+    cell1.setAttribute("colspan", 3);
+    cell1.textContent = "Jumlah NA x BA";
+    newRow.appendChild(cell1);
+    let cell2 = document.createElement("td");
+    cell2.textContent = jml.toFixed(2);
+    newRow.appendChild(cell2);
+    tabel_body.appendChild(newRow);
+
+    let newRow1 = document.createElement("tr");
+    let cell11 = document.createElement("td");
+    cell11.setAttribute("colspan", 3);
+    cell11.textContent = `Indeks ${domain_data.name}`;
+    newRow1.appendChild(cell11);
+    let cell21 = document.createElement("td");
+    cell21.textContent = (jml / parseFloat(domain_data.bobot)).toFixed(2);
+    newRow1.appendChild(cell21);
+    tabel_body.appendChild(newRow1);
   } catch (error) {
     console.error("Ada kesalahan:", error);
   }
