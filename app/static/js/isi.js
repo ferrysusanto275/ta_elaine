@@ -1,6 +1,7 @@
 const url_api = base_api_url + "isi";
 const indikator_api = base_api_url + "indikator";
 const instansi_api = base_api_url + "instansi";
+const gi_api = base_api_url + "grup_instansi";
 //dapetin element html
 const add_btn = document.getElementById("add_btn");
 const cancel_btn = document.getElementById("cancel_btn");
@@ -9,6 +10,8 @@ const modal_form = document.getElementById("modal_form");
 const year_tf = document.getElementById("year_tf");
 const year_tf_filter = document.getElementById("year_tf_filter");
 const value_tf = document.getElementById("value_tf");
+const group_cb = document.getElementById("group_cb");
+const group_cb_filter = document.getElementById("group_cb_filter");
 const instansi_cb = document.getElementById("instansi_cb");
 const instansi_cb_filter = document.getElementById("instansi_cb_filter");
 const domain_cb = document.getElementById("domain_cb");
@@ -16,10 +19,12 @@ const domain_cb_filter = document.getElementById("domain_cb_filter");
 const aspek_cb = document.getElementById("aspek_cb");
 const aspek_cb_filter = document.getElementById("aspek_cb_filter");
 const indikator_cb = document.getElementById("indikator_cb");
+let selected_gi = "";
 let selected_aspek = "";
 let selected_domain = "";
 let selected_instansi = "";
 let selected_year = "";
+
 const handle_delete = (instansi, indikator, year) => {
   fetch(`${url_api}/${instansi}/${indikator}/${year}`, {
     method: "DELETE",
@@ -112,9 +117,8 @@ const clear_modal_form = () => {
 };
 const handle_submit = async () => {
   try {
-    let url_id = `${url_api}/${selected_instansi}/${
-      indikator_cb.value
-    }/${parseFloat(year_tf.value)}`;
+    let url_id = `${url_api}/${selected_instansi}/${indikator_cb.value
+      }/${parseFloat(year_tf.value)}`;
     let url_tuju = url_api;
     let data = {
       value: parseFloat(value_tf.value),
@@ -174,8 +178,36 @@ const cek_indikator = () => {
       console.error("Ada kesalahan:", error);
     });
 };
+const cek_gi = () => {
+  fetch(gi_api).then((response) => {
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+  }).then((data) => {
+    if (data.length == 0) {
+      location.href = "grup_instansi";
+    } else {
+      data.forEach((element, i) => {
+        let option = document.createElement("option");
+        option.value = element.id;
+        option.textContent = element.nama;
+        let option_filter = option.cloneNode(true);
+
+        group_cb.appendChild(option);
+        group_cb_filter.appendChild(option_filter);
+        if (i == 0) selected_gi = element.id;
+      });
+      cek_instansi();
+    }
+  })
+    .catch((error) => {
+      console.error("Ada kesalahan:", error);
+    });
+}
+
 const cek_instansi = () => {
-  fetch(instansi_api)
+  fetch(`${instansi_api}/grup/${selected_gi}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -186,6 +218,8 @@ const cek_instansi = () => {
       if (data.length == 0) {
         location.href = "indikator";
       } else {
+        instansi_cb.innerHTML = "";
+        instansi_cb_filter.innerHTML = "";
         data.forEach((element, i) => {
           let option = document.createElement("option");
           option.value = element.id;
@@ -195,6 +229,7 @@ const cek_instansi = () => {
           instansi_cb_filter.appendChild(option_filter);
           if (i == 0) selected_instansi = element.id;
         });
+
         cek_indikator();
       }
     })
@@ -284,6 +319,16 @@ const handle_filter_domain = () => {
   }
   create_option_aspek();
 };
+const handle_filter_gi = () => {
+  if (group_cb.value == selected_gi) {
+    selected_gi = group_cb_filter.value;
+    group_cb.value = group_cb_filter.value;
+  } else {
+    selected_gi = group_cb.value;
+    group_cb_filter.value = group_cb.value;
+  }
+  cek_instansi();
+};
 const handle_filter_aspek = () => {
   if (aspek_cb.value == selected_aspek) {
     selected_aspek = aspek_cb_filter.value;
@@ -321,11 +366,12 @@ aspek_cb.onchange = handle_filter_aspek;
 aspek_cb_filter.onchange = handle_filter_aspek;
 instansi_cb.onchange = handle_filter_instansi;
 instansi_cb_filter.onchange = handle_filter_instansi;
+group_cb.onchange = handle_filter_gi;
+group_cb_filter.onchange = handle_filter_gi;
 year_tf.onchange = handle_filter_year;
 year_tf_filter.onchange = handle_filter_year;
 submit_btn.onclick = handle_submit;
 cancel_btn.onclick = handle_cancel_btn;
 add_btn.onclick = handle_add_btn;
-cek_instansi();
-
+cek_gi();
 // load_data();

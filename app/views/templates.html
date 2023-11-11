@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Penilaian Kinerja SPBE| Grup</title>
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
+
+<body>
+  <div id="warpper">
+    <div id="side_menu">
+      <a href="/" class="link {% if page_url == '/' %}active{% endif %}">
+        Home</a>
+      <p>Master Data</p>
+      <a href="/predikat" class="link {% if page_url == '/predikat' %}active{% endif %}">Predikat</a>
+      <a href="/grup" class="link {% if page_url == '/grup' %}active{% endif %}">Grup Instansi</a>
+      <a href="/instansi" class="link {% if page_url == '/instansi' %}active{% endif %}">Instansi</a>
+      <a href="/domain" class="link {% if page_url == '/domain' %}active{% endif %}">Domain</a>
+      <a href="/aspek" class="link {% if page_url == '/aspek' %}active{% endif %}">Aspek</a>
+      <a href="/indikator" class="link {% if page_url == '/indikator' %}active{% endif %}">Indikator</a>
+      <p>Transaksi</p>
+      <a href="/isi" class="link {% if page_url == '/isi' %}active{% endif %}">Isi Indikator</a>
+      <p>Laporan</p>
+      <a href="/index_indikator_instansi" class="link {% if page_url == '/index_indikator_instansi' %}active{% endif %}">Tabel Index Indikator per Instansi</a>
+      <a href="/index_aspek_instansi" class="link {% if page_url == '/index_aspek_instansi' %}active{% endif %}">Tabel Index Aspek per Instansi</a>
+      <a href="/index_domain_instansi" class="link {% if page_url == '/index_domain_instansi' %}active{% endif %}">Tabel Index Domain per Instansi</a>
+    </div>
+    <div id="container">
+      <h1>Penilaian Kinerja SPBE</h1>
+      <div id="main_container">
+        {% block main %}{% endblock %}
+      </div>
+    </div>
+  </div>
+  <div id="modal_form" class="modal">
+    <div class="modal_content">
+      {% block modal_content %}{% endblock %}
+      <button class="submit_btn" id="submit_btn">Submit</button>
+      <button class="cancel_btn" id="cancel_btn">Cancel</button>
+    </div>
+  </div>
+  <script src="assets/js/main.js"></script>
+  {% block scriptJS %}{% endblock %}
+
+</body>
+
+</html>

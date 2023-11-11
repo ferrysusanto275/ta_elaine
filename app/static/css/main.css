@@ -5,11 +5,12 @@
 }
 
 :root {
-  --bg1: #29bf12;
+  --bg1: #ebebeb;
   --bg2: #abff4f;
-  --bg3: #08bdbd;
+  --bg3: #ffffff;
   --b4: #f21b3f;
-  --bg5: #ff9914;
+  --bg5: #fabdbd;
+  --bg6: #e9dada;
 }
 
 body {
@@ -68,7 +69,7 @@ body {
 #container h1 {
   font-size: 4rem;
   text-align: center;
-  color: var(--bg5);
+  color: black;
   height: 10vh;
 }
 
@@ -98,7 +99,7 @@ body {
 }
 
 .add {
-  background-color: var(--bg3);
+  background-color: var(--bg6);
   border: none;
   border-radius: 25px;
   padding: 5px 10px;
@@ -106,7 +107,7 @@ body {
 }
 
 .edit_btn {
-  background-color: var(--bg3);
+  background-color: var(--bg6);
   border: none;
   border-radius: 25px;
   padding: 5px 10px;
@@ -150,7 +151,15 @@ body {
 }
 
 .submit_btn {
-  background-color: #08bdbd;
+  background-color: var(--bg6);
+  border-radius: 10px;
+  border: none;
+  padding: 5px 10px;
+  box-sizing: border-box;
+}
+
+.cancel_btn {
+  background-color: var(--b4);
   border-radius: 10px;
   border: none;
   padding: 5px 10px;

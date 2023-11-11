@@ -1,4 +1,4 @@
-from flask import Flask,render_template,send_file
+from flask import Flask,render_template,send_file,request
 from app.controllers.instansi_controller import instansi_bp
 from app.controllers.domain_controller import domain_bp
 from app.controllers.aspek_controller import aspek_bp
@@ -6,6 +6,7 @@ from app.controllers.indikator_controller import indikator_bp
 from app.controllers.isi_controller import isi_bp
 from app.controllers.predikat_controller import predikat_bp
 from app.controllers.grup_instansi_controller import grup_instansi_bp
+min_year=2021
 app = Flask(__name__, template_folder='views')
 app.register_blueprint(instansi_bp)
 app.register_blueprint(domain_bp)
@@ -17,49 +18,49 @@ app.register_blueprint(grup_instansi_bp)
 # front end
 @app.route("/")
 def index():
-    return render_template("index.html")
+    return render_template("index.html",page_url=request.path)
 @app.route("/grup")
 def grup():
-    return render_template("grup.html")
+    return render_template("grup.html",page_url=request.path)
 @app.route("/predikat")
 def predikat():
-    return render_template("predikat.html")
+    return render_template("predikat.html",page_url=request.path)
 @app.route("/domain")
 def domain():
-    return render_template("domain.html")
+    return render_template("domain.html",page_url=request.path)
 @app.route("/aspek")
 def aspek():
-    return render_template("aspek.html")
+    return render_template("aspek.html",page_url=request.path)
 @app.route("/instansi")
 def instansi():
-    return render_template("instansi.html")
+    return render_template("instansi.html",page_url=request.path)
 @app.route("/indikator")
 def indikator():
-    return render_template("indikator.html")
+    return render_template("indikator.html",page_url=request.path)
 @app.route("/assets/js/indikator.js")
 def indikatorJs():
     return send_file("static/js/indikator.js")
 @app.route("/isi")
 def isi():
-    return render_template("isi.html")
+    return render_template("isi.html",page_url=request.path,min_year=min_year)
 @app.route("/assets/js/isi.js")
 def isiJs():
     return send_file("static/js/isi.js")
 @app.route("/index_indikator_instansi")
 def tabel_indikator():
-    return render_template("tabel_indikator.html")
+    return render_template("tabel_indikator.html",page_url=request.path)
 @app.route("/assets/js/tabel_indikator.js")
 def tabel_indikatorJs():
     return send_file("static/js/tabel_indikator.js")
 @app.route("/index_aspek_instansi")
 def tabel_aspek():
-    return render_template("tabel_aspek.html")
+    return render_template("tabel_aspek.html",page_url=request.path)
 @app.route("/assets/js/tabel_aspek.js")
 def tabel_aspekJs():
     return send_file("static/js/tabel_aspek.js")
 @app.route("/index_domain_instansi")
 def tabel_domain():
-    return render_template("tabel_domain.html")
+    return render_template("tabel_domain.html",page_url=request.path)
 @app.route("/assets/js/tabel_domain.js")
 def tabel_domainJs():
     return send_file("static/js/tabel_domain.js")
