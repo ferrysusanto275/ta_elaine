@@ -1,18 +1,21 @@
 const instansi_cb_filter = document.getElementById("instansi_cb_filter");
 const domain_cb_filter = document.getElementById("domain_cb_filter");
 const year_tf_filter = document.getElementById("year_tf_filter");
+const group_cb_filter = document.getElementById("group_cb_filter");
 const bobot_domain = document.getElementById("bobot_domain");
 const url_api = base_api_url + "isi";
 const indikator_api = base_api_url + "indikator";
 const instansi_api = base_api_url + "instansi";
 const domain_api = base_api_url + "domain";
+const gi_api = base_api_url + "grup_instansi";
 const tabel_body = document.getElementById("body_data");
 let domain_data = {};
 let selected_domain = "";
 let selected_instansi = "";
 let selected_year = "";
-const cek_instansi = () => {
-  fetch(instansi_api)
+let selected_gi = "";
+const cek_gi = () => {
+  fetch(gi_api)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -20,6 +23,34 @@ const cek_instansi = () => {
       return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
     })
     .then((data) => {
+      if (data.length == 0) {
+        location.href = "grup_instansi";
+      } else {
+        data.forEach((element, i) => {
+          let option = document.createElement("option");
+          option.value = element.id;
+          option.textContent = element.nama;
+
+          group_cb_filter.appendChild(option);
+          if (i == 0) selected_gi = element.id;
+        });
+        cek_instansi();
+      }
+    })
+    .catch((error) => {
+      console.error("Ada kesalahan:", error);
+    });
+};
+const cek_instansi = () => {
+  fetch(`${instansi_api}/grup/${group_cb_filter.value}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+    })
+    .then((data) => {
+      instansi_cb_filter.innerHTML = "";
       if (data.length == 0) {
         location.href = "instansi";
       } else {
@@ -56,7 +87,6 @@ const cek_indikator = () => {
       console.error("Ada kesalahan:", error);
     });
 };
-cek_instansi();
 const create_option_domain = () => {
   fetch(indikator_api + "/domain")
     .then((response) => {
@@ -175,3 +205,5 @@ const handle_change_filter = () => {
 year_tf_filter.onchange = handle_change_filter;
 domain_cb_filter.onchange = handle_change_filter;
 instansi_cb_filter.onchange = handle_change_filter;
+group_cb_filter.onchange = cek_instansi;
+cek_gi();

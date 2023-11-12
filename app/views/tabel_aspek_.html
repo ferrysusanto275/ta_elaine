@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Penilaian Kinerja SPBE| Grup</title>
+    <link rel="stylesheet" href="assets/css/main.css" />
+  </head>
+
+  <body>
+    <div id="warpper">
+      <div id="side_menu">
+        <a href="/" class="link">Home</a>
+        <p>Master Data</p>
+        <a href="/predikat" class="link">Predikat</a>
+        <a href="/grup" class="link">Grup Instansi</a>
+        <a href="/instansi" class="link">Instansi</a>
+        <a href="/domain" class="link">Domain</a>
+        <a href="/aspek" class="link">Aspek</a>
+        <a href="/indikator" class="link">Indikator</a>
+        <p>Transaksi</p>
+        <a href="/isi" class="link">Isi Indikator</a>
+        <p>Laporan</p>
+        <a href="/index_indikator_instansi" class="link"
+          >Tabel Index Indikator per Instansi</a
+        >
+        <a href="/index_aspek_instansi" class="link active"
+          >Tabel Index Aspek per Instansi</a
+        >
+        <a href="/index_domain_instansi" class="link"
+          >Tabel Index Domain per Instansi</a
+        >
+      </div>
+      <div id="container">
+        <h1>Penilaian Kinerja SPBE</h1>
+        <div id="main_container">
+          <legend>Tabel Index Aspek</legend>
+          <!-- filter -->
+          <div id="filter">
+            <label for="instansi_cb_filter">Instansi</label>
+            <select
+              name="instansi"
+              id="instansi_cb_filter"
+              class="form_control"
+            ></select>
+          </div>
+          <div id="filter">
+            <label for="domain_cb_filter">Domain</label>
+            <select
+              name="domain"
+              id="domain_cb_filter"
+              class="form_control"
+            ></select>
+          </div>
+          <div id="filter">
+            <label for="year_cb_filter">year</label>
+            <input
+              type="number"
+              step="1"
+              min="2021"
+              name="year_tf_filter"
+              id="year_tf_filter"
+              class="form_control"
+              value="2021"
+            />
+          </div>
+          <div id="filter">
+            <label for="bobot">Bobot Domain BD (%)</label>
+            <span id="bobot_domain"> </span>
+          </div>
+          <table class="tabel" id="tabel_data">
+            <thead>
+              <th>Nama Aspek</th>
+              <th>Nilai Index Aspek NA</th>
+              <th>Bobot Aspek BA (%)</th>
+              <th>NA x BA (%)</th>
+            </thead>
+            <tbody id="body_data">
+              <tr>
+                <td colspan="4" class="text_center">No Data</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/tabel_aspek.js"></script>
+  </body>
+</html>
