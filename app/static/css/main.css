@@ -182,6 +182,9 @@ body {
 .drop-down ul {
   display: none;
 }
+.drop-down:hover ul {
+  display: block;
+}
 .drop-down.active ul {
   display: block;
 }
