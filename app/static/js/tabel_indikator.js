@@ -2,18 +2,48 @@ const instansi_cb_filter = document.getElementById("instansi_cb_filter");
 const domain_cb_filter = document.getElementById("domain_cb_filter");
 const aspek_cb_filter = document.getElementById("aspek_cb_filter");
 const year_tf_filter = document.getElementById("year_tf_filter");
+const group_cb_filter = document.getElementById("group_cb_filter");
 const bobot_aspek = document.getElementById("bobot_aspek");
 const url_api = base_api_url + "isi";
 const indikator_api = base_api_url + "indikator";
 const instansi_api = base_api_url + "instansi";
 const aspek_api = base_api_url + "aspek";
+const gi_api = base_api_url + "grup_instansi";
+let selected_gi = "";
 let selected_aspek = "";
 let selected_domain = "";
 let selected_instansi = "";
 let selected_year = "";
 let aspek_data = {};
+const cek_gi = () => {
+  fetch(gi_api)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+    })
+    .then((data) => {
+      if (data.length == 0) {
+        location.href = "grup_instansi";
+      } else {
+        data.forEach((element, i) => {
+          let option = document.createElement("option");
+          option.value = element.id;
+          option.textContent = element.nama;
+
+          group_cb_filter.appendChild(option);
+          if (i == 0) selected_gi = element.id;
+        });
+        cek_instansi();
+      }
+    })
+    .catch((error) => {
+      console.error("Ada kesalahan:", error);
+    });
+};
 const cek_instansi = () => {
-  fetch(instansi_api)
+  fetch(`${instansi_api}/grup/${group_cb_filter.value}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -57,7 +87,6 @@ const cek_indikator = () => {
       console.error("Ada kesalahan:", error);
     });
 };
-cek_instansi();
 const create_option_domain = () => {
   fetch(indikator_api + "/domain")
     .then((response) => {
@@ -197,3 +226,5 @@ year_tf_filter.onchange = handle_filter_aspek;
 aspek_cb_filter.onchange = handle_filter_aspek;
 domain_cb_filter.onchange = handle_filter_domain;
 instansi_cb_filter.onchange = handle_filter_aspek;
+group_cb_filter.onchange = cek_instansi;
+cek_gi();

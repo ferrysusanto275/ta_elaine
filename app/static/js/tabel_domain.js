@@ -1,12 +1,42 @@
 const instansi_cb_filter = document.getElementById("instansi_cb_filter");
 const year_tf_filter = document.getElementById("year_tf_filter");
 const tabel_body = document.getElementById("body_data");
+const group_cb_filter = document.getElementById("group_cb_filter");
 const url_api = base_api_url + "isi";
 const indikator_api = base_api_url + "indikator";
 const instansi_api = base_api_url + "instansi";
 const predikat_api = base_api_url + "predikat/nilai/";
+const gi_api = base_api_url + "grup_instansi";
+let selected_gi = "";
+const cek_gi = () => {
+  fetch(gi_api)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+    })
+    .then((data) => {
+      if (data.length == 0) {
+        location.href = "grup_instansi";
+      } else {
+        data.forEach((element, i) => {
+          let option = document.createElement("option");
+          option.value = element.id;
+          option.textContent = element.nama;
+
+          group_cb_filter.appendChild(option);
+          if (i == 0) selected_gi = element.id;
+        });
+        cek_instansi();
+      }
+    })
+    .catch((error) => {
+      console.error("Ada kesalahan:", error);
+    });
+};
 const cek_instansi = () => {
-  fetch(instansi_api)
+  fetch(`${instansi_api}/grup/${group_cb_filter.value}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -150,4 +180,5 @@ const load_data = async () => {
 };
 year_tf_filter.onchange = load_data;
 instansi_cb_filter.onchange = load_data;
-cek_instansi();
+group_cb_filter.onchange = cek_instansi;
+cek_gi();

@@ -48,19 +48,19 @@ def isiJs():
     return send_file("static/js/isi.js")
 @app.route("/index_indikator_instansi")
 def tabel_indikator():
-    return render_template("tabel_indikator.html",page_url=request.path)
+    return render_template("tabel_indikator.html",page_url=request.path,min_year=min_year)
 @app.route("/assets/js/tabel_indikator.js")
 def tabel_indikatorJs():
     return send_file("static/js/tabel_indikator.js")
 @app.route("/index_aspek_instansi")
 def tabel_aspek():
-    return render_template("tabel_aspek.html",page_url=request.path)
+    return render_template("tabel_aspek.html",page_url=request.path,min_year=min_year)
 @app.route("/assets/js/tabel_aspek.js")
 def tabel_aspekJs():
     return send_file("static/js/tabel_aspek.js")
 @app.route("/index_domain_instansi")
 def tabel_domain():
-    return render_template("tabel_domain.html",page_url=request.path)
+    return render_template("tabel_domain.html",page_url=request.path,min_year=min_year)
 @app.route("/assets/js/tabel_domain.js")
 def tabel_domainJs():
     return send_file("static/js/tabel_domain.js")
