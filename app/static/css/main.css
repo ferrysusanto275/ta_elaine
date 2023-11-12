@@ -165,3 +165,45 @@ body {
   padding: 5px 10px;
   box-sizing: border-box;
 }
+.drop-down {
+  width: 100%;
+}
+.drop-down button {
+  background-color: var(--b4);
+  width: 100%;
+  background-color: none;
+  padding: 5px 10px;
+  box-sizing: border-box;
+  border: none;
+}
+.drop-down.active button {
+  background-color: var(--bg5);
+}
+.drop-down ul {
+  display: none;
+}
+.drop-down.active ul {
+  display: block;
+}
+li {
+  display: block;
+  width: 100%;
+  background-color: var(--b4);
+  padding: 10px 15px;
+  box-sizing: border-box;
+}
+li a {
+  width: 100%;
+  text-decoration: none;
+  font-size: 1rem;
+  vertical-align: middle;
+  text-align: center;
+  padding: 5px;
+  color: black;
+}
+li.active {
+  background-color: var(--bg5);
+}
+li:hover {
+  background-color: var(--bg1);
+}

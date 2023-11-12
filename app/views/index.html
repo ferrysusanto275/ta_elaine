@@ -1,38 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "templates.html" %} {% block main %}
+<legend>Diagram Index</legend>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Penilaian Kinerja SPBE</title>
-  <link rel="stylesheet" href="assets/css/main.css" />
-</head>
-
-<body>
-  <div id="warpper">
-    <div id="side_menu">
-      <a href="/" class="link active">Home</a>
-      <p>Master Data</p>
-      <a href="/predikat" class="link">Predikat</a>
-      <a href="/grup" class="link">Grup Instansi</a>
-      <a href="/instansi" class="link">Instansi</a>
-      <a href="/domain" class="link">Domain</a>
-      <a href="/aspek" class="link">Aspek</a>
-      <a href="/indikator" class="link">Indikator</a>
-      <p>Transaksi</p>
-      <a href="/isi" class="link">Isi Indikator</a>
-      <p>Laporan</p>
-      <a href="/index_indikator_instansi" class="link">Tabel Index Indikator per Instansi</a>
-      <a href="/index_aspek_instansi" class="link">Tabel Index Aspek per Instansi</a>
-      <a href="/index_domain_instansi" class="link">Tabel Index Domain per Instansi</a>
-
-    </div>
-    <div id="container">
-      <h1>Penilaian Kinerja SPBE</h1>
-      <div id="main_container"></div>
-    </div>
-  </div>
-  <script src="assets/js/main.js"></script>
-</body>
-
-</html>
+{% endblock %} {% block scriptJS %} {% endblock %}
