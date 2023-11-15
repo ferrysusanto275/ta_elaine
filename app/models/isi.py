@@ -92,3 +92,29 @@ class isiModel:
         cur.close()
         db.close()
         return data
+    def getAllValue(self,indikator,gi):
+        db=Database()
+        query="SELECT m.value FROM "+self.table_name+" m JOIN instansi i ON m.instansi=i.id";
+        query+=" WHERE i.group_instansi=%s and m.indikator=%s"
+        # query+=" WHERE  m.indikator=%s"
+        cur= db.execute_query(query,(gi,indikator))
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            data.append(row[0])
+        cur.close()
+        db.close()
+        return data
+    def getAllAspek(self,aspek,gi):
+        db=Database()
+        query="SELECT m.value FROM "+self.table_name+" m";
+        query+=" JOIN instansi i ON m.instansi=i.id"
+        query+=" JOIN indikator ON m.indikator=indikator.id"
+        query+=" JOIN aspek a on indikator.aspek=a.id"
+        query+=" WHERE i.group_instansi=%s and indikator.aspek=%s"
+        query+=" GROUP BY i.id,m.year"
+        cur= db.execute_query(query,(gi,aspek))
+        result=cur.fetchall()
+        cur.close()
+        db.close()
+        return result
