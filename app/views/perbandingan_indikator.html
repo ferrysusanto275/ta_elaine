@@ -1,0 +1,37 @@
+{% extends "templates.html" %} {% block linkCSS %}
+<link rel="stylesheet" href="assets/css/perbandingan_indikator.css" />
+{% endblock %} {% block main %}
+<legend>Perbandingan antara Indikator</legend>
+<!-- filter -->
+<div id="filter">
+  <label for="group_cb_filter">Group Instansi</label>
+  <select name="group" id="group_cb_filter" class="form_control"></select>
+  <div id="filter_left">
+    <label for="domain1_cb_filter">Domain 1</label>
+    <select name="domain1" id="domain1_cb_filter" class="form_control"></select>
+    <label for="aspek1_cb_filter">Aspek 1</label>
+    <select name="aspek1" id="aspek1_cb_filter" class="form_control"></select>
+    <label for="indikator1_cb_filter">Indikator 1</label>
+    <select
+      name="indikator1"
+      id="indikator1_cb_filter"
+      class="form_control"
+    ></select>
+  </div>
+  <div id="filter_right">
+    <label for="domain2_cb_filter">Domain 2</label>
+    <select name="domain2" id="domain2_cb_filter" class="form_control"></select>
+    <label for="aspek2_cb_filter">Aspek 2</label>
+    <select name="aspek2" id="aspek2_cb_filter" class="form_control"></select>
+    <label for="indikator2_cb_filter">Indikator 2</label>
+    <select
+      name="indikator2"
+      id="indikator2_cb_filter"
+      class="form_control"
+    ></select>
+  </div>
+</div>
+<div id="tampil_perbandingan"></div>
+{% endblock %} {% block scriptJS %}
+<script src="assets/js/perbandingan_indikator.js"></script>
+{% endblock %}

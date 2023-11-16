@@ -64,6 +64,15 @@ def tabel_domain():
 @app.route("/assets/js/tabel_domain.js")
 def tabel_domainJs():
     return send_file("static/js/tabel_domain.js")
+@app.route("/perbandingan_indikator")
+def perbandingan_indikator():
+    return render_template("perbandingan_indikator.html",page_url=request.path,min_year=min_year)
+@app.route("/assets/js/perbandingan_indikator.js")
+def perbandingan_indikatorJs():
+    return send_file("static/js/perbandingan_indikator.js")
+@app.route("/assets/css/perbandingan_indikator.css")
+def perbandingan_indikatorCss():
+    return send_file("static/css/perbandingan_indikator.css")
 # static page
 @app.route("/assets/js/main.js")
 def mainJs():
