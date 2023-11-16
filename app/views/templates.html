@@ -74,7 +74,7 @@
           </ul>
         </div>
         <div
-          class="drop-down {% if page_url == '/perbandingan_indikator' %}active{% endif %}"
+          class="drop-down {% if page_url == '/perbandingan_indikator' %}active{% endif %}{% if page_url == '/perbandingan_aspek' %}active{% endif %}"
         >
           <button>Laporan Perbandingan</button>
           <ul>
@@ -84,6 +84,11 @@
               <a href="/perbandingan_indikator"
                 >Perbandingan Indikator per grup</a
               >
+            </li>
+            <li
+              class="{% if page_url == '/perbandingan_aspek' %}active{% endif %}"
+            >
+              <a href="/perbandingan_aspek">Perbandingan Aspek per grup</a>
             </li>
           </ul>
         </div>

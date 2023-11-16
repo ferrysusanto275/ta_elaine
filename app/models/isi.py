@@ -96,6 +96,7 @@ class isiModel:
         db=Database()
         query="SELECT m.value FROM "+self.table_name+" m JOIN instansi i ON m.instansi=i.id";
         query+=" WHERE i.group_instansi=%s and m.indikator=%s"
+        query+=" ORDER BY i.id"
         # query+=" WHERE  m.indikator=%s"
         cur= db.execute_query(query,(gi,indikator))
         result=cur.fetchall()
@@ -113,6 +114,7 @@ class isiModel:
         query+=" JOIN aspek a on indikator.aspek=a.id"
         query+=" WHERE i.group_instansi=%s and indikator.aspek=%s"
         query+=" GROUP BY i.id,m.year"
+        query+=" ORDER BY i.id"
         cur= db.execute_query(query,(gi,aspek))
         result=cur.fetchall()
         cur.close()
