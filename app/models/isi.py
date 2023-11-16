@@ -3,10 +3,12 @@ from datetime import datetime
 from app.models.instansi import instansiModel
 from app.models.indikator import indikatorModel
 from app.models.aspek import aspekModel
+from app.models.domain import domainModel
 
 indikator_model=indikatorModel();
 instansi_model=instansiModel();
 aspek_model=aspekModel();
+domain_model=domainModel()
 class isiModel:
     table_name="isi"
     def getAll(self):
@@ -123,6 +125,7 @@ class isiModel:
         db.close()
         return result
     def getAllDomain(self,domain,gi):
+        data_domain=domain_model.getById(domain)
         data_aspek=aspek_model.getAllByDomain(domain)
         value_aspek=[];
         for aspek in data_aspek:
@@ -130,7 +133,21 @@ class isiModel:
         data=[]
         for i,nilai in enumerate(value_aspek[0]):
             jml=0
-            # for index,aspek in enumerate(data_aspek):
-            #     jml+=value_aspek[index][i]
-            data.append(jml)
+            for index,aspek in enumerate(data_aspek):
+                jml+=value_aspek[index][i][0]*aspek['bobot']
+            data.append(round(jml/data_domain['bobot'],2))
+        return data
+    def getAllIndex(self,gi):
+        data_domains=domain_model.getAll()
+        data=[]
+        jml_domain=0;
+        value_domain=[];
+        for domain in data_domains:
+            value_domain.append(self.getAllDomain(domain['id'],gi))
+            jml_domain+=domain['bobot']
+        for i,nilai in enumerate(value_domain[0]):
+            jml=0
+            for index,domain in enumerate(data_domains):
+                jml+=value_domain[index][i]*domain['bobot']
+            data.append(round(jml/jml_domain,2))
         return data

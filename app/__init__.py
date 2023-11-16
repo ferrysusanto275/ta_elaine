@@ -85,6 +85,30 @@ def perbandingan_aspek_indikator():
 @app.route("/assets/js/perbandingan_aspek_indikator.js")
 def perbandingan_aspek_indikatorJs():
     return send_file("static/js/perbandingan_aspek_indikator.js")
+@app.route("/perbandingan_domain")
+def perbandingan_domain():
+    return render_template("perbandingan_domain.html",page_url=request.path)
+@app.route("/assets/js/perbandingan_domain.js")
+def perbandingan_domainJs():
+    return send_file("static/js/perbandingan_domain.js")
+@app.route("/perbandingan_domain_aspek")
+def perbandingan_domain_aspek():
+    return render_template("perbandingan_domain_aspek.html",page_url=request.path)
+@app.route("/assets/js/perbandingan_domain_aspek.js")
+def perbandingan_domain_aspekJs():
+    return send_file("static/js/perbandingan_domain_aspek.js")
+@app.route("/perbandingan_domain_indikator")
+def perbandingan_domain_indikator():
+    return render_template("perbandingan_domain_indikator.html",page_url=request.path)
+@app.route("/assets/js/perbandingan_domain_indikator.js")
+def perbandingan_domain_indikatorJs():
+    return send_file("static/js/perbandingan_domain_indikator.js")
+@app.route("/perbandingan_index_indikator")
+def perbandingan_index_indikator():
+    return render_template("perbandingan_index_indikator.html",page_url=request.path)
+@app.route("/assets/js/perbandingan_index_indikator.js")
+def perbandingan_index_indikatorJs():
+    return send_file("static/js/perbandingan_index_indikator.js")
 # static page
 @app.route("/assets/js/main.js")
 def mainJs():

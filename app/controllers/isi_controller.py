@@ -3,7 +3,9 @@ from app.models.grup_instansi import grup_instansiModel
 from app.models.instansi import instansiModel
 from app.models.indikator import indikatorModel
 from app.models.aspek import aspekModel
+from app.models.domain import domainModel
 from app.models.isi import isiModel
+
 import io
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -16,6 +18,7 @@ aspek_model=aspekModel()
 instansi_model=instansiModel()
 indikator_model=indikatorModel()
 gi_model=grup_instansiModel()
+domain_model=domainModel()
 isi_bp=Blueprint(model.table_name,__name__, template_folder='views')
 def validasiId(instansi,indikator,year):
     if not instansi:
@@ -180,6 +183,139 @@ def getPerbandinganAspekIndikator(aspek,indikator,gi):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/domain/<string:domain>/grup/<string:gi>')
-def getPerbandinganDomain(domain,gi):
-    return jsonify(model.getAllDomain(domain,gi));
+@isi_bp.route('/api/'+model.table_name+'/domain/<string:domain1>/<string:domain2>/grup/<string:gi>')
+def getPerbandinganDomain(domain1,domain2,gi):
+    data_gi=gi_model.getById(gi)
+    if(data_gi is None):
+        return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
+    dataDomain1=domain_model.getById(domain1)
+    if(dataDomain1 is None):
+        return jsonify({'message': model.table_name.capitalize()+' Domain 1 not found'}), 404
+    dataDomain2=domain_model.getById(domain2)
+    if(dataDomain2 is None):
+        return jsonify({'message': model.table_name.capitalize()+' Domaian 2 not found'}), 404
+    dfDomain1=model.getAllDomain(domain1,gi)
+    dfDomain2=model.getAllDomain(domain2,gi)
+    fig, ax = plt.subplots()
+    ax.scatter(dfDomain1,dfDomain2,alpha=0.5)
+    ax.set_xlabel(dataDomain1['name'])
+    ax.set_ylabel(dataDomain2['name'])
+    ax.set_title(dataDomain1['name']+" VS "+dataDomain2['name']+" "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+
+@isi_bp.route('/api/'+model.table_name+'/domain_aspek/<string:domain>/<string:aspek>/grup/<string:gi>')
+def getPerbandinganDomainAspek(domain,aspek,gi):
+    data_gi=gi_model.getById(gi)
+    if(data_gi is None):
+        return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
+    dataDomain=domain_model.getById(domain)
+    if(dataDomain is None):
+        return jsonify({'message': model.table_name.capitalize()+' Domain not found'}), 404
+    dataAspek=aspek_model.getById(aspek)
+    if(dataAspek is None):
+        return jsonify({'message': model.table_name.capitalize()+' Aspek not found'}), 404
+    dfDomain=model.getAllDomain(domain,gi)
+    dfAspek=model.getAllAspek(aspek,gi)
+    fig, ax = plt.subplots()
+    ax.scatter(dfDomain,dfAspek,alpha=0.5)
+    ax.set_xlabel(dataAspek['name'])
+    ax.set_ylabel(dataDomain['name'])
+    ax.set_title(dataAspek['name']+" VS "+dataDomain['name']+" "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/domain_indikator/<string:domain>/<string:indikator>/grup/<string:gi>')
+def getPerbandinganDomainIndikator(domain,indikator,gi):
+    data_gi=gi_model.getById(gi)
+    if(data_gi is None):
+        return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
+    dataDomain=domain_model.getById(domain)
+    if(dataDomain is None):
+        return jsonify({'message': model.table_name.capitalize()+' Domain not found'}), 404
+    dataIndikator=indikator_model.getById(indikator)
+    if(dataIndikator is None):
+        return jsonify({'message': model.table_name.capitalize()+' Indikator not found'}), 404
+    dfDomain=model.getAllDomain(domain,gi)
+    dfIndikator=model.getAllValue(indikator,gi)
+    fig, ax = plt.subplots()
+    ax.scatter(dfDomain,dfIndikator,alpha=0.5)
+    ax.set_xlabel(dataIndikator['name'])
+    ax.set_ylabel(dataDomain['name'])
+    ax.set_title(dataIndikator['name']+" VS "+dataDomain['name']+" "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/index/<string:domain>/grup/<string:gi>')
+def get_perbandingan_index_domain(domain,gi):
+    data_gi=gi_model.getById(gi)
+    if(data_gi is None):
+        return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
+    dataDomain=domain_model.getById(domain)
+    if(dataDomain is None):
+        return jsonify({'message': model.table_name.capitalize()+' Domain not found'}), 404
+    dfIndex=model.getAllIndex(gi)
+    dfDomain=model.getAllDomain(domain,gi)
+    fig, ax = plt.subplots()
+    ax.scatter(dfIndex,dfDomain,alpha=0.5)
+    ax.set_xlabel("Index")
+    ax.set_ylabel(dataDomain['name'])
+    ax.set_title("Index VS "+dataDomain['name']+" "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/index_aspek/<string:aspek>/grup/<string:gi>')
+def get_perbandingan_index_aspek(aspek,gi):
+    data_gi=gi_model.getById(gi)
+    if(data_gi is None):
+        return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
+    dataAspek=aspek_model.getById(aspek)
+    if(dataAspek is None):
+        return jsonify({'message': model.table_name.capitalize()+' Aspek not found'}), 404
+    dfIndex=model.getAllIndex(gi)
+    dfAspek=model.getAllAspek(aspek,gi)
+    fig, ax = plt.subplots()
+    ax.scatter(dfIndex,dfAspek,alpha=0.5)
+    ax.set_xlabel("Index")
+    ax.set_ylabel(dataAspek['name'])
+    ax.set_title("Index VS "+dataAspek['name']+" "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/index_indikator/<string:indikator>/grup/<string:gi>')
+def get_perbandingan_index_indikator(indikator,gi):
+    data_gi=gi_model.getById(gi)
+    if(data_gi is None):
+        return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
+    dataIndikator=indikator_model.getById(indikator)
+    if(dataIndikator is None):
+        return jsonify({'message': model.table_name.capitalize()+' Indikator not found'}), 404
+    dfIndex=model.getAllIndex(gi)
+    dfIndikator=model.getAllValue(indikator,gi)
+    fig, ax = plt.subplots()
+    ax.scatter(dfIndex,dfIndikator,alpha=0.5)
+    ax.set_xlabel("Index")
+    ax.set_ylabel(dataIndikator['name'])
+    ax.set_title("Index VS "+dataIndikator['name']+" "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
