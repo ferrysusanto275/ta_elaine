@@ -110,11 +110,17 @@ def getAllbyYearInstansiAspek(year,aspek,instansi):
 @isi_bp.route('/api/'+model.table_name+'/<string:indikator1>/<string:indikator2>/grup/<string:gi>')
 def getPerbandingan(indikator1,indikator2,gi):
     data_gi=gi_model.getById(gi)
-    
+    if('id' not in data_gi):
+        return jsonify({'message': model.table_name.capitalize()+' grup found'}), 404
+        
+    dataIndikator1=indikator_model.getById(indikator1)
+    if(dataIndikator1 is None):
+        return jsonify({'message': model.table_name.capitalize()+' Indikator 1 not found'}), 404
+    dataIndikator2=indikator_model.getById(indikator2)
+    if(dataIndikator2 is None):
+        return jsonify({'message': model.table_name.capitalize()+' Indikator 2 not found'}), 404
     dfIndikator1=model.getAllValue(indikator1,gi)
     dfIndikator2=model.getAllValue(indikator2,gi)
-    dataIndikator1=indikator_model.getById(indikator1)
-    dataIndikator2=indikator_model.getById(indikator2)
     fig, ax = plt.subplots()
     ax.scatter(dfIndikator1,dfIndikator2,alpha=0.5)
     ax.set_xlabel(dataIndikator1['name'])
@@ -129,12 +135,20 @@ def getPerbandingan(indikator1,indikator2,gi):
 @isi_bp.route('/api/'+model.table_name+'/aspek/<string:aspek1>/<string:aspek2>/grup/<string:gi>')
 def getPerbandinganAspek(aspek1,aspek2,gi):
     data_gi=gi_model.getById(gi)
+    if(data_gi is None):
+        return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
+    dataAspek1=aspek_model.getById(aspek1)
+    if(dataAspek1 is None):
+        return jsonify({'message': model.table_name.capitalize()+' Aspek 1 not found'}), 404
+    dataAspek2=aspek_model.getById(aspek2)
+    if(dataAspek2 is None):
+        return jsonify({'message': model.table_name.capitalize()+' Aspek 2 not found'}), 404
     dfAspek1=model.getAllAspek(aspek1,gi)
+    
     dfAspek2=model.getAllAspek(aspek2,gi)
     # print(aspek2)
     # print(len(dfAspek2))
-    dataAspek1=aspek_model.getById(aspek1)
-    dataAspek2=aspek_model.getById(aspek2)
+    
    
     fig, ax = plt.subplots()
     ax.scatter(dfAspek1,dfAspek2,alpha=0.5)
