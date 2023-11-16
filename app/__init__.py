@@ -79,6 +79,12 @@ def perbandingan_aspek():
 @app.route("/assets/js/perbandingan_aspek.js")
 def perbandingan_aspekJs():
     return send_file("static/js/perbandingan_aspek.js")
+@app.route("/perbandingan_aspek_indikator")
+def perbandingan_aspek_indikator():
+    return render_template("perbandingan_aspek_indikator.html",page_url=request.path)
+@app.route("/assets/js/perbandingan_aspek_indikator.js")
+def perbandingan_aspek_indikatorJs():
+    return send_file("static/js/perbandingan_aspek_indikator.js")
 # static page
 @app.route("/assets/js/main.js")
 def mainJs():
