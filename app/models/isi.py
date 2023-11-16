@@ -108,7 +108,7 @@ class isiModel:
         return data
     def getAllAspek(self,aspek,gi):
         db=Database()
-        query="SELECT SUM(m.value*indikator.bobot)/a.bobot FROM "+self.table_name+" m";
+        query="SELECT ROUND(SUM(m.value*indikator.bobot)/a.bobot,2) FROM "+self.table_name+" m";
         query+=" JOIN instansi i ON m.instansi=i.id"
         query+=" JOIN indikator ON m.indikator=indikator.id"
         query+=" JOIN aspek a on indikator.aspek=a.id"
