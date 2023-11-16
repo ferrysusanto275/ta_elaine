@@ -1,10 +1,10 @@
-from flask import Blueprint,jsonify,request,render_template
+from flask import Blueprint,jsonify,request,render_template,Response
 from app.models.grup_instansi import grup_instansiModel
 from app.models.instansi import instansiModel
 from app.models.indikator import indikatorModel
 from app.models.aspek import aspekModel
 from app.models.isi import isiModel
-import os
+import io
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -115,13 +115,17 @@ def getPerbandingan(indikator1,indikator2,gi):
     dfIndikator2=model.getAllValue(indikator2,gi)
     dataIndikator1=indikator_model.getById(indikator1)
     dataIndikator2=indikator_model.getById(indikator2)
-    # print(dataIndikator1['name'])
-    plt.scatter(dfIndikator1,dfIndikator2,alpha=0.5)
-    plt.title(dataIndikator1['name']+" VS "+dataIndikator2['name']+" "+data_gi['name'])
-    plt.xlabel(dataIndikator1['name'])
-    plt.ylabel(dataIndikator2['name'])
-    plt.show()
-    return jsonify("")
+    fig, ax = plt.subplots()
+    ax.scatter(dfIndikator1,dfIndikator2,alpha=0.5)
+    ax.set_xlabel(dataIndikator1['name'])
+    ax.set_ylabel(dataIndikator2['name'])
+    ax.set_title(dataIndikator1['name']+" VS "+dataIndikator2['name']+" "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/aspek/<string:aspek1>/<string:aspek2>/grup/<string:gi>')
 def getPerbandinganAspek(aspek1,aspek2,gi):
     data_gi=gi_model.getById(gi)
@@ -131,28 +135,15 @@ def getPerbandinganAspek(aspek1,aspek2,gi):
     # print(len(dfAspek2))
     dataAspek1=aspek_model.getById(aspek1)
     dataAspek2=aspek_model.getById(aspek2)
-    # print(dataIndikator1['name'])
-    plt.scatter(dfAspek1,dfAspek2,alpha=0.5)
-    plt.title(dataAspek1['name']+" VS "+dataAspek2['name']+" "+data_gi['name'])
-    plt.xlabel(dataAspek1['name'])
-    plt.ylabel(dataAspek2['name'])
-    plt.show()
-    return jsonify("")
-    # Buat scatter plot
-    # fig = create_scatter_plot(dfIndikator1, dfIndikator2,dataIndikator1['name'],dataIndikator2['name'])
-    # current_dir = os.getcwd()
-    #     # Create the 'static' directory if it doesn't exist
-    # if not os.path.exists('static'):
-    #     os.makedirs('static')
-    # # Simpan plot sebagai gambar
-    # img_path = os.path.join(current_dir,"static", f'plot.png')
-    # fig.savefig(img_path)
-    # plt.close(fig)
-    # return render_template('tampil_plt.html', img_path=img_path)
-def create_scatter_plot(array1, array2,nm_array1,nm_array2):
-    fig = Figure()
-    axis = fig.add_subplot(1, 1, 1)
-    axis.scatter(array1, array2)
-    axis.set_xlabel(nm_array1)
-    axis.set_ylabel(nm_array2)
-    return fig
+   
+    fig, ax = plt.subplots()
+    ax.scatter(dfAspek1,dfAspek2,alpha=0.5)
+    ax.set_xlabel(dataAspek1['name'])
+    ax.set_ylabel(dataAspek2['name'])
+    ax.set_title(dataAspek1['name']+" VS "+dataAspek2['name']+" "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
