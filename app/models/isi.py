@@ -2,9 +2,11 @@ from app.utils.database import Database
 from datetime import datetime
 from app.models.instansi import instansiModel
 from app.models.indikator import indikatorModel
+from app.models.aspek import aspekModel
 
 indikator_model=indikatorModel();
 instansi_model=instansiModel();
+aspek_model=aspekModel();
 class isiModel:
     table_name="isi"
     def getAll(self):
@@ -120,3 +122,15 @@ class isiModel:
         cur.close()
         db.close()
         return result
+    def getAllDomain(self,domain,gi):
+        data_aspek=aspek_model.getAllByDomain(domain)
+        value_aspek=[];
+        for aspek in data_aspek:
+            value_aspek.append(self.getAllAspek(aspek['id'],gi))
+        data=[]
+        for i,nilai in enumerate(value_aspek[0]):
+            jml=0
+            # for index,aspek in enumerate(data_aspek):
+            #     jml+=value_aspek[index][i]
+            data.append(jml)
+        return data

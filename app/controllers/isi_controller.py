@@ -180,3 +180,6 @@ def getPerbandinganAspekIndikator(aspek,indikator,gi):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/domain/<string:domain>/grup/<string:gi>')
+def getPerbandinganDomain(domain,gi):
+    return jsonify(model.getAllDomain(domain,gi));
