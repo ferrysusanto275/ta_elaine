@@ -71,6 +71,7 @@ const handle_aspek1 = () => {
         option.value = element.id;
         option.textContent = element.nama;
         indikator1_cb_filter.appendChild(option);
+        load_img();
       });
     })
     .catch((error) => {
@@ -92,6 +93,7 @@ const handle_aspek2 = () => {
         option.value = element.id;
         option.textContent = element.nama;
         indikator2_cb_filter.appendChild(option);
+        load_img();
       });
     })
     .catch((error) => {
