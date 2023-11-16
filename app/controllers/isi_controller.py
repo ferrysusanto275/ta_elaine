@@ -144,17 +144,36 @@ def getPerbandinganAspek(aspek1,aspek2,gi):
     if(dataAspek2 is None):
         return jsonify({'message': model.table_name.capitalize()+' Aspek 2 not found'}), 404
     dfAspek1=model.getAllAspek(aspek1,gi)
-    
     dfAspek2=model.getAllAspek(aspek2,gi)
-    # print(aspek2)
-    # print(len(dfAspek2))
-    
-   
     fig, ax = plt.subplots()
     ax.scatter(dfAspek1,dfAspek2,alpha=0.5)
     ax.set_xlabel(dataAspek1['name'])
     ax.set_ylabel(dataAspek2['name'])
     ax.set_title(dataAspek1['name']+" VS "+dataAspek2['name']+" "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/aspek_indikator/<string:aspek>/<string:indikator>/grup/<string:gi>')
+def getPerbandinganAspekIndikator(aspek,indikator,gi):
+    data_gi=gi_model.getById(gi)
+    if(data_gi is None):
+        return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
+    dataAspek=aspek_model.getById(aspek)
+    if(dataAspek is None):
+        return jsonify({'message': model.table_name.capitalize()+' Aspek not found'}), 404
+    dataIndikator=indikator_model.getById(indikator)
+    if(dataIndikator is None):
+        return jsonify({'message': model.table_name.capitalize()+' Indikator 1 not found'}), 404
+    dfAspek=model.getAllAspek(aspek,gi)
+    dfIndikator=model.getAllValue(indikator,gi)
+    fig, ax = plt.subplots()
+    ax.scatter(dfAspek,dfIndikator,alpha=0.5)
+    ax.set_xlabel(dataAspek['name'])
+    ax.set_ylabel(dataIndikator['name'])
+    ax.set_title(dataAspek['name']+" VS "+dataIndikator['name']+" "+data_gi['name'])
    # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
