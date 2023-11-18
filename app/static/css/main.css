@@ -59,6 +59,10 @@ body {
   background-color: var(--bg5);
 }
 
+a.link {
+  border-bottom: 1px solid black;
+}
+
 #container {
   width: 80%;
   height: 100vh;
@@ -165,9 +169,11 @@ body {
   padding: 5px 10px;
   box-sizing: border-box;
 }
+
 .drop-down {
   width: 100%;
 }
+
 .drop-down button {
   background-color: var(--b4);
   width: 100%;
@@ -176,25 +182,41 @@ body {
   box-sizing: border-box;
   border: none;
 }
+
+.drop-down button {
+  border-bottom: 1px solid black;
+}
+
+.drop-down button:hover {
+  background-color: var(--bg1);
+}
+
 .drop-down.active button {
   background-color: var(--bg5);
 }
+
 .drop-down ul {
   display: none;
 }
+
+
 .drop-down:hover ul {
   display: block;
 }
+
 .drop-down.active ul {
   display: block;
 }
+
 li {
   display: block;
   width: 100%;
   background-color: var(--b4);
   padding: 10px 15px;
   box-sizing: border-box;
+  border-bottom: 1px black solid;
 }
+
 li a {
   width: 100%;
   text-decoration: none;
@@ -204,9 +226,11 @@ li a {
   padding: 5px;
   color: black;
 }
+
 li.active {
   background-color: var(--bg5);
 }
+
 li:hover {
   background-color: var(--bg1);
 }

@@ -109,6 +109,24 @@ def perbandingan_index_indikator():
 @app.route("/assets/js/perbandingan_index_indikator.js")
 def perbandingan_index_indikatorJs():
     return send_file("static/js/perbandingan_index_indikator.js")
+@app.route("/perbandingan_index_aspek")
+def perbandingan_index_aspek():
+    return render_template("perbandingan_index_aspek.html",page_url=request.path)
+@app.route("/assets/js/perbandingan_index_aspek.js")
+def perbandingan_index_aspekJs():
+    return send_file("static/js/perbandingan_index_aspek.js")
+@app.route("/perbandingan_index_domain")
+def perbandingan_index_domain():
+    return render_template("perbandingan_index_domain.html",page_url=request.path)
+@app.route("/assets/js/perbandingan_index_domain.js")
+def perbandingan_index_domainJs():
+    return send_file("static/js/perbandingan_index_domain.js")
+@app.route("/elbow_indikator")
+def elbow_indikator():
+    return render_template("elbow_indikator.html",page_url=request.path)
+@app.route("/assets/js/elbow_indikator.js")
+def elbow_indikatorJs():
+    return send_file("static/js/elbow_indikator.js")
 # static page
 @app.route("/assets/js/main.js")
 def mainJs():

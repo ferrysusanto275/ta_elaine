@@ -59,7 +59,7 @@
           </li>
         </ul>
       </div>
-      <div class="drop-down {% if page_url == '/perbandingan_index_indikator' %}active{% endif %} {% if page_url == '/perbandingan_domain_indikator' %}active{% endif %} {% if page_url == '/perbandingan_domain_aspek' %}active{% endif %} {% if page_url == '/perbandingan_indikator' %}active{% endif %}{% if page_url == '/perbandingan_domain' %}active{% endif %} {% if page_url == '/perbandingan_aspek' %}active{% endif %} {% if page_url == '/perbandingan_aspek_indikator' %}active{% endif %}">
+      <div class="drop-down {% if page_url == '/perbandingan_index_domain' %}active{% endif %} {% if page_url == '/perbandingan_index_aspek' %}active{% endif %}  {% if page_url == '/perbandingan_index_indikator' %}active{% endif %} {% if page_url == '/perbandingan_domain_indikator' %}active{% endif %} {% if page_url == '/perbandingan_domain_aspek' %}active{% endif %} {% if page_url == '/perbandingan_indikator' %}active{% endif %}{% if page_url == '/perbandingan_domain' %}active{% endif %} {% if page_url == '/perbandingan_aspek' %}active{% endif %} {% if page_url == '/perbandingan_aspek_indikator' %}active{% endif %}">
         <button>Laporan Perbandingan</button>
         <ul>
           <li class="{% if page_url == '/perbandingan_indikator' %}active{% endif %}">
@@ -82,6 +82,20 @@
           </li>
           <li class="{% if page_url == '/perbandingan_index_indikator' %}active{% endif %}">
             <a href="/perbandingan_index_indikator">Perbandingan Indeks dan Indikator per grup</a>
+          </li>
+          <li class="{% if page_url == '/perbandingan_index_aspek' %}active{% endif %}">
+            <a href="/perbandingan_index_aspek">Perbandingan Indeks dan Aspek per grup</a>
+          </li>
+          <li class="{% if page_url == '/perbandingan_index_domain' %}active{% endif %}">
+            <a href="/perbandingan_index_domain">Perbandingan Indeks dan Domain per grup</a>
+          </li>
+        </ul>
+      </div>
+      <div class="drop-down {% if page_url == '/elbow_indikator' %}active{% endif %}">
+        <button>Laporan Elbow</button>
+        <ul>
+          <li class="{% if page_url == '/elbow_indikator' %}active{% endif %}">
+            <a href="/elbow_indikator">Perbandingan Indikator per grup</a>
           </li>
         </ul>
       </div>
