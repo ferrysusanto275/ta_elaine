@@ -1,2 +1,2 @@
 app/utils/config.py
-*.pyc
+*.cpython-311.pyc
