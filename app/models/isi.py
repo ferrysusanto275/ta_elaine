@@ -121,9 +121,12 @@ class isiModel:
         query+=" ORDER BY i.id,m.year"
         cur= db.execute_query(query,(gi,aspek))
         result=cur.fetchall()
+        data=[]
+        for row in result:
+            data.append(row[0])
         cur.close()
         db.close()
-        return result
+        return data
     def getAllDomain(self,domain,gi):
         data_domain=domain_model.getById(domain)
         data_aspek=aspek_model.getAllByDomain(domain)

@@ -340,7 +340,6 @@ def getKemeans(indikator1,indikator2,gi):
 
     header_names=[dataIndikator1['name'],dataIndikator2['name']]
     features = pd.DataFrame(data_df, columns=header_names)
-    print(features)
     K = range(2,11)
     inertia = []
     silhouette_coef = [] 
@@ -383,7 +382,7 @@ def getKemeansAspek(aspek1,aspek2,gi):
     
     data_df=[]
     for i,val_aspek in enumerate(dfAspek1):
-        data_df.append([val_aspek[0],dfAspek2[i][0]])
+        data_df.append([val_aspek,dfAspek2[i]])
     header_names=[dataAspek1['name'],dataAspek2['name']]
     features = pd.DataFrame(data_df, columns=header_names)
     K = range(2,11)
@@ -405,6 +404,51 @@ def getKemeansAspek(aspek1,aspek2,gi):
     ax.set_xlabel('Jumlah kelompok k')
     ax.set_ylabel('Inertia')
     ax.set_title("Elbow method "+dataAspek1['name']+" Vs "+dataAspek2['name']+" Group "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/kmeans_aspek_indikator/<string:aspek>/<string:indikator>/grup/<string:gi>')
+def getKemeansAspek_indikator(aspek,indikator,gi):
+    data_gi=gi_model.getById(gi)
+    if('id' not in data_gi):
+        return jsonify({'message': model.table_name.capitalize()+' grup found'}), 404
+        
+    dataAspek=aspek_model.getById(aspek)
+    if(dataAspek is None):
+        return jsonify({'message': model.table_name.capitalize()+' Aspek not found'}), 404
+    dataIndikator=indikator_model.getById(indikator)
+    if(dataIndikator is None):
+        return jsonify({'message': model.table_name.capitalize()+' Indikator 1 not found'}), 404
+    dfAspek=model.getAllAspek(aspek,gi)
+    dfIndikator=model.getAllValue(indikator,gi)
+    
+    data_df=[]
+    for i,val_aspek in enumerate(dfAspek):
+        data_df.append([val_aspek[0],dfIndikator[i]])
+    header_names=[dataAspek['name'],dataIndikator['name']]
+    features = pd.DataFrame(data_df, columns=header_names)
+    K = range(2,11)
+    inertia = []
+    silhouette_coef = [] 
+    model_kmeans = [] 
+
+    for k in K:
+        kmeans= KMeans(n_clusters=k, random_state=42)
+        kmeans.fit(features)
+        model_kmeans.append(kmeans)
+        inertia.append(kmeans.inertia_)
+        score = silhouette_score(features, kmeans.labels_, metric='euclidean')
+        silhouette_coef.append(score)
+        
+    # plot elbow method 
+    fig, ax = plt.subplots()
+    ax.plot(K, inertia, marker='o')
+    ax.set_xlabel('Jumlah kelompok k')
+    ax.set_ylabel('Inertia')
+    ax.set_title("Elbow method "+dataAspek['name']+" Vs "+dataIndikator['name']+" Group "+data_gi['name'])
    # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
