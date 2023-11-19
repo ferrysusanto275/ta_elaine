@@ -140,7 +140,7 @@
           </ul>
         </div>
         <div
-          class="drop-down {% if page_url == '/elbow_indikator' %}active{% endif %}"
+          class="drop-down {% if page_url == '/elbow_aspek' %}active{% endif %}{% if page_url == '/elbow_indikator' %}active{% endif %}"
         >
           <button>Laporan Elbow</button>
           <ul>
@@ -148,6 +148,9 @@
               class="{% if page_url == '/elbow_indikator' %}active{% endif %}"
             >
               <a href="/elbow_indikator">Elbow Indikator per grup</a>
+            </li>
+            <li class="{% if page_url == '/elbow_aspek' %}active{% endif %}">
+              <a href="/elbow_aspek">Elbow Aspek per grup</a>
             </li>
           </ul>
         </div>

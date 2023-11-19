@@ -127,6 +127,12 @@ def elbow_indikator():
 @app.route("/assets/js/elbow_indikator.js")
 def elbow_indikatorJs():
     return send_file("static/js/elbow_indikator.js")
+@app.route("/elbow_aspek")
+def elbow_aspek():
+    return render_template("elbow_aspek.html",page_url=request.path)
+@app.route("/assets/js/elbow_aspek.js")
+def elbow_aspekJs():
+    return send_file("static/js/elbow_aspek.js")
 # static page
 @app.route("/assets/js/main.js")
 def mainJs():

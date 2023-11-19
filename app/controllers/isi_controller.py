@@ -340,6 +340,7 @@ def getKemeans(indikator1,indikator2,gi):
 
     header_names=[dataIndikator1['name'],dataIndikator2['name']]
     features = pd.DataFrame(data_df, columns=header_names)
+    print(features)
     K = range(2,11)
     inertia = []
     silhouette_coef = [] 
@@ -379,10 +380,10 @@ def getKemeansAspek(aspek1,aspek2,gi):
         return jsonify({'message': model.table_name.capitalize()+' Aspek 2 not found'}), 404
     dfAspek1=model.getAllAspek(aspek1,gi)
     dfAspek2=model.getAllAspek(aspek2,gi)
+    
     data_df=[]
-    for i,aspek1 in enumerate(dfAspek1):
-        data_df.append([aspek1,dfAspek2[i]])
-
+    for i,val_aspek in enumerate(dfAspek1):
+        data_df.append([val_aspek[0],dfAspek2[i][0]])
     header_names=[dataAspek1['name'],dataAspek2['name']]
     features = pd.DataFrame(data_df, columns=header_names)
     K = range(2,11)
