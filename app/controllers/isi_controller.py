@@ -365,8 +365,53 @@ def getKemeans(indikator1,indikator2,gi):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/kmeans_aspek/<string:aspek1>/<string:aspek2>/grup/<string:gi>')
+def getKemeansAspek(aspek1,aspek2,gi):
+    data_gi=gi_model.getById(gi)
+    if('id' not in data_gi):
+        return jsonify({'message': model.table_name.capitalize()+' grup found'}), 404
+        
+    dataAspek1=aspek_model.getById(aspek1)
+    if(dataAspek1 is None):
+        return jsonify({'message': model.table_name.capitalize()+' Aspek 1 not found'}), 404
+    dataAspek2=aspek_model.getById(aspek2)
+    if(dataAspek2 is None):
+        return jsonify({'message': model.table_name.capitalize()+' Aspek 2 not found'}), 404
+    dfAspek1=model.getAllAspek(aspek1,gi)
+    dfAspek2=model.getAllAspek(aspek2,gi)
+    data_df=[]
+    for i,aspek1 in enumerate(dfAspek1):
+        data_df.append([aspek1,dfAspek2[i]])
+
+    header_names=[dataAspek1['name'],dataAspek2['name']]
+    features = pd.DataFrame(data_df, columns=header_names)
+    K = range(2,11)
+    inertia = []
+    silhouette_coef = [] 
+    model_kmeans = [] 
+
+    for k in K:
+        kmeans= KMeans(n_clusters=k, random_state=42)
+        kmeans.fit(features)
+        model_kmeans.append(kmeans)
+        inertia.append(kmeans.inertia_)
+        score = silhouette_score(features, kmeans.labels_, metric='euclidean')
+        silhouette_coef.append(score)
+        
+    # plot elbow method 
+    fig, ax = plt.subplots()
+    ax.plot(K, inertia, marker='o')
+    ax.set_xlabel('Jumlah kelompok k')
+    ax.set_ylabel('Inertia')
+    ax.set_title("Elbow method "+dataAspek1['name']+" Vs "+dataAspek2['name']+" Group "+data_gi['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/kmeans_indikator/<string:indikator>/grup/<string:gi>')
-def get_perbandingan_kmeans_indikator(indikator,gi):
+def get_kmeans_indikator_index(indikator,gi):
     data_gi=gi_model.getById(gi)
     if(data_gi is None):
         return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
