@@ -427,7 +427,7 @@ def getKemeansAspek_indikator(aspek,indikator,gi):
     
     data_df=[]
     for i,val_aspek in enumerate(dfAspek):
-        data_df.append([val_aspek[0],dfIndikator[i]])
+        data_df.append([val_aspek,dfIndikator[i]])
     header_names=[dataAspek['name'],dataIndikator['name']]
     features = pd.DataFrame(data_df, columns=header_names)
     K = range(2,11)
