@@ -115,47 +115,27 @@ const create_option_domain = () => {
 const load_data = async () => {
   try {
     let res_aspek = await fetch(
-      `${indikator_api}/domain/${domain_cb_filter.value}`
+      `${url_api}/by_aspek/${instansi_cb_filter.value}/${domain_cb_filter.value}/${year_tf_filter.value}`
     );
     if (!(await res_aspek.ok)) {
       throw new Error("Network response was not ok");
     }
-    let list_aspek = await res_aspek.json();
     tabel_body.innerHTML = "";
     let jml = 0;
+    let list_aspek = await res_aspek.json();
     for (const element of list_aspek) {
       const newRow = document.createElement("tr");
       const cell1 = document.createElement("td");
       cell1.textContent = element.nama;
       newRow.appendChild(cell1);
       const cell2 = document.createElement("td");
-      let na = 0;
-      let res_isi = await fetch(
-        url_api +
-          "/aspek/" +
-          instansi_cb_filter.value +
-          "/" +
-          element.id +
-          "/" +
-          year_tf_filter.value
-      );
-      if (!(await res_isi.ok)) {
-        throw new Error("Network response was not ok");
-      }
-      let list_isi = (await res_isi).json();
-      let jml_indikator = 0;
-      (await list_isi).forEach((element) => {
-        jml_indikator +=
-          parseFloat(element.indikator.bobot) * parseFloat(element.value);
-      });
-      na = jml_indikator / parseFloat(element.bobot);
-      cell2.textContent = na.toFixed(2);
+      cell2.textContent = parseFloat(element.na).toFixed(2);
       newRow.appendChild(cell2);
       const cell3 = document.createElement("td");
       cell3.textContent = element.bobot;
       newRow.appendChild(cell3);
       const cell4 = document.createElement("td");
-      let NB = parseFloat(element.bobot) * na;
+      let NB = parseFloat(element.bobot) * parseFloat(element.na).toFixed(2);
       jml += NB;
       cell4.textContent = NB.toFixed(2);
       newRow.appendChild(cell4);
@@ -181,8 +161,8 @@ const load_data = async () => {
     cell21.textContent = (jml / parseFloat(domain_data.bobot)).toFixed(2);
     newRow1.appendChild(cell21);
     tabel_body.appendChild(newRow1);
-  } catch (error) {
-    console.error("Ada kesalahan:", error);
+  } catch (e) {
+    console.error("Ada kesalahan:", e);
   }
 };
 const handle_change_filter = () => {

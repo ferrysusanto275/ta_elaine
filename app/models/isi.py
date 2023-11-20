@@ -110,6 +110,23 @@ class isiModel:
         cur.close()
         db.close()
         return data
+    def getAllAspekByInstansi(self,instansi,domain,year):
+        db=Database()
+        query="SELECT a.id,a.nama,a.bobot,ROUND(SUM(m.value*indikator.bobot)/a.bobot,2) FROM "+self.table_name+" m";
+        query+=" JOIN indikator ON m.indikator=indikator.id"
+        query+=" JOIN aspek a on indikator.aspek=a.id"
+        query+=" JOIN domain d on a.domain=d.id"
+        query+=" WHERE m.instansi=%s and a.domain=%sand m.year=%s"
+        query+=" GROUP BY a.id"
+        print(query)
+        cur= db.execute_query(query,(instansi,domain,year))
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            data.append({"id":row[0],"nama":row[1],"bobot":row[2],"na":row[3]})
+        cur.close()
+        db.close()
+        return data
     def getAllAspek(self,aspek,gi):
         db=Database()
         query="SELECT ROUND(SUM(m.value*indikator.bobot)/a.bobot,2) FROM "+self.table_name+" m";
