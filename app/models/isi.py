@@ -165,7 +165,7 @@ class isiModel:
         for i,nilai in enumerate(value_aspek[0]):
             jml=0
             for index,aspek in enumerate(data_aspek):
-                jml+=value_aspek[index][i][0]*aspek['bobot']
+                jml+=value_aspek[index][i]*aspek['bobot']
             data.append(round(jml/data_domain['bobot'],2))
         return data
     def getAllIndex(self,gi):
