@@ -487,7 +487,7 @@ def getKemeansDomain(domain1,domain2,gi):
     data_df=[]
     for i,val_domain in enumerate(dfDomain1):
         data_df.append([val_domain,dfDomain2[i]])
-    header_names=[dfDomain1['name'],dfDomain2['name']]
+    header_names=[dataDomain1['name'],dataDomain2['name']]
     features = pd.DataFrame(data_df, columns=header_names)
     K = range(2,11)
     inertia = []
@@ -507,7 +507,7 @@ def getKemeansDomain(domain1,domain2,gi):
     ax.plot(K, inertia, marker='o')
     ax.set_xlabel('Jumlah kelompok k')
     ax.set_ylabel('Inertia')
-    ax.set_title("Elbow method "+dfDomain1['name']+" Vs "+dfDomain2['name']+" Group "+data_gi['name'])
+    ax.set_title("Elbow method "+dataDomain1['name']+" Vs "+dataDomain2['name']+" Group "+data_gi['name'])
    # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
