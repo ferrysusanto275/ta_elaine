@@ -82,63 +82,36 @@ const cek_indikator = () => {
 };
 const load_data = async () => {
   try {
-    let res_domain = await fetch(indikator_api + "/domain");
+    let res_domain = await fetch(
+      `${url_api}/by_domain/${instansi_cb_filter.value}/${year_tf_filter.value}`
+    );
     if (!(await res_domain.ok)) {
       throw new Error("Network response was not ok");
     }
-    let list_domain = await res_domain.json();
     tabel_body.innerHTML = "";
+    let list_domain = await res_domain.json();
     let jml_akhir = 0;
+    let jml_bobot = 0;
     for (const domain of list_domain) {
       const newRow = document.createElement("tr");
       const cell1 = document.createElement("td");
       cell1.textContent = domain.nama;
       newRow.appendChild(cell1);
-      let nd = 0;
-      let res_aspek = await fetch(`${indikator_api}/domain/${domain.id}`);
-      if (!(await res_aspek.ok)) {
-        throw new Error("Network response was not ok");
-      }
-      let list_aspek = await res_aspek.json();
-      let jml = 0;
-      for (const aspek of list_aspek) {
-        let na = 0;
-        let res_isi = await fetch(
-          url_api +
-            "/aspek/" +
-            instansi_cb_filter.value +
-            "/" +
-            aspek.id +
-            "/" +
-            year_tf_filter.value
-        );
-        if (!(await res_isi.ok)) {
-          throw new Error("Network response was not ok");
-        }
-        let list_isi = (await res_isi).json();
-        let jml_indikator = 0;
-        (await list_isi).forEach((element) => {
-          jml_indikator +=
-            parseFloat(element.indikator.bobot) * parseFloat(element.value);
-        });
-        na = jml_indikator / parseFloat(aspek.bobot);
-        let NB = parseFloat(aspek.bobot) * na;
-        jml += NB;
-      }
-      nd = jml / parseFloat(domain.bobot);
       const cell2 = document.createElement("td");
-      cell2.textContent = nd.toFixed(2);
+      cell2.textContent = domain.nd;
       newRow.appendChild(cell2);
       const cell3 = document.createElement("td");
       cell3.textContent = domain.bobot;
       newRow.appendChild(cell3);
-      let res = nd * parseFloat(domain.bobot);
+      let res = parseFloat(domain.nd) * parseFloat(domain.bobot);
       jml_akhir += res;
+      jml_bobot += parseFloat(domain.bobot);
       const cell4 = document.createElement("td");
       cell4.textContent = res.toFixed(2);
       newRow.appendChild(cell4);
       tabel_body.appendChild(newRow);
     }
+    jml_bobot = jml_bobot.toFixed(2);
     let newRow = document.createElement("tr");
     let cell1 = document.createElement("td");
     cell1.setAttribute("colspan", 3);
@@ -152,14 +125,14 @@ const load_data = async () => {
     let rowIndex = document.createElement("tr");
     let cell11 = document.createElement("td");
     cell11.setAttribute("colspan", 3);
-    cell11.textContent = `Indeks SPEBE = 1/100 x ${jml_akhir}`;
+    cell11.textContent = `Indeks SPEBE = 1/${jml_bobot} x ${jml_akhir}`;
     rowIndex.appendChild(cell11);
     let cell21 = document.createElement("td");
-    cell21.textContent = (jml_akhir / 100).toFixed(2);
+    cell21.textContent = (jml_akhir / jml_bobot).toFixed(2);
     rowIndex.appendChild(cell21);
     tabel_body.appendChild(rowIndex);
 
-    let res_predikat = await fetch(`${predikat_api}${jml_akhir / 100}`);
+    let res_predikat = await fetch(`${predikat_api}${jml_akhir / jml_bobot}`);
     if (!(await res_predikat.ok)) {
       throw new Error("Network response was not ok");
     }
@@ -174,9 +147,105 @@ const load_data = async () => {
 
     rowPredikat.appendChild(cell2_predikat);
     tabel_body.appendChild(rowPredikat);
-  } catch (error) {
-    console.error("Ada kesalahan:", error);
+  } catch (e) {
+    console.error("Ada kesalahan:", e);
   }
+  // try {
+  //   let res_domain = await fetch(indikator_api + "/domain");
+  //   if (!(await res_domain.ok)) {
+  //     throw new Error("Network response was not ok");
+  //   }
+  //   let list_domain = await res_domain.json();
+  //   tabel_body.innerHTML = "";
+  //   let jml_akhir = 0;
+  //   for (const domain of list_domain) {
+  //     const newRow = document.createElement("tr");
+  //     const cell1 = document.createElement("td");
+  //     cell1.textContent = domain.nama;
+  //     newRow.appendChild(cell1);
+  //     let nd = 0;
+  //     let res_aspek = await fetch(`${indikator_api}/domain/${domain.id}`);
+  //     if (!(await res_aspek.ok)) {
+  //       throw new Error("Network response was not ok");
+  //     }
+  //     let list_aspek = await res_aspek.json();
+  //     let jml = 0;
+  //     for (const aspek of list_aspek) {
+  //       let na = 0;
+  //       let res_isi = await fetch(
+  //         url_api +
+  //           "/aspek/" +
+  //           instansi_cb_filter.value +
+  //           "/" +
+  //           aspek.id +
+  //           "/" +
+  //           year_tf_filter.value
+  //       );
+  //       if (!(await res_isi.ok)) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       let list_isi = (await res_isi).json();
+  //       let jml_indikator = 0;
+  //       (await list_isi).forEach((element) => {
+  //         jml_indikator +=
+  //           parseFloat(element.indikator.bobot) * parseFloat(element.value);
+  //       });
+  //       na = jml_indikator / parseFloat(aspek.bobot);
+  //       let NB = parseFloat(aspek.bobot) * na;
+  //       jml += NB;
+  //     }
+  //     nd = jml / parseFloat(domain.bobot);
+  //     const cell2 = document.createElement("td");
+  //     cell2.textContent = nd.toFixed(2);
+  //     newRow.appendChild(cell2);
+  //     const cell3 = document.createElement("td");
+  //     cell3.textContent = domain.bobot;
+  //     newRow.appendChild(cell3);
+  //     let res = nd * parseFloat(domain.bobot);
+  //     jml_akhir += res;
+  //     const cell4 = document.createElement("td");
+  //     cell4.textContent = res.toFixed(2);
+  //     newRow.appendChild(cell4);
+  //     tabel_body.appendChild(newRow);
+  //   }
+  //   let newRow = document.createElement("tr");
+  //   let cell1 = document.createElement("td");
+  //   cell1.setAttribute("colspan", 3);
+  //   cell1.textContent = "Jumlah ND x BD";
+  //   newRow.appendChild(cell1);
+  //   let cell2 = document.createElement("td");
+  //   cell2.textContent = jml_akhir.toFixed(2);
+  //   newRow.appendChild(cell2);
+  //   tabel_body.appendChild(newRow);
+
+  //   let rowIndex = document.createElement("tr");
+  //   let cell11 = document.createElement("td");
+  //   cell11.setAttribute("colspan", 3);
+  //   cell11.textContent = `Indeks SPEBE = 1/100 x ${jml_akhir}`;
+  //   rowIndex.appendChild(cell11);
+  //   let cell21 = document.createElement("td");
+  //   cell21.textContent = (jml_akhir / 100).toFixed(2);
+  //   rowIndex.appendChild(cell21);
+  //   tabel_body.appendChild(rowIndex);
+
+  //   let res_predikat = await fetch(`${predikat_api}${jml_akhir / 100}`);
+  //   if (!(await res_predikat.ok)) {
+  //     throw new Error("Network response was not ok");
+  //   }
+  //   let predikat = await res_predikat.json();
+  //   let rowPredikat = document.createElement("tr");
+  //   let cell1_predikat = document.createElement("td");
+  //   cell1_predikat.setAttribute("colspan", 3);
+  //   cell1_predikat.textContent = `Predikat`;
+  //   rowPredikat.appendChild(cell1_predikat);
+  //   let cell2_predikat = document.createElement("td");
+  //   cell2_predikat.textContent = predikat.name;
+
+  //   rowPredikat.appendChild(cell2_predikat);
+  //   tabel_body.appendChild(rowPredikat);
+  // } catch (error) {
+  //   console.error("Ada kesalahan:", error);
+  // }
 };
 year_tf_filter.onchange = load_data;
 instansi_cb_filter.onchange = load_data;

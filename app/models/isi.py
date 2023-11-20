@@ -127,6 +127,17 @@ class isiModel:
         cur.close()
         db.close()
         return data
+    def getAllDomainByInstansi(self,instansi,year):
+        data_domains=domain_model.getAll()
+        data=[]
+        for domain in data_domains:
+            nd=0;
+            data_aspek=self.getAllAspekByInstansi(instansi,domain['id'],year)
+            for aspek in data_aspek:
+                nd+=round(float(aspek['na'])*float(aspek['bobot'])/float(domain['bobot']),2)
+            data.append({"id":domain['id'],"nama":domain['nama'],"bobot":domain['bobot'],"nd":round(nd,2)})
+        
+        return data
     def getAllAspek(self,aspek,gi):
         db=Database()
         query="SELECT ROUND(SUM(m.value*indikator.bobot)/a.bobot,2) FROM "+self.table_name+" m";

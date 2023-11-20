@@ -73,6 +73,13 @@ def get_by_aspek_instansi(instansi,domain,year):
         return jsonify(isi)
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
+@isi_bp.route('/api/'+model.table_name+'/by_domain/<string:instansi>/<string:year>')
+def get_by_domain_instansi(instansi,year):
+    isi = model.getAllDomainByInstansi(instansi,year)
+    if isi:
+        return jsonify(isi)
+    else:
+        return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
     
 @isi_bp.route('/api/'+model.table_name,methods=['POST'])
 def create():
