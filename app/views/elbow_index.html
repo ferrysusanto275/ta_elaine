@@ -1,0 +1,9 @@
+{% extends "templates.html" %} {% block linkCSS %}
+<link rel="stylesheet" href="assets/css/perbandingan_indikator.css" />
+{% endblock %} {% block main %}
+<legend>Elbow Index</legend>
+
+<div id="tampil_perbandingan">
+  <img src="/api/isi/kmeans" alt="Elbow Index">
+</div>
+{% endblock %}

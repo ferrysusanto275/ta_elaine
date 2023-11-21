@@ -89,7 +89,7 @@ dfK['Cluster'] = klaster_objek
 # df3= df[df['Cluster']==3]
 # max3 = df3.max()
 # min3 = df3.min()
-print(dfK)
+# print(dfK)
 
 # ## A. Untuk single-linkage
 

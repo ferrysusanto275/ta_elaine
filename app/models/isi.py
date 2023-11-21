@@ -96,13 +96,13 @@ class isiModel:
         cur.close()
         db.close()
         return data
-    def getAllValue(self,indikator,gi):
+    def getAllValue(self,indikator):
         db=Database()
         query="SELECT m.value FROM "+self.table_name+" m JOIN instansi i ON m.instansi=i.id";
-        query+=" WHERE i.group_instansi=%s and m.indikator=%s"
+        query+=" WHERE m.indikator=%s"
         query+=" ORDER BY i.id,m.year"
         # query+=" WHERE  m.indikator=%s"
-        cur= db.execute_query(query,(gi,indikator))
+        cur= db.execute_query(query,(indikator,))
         result=cur.fetchall()
         data=[]
         for row in result:
@@ -138,16 +138,16 @@ class isiModel:
             data.append({"id":domain['id'],"nama":domain['nama'],"bobot":domain['bobot'],"nd":round(nd,2)})
         
         return data
-    def getAllAspek(self,aspek,gi):
+    def getAllAspek(self,aspek):
         db=Database()
         query="SELECT ROUND(SUM(m.value*indikator.bobot)/a.bobot,2) FROM "+self.table_name+" m";
         query+=" JOIN instansi i ON m.instansi=i.id"
         query+=" JOIN indikator ON m.indikator=indikator.id"
         query+=" JOIN aspek a on indikator.aspek=a.id"
-        query+=" WHERE i.group_instansi=%s and indikator.aspek=%s"
+        query+=" WHERE indikator.aspek=%s"
         query+=" GROUP BY i.id,m.year"
         query+=" ORDER BY i.id,m.year"
-        cur= db.execute_query(query,(gi,aspek))
+        cur= db.execute_query(query,(aspek,))
         result=cur.fetchall()
         data=[]
         for row in result:
@@ -155,12 +155,12 @@ class isiModel:
         cur.close()
         db.close()
         return data
-    def getAllDomain(self,domain,gi):
+    def getAllDomain(self,domain):
         data_domain=domain_model.getById(domain)
         data_aspek=aspek_model.getAllByDomain(domain)
         value_aspek=[];
         for aspek in data_aspek:
-            value_aspek.append(self.getAllAspek(aspek['id'],gi))
+            value_aspek.append(self.getAllAspek(aspek['id']))
         data=[]
         for i,nilai in enumerate(value_aspek[0]):
             jml=0
@@ -168,17 +168,43 @@ class isiModel:
                 jml+=value_aspek[index][i]*aspek['bobot']
             data.append(round(jml/data_domain['bobot'],2))
         return data
-    def getAllIndex(self,gi):
+    def getAllIndex(self):
         data_domains=domain_model.getAll()
         data=[]
         jml_domain=0;
         value_domain=[];
         for domain in data_domains:
-            value_domain.append(self.getAllDomain(domain['id'],gi))
+            value_domain.append(self.getAllDomain(domain['id']))
             jml_domain+=domain['bobot']
         for i,nilai in enumerate(value_domain[0]):
             jml=0
             for index,domain in enumerate(data_domains):
                 jml+=value_domain[index][i]*domain['bobot']
             data.append(round(jml/jml_domain,2))
+        return data
+    def getDf(self):
+        db=Database()
+        query="SELECT i.nama,gi.nama,m.year,m.value FROM "+self.table_name+" m";
+        query+=" JOIN instansi i ON m.instansi=i.id"
+        query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
+        query+=" WHERE m.indikator=%s"
+        query+=" ORDER BY i.id,m.year"
+        # query+=" WHERE  m.indikator=%s"
+        list_indikator=indikator_model.getAll()
+        data_val=[]
+        for i,indikator in enumerate(list_indikator):
+            data_val.append(self.getAllValue(indikator['id']))
+
+
+        cur= db.execute_query(query,(list_indikator[0]['id'],))
+        result=cur.fetchall()
+        data=[]
+        for i,row in enumerate(result):
+            data.append({"no":i+1,"instansi":row[0],"grup":row[1],"year":row[2],list_indikator[0]['nama']:row[3]})
+            for j,indikator in enumerate(list_indikator):
+                if(j>0):
+                    data[i].
+            
+        cur.close()
+        db.close()
         return data

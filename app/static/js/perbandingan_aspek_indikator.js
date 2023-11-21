@@ -2,7 +2,7 @@ const gi_api = base_api_url + "grup_instansi";
 const indikator_api = base_api_url + "indikator";
 const aspek_api = base_api_url + "aspek";
 const isi_api = base_api_url + "isi";
-const group_cb_filter = document.getElementById("group_cb_filter");
+// const group_cb_filter = document.getElementById("group_cb_filter");
 const domain1_cb_filter = document.getElementById("domain1_cb_filter");
 const domain2_cb_filter = document.getElementById("domain2_cb_filter");
 const aspek1_cb_filter = document.getElementById("aspek1_cb_filter");
@@ -151,25 +151,25 @@ const load_img = () => {
   tampil_perbandingan.innerHTML = "";
   tampil_perbandingan.appendChild(
     create_perbandingan(
-      group_cb_filter.value,
+      // group_cb_filter.value,
       aspek1_cb_filter.value,
       indikator2_cb_filter.value
     )
   );
 };
-const create_link = (grup, aspek, indikator) => {
-  return `${isi_api}/aspek_indikator/${aspek}/${indikator}/grup/${grup}`;
+const create_link = (aspek, indikator) => {
+  return `${isi_api}/aspek_indikator/${aspek}/${indikator}`;
 };
-const create_perbandingan = (grup, aspek, indikator) => {
+const create_perbandingan = (aspek, indikator) => {
   const img_tampil = document.createElement("img");
-  img_tampil.src = create_link(grup, aspek, indikator);
+  img_tampil.src = create_link(aspek, indikator);
   return img_tampil;
 };
-group_cb_filter.onchange = load_img;
+// group_cb_filter.onchange = load_img;
 domain1_cb_filter.onchange = handle_domain1;
 aspek1_cb_filter.onchange = load_img;
 domain2_cb_filter.onchange = handle_domain2;
 aspek2_cb_filter.onchange = handle_aspek2;
 indikator2_cb_filter.onchange = load_img;
 
-cek_gi();
+cek_indikator();
