@@ -200,10 +200,9 @@ class isiModel:
         result=cur.fetchall()
         data=[]
         for i,row in enumerate(result):
-            data.append({"no":i+1,"instansi":row[0],"grup":row[1],"year":row[2],list_indikator[0]['nama']:row[3]})
+            data.append({"no":i+1,"instansi":row[0],"grup":row[1],"year":row[2]})
             for j,indikator in enumerate(list_indikator):
-                if(j>0):
-                    data[i].
+                    data[i][list_indikator[j]['nama']]=data_val[j][i]
             
         cur.close()
         db.close()
