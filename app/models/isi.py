@@ -114,6 +114,20 @@ class isiModel:
         cur.close()
         db.close()
         return data
+    def getAllValueByYear(self,indikator,year):
+        db=Database()
+        query="SELECT m.value FROM "+self.table_name+" m JOIN instansi i ON m.instansi=i.id";
+        query+=" WHERE m.indikator=%s AND m.year=%s"
+        query+=" ORDER BY i.id,m.year"
+        # query+=" WHERE  m.indikator=%s"
+        cur= db.execute_query(query,(indikator,year))
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            data.append(row[0])
+        cur.close()
+        db.close()
+        return data
     def getAllAspekByInstansi(self,instansi,domain,year):
         db=Database()
         query="SELECT a.id,a.nama,a.bobot,ROUND(SUM(m.value*indikator.bobot)/a.bobot,2) FROM "+self.table_name+" m";
@@ -159,12 +173,42 @@ class isiModel:
         cur.close()
         db.close()
         return data
+    def getAllAspekByYear(self,aspek,year):
+        db=Database()
+        query="SELECT ROUND(SUM(m.value*indikator.bobot)/a.bobot,2) FROM "+self.table_name+" m";
+        query+=" JOIN instansi i ON m.instansi=i.id"
+        query+=" JOIN indikator ON m.indikator=indikator.id"
+        query+=" JOIN aspek a on indikator.aspek=a.id"
+        query+=" WHERE indikator.aspek=%s AND m.year=%s"
+        query+=" GROUP BY i.id,m.year"
+        query+=" ORDER BY i.id,m.year"
+        cur= db.execute_query(query,(aspek,year))
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            data.append(row[0])
+        cur.close()
+        db.close()
+        return data
     def getAllDomain(self,domain):
         data_domain=domain_model.getById(domain)
         data_aspek=aspek_model.getAllByDomain(domain)
         value_aspek=[];
         for aspek in data_aspek:
             value_aspek.append(self.getAllAspek(aspek['id']))
+        data=[]
+        for i,nilai in enumerate(value_aspek[0]):
+            jml=0
+            for index,aspek in enumerate(data_aspek):
+                jml+=value_aspek[index][i]*aspek['bobot']
+            data.append(round(jml/data_domain['bobot'],2))
+        return data
+    def getAllDomainByYear(self,domain,year):
+        data_domain=domain_model.getById(domain)
+        data_aspek=aspek_model.getAllByDomain(domain)
+        value_aspek=[];
+        for aspek in data_aspek:
+            value_aspek.append(self.getAllAspekByYear(aspek['id'],year))
         data=[]
         for i,nilai in enumerate(value_aspek[0]):
             jml=0
@@ -179,6 +223,20 @@ class isiModel:
         value_domain=[];
         for domain in data_domains:
             value_domain.append(self.getAllDomain(domain['id']))
+            jml_domain+=domain['bobot']
+        for i,nilai in enumerate(value_domain[0]):
+            jml=0
+            for index,domain in enumerate(data_domains):
+                jml+=value_domain[index][i]*domain['bobot']
+            data.append(round(jml/jml_domain,2))
+        return data
+    def getAllIndexbyYear(self,year):
+        data_domains=domain_model.getAll()
+        data=[]
+        jml_domain=0;
+        value_domain=[];
+        for domain in data_domains:
+            value_domain.append(self.getAllDomainByYear(domain['id'],year))
             jml_domain+=domain['bobot']
         for i,nilai in enumerate(value_domain[0]):
             jml=0
@@ -219,16 +277,45 @@ class isiModel:
         cur.close()
         db.close()
         return data
-    def getDfK(self):
-        df=pd.DataFrame(self.getDf())
+    def getDfByYear(self,year):
+        db=Database()
+        query="SELECT i.nama,gi.nama,m.value FROM "+self.table_name+" m";
+        query+=" JOIN instansi i ON m.instansi=i.id"
+        query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
+        query+=" WHERE m.indikator=%s AND m.year=%s"
+        query+=" ORDER BY i.id,m.year"
+        # query+=" WHERE  m.indikator=%s"
+        data={"No":[],"Instansi":[],"Group":[]}
+        list_indikator=indikator_model.getAll()
+        for indikator in list_indikator:
+           data[indikator['nama']]=self.getAllValueByYear(indikator['id'],year)
+        list_aspek=aspek_model.getAll()
+        for aspek in list_aspek:
+           data[aspek['nama']]=self.getAllAspekByYear(aspek['id'],year)
+        list_domain=domain_model.getAll()
+        for domain in list_domain:
+           data[domain['nama']]=self.getAllDomainByYear(domain['id'], year)
+        data["Indeks"]=self.getAllIndexbyYear(year)
+
+        cur= db.execute_query(query,(list_indikator[0]['id'],year))
+        result=cur.fetchall()
+        
+        for i,row in enumerate(result):
+           data['No'].append(i+1)
+           data['Instansi'].append(row[0])
+           data['Group'].append(row[1])
+        #    data['Year'].append(row[2])
+            
+            
+        cur.close()
+        db.close()
+        return data
+    def res_kmeans(self,df):
         features = df[['Indeks']]
-        print(features)
         K = range(2,11)
         inertia = []
         silhouette_coef = [] 
         model = [] 
-      
-        cnt_max=0
         for k in K:
             kmeans= KMeans(n_clusters=k, random_state=42)
             kmeans.fit(features)
@@ -237,14 +324,22 @@ class isiModel:
             score = silhouette_score(features, kmeans.labels_, metric='euclidean')
             silhouette_coef.append(score)
         best_num_clusters = model[np.argmax(silhouette_coef)]
-        # temp = model[cnt_max]
-        klaster_objek = best_num_clusters.labels_
-        # centroids = temp.cluster_centers_
-        # jumlah = np.unique(klaster_objek, return_counts=True)
-        dfK= df.copy()
+        return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df}
+    def kmeans_res(self):
+        df=pd.DataFrame(self.getDf())
+        return self.res_kmeans(df)
+    def kmeans_resByYear(self,year):
+        df=pd.DataFrame(self.getDfByYear(year))
+        return self.res_kmeans(df)
+    def getDfK(self):
+        kmeans_obj=self.kmeans_res()
+        klaster_objek = kmeans_obj['best_model'].labels_
+        dfK= kmeans_obj['df'].copy()
         dfK['Cluster'] = klaster_objek
-        # df1= df[dfK['Cluster']==1]
-        # max1 = df1.max()
-        # min1 = df1.min()
-        # print(max1,min1)
+        return dfK
+    def getDfKByYear(self,year):
+        kmeans_obj=self.kmeans_resByYear(year)
+        klaster_objek = kmeans_obj['best_model'].labels_
+        dfK= kmeans_obj['df'].copy()
+        dfK['Cluster'] = klaster_objek
         return dfK

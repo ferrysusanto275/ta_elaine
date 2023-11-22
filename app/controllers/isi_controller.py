@@ -59,6 +59,9 @@ def validasiValue():
 @isi_bp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
+@isi_bp.route('/api/'+model.table_name+"/year")
+def get_all_year():
+    return jsonify(model.getAllYear());
 @isi_bp.route('/api/'+model.table_name+'/<string:instansi>/<string:indikator>/<string:year>')
 def get_by_id(instansi,indikator,year):
     isi = model.getById(instansi,indikator,year)
@@ -530,20 +533,9 @@ def get_perbandingan_index_indikator(indikator):
 #     return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/kmeans')
 def get_kmeans_index():
-    dfIndex=model.getAllIndex()
-    features = pd.DataFrame(dfIndex, columns=['indeks'])
     K = range(2,11)
-    inertia = []
-    silhouette_coef = [] 
-    model_kmeans = [] 
-
-    for k in K:
-        kmeans= KMeans(n_clusters=k, random_state=42)
-        kmeans.fit(features)
-        model_kmeans.append(kmeans)
-        inertia.append(kmeans.inertia_)
-        score = silhouette_score(features, kmeans.labels_, metric='euclidean')
-        silhouette_coef.append(score)
+    inertia = model.kmeans_res()['inertia']
+    # return jsonify(inertia['inertia'])
         
     # plot elbow method 
     fig, ax = plt.subplots()
@@ -557,6 +549,33 @@ def get_kmeans_index():
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/kmeans/<string:year>')
+def get_kmeans_indexByYear(year):
+    K = range(2,11)
+    inertia = model.kmeans_resByYear(year)['inertia']
+    # return jsonify(inertia['inertia'])
+        
+    # plot elbow method 
+    fig, ax = plt.subplots()
+    ax.plot(K, inertia, marker='o')
+    ax.set_xlabel('Jumlah kelompok k')
+    ax.set_ylabel('Inertia')
+    ax.set_title("Elbow method Indeks ")
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/kmeans_score')
+def get_kmeans_score_index():
+    return jsonify(model.kmeans_res()['silhouette_coef'])
+@isi_bp.route('/api/'+model.table_name+'/kmeans_score/<string:year>')
+def get_kmeans_score_indexByYear(year):
+    return jsonify(model.kmeans_resByYear(year)['silhouette_coef'])
 @isi_bp.route('/api/'+model.table_name+'/res_kmeans')
 def get_res_kmeans_index():
     return model.getDfK().to_html(classes="tabel")
+@isi_bp.route('/api/'+model.table_name+'/res_kmeans/<string:year>')
+def get_res_kmeans_indexByYear(year):
+    return model.getDfKByYear(year).to_html(classes="tabel")
