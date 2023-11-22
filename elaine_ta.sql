@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.5
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 12, 2023 at 03:19 PM
--- Server version: 10.1.38-MariaDB
--- PHP Version: 5.6.40
+-- Generation Time: Nov 22, 2023 at 07:41 AM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 5.6.38
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -69,7 +69,7 @@ INSERT INTO `domain` (`id`, `nama`, `bobot`) VALUES
 ('d2023110400001', 'Domain 1', '13.00'),
 ('d2023110400002', 'Domain 2', '25.00'),
 ('d2023110400003', 'Domain 3', '16.50'),
-('d2023110400004', 'Domain 4', '14.50');
+('d2023110400004', 'Domain 4', '45.50');
 
 -- --------------------------------------------------------
 
