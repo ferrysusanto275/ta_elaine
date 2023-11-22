@@ -191,18 +191,20 @@ class isiModel:
         query+=" ORDER BY i.id,m.year"
         # query+=" WHERE  m.indikator=%s"
         list_indikator=indikator_model.getAll()
-        data_val=[]
-        for i,indikator in enumerate(list_indikator):
-            data_val.append(self.getAllValue(indikator['id']))
+        data={"No":[],"Instansi":[],"Group":[],"Year":[]}
+        for indikator in list_indikator:
+           data[indikator['nama']]=self.getAllValue(indikator['id'])
 
 
         cur= db.execute_query(query,(list_indikator[0]['id'],))
         result=cur.fetchall()
-        data=[]
+        
         for i,row in enumerate(result):
-            data.append({"no":i+1,"instansi":row[0],"grup":row[1],"year":row[2]})
-            for j,indikator in enumerate(list_indikator):
-                    data[i][list_indikator[j]['nama']]=data_val[j][i]
+           data['No'].append(i+1)
+           data['Instansi'].append(row[0])
+           data['Group'].append(row[1])
+           data['Year'].append(row[2])
+            
             
         cur.close()
         db.close()
