@@ -4,6 +4,7 @@ from app.models.instansi import instansiModel
 from app.models.indikator import indikatorModel
 from app.models.aspek import aspekModel
 from app.models.domain import domainModel
+import numpy as np
 import pandas as pd 
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
@@ -226,8 +227,7 @@ class isiModel:
         inertia = []
         silhouette_coef = [] 
         model = [] 
-        max_score=0
-        cnt=0
+      
         cnt_max=0
         for k in K:
             kmeans= KMeans(n_clusters=k, random_state=42)
@@ -236,15 +236,15 @@ class isiModel:
             inertia.append(kmeans.inertia_)
             score = silhouette_score(features, kmeans.labels_, metric='euclidean')
             silhouette_coef.append(score)
-            print(k,score)
-            if(max_score<score):
-                max_score=score
-                cnt_max=cnt
-            cnt+=1
-        temp = model[cnt_max]
-        klaster_objek = temp.labels_
+        best_num_clusters = model[np.argmax(silhouette_coef)]
+        # temp = model[cnt_max]
+        klaster_objek = best_num_clusters.labels_
         # centroids = temp.cluster_centers_
         # jumlah = np.unique(klaster_objek, return_counts=True)
         dfK= df.copy()
-        dfK['Cluster'] = klaster_objek
+        # dfK['Cluster'] = klaster_objek
+        # df1= df[dfK['Cluster']==1]
+        # max1 = df1.max()
+        # min1 = df1.min()
+        # print(max1,min1)
         return dfK
