@@ -242,7 +242,7 @@ class isiModel:
         # centroids = temp.cluster_centers_
         # jumlah = np.unique(klaster_objek, return_counts=True)
         dfK= df.copy()
-        # dfK['Cluster'] = klaster_objek
+        dfK['Cluster'] = klaster_objek
         # df1= df[dfK['Cluster']==1]
         # max1 = df1.max()
         # min1 = df1.min()
