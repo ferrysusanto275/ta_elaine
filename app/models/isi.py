@@ -4,6 +4,9 @@ from app.models.instansi import instansiModel
 from app.models.indikator import indikatorModel
 from app.models.aspek import aspekModel
 from app.models.domain import domainModel
+import pandas as pd 
+from sklearn.cluster import KMeans
+from sklearn.metrics import silhouette_score
 
 indikator_model=indikatorModel();
 instansi_model=instansiModel();
@@ -190,11 +193,17 @@ class isiModel:
         query+=" WHERE m.indikator=%s"
         query+=" ORDER BY i.id,m.year"
         # query+=" WHERE  m.indikator=%s"
-        list_indikator=indikator_model.getAll()
         data={"No":[],"Instansi":[],"Group":[],"Year":[]}
+        list_indikator=indikator_model.getAll()
         for indikator in list_indikator:
            data[indikator['nama']]=self.getAllValue(indikator['id'])
-
+        list_aspek=aspek_model.getAll()
+        for aspek in list_aspek:
+           data[aspek['nama']]=self.getAllAspek(aspek['id'])
+        list_domain=domain_model.getAll()
+        for domain in list_domain:
+           data[domain['nama']]=self.getAllDomain(domain['id'])
+        data["Indeks"]=self.getAllIndex()
 
         cur= db.execute_query(query,(list_indikator[0]['id'],))
         result=cur.fetchall()
@@ -209,3 +218,33 @@ class isiModel:
         cur.close()
         db.close()
         return data
+    def getDfK(self):
+        df=pd.DataFrame(self.getDf())
+        features = df[['Indeks']]
+        print(features)
+        K = range(2,11)
+        inertia = []
+        silhouette_coef = [] 
+        model = [] 
+        max_score=0
+        cnt=0
+        cnt_max=0
+        for k in K:
+            kmeans= KMeans(n_clusters=k, random_state=42)
+            kmeans.fit(features)
+            model.append(kmeans)
+            inertia.append(kmeans.inertia_)
+            score = silhouette_score(features, kmeans.labels_, metric='euclidean')
+            silhouette_coef.append(score)
+            print(k,score)
+            if(max_score<score):
+                max_score=score
+                cnt_max=cnt
+            cnt+=1
+            temp = model[cnt_max]
+            klaster_objek = temp.labels_
+            # centroids = temp.cluster_centers_
+            # jumlah = np.unique(klaster_objek, return_counts=True)
+            dfK= df.copy()
+            dfK['Cluster'] = klaster_objek
+        return dfK

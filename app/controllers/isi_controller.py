@@ -561,4 +561,4 @@ def get_kmeans_index():
 def get_res_kmeans_index():
             # data[counter-1].append("I1")
     
-    return jsonify(model.getDf())
+    return model.getDfK().to_html(classes="tabel")
