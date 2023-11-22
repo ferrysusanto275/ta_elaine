@@ -559,6 +559,4 @@ def get_kmeans_index():
     return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/res_kmeans')
 def get_res_kmeans_index():
-            # data[counter-1].append("I1")
-    
     return model.getDfK().to_html(classes="tabel")
