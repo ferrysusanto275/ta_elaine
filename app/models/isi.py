@@ -241,10 +241,10 @@ class isiModel:
                 max_score=score
                 cnt_max=cnt
             cnt+=1
-            temp = model[cnt_max]
-            klaster_objek = temp.labels_
-            # centroids = temp.cluster_centers_
-            # jumlah = np.unique(klaster_objek, return_counts=True)
-            dfK= df.copy()
-            dfK['Cluster'] = klaster_objek
+        temp = model[cnt_max]
+        klaster_objek = temp.labels_
+        # centroids = temp.cluster_centers_
+        # jumlah = np.unique(klaster_objek, return_counts=True)
+        dfK= df.copy()
+        dfK['Cluster'] = klaster_objek
         return dfK
