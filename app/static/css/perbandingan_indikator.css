@@ -2,8 +2,13 @@
   float: left;
   width: 45%;
 }
+
 #filter_right {
   margin-left: 10%;
   float: left;
   width: 45%;
+}
+
+#score_tabel {
+  border-collapse: collapse;
 }

@@ -124,6 +124,9 @@ def perbandingan_index_domainJs():
 @app.route("/elbow_index")
 def elbow_index():
     return render_template("elbow_index.html",page_url=request.path)
+@app.route("/assets/js/elbow_index.js")
+def elbow_indexJs():
+    return send_file("static/js/elbow_index.js")
 @app.route("/elbow_indikator")
 def elbow_indikator():
     return render_template("elbow_indikator.html",page_url=request.path)

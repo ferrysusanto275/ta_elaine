@@ -2,8 +2,21 @@
 <link rel="stylesheet" href="assets/css/perbandingan_indikator.css" />
 {% endblock %} {% block main %}
 <legend>Elbow Index</legend>
-
-<div id="tampil_perbandingan">
-  <img src="/api/isi/kmeans" alt="Elbow Index">
+<div id="filter">
+  <label for="year_cb_filter">Year</label>
+  <select name="year" id="year_cb_filter" class="form_control"></select>
 </div>
+<div id="tampil_perbandingan">
+</div>
+
+<table id="score_tabel" border="1">
+  <thead>
+    <th>K</th>
+    <th>Score</th>
+  </thead>
+  <tbody id="data_score"></tbody>
+</table>
+{% endblock %}
+{% block scriptJS %}
+<script src="assets/js/elbow_index.js"></script>
 {% endblock %}
