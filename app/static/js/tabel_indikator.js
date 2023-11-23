@@ -54,6 +54,7 @@ const cek_instansi = () => {
       if (data.length == 0) {
         location.href = "instansi";
       } else {
+        instansi_cb_filter.innerHTML = "";
         data.forEach((element, i) => {
           let option = document.createElement("option");
           option.value = element.id;
@@ -188,7 +189,6 @@ const load_data = () => {
         let cell11 = document.createElement("td");
         cell11.setAttribute("colspan", 3);
         cell11.textContent = `Indeks ${aspek_data.name}`;
-        console.log(aspek_data);
         newRow1.appendChild(cell11);
         let cell21 = document.createElement("td");
         cell21.textContent = (jumlah / parseFloat(aspek_data.bobot)).toFixed(2);
