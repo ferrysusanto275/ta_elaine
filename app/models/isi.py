@@ -343,3 +343,21 @@ class isiModel:
         dfK= kmeans_obj['df'].copy()
         dfK['Cluster'] = klaster_objek
         return dfK
+    def getAllValueByYearInstansi(self,instansi,year):
+        db=Database()
+        query="SELECT m.value,ind.id,ind.bobot,a.id,a.bobot,d.id,d.bobot FROM "+self.table_name+" m"
+        query+=" JOIN instansi i ON m.instansi=i.id"
+        query+=" JOIN indikator ind ON m.indikator=ind.id"
+        query+=" JOIN aspek a ON ind.aspek=a.id"
+        query+=" JOIN domain d ON a.domain=d.id"
+        query+=" WHERE m.instansi=%s AND m.year=%s"
+        query+=" ORDER BY ind.id"
+        # query+=" WHERE  m.indikator=%s"
+        cur= db.execute_query(query,(instansi,year))
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            data.append({"val":row[0],"id_indikator":row[1],"bobot_indikator":row[2],"id_aspek":row[3],"bobot_aspek":row[4],"id_domain":row[5],"bobot_domain":row[6]})
+        cur.close()
+        db.close()
+        return data

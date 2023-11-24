@@ -2,18 +2,18 @@ import numpy as np
 from scipy.optimize import minimize
 
 # Pola data yang diketahui
-data_known = np.array([
-    [1.1, 1.6, 1, 2.79, 1.98],
-    [2.9, 2.8, 2.09, 3.3, 2.7],
-    [0.87, 1.67, 1.10, 3.03, 2.9],
-    [0.78, 1.51, 0.99, 2.74, 1.89],
-])
+# data_known = np.array([
+#     [1.1, 1.6, 1, 2.79, 1.98],
+#     [2.9, 2.8, 2.09, 3.3, 2.7],
+#     [0.87, 1.67, 1.10, 3.03, 2.9],
+#     [0.78, 1.51, 0.99, 2.74, 1.89],
+# ])
 
 # Nilai konstan
 ba, bb, bc, bd = 13, 25, 16.5, 45.5
 
 # Target nilai x yang ingin dicapai
-x_target = 2.57
+x_target = 2.9
 
 # Fungsi objektif untuk minimasi
 def objective(params):

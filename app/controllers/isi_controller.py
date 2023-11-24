@@ -5,8 +5,7 @@ from app.models.indikator import indikatorModel
 from app.models.aspek import aspekModel
 from app.models.domain import domainModel
 from app.models.isi import isiModel
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
+from scipy.optimize import minimize
 import io
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -580,3 +579,57 @@ def get_res_kmeans_index():
 def get_res_kmeans_indexByYear(year):
     df_dict = model.getDfKByYear(year).to_dict(orient='records')
     return jsonify(df_dict)
+@isi_bp.route('/api/'+model.table_name+'/insert/<string:instansi>/<string:year>/<string:index>')
+def insert_by_index(instansi,year,index):
+    data_isi_2021=model.getAllValueByYearInstansi(instansi,2021)
+    data_isi_2022=model.getAllValueByYearInstansi(instansi,2022)
+    data_known=[[item["val"] for item in data_isi_2021],[item["val"] for item in data_isi_2022]]
+    data_known[0].append(hitung_index(data_isi_2021))
+    data_known[1].append(hitung_index(data_isi_2021))
+    bounds=[]
+    initial_guess=[]
+    for i,val in enumerate(data_isi_2021):
+        bounds.append((0,4))
+        initial_guess.append(0)
+    # Kondisi batasan linear
+    # constraint = {'type': 'eq', 'fun': lambda params: index - objective(params)}
+    # result = minimize(objective, initial_guess, bounds=bounds, constraints=constraint)
+
+    return data_known
+# Fungsi objektif untuk minimasi
+def objective(params):
+    i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
+    domain1=(i1+i2+i3+i4+i5+i6+i7+i8+i9+i10)*(1.3/13)
+    aspek2=(i11+i12+i13+i14)*2.5/10
+    aspek3=(i15+i16+i17+i18)*2.5/10
+    aspek4=(i19+i20)*2.5/5
+    aspek5=(i21+i22+i23+i24+i25+i26+i27+i28)*1.5/12
+    aspek6=(i29+i30+i31)*1.5/4.5
+    aspek7=(i32+i33+i34+i35+i36+i37+i38,i39+i40+i41)*2.75/27.5
+    aspek8=(i42+i43+i44+i45+i46+i47)*3/18
+    domain2=(aspek2*10/25)+(aspek3*10/25)+(aspek4*10/25)
+    domain3=(aspek5*12/16.5)+(aspek6*4.5/16.5)
+    domain4=(aspek7*27.5/45.5)+(aspek8*18/45.5)
+    return (domain1*(13/100))+(domain2*(25/100))+(domain3*(16.5/100))+(domain4*(45.5/100))
+def hitung_index(params):
+    x=0
+    data_aspek={};
+    
+    for val in params:
+        if val['id_aspek'] not in data_aspek:
+            data_aspek[val['id_aspek']] = {"bobot":val['bobot_aspek'],"id_domain":val['id_domain'],"bobot_domain":val['bobot_domain'],"val":val['val']*val['bobot_indikator']/val['bobot_aspek']}
+        else:
+            data_aspek[val['id_aspek']]['val']+=val['val']*val['bobot_indikator']/val['bobot_aspek']
+    
+    data_domain={}
+    jml_bobot=0
+    for key, val in data_aspek.items():
+        if val['id_domain'] not in data_domain:
+            data_domain[val['id_domain']] = {"bobot":val['bobot_domain'],"val":val['val']*val['bobot']/val['bobot_domain']}
+            jml_bobot+=val['bobot_domain']
+        else: data_domain[val['id_domain']]['val'] += val['val']*val['bobot']/val['bobot_domain']
+    index=0;
+    for key, val in data_domain.items():
+        index+=val['val']*val['bobot']/jml_bobot
+    
+    return index
