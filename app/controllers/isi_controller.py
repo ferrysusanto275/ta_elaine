@@ -579,5 +579,4 @@ def get_res_kmeans_index():
 @isi_bp.route('/api/'+model.table_name+'/res_kmeans/<string:year>')
 def get_res_kmeans_indexByYear(year):
     df_dict = model.getDfKByYear(year).to_dict(orient='records')
-
     return jsonify(df_dict)
