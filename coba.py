@@ -150,3 +150,28 @@ dfK['Cluster'] = klaster_objek
 # #Hitung pola tiap kelompok
 # df_pola = dfA.groupby(['Cluster']).describe()
 
+#Dendrogram
+plt.figure(figsize=(10,7))
+plt.title("dendrogram")
+dend = sch.dendrogram(sch.linkage(features, method='single'))
+plt.show 
+
+#kelompok dend
+agglo_model = AgglomerativeClustering( n_clusters=11, affinity='euclidean', linkage='single')
+hasil1 = agglo_model.fit_predict(features)
+labels= agglo_model.labels 
+
+score = silhoette_score (features, agglo_model.labels_, metric ='euclidean')
+print(score)
+
+
+plt.figure(figsize=(10,6))
+plt.title("Dend2")
+dend = sch.dendrogram(sch.linkage(features, method='complete'))
+plt.show 
+
+agglo_model = AgglomerativeClustering(n_clusters=11, affinity='euclidean', linkage='complete')
+hasil2 = agglo_model.fit_predict(features)
+labels = agglo_model.labels_ 
+
+score =silhouette_score(features, agglo_model.labels_, metric='euclidean')
