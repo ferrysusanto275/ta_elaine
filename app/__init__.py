@@ -127,6 +127,12 @@ def elbow_index():
 @app.route("/assets/js/elbow_index.js")
 def elbow_indexJs():
     return send_file("static/js/elbow_index.js")
+@app.route("/clustering")
+def clustering():
+    return render_template("clustering.html",page_url=request.path)
+@app.route("/assets/js/clustering.js")
+def clusteringJs():
+    return send_file("static/js/clustering.js")
 @app.route("/elbow_indikator")
 def elbow_indikator():
     return render_template("elbow_indikator.html",page_url=request.path)

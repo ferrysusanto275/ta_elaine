@@ -579,6 +579,20 @@ def get_res_kmeans_index():
 def get_res_kmeans_indexByYear(year):
     df_dict = model.getDfKByYear(year).to_dict(orient='records')
     return jsonify(df_dict)
+@isi_bp.route('/api/'+model.table_name+'/plot_kmeans/<string:year>')
+def plot_kmeans_indexByYear(year):
+    df = model.getDfKByYear(year)
+    fig, ax = plt.subplots()
+    ax.scatter(df['Indeks'],df['Domain 1'],c=df['Cluster'], cmap='rainbow')
+    ax.set_xlabel("Index")
+    ax.set_ylabel("Domain 1")
+    ax.set_title("Clustering")
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/insert/<string:instansi>/<string:year>/<string:index>')
 def insert_by_index(instansi,year,index):
     data_isi_2021=model.getAllValueByYearInstansi(instansi,2021)
