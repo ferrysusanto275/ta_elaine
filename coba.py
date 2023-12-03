@@ -48,21 +48,21 @@ df =pd.read_csv("Mall_Customers.csv")
 # df.corr() 
 # df['Gender'].corr(df['Annual Income (k$)']) #liat korelasi 1-1 
 #pilih fitur 
-features = df[['Annual Income (k$)', 'Spending Score (1-100)']]
-print(features)
-K = range(2,11)
-inertia = []
-silhouette_coef = [] 
-model = [] 
+# features = df[['Annual Income (k$)', 'Spending Score (1-100)']]
+# print(features)
+# K = range(2,11)
+# inertia = []
+# silhouette_coef = [] 
+# model = [] 
 
-for k in K:
-    kmeans= KMeans(n_clusters=k, random_state=42)
-    kmeans.fit(features)
-    model.append(kmeans)
-    inertia.append(kmeans.inertia_)
-    score = silhouette_score(features, kmeans.labels_, metric='euclidean')
-    silhouette_coef.append(score)
-    print(k,score)
+# for k in K:
+#     kmeans= KMeans(n_clusters=k, random_state=42)
+#     kmeans.fit(features)
+#     model.append(kmeans)
+#     inertia.append(kmeans.inertia_)
+#     score = silhouette_score(features, kmeans.labels_, metric='euclidean')
+#     silhouette_coef.append(score)
+#     print(k,score)
 #plot elbow method 
 # plt.plot(K, inertia, marker='o')
 # plt.xlabel('Jumlah kelompok k')
@@ -71,12 +71,12 @@ for k in K:
 # plt.show()
 
 #nilai k terbaik =5 
-temp = model[5]
-klaster_objek = temp.labels_
-centroids = temp.cluster_centers_
-jumlah = np.unique(klaster_objek, return_counts=True)
-dfK= df.copy()
-dfK['Cluster'] = klaster_objek
+# temp = model[5]
+# klaster_objek = temp.labels_
+# centroids = temp.cluster_centers_
+# jumlah = np.unique(klaster_objek, return_counts=True)
+# dfK= df.copy()
+# dfK['Cluster'] = klaster_objek
 
 # df1= df[df['Cluster']==5]
 # max1 = df1.max()
@@ -151,27 +151,63 @@ dfK['Cluster'] = klaster_objek
 # df_pola = dfA.groupby(['Cluster']).describe()
 
 #Dendrogram
-plt.figure(figsize=(10,7))
-plt.title("dendrogram")
-dend = sch.dendrogram(sch.linkage(features, method='single'))
-plt.show 
+# plt.figure(figsize=(10,7))
+# plt.title("dendrogram")
+# dend = sch.dendrogram(sch.linkage(features, method='single'))
+# plt.show 
 
-#kelompok dend
-agglo_model = AgglomerativeClustering( n_clusters=11, affinity='euclidean', linkage='single')
-hasil1 = agglo_model.fit_predict(features)
-labels= agglo_model.labels 
+# #kelompok dend
+# agglo_model = AgglomerativeClustering( n_clusters=11, affinity='euclidean', linkage='single')
+# hasil1 = agglo_model.fit_predict(features)
+# labels= agglo_model.labels 
 
-score = silhoette_score (features, agglo_model.labels_, metric ='euclidean')
-print(score)
+# score = silhoette_score (features, agglo_model.labels_, metric ='euclidean')
+# print(score)
 
 
-plt.figure(figsize=(10,6))
-plt.title("Dend2")
-dend = sch.dendrogram(sch.linkage(features, method='complete'))
-plt.show 
+# plt.figure(figsize=(10,6))
+# plt.title("Dend2")
+# dend = sch.dendrogram(sch.linkage(features, method='complete'))
+# plt.show 
 
-agglo_model = AgglomerativeClustering(n_clusters=11, affinity='euclidean', linkage='complete')
-hasil2 = agglo_model.fit_predict(features)
-labels = agglo_model.labels_ 
+# agglo_model = AgglomerativeClustering(n_clusters=11, affinity='euclidean', linkage='complete')
+# hasil2 = agglo_model.fit_predict(features)
+# labels = agglo_model.labels_ 
 
-score =silhouette_score(features, agglo_model.labels_, metric='euclidean')
+# score =silhouette_score(features, agglo_model.labels_, metric='euclidean')
+
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+import seaborn as sns 
+
+
+# Assuming you have your data in a DataFrame named 'df'
+# Extract numerical columns for PCA
+df = pd.read_csv('Data CSV/Data Evaluasi SPBE Tahun 2021-2022.xlsx')
+numerical_columns = df.columns[df.columns.str.startswith('I')]
+
+# Selecting only the numerical columns for PCA
+X = df[numerical_columns]
+
+# Standardize the data (important for PCA)
+X_standardized = StandardScaler().fit_transform(X)
+
+# Apply PCA
+pca = PCA(n_components=2)
+principal_components = pca.fit_transform(X_standardized)
+
+# Create a DataFrame with the first two principal components and additional information
+pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
+pca_df['Nama Instansi'] = df['Nama Instansi']
+
+# Scatter plot
+plt.figure(figsize=(10, 6))
+sns.scatterplot(x='PC1', y='PC2', data=pca_df, hue='Nama Instansi', palette='Set2', s=100)
+plt.title('PCA Plot of Institutions')
+plt.xlabel('Principal Component 1 (PC1)')
+plt.ylabel('Principal Component 2 (PC2)')
+plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # Adjust legend position
+plt.show()
+plt.show()

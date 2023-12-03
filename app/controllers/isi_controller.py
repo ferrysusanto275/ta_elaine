@@ -6,6 +6,7 @@ from app.models.aspek import aspekModel
 from app.models.domain import domainModel
 from app.models.isi import isiModel
 from scipy.optimize import minimize
+from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 import io
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -13,6 +14,9 @@ from matplotlib.figure import Figure
 import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt 
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+import seaborn as sns
 model=isiModel()
 aspek_model=aspekModel()
 instansi_model=instansiModel()
@@ -647,3 +651,106 @@ def hitung_index(params):
         index+=val['val']*val['bobot']/jml_bobot
     
     return index
+@isi_bp.route('/api/'+model.table_name+'/pca/<string:year>')
+def pcaByYear(year):
+    df = model.getDfKByYear(year)
+    print(df)
+    # df = df[df['Group'] == 'Kementerian Pusat']
+
+    # print(filtered_df)
+    # numerical_columns = df.columns[df.columns.str.startswith('I')]
+
+    # Selecting only the numerical columns for PCA
+    X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
+    'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
+    'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
+     'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
+      'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    # X=df[['I1','Indeks']]
+    X_standardized = StandardScaler().fit_transform(X)
+
+    # Apply PCA
+    pca = PCA(n_components=2)
+    principal_components = pca.fit_transform(X_standardized)
+    # print(X)
+
+    # Create a DataFrame with the first two principal components and additional information
+    pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
+    pca_df['Cluster'] = df['Cluster']
+
+    # Scatter plot
+    # fig, ax = plt.subplots()
+
+    fig, ax = plt.subplots(figsize=(15, 6))
+    sns.scatterplot(x='PC1', y='PC2', data=pca_df, hue='Cluster',s=100, palette='Set1')
+    plt.title('PCA Plot of Institutions')
+    plt.xlabel('Principal Component 1 (PC1)')
+    plt.ylabel('Principal Component 2 (PC2)')
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # Adjust legend position
+    # plt.show()
+    # Using BytesIO to capture the plot as a byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    # plt.savefig(output, format='png')  # Save the plot to BytesIO in PNG format
+    # plt.close(fig)  # Close the plot to release resources
+
+    # Creating an HTTP response with the plot as a byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+
+@isi_bp.route('/api/'+model.table_name+'/lda/<string:year>')
+def ldaByYear(year):
+    df = model.getDfKByYear(year)
+    # print(df)
+    # df = df[df['Group'] == 'Kementerian Pusat']
+
+    # print(filtered_df)
+    # numerical_columns = df.columns[df.columns.str.startswith('I')]
+
+    # Selecting only the numerical columns for PCA
+    X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
+    'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
+    'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
+     'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
+      'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    target=df['Cluster'].values
+    # X['target']=target
+    # print(X)
+    # print(target)
+    # X=df[['I1','Indeks']]
+    X_standardized = StandardScaler().fit_transform(X)
+    
+    # Apply LDA
+    lda = LinearDiscriminantAnalysis(n_components=min(X.shape[1], len(set(target)) - 1))
+    lda_result = lda.fit_transform(X, target)
+
+
+    lda_df = pd.DataFrame(data=lda_result, columns=['LD1', 'LD2'])
+    lda_df['Target'] = target
+    # return jsonify("")
+    # print(X)
+
+    # Create a DataFrame with the first two principal components and additional information
+    # pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
+    # pca_df['Cluster'] = df['Cluster']
+
+    # Scatter plot
+    # fig, ax = plt.subplots()
+
+    fig, ax = plt.subplots(figsize=(15, 6))
+    scatter = plt.scatter(x='LD1', y='LD2', c='Target', cmap='viridis', data=lda_df)
+    plt.title('LDA Plot of Iris Dataset')
+    plt.xlabel('Linear Discriminant 1 (LD1)')
+    plt.ylabel('Linear Discriminant 2 (LD2)')
+    # Add legend
+    # legend_labels = [1,2]
+    plt.legend(handles=scatter.legend_elements()[0])
+
+    plt.show()
+    # Using BytesIO to capture the plot as a byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    # plt.savefig(output, format='png')  # Save the plot to BytesIO in PNG format
+    # plt.close(fig)  # Close the plot to release resources
+
+    # Creating an HTTP response with the plot as a byte stream
+    return Response(output.getvalue(), mimetype='image/png')

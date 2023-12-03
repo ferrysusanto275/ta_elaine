@@ -312,7 +312,7 @@ class isiModel:
         return data
     def res_kmeans(self,df):
         features = df[['Indeks']]
-        K = range(2,11)
+        K = range(2,6)
         inertia = []
         silhouette_coef = [] 
         model = [] 
