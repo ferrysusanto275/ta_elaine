@@ -699,6 +699,7 @@ def pcaByYear(year):
 
 @isi_bp.route('/api/'+model.table_name+'/lda/<string:year>')
 def ldaByYear(year):
+    return jsonify("")
     df = model.getDfKByYear(year)
     # print(df)
     # df = df[df['Group'] == 'Kementerian Pusat']
