@@ -7,6 +7,7 @@ from app.models.domain import domainModel
 from app.models.isi import isiModel
 from scipy.optimize import minimize
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
+from sklearn.decomposition import TruncatedSVD
 import io
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -697,8 +698,8 @@ def pcaByYear(year):
     # Creating an HTTP response with the plot as a byte stream
     return Response(output.getvalue(), mimetype='image/png')
 
-@isi_bp.route('/api/'+model.table_name+'/lda/<string:year>')
-def ldaByYear(year):
+@isi_bp.route('/api/'+model.table_name+'/svd/<string:year>')
+def svdByYear(year):
     df = model.getDfKByYear(year)
     # print(df)
     # df = df[df['Group'] == 'Kementerian Pusat']
@@ -712,41 +713,23 @@ def ldaByYear(year):
     'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
      'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
       'I41','I42','I43','I44','I45','I46','I47','Indeks']]
-    target=df['Cluster'].values
-    # X['target']=target
     # print(X)
-    # print(target)
-    # X=df[['I1','Indeks']]
-    X_standardized = StandardScaler().fit_transform(X)
+    # X=df[['Indeks']]
     
-    # Apply LDA
-    lda = LinearDiscriminantAnalysis(n_components=min(X.shape[1], len(set(target)) - 1))
-    lda_result = lda.fit_transform(X, target)
-
-
-    lda_df = pd.DataFrame(data=lda_result, columns=['LD1', 'LD2'])
-    lda_df['Target'] = target
+    target=df['Cluster'].values
+    X['target']=target
+    svd = TruncatedSVD(n_components=2)
+    df_svd = svd.fit_transform(X)
+    fig, ax = plt.subplots()
+    print(df_svd[:, 1])
+    scatter = ax.scatter(df_svd[:, 0], df_svd[:, 1], c=df['Cluster'], cmap='viridis', edgecolors='k', alpha=0.7)
+    ax.set_title('SVD-based Clustering')
+    ax.set_xlabel('SVD Component 1')
+    ax.set_ylabel('SVD Component 2')
+    legend1 = ax.legend(*scatter.legend_elements(), title="Clusters")
+    ax.add_artist(legend1)
     # return jsonify("")
-    # print(X)
 
-    # Create a DataFrame with the first two principal components and additional information
-    # pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
-    # pca_df['Cluster'] = df['Cluster']
-
-    # Scatter plot
-    # fig, ax = plt.subplots()
-
-    fig, ax = plt.subplots(figsize=(15, 6))
-    scatter = plt.scatter(x='LD1', y='LD2', c='Target', cmap='viridis', data=lda_df)
-    plt.title('LDA Plot of Iris Dataset')
-    plt.xlabel('Linear Discriminant 1 (LD1)')
-    plt.ylabel('Linear Discriminant 2 (LD2)')
-    # Add legend
-    # legend_labels = [1,2]
-    plt.legend(handles=scatter.legend_elements()[0])
-
-    plt.show()
-    # Using BytesIO to capture the plot as a byte stream
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     # plt.savefig(output, format='png')  # Save the plot to BytesIO in PNG format
