@@ -9,6 +9,7 @@ from scipy.optimize import minimize
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.decomposition import TruncatedSVD
 import io
+from decimal import Decimal
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -598,38 +599,74 @@ def plot_kmeans_indexByYear(year):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/insert/<string:instansi>/<string:year>/<string:index>')
-def insert_by_index(instansi,year,index):
+@isi_bp.route('/api/'+model.table_name+'/insert/<string:instansi>/<string:year>/<string:indeks>')
+def insert_by_index(instansi,year,indeks):
+    
     data_isi_2021=model.getAllValueByYearInstansi(instansi,2021)
     data_isi_2022=model.getAllValueByYearInstansi(instansi,2022)
     data_known=[[item["val"] for item in data_isi_2021],[item["val"] for item in data_isi_2022]]
     data_known[0].append(hitung_index(data_isi_2021))
-    data_known[1].append(hitung_index(data_isi_2021))
-    bounds=[]
+    data_known[1].append(hitung_index(data_isi_2022))
+    # bounds=[]
     initial_guess=[]
+    keyChangeUp=[]
+    keyChangeDown=[]
     for i,val in enumerate(data_isi_2021):
-        bounds.append((0,4))
-        initial_guess.append(0)
+        # bounds.append((0,4))
+        initial_guess.append(Decimal(0))
+        # b_banding=(data_known[1][-1]-Decimal(indeks))/(data_known[1][-1]-data_known[0][-1])*100
+        # initial_guess[i]=Decimal((b_banding/100*data_known[0][i])+((100-b_banding)/100*data_known[0][i]))
+        if(data_known[0][-1]!=data_known[1][-1]):
+            # print(data_known[0][i],data_known[1][i])
+            if(data_known[0][i]==data_known[1][i]):
+                initial_guess[i]=data_known[0][i]
+
+        
+    keyChange=[]
+    for i,val in enumerate(initial_guess):
+        if(val==0):
+            keyChange.append(i)
+            # print(initial_guess[i])
+
+    # print(objective(data_known[1][:-1]))
+    # count=0
+    # while( count<5):
+    #     count=count+1
+    #     for k in keyChange:
+    #         initial_guess[k]=count
+    #         print(k,initial_guess[k])
+    #     # print(initial_guess)
+    #     print(objective(initial_guess))    
+            # elif(data_known[0][-1]<data_known[1][-1]):
+            #     if(data_known[0][i]<data_known[1][i]):
+            #         b_banding=(data_known[1][-1]-Decimal(indeks))/(data_known[1][-1]-data_known[0][-1])*100
+            #         print(b_banding)
+            #     else:
+            #         print("masuk")
+            # if(data_known[0][i]>data_known[1][i]):initial_guess[i]=
+        # else
     # Kondisi batasan linear
     # constraint = {'type': 'eq', 'fun': lambda params: index - objective(params)}
     # result = minimize(objective, initial_guess, bounds=bounds, constraints=constraint)
-
-    return data_known
+        # if data_isi_2021
+    return initial_guess
 # Fungsi objektif untuk minimasi
 def objective(params):
     i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
-    domain1=(i1+i2+i3+i4+i5+i6+i7+i8+i9+i10)*(1.3/13)
-    aspek2=(i11+i12+i13+i14)*2.5/10
-    aspek3=(i15+i16+i17+i18)*2.5/10
-    aspek4=(i19+i20)*2.5/5
-    aspek5=(i21+i22+i23+i24+i25+i26+i27+i28)*1.5/12
-    aspek6=(i29+i30+i31)*1.5/4.5
-    aspek7=(i32+i33+i34+i35+i36+i37+i38,i39+i40+i41)*2.75/27.5
-    aspek8=(i42+i43+i44+i45+i46+i47)*3/18
-    domain2=(aspek2*10/25)+(aspek3*10/25)+(aspek4*10/25)
-    domain3=(aspek5*12/16.5)+(aspek6*4.5/16.5)
-    domain4=(aspek7*27.5/45.5)+(aspek8*18/45.5)
-    return (domain1*(13/100))+(domain2*(25/100))+(domain3*(16.5/100))+(domain4*(45.5/100))
+    domain1=(i1+i2+i3+i4+i5+i6+i7+i8+i9+i10)*Decimal(1.3/13)
+    
+    aspek2=(i11+i12+i13+i14)*Decimal(2.5/10)
+    aspek3=(i15+i16+i17+i18)*Decimal(2.5/10)
+    aspek4=(i19+i20)*Decimal(2.5/5)
+    aspek5=(i21+i22+i23+i24+i25+i26+i27+i28)*Decimal(1.5/12)
+    aspek6=(i29+i30+i31)*Decimal(1.5/4.5)
+    aspek7=(i32+i33+i34+i35+i36+i37+i38+i39+i40+i41)*Decimal(2.75/27.5)
+    aspek8=(i42+i43+i44+i45+i46+i47)*Decimal(3/18)
+    domain2=(aspek2*Decimal(10/25))+(aspek3*Decimal(10/25))+(aspek4*Decimal(5/25))
+    domain3=(aspek5*Decimal(12/16.5))+(aspek6*Decimal(4.5/16.5))
+    domain4=(aspek7*Decimal(27.5/45.5))+(aspek8*Decimal(18/45.5))
+    print(domain1,domain2,domain3,domain4)
+    return (domain1*Decimal(13/100))+(domain2*Decimal(25/100))+(domain3*Decimal(16.5/100))+(domain4*Decimal(45.5/100))
 def hitung_index(params):
     x=0
     data_aspek={};
