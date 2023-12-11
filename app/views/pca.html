@@ -1,0 +1,11 @@
+{% extends "templates.html" %}
+<legend>Elbow Index</legend>
+<div id="filter">
+  <label for="year_cb_filter">Year</label>
+  <select name="year" id="year_cb_filter" class="form_control"></select>
+</div>
+<div id="tampil_perbandingan"></div>
+
+{% endblock %} {% block scriptJS %}
+<script src="assets/js/pca.js"></script>
+{% endblock %}
