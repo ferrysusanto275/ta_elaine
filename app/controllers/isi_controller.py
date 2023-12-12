@@ -610,47 +610,89 @@ def insert_by_index(instansi,year,indeks):
     initial_guess=[]
     bounds=[]
     key_change=[]
+    all_fill_key=[]
+    data_fix=[]
+    
     for i,val in enumerate(data_isi_2021):
         initial_guess.append(Decimal(0))
         # bound array 0 nilai max bound ke 1 nilai min
         bounds.append([Decimal(5),Decimal(1)])
         if(data_known[0][-1]!=data_known[1][-1]):
             if(data_known[0][i]==data_known[1][i]):
+                data_fix.append(i)
                 bounds[i][0]=data_known[0][i]
                 initial_guess[i]=data_known[0][i]
             elif((data_known[0][i]>data_known[1][i] and data_known[0][-1]>data_known[1][-1]) or (data_known[0][i]<data_known[1][i] and data_known[0][-1]<data_known[1][-1])):
-                if(Decimal(indeks)>data_known[0][-1] and Decimal(indeks)<data_known[0][-1]):
+                max_value = max(Decimal(indeks), data_known[0][-1], data_known[1][-1])
+                min_value = min(Decimal(indeks), data_known[0][-1], data_known[1][-1])
+                if(max_value==indeks):
+                    if(min_value==data_known[0][-1]):
+                        bounds[i][1]=data_known[0][i]
+                    else:bounds[i][1]=data_known[1][i]
+                elif(max_value==data_known[0][-1]):
+                    bounds[i][0]=data_known[0][i]
+                    if(min_value==data_known[1][-1]):
+                        bounds[i][1]=data_known[1][i]
+                else:
                     bounds[i][0]=data_known[1][i]
-                    bounds[i][1]=data_known[1][i]
-                elif(Decimal(indeks)>data_known[1][-1]):
-                     bounds[i][1]=data_known[1][i]
-                else: bounds[i][0]=data_known[0][i]
+                    if(min_value==data_known[0][-1]):
+                        bounds[i][1]=data_known[0][i]
                 # cek sebelahan
                 initial_guess[i]=bounds[i][1]
-                flag=False
-                for j,val_other in enumerate(initial_guess):
-                    # kalau sebelahan ada yg dapet nilai dan sama isi data yang sama
-                    if(i!=j):
-                        if(data_known[0][i]==data_known[0][j] and data_known[1][i]==data_known[1][j]):
-                            initial_guess[i]=data_known[0][j]
-                            flag=True
-                            break
-                if(flag==False):
-                    key_change.append(i)
+                # cari data yang sama 
+                key_same=[]
+                if((i in all_fill_key)==False):
+                    
+                    for j,val_other in enumerate(data_known[0]):
+                            if(data_known[0][i]==data_known[0][j] and data_known[1][i]==data_known[1][j]):
+                                # print(i,j,data_known[0][i],data_known[0][j],data_known[1][i],data_known[1][j])
+                                key_same.append(j)
+                                all_fill_key.append(j)
+                    key_change.append([i,key_same])
+                
             else:initial_guess[i]=bounds[i][1]
+    # cari data fix yang lebih besar atau harus lebih kecil dari pola
+    print(sorted(data_fix))
+    for i in key_change:
+        # print(i)
+        cd=i[0]
+        for j in data_fix:
+            # data harus lebih besar
+            if(data_known[0][cd]>data_known[0][j] and data_known[1][cd]>data_known[1][j]):
+                bounds[cd][1]=max(data_known[0][cd],data_known[1][cd],bounds[cd][1])
+                # print(bounds[cd][1])
+                # data harus lebih kecil
+            if(data_known[0][cd]<data_known[0][j] and data_known[1][cd]<data_known[1][j]):
+                # print(cd,data_known[0][cd],data_known[1][cd],bounds[cd][1])
+                bounds[cd][0]=min(data_known[0][cd],data_known[1][cd],bounds[cd][1])
+                # print(bounds[cd][0])
+        
+        initial_guess[cd]=bounds[cd][1]
+        for j in i[1]:
+            initial_guess[j]=initial_guess[cd]
+            if(bounds[cd][0]==bounds[cd][1]):data_fix.append(j)
+    print(sorted(data_fix))
     counter=0
     while(objective(initial_guess)<Decimal(indeks) and counter<len(key_change)):
-        i=key_change[counter]
+        i=key_change[counter][0]
         if(bounds[i][0]>initial_guess[i]):
             initial_guess[i]=initial_guess[i]+1
+            for j in key_change[counter][1]:
+                initial_guess[j]=initial_guess[i]
+            if(objective(initial_guess)>Decimal(indeks)):
+                initial_guess[i]=initial_guess[i]-1
+                for j in key_change[counter][1]:
+                    initial_guess[j]=initial_guess[i]
+                counter=counter+1
         else:
             counter=counter+1
+    
         # cek data yang harus berubah
     initial_guess.append(objective(initial_guess))
  
     
         
-    return initial_guess
+    return jsonify({"data_2021":data_known[0],"data_2022":data_known[1],"data_"+year:initial_guess})
 # Fungsi objektif untuk minimasi
 def objective(params):
     i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
