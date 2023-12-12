@@ -673,6 +673,7 @@ def insert_by_index(instansi,year,indeks):
             initial_guess[j]=initial_guess[cd]
             if(bounds[cd][0]==bounds[cd][1]):data_fix.append(j)
     print(sorted(data_fix))
+    n = len(key_change)
     for i in range(n):
         for j in range(0, n-i-1):
             idx1=key_change[j][0]
