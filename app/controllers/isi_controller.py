@@ -607,48 +607,49 @@ def insert_by_index(instansi,year,indeks):
     data_known=[[item["val"] for item in data_isi_2021],[item["val"] for item in data_isi_2022]]
     data_known[0].append(hitung_index(data_isi_2021))
     data_known[1].append(hitung_index(data_isi_2022))
-    # bounds=[]
     initial_guess=[]
-    keyChangeUp=[]
-    keyChangeDown=[]
+    bounds=[]
+    key_change=[]
     for i,val in enumerate(data_isi_2021):
-        # bounds.append((0,4))
         initial_guess.append(Decimal(0))
-        # b_banding=(data_known[1][-1]-Decimal(indeks))/(data_known[1][-1]-data_known[0][-1])*100
-        # initial_guess[i]=Decimal((b_banding/100*data_known[0][i])+((100-b_banding)/100*data_known[0][i]))
+        # bound array 0 nilai max bound ke 1 nilai min
+        bounds.append([Decimal(5),Decimal(1)])
         if(data_known[0][-1]!=data_known[1][-1]):
-            # print(data_known[0][i],data_known[1][i])
             if(data_known[0][i]==data_known[1][i]):
+                bounds[i][0]=data_known[0][i]
                 initial_guess[i]=data_known[0][i]
-
+            elif((data_known[0][i]>data_known[1][i] and data_known[0][-1]>data_known[1][-1]) or (data_known[0][i]<data_known[1][i] and data_known[0][-1]<data_known[1][-1])):
+                if(Decimal(indeks)>data_known[0][-1] and Decimal(indeks)<data_known[0][-1]):
+                    bounds[i][0]=data_known[1][i]
+                    bounds[i][1]=data_known[1][i]
+                elif(Decimal(indeks)>data_known[1][-1]):
+                     bounds[i][1]=data_known[1][i]
+                else: bounds[i][0]=data_known[0][i]
+                # cek sebelahan
+                initial_guess[i]=bounds[i][1]
+                flag=False
+                for j,val_other in enumerate(initial_guess):
+                    # kalau sebelahan ada yg dapet nilai dan sama isi data yang sama
+                    if(i!=j):
+                        if(data_known[0][i]==data_known[0][j] and data_known[1][i]==data_known[1][j]):
+                            initial_guess[i]=data_known[0][j]
+                            flag=True
+                            break
+                if(flag==False):
+                    key_change.append(i)
+            else:initial_guess[i]=bounds[i][1]
+    counter=0
+    while(objective(initial_guess)<Decimal(indeks) and counter<len(key_change)):
+        i=key_change[counter]
+        if(bounds[i][0]>initial_guess[i]):
+            initial_guess[i]=initial_guess[i]+1
+        else:
+            counter=counter+1
+        # cek data yang harus berubah
+    initial_guess.append(objective(initial_guess))
+ 
+    
         
-    keyChange=[]
-    for i,val in enumerate(initial_guess):
-        if(val==0):
-            keyChange.append(i)
-            # print(initial_guess[i])
-
-    # print(objective(data_known[1][:-1]))
-    # count=0
-    # while( count<5):
-    #     count=count+1
-    #     for k in keyChange:
-    #         initial_guess[k]=count
-    #         print(k,initial_guess[k])
-    #     # print(initial_guess)
-    #     print(objective(initial_guess))    
-            # elif(data_known[0][-1]<data_known[1][-1]):
-            #     if(data_known[0][i]<data_known[1][i]):
-            #         b_banding=(data_known[1][-1]-Decimal(indeks))/(data_known[1][-1]-data_known[0][-1])*100
-            #         print(b_banding)
-            #     else:
-            #         print("masuk")
-            # if(data_known[0][i]>data_known[1][i]):initial_guess[i]=
-        # else
-    # Kondisi batasan linear
-    # constraint = {'type': 'eq', 'fun': lambda params: index - objective(params)}
-    # result = minimize(objective, initial_guess, bounds=bounds, constraints=constraint)
-        # if data_isi_2021
     return initial_guess
 # Fungsi objektif untuk minimasi
 def objective(params):
@@ -665,7 +666,7 @@ def objective(params):
     domain2=(aspek2*Decimal(10/25))+(aspek3*Decimal(10/25))+(aspek4*Decimal(5/25))
     domain3=(aspek5*Decimal(12/16.5))+(aspek6*Decimal(4.5/16.5))
     domain4=(aspek7*Decimal(27.5/45.5))+(aspek8*Decimal(18/45.5))
-    print(domain1,domain2,domain3,domain4)
+    # print(domain1,domain2,domain3,domain4)
     return (domain1*Decimal(13/100))+(domain2*Decimal(25/100))+(domain3*Decimal(16.5/100))+(domain4*Decimal(45.5/100))
 def hitung_index(params):
     x=0
