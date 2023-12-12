@@ -673,6 +673,14 @@ def insert_by_index(instansi,year,indeks):
             initial_guess[j]=initial_guess[cd]
             if(bounds[cd][0]==bounds[cd][1]):data_fix.append(j)
     print(sorted(data_fix))
+    for i in range(n):
+        for j in range(0, n-i-1):
+            idx1=key_change[j][0]
+            idx2=key_change[j+1][0]
+            # print(idx1,idx2,data_known[0][idx1],data_known[0][idx1])
+            if(data_known[0][idx1]<data_known[0][idx2] and data_known[1][idx1]<data_known[1][idx2]):
+                key_change[j],key_change[j+1]=key_change[j+1],key_change[j]
+    # print(key_change)
     counter=0
     while(objective(initial_guess)<Decimal(indeks) and counter<len(key_change)):
         i=key_change[counter][0]
