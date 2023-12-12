@@ -652,19 +652,20 @@ def insert_by_index(instansi,year,indeks):
                 
             else:initial_guess[i]=bounds[i][1]
     # cari data fix yang lebih besar atau harus lebih kecil dari pola
-    print(sorted(data_fix))
+    # print(sorted(data_fix))
     for i in key_change:
         # print(i)
         cd=i[0]
         for j in data_fix:
             # data harus lebih besar
             if(data_known[0][cd]>data_known[0][j] and data_known[1][cd]>data_known[1][j]):
-                bounds[cd][1]=max(data_known[0][cd],data_known[1][cd],bounds[cd][1])
+                
+                bounds[cd][1]=max(initial_guess[j],bounds[cd][1])
                 # print(bounds[cd][1])
                 # data harus lebih kecil
             if(data_known[0][cd]<data_known[0][j] and data_known[1][cd]<data_known[1][j]):
                 # print(cd,data_known[0][cd],data_known[1][cd],bounds[cd][1])
-                bounds[cd][0]=min(data_known[0][cd],data_known[1][cd],bounds[cd][1])
+                bounds[cd][0]=min(initial_guess[j],bounds[cd][1])
                 # print(bounds[cd][0])
         
         initial_guess[cd]=bounds[cd][1]
