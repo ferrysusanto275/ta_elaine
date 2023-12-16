@@ -6,7 +6,9 @@ from app.models.aspek import aspekModel
 from app.models.domain import domainModel
 import numpy as np
 import pandas as pd 
-from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans, AgglomerativeClustering
+import scipy.cluster.hierarchy as sch 
+import matplotlib.pyplot as plt 
 from sklearn.metrics import silhouette_score
 
 indikator_model=indikatorModel();
@@ -361,3 +363,54 @@ class isiModel:
         cur.close()
         db.close()
         return data
+    
+    def getDfAByYear(self,year,linkage):
+        df=pd.DataFrame(self.getDfByYear(year))
+        agglo_obj=self.agglomerative(df,linkage)
+        klaster_objek = agglo_obj['best_num_clusters']
+        labels = klaster_objek.fit_predict(df[['Indeks']])
+        dfK = df.copy()
+        dfK['Cluster'] = labels
+        return dfK
+    # def agglomerative(self, df,linkage, silhouette_threshold=0.5):
+    #     features = df[['Indeks']]
+    #     num_samples = len(features)
+    #     max_clusters = min(10, num_samples) 
+    #     clusters_range = range(2, max_clusters + 1)
+
+    #     silhouette_coef = []
+    #     models = []
+
+    #     for k in clusters_range:
+    #         agglo_model = AgglomerativeClustering(n_clusters=k, affinity='euclidean', linkage=linkage)
+    #         models.append(agglo_model)
+    #         labels = agglo_model.fit_predict(features)
+    #         score = silhouette_score(features, labels, metric='euclidean')
+    #         silhouette_coef.append(score)
+
+    #     # Filter models based on silhouette_threshold
+    #     # above_threshold_models = [model for model, score in zip(models, silhouette_coef) if score > silhouette_threshold]
+
+    #     if above_threshold_models:
+    #         best_model = above_threshold_models[np.argmax(silhouette_coef)]
+    #         best_num_clusters = best_model.n_clusters
+    #     else:
+    #         best_model = models[np.argmax(silhouette_coef)]
+    #         best_num_clusters = best_model.n_clusters
+
+    #     return {"silhouette_score": silhouette_coef, "best_num_clusters": best_num_clusters}
+    def agglomerative(self, df, linkage):
+        features= df[['Indeks']]
+        K = range(2,6)
+        silhouette_coef = []
+        model = []
+        for k in K:
+            agglo_model = AgglomerativeClustering(n_clusters=k, affinity='euclidean', linkage=linkage)
+            agglo_model.fit_predict(features)
+            
+            model.append(agglo_model)
+            # print(agglo_model)
+            score = silhouette_score(features, agglo_model.labels_, metric='euclidean')
+            silhouette_coef.append(score)
+        best_num_clusters = model[np.argmax(silhouette_coef)]
+        return {"silhouette_score":silhouette_coef,"best_num_clusters":best_num_clusters}

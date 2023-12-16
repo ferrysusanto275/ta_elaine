@@ -21,7 +21,7 @@ def objective(params):
     return (a * ba + b * bb + c * bc + d * bd) / (ba + bb + bc + bd)
 
 # Batasan nilai a, b, c, d antara 0 dan 4
-bounds = [(0, 4), (0, 4), (0, 4), (0, 4)]
+bounds = [(0, 5), (0, 5), (0, 5), (0, 5)]
 
 # Kondisi batasan linear
 constraint = {'type': 'eq', 'fun': lambda params: x_target - objective(params)}

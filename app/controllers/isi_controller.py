@@ -9,6 +9,8 @@ from scipy.optimize import minimize
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.decomposition import TruncatedSVD
 import io
+from io import BytesIO
+import scipy.cluster.hierarchy as sch 
 from decimal import Decimal
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
@@ -18,6 +20,7 @@ import pandas as pd
 import matplotlib.pyplot as plt 
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import AgglomerativeClustering
 import seaborn as sns
 model=isiModel()
 aspek_model=aspekModel()
@@ -538,7 +541,7 @@ def get_perbandingan_index_indikator(indikator):
 #     return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/kmeans')
 def get_kmeans_index():
-    K = range(2,11)
+    K = range(2,6)
     inertia = model.kmeans_res()['inertia']
     # return jsonify(inertia['inertia'])
         
@@ -556,7 +559,7 @@ def get_kmeans_index():
     return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/kmeans/<string:year>')
 def get_kmeans_indexByYear(year):
-    K = range(2,11)
+    K = range(2,6)
     inertia = model.kmeans_resByYear(year)['inertia']
     # return jsonify(inertia['inertia'])
         
@@ -599,6 +602,45 @@ def plot_kmeans_indexByYear(year):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/plot_dend/<string:year>/<string:linkage>')
+def plot_dend_indexByYear(year,linkage):
+    df = model.getDfKByYear(year)
+    fig = plt.figure(figsize=(10, 6))
+    plt.title("Dend2 "+year)
+    features = df[['Indeks']]
+    dend = sch.dendrogram(sch.linkage(features, method=linkage))
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+
+# @isi_bp.route('/api/'+model.table_name+'/res_agglo/<string:year>')
+# def get_res_agglo_indexByYear(year):
+#     df_dict = model.getDfKByYear(year).to_dict(orient='records')
+#     return jsonify(df_dict)
+
+@isi_bp.route('/api/'+model.table_name+'/agglo_score/<string:year>/<string:linkage>')
+def get_agglo_score_index(year,linkage):
+    
+    df=pd.DataFrame(model.getDfByYear(year))
+    # features = df[['Indeks', 'Domain 1']]
+    # agglo_model = AgglomerativeClustering(n_clusters=2, affinity='euclidean', linkage='ward')  # Adjust parameters as needed
+    # labels = agglo_model.fit_predict(features)
+
+    # # Visualize the clusters
+    # plt.figure(figsize=(10, 7))
+    # plt.scatter(features['Indeks'], features['Domain 1'], c=labels, cmap='rainbow')
+    # plt.title("Agglomerative Clustering Results")
+    # plt.xlabel("Indeks")
+    # plt.ylabel("Domain 1")
+    # plt.show()
+    return jsonify(model.agglomerative(df,linkage)['silhouette_score'])
+@isi_bp.route('/api/'+model.table_name+'/res_agglo/<string:year>/<string:linkage>')
+def get_res_agglo_indexByYear(year, linkage):
+    df_dict = model.getDfAByYear(year, linkage).to_dict(orient='records')
+    # return jsonify(df_dict)
+    return model.getDfAByYear(year, linkage)[['Instansi','Cluster']].to_html()
+
 @isi_bp.route('/api/'+model.table_name+'/insert/<string:instansi>/<string:year>/<string:indeks>')
 def insert_by_index(instansi,year,indeks):
     
@@ -758,12 +800,16 @@ def pcaByYear(year):
      'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
       'I41','I42','I43','I44','I45','I46','I47','Indeks']]
     # X=df[['I1','Indeks']]
-    X_standardized = StandardScaler().fit_transform(X)
+    # X_standardized = StandardScaler().fit_transform(X)
 
     # Apply PCA
     pca = PCA(n_components=2)
-    principal_components = pca.fit_transform(X_standardized)
-    # print(X)
+    principal_components = pca.fit_transform(X)
+    # principal_components = principal_components+(7.5)
+    # if pca.components_[0, 0] < 0:
+    #     principal_components[:, 0] = -1 * principal_components[:, 0]
+    # if pca.components_[1, 0] < 0:
+    #     principal_components[:, 1] = -1 * principal_components[:, 1]
 
     # Create a DataFrame with the first two principal components and additional information
     pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
