@@ -787,7 +787,7 @@ def hitung_index(params):
 @isi_bp.route('/api/'+model.table_name+'/pca/<string:year>')
 def pcaByYear(year):
     df = model.getDfKByYear(year)
-    print(df)
+    # print(df)
     # df = df[df['Group'] == 'Kementerian Pusat']
 
     # print(filtered_df)
@@ -860,6 +860,95 @@ def svdByYear(year):
     print(df_svd[:, 1])
     scatter = ax.scatter(df_svd[:, 0], df_svd[:, 1], c=df['Cluster'], cmap='viridis', edgecolors='k', alpha=0.7)
     ax.set_title('SVD-based Clustering')
+    ax.set_xlabel('SVD Component 1')
+    ax.set_ylabel('SVD Component 2')
+    legend1 = ax.legend(*scatter.legend_elements(), title="Clusters")
+    ax.add_artist(legend1)
+    # return jsonify("")
+
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    # plt.savefig(output, format='png')  # Save the plot to BytesIO in PNG format
+    # plt.close(fig)  # Close the plot to release resources
+
+    # Creating an HTTP response with the plot as a byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/pca_agglo/<string:year>/<string:linkage>')
+def pcaAggloByYear(year,linkage):
+    df = model.getDfAByYear(year,linkage)
+    # print(df)
+    # df = df[df['Group'] == 'Kementerian Pusat']
+
+    # print(filtered_df)
+    # numerical_columns = df.columns[df.columns.str.startswith('I')]
+
+    # Selecting only the numerical columns for PCA
+    X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
+    'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
+    'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
+     'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
+      'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    # X=df[['I1','Indeks']]
+    # X_standardized = StandardScaler().fit_transform(X)
+
+    # Apply PCA
+    pca = PCA(n_components=2)
+    principal_components = pca.fit_transform(X)
+    # principal_components = principal_components+(7.5)
+    # if pca.components_[0, 0] < 0:
+    #     principal_components[:, 0] = -1 * principal_components[:, 0]
+    # if pca.components_[1, 0] < 0:
+    #     principal_components[:, 1] = -1 * principal_components[:, 1]
+
+    # Create a DataFrame with the first two principal components and additional information
+    pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
+    pca_df['Cluster'] = df['Cluster']
+
+    # Scatter plot
+    # fig, ax = plt.subplots()
+
+    fig, ax = plt.subplots(figsize=(15, 6))
+    sns.scatterplot(x='PC1', y='PC2', data=pca_df, hue='Cluster',s=100, palette='Set1')
+    plt.title('PCA Agglomerative')
+    plt.xlabel('Principal Component 1 (PC1)')
+    plt.ylabel('Principal Component 2 (PC2)')
+    plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # Adjust legend position
+    # plt.show()
+    # Using BytesIO to capture the plot as a byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    # plt.savefig(output, format='png')  # Save the plot to BytesIO in PNG format
+    # plt.close(fig)  # Close the plot to release resources
+
+    # Creating an HTTP response with the plot as a byte stream
+    return Response(output.getvalue(), mimetype='image/png')
+
+@isi_bp.route('/api/'+model.table_name+'/svd_agglo/<string:year>/<string:linkage>')
+def svdAggloByYear(year,linkage):
+    df = model.getDfAByYear(year,linkage)
+    # print(df)
+    # df = df[df['Group'] == 'Kementerian Pusat']
+
+    # print(filtered_df)
+    # numerical_columns = df.columns[df.columns.str.startswith('I')]
+
+    # Selecting only the numerical columns for PCA
+    X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
+    'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
+    'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
+     'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
+      'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    # print(X)
+    # X=df[['Indeks']]
+    
+    target=df['Cluster'].values
+    X['target']=target
+    svd = TruncatedSVD(n_components=2)
+    df_svd = svd.fit_transform(X)
+    fig, ax = plt.subplots()
+    print(df_svd[:, 1])
+    scatter = ax.scatter(df_svd[:, 0], df_svd[:, 1], c=df['Cluster'], cmap='viridis', edgecolors='k', alpha=0.7)
+    ax.set_title('SVD Agglomerative')
     ax.set_xlabel('SVD Component 1')
     ax.set_ylabel('SVD Component 2')
     legend1 = ax.legend(*scatter.legend_elements(), title="Clusters")
