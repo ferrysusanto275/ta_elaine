@@ -57,6 +57,25 @@ class isiModel:
         cur.close()
         db.close()
         return True
+
+    def create_bulk(self,instansi,year,values):
+        db=Database()
+        query="INSERT INTO "+self.table_name
+        query+=" (instansi,indikator,year,value)"
+        query+=" VALUES (%s,%s,%s,%s)"
+        indikators=indikator_model.getAll()
+        data=[]
+        for i,indikator in enumerate(indikators):
+            # print(instansi)
+            data.append((instansi,indikator['id'],year,values[i]))
+        # print(data)
+        cur=db.connection.cursor()
+        cur.executemany(query,data)
+        db.commit()
+        cur.close()
+        db.close()
+        return True
+    
     def update(self,instansi,indikator,year,value):
         db=Database()
         query="UPDATE "+self.table_name

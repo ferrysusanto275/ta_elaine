@@ -6,7 +6,7 @@ from app.controllers.indikator_controller import indikator_bp
 from app.controllers.isi_controller import isi_bp
 from app.controllers.predikat_controller import predikat_bp
 from app.controllers.grup_instansi_controller import grup_instansi_bp
-min_year=2021
+min_year=2018
 app = Flask(__name__, template_folder='views')
 app.register_blueprint(instansi_bp)
 app.register_blueprint(domain_bp)
@@ -129,7 +129,8 @@ def elbow_indexJs():
     return send_file("static/js/elbow_index.js")
 @app.route("/clustering")
 def clustering():
-    return render_template("clustering.html",page_url=request.path)
+    return render_template("clustering.html",page_url=request
+    .path)
 @app.route("/assets/js/clustering.js")
 def clusteringJs():
     return send_file("static/js/clustering.js")

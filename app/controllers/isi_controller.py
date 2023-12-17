@@ -644,103 +644,121 @@ def get_res_agglo_indexByYear(year, linkage):
 @isi_bp.route('/api/'+model.table_name+'/insert/<string:instansi>/<string:year>/<string:indeks>')
 def insert_by_index(instansi,year,indeks):
     
-    data_isi_2021=model.getAllValueByYearInstansi(instansi,2021)
-    data_isi_2022=model.getAllValueByYearInstansi(instansi,2022)
-    data_known=[[item["val"] for item in data_isi_2021],[item["val"] for item in data_isi_2022]]
-    data_known[0].append(hitung_index(data_isi_2021))
-    data_known[1].append(hitung_index(data_isi_2022))
+    # data_isi_2021=model.getAllValueByYearInstansi(instansi,2021)
+    # data_isi_2022=model.getAllValueByYearInstansi(instansi,2022)
+    # data_known=[[item["val"] for item in data_isi_2021],[item["val"] for item in data_isi_2022]]
+    # data_known[0].append(hitung_index(data_isi_2021))
+    # data_known[1].append(hitung_index(data_isi_2022))
     initial_guess=[]
     bounds=[]
-    key_change=[]
-    all_fill_key=[]
-    data_fix=[]
+    for i in range(47):
+        initial_guess.append(1)
+        bounds.append([1,5])
+    constraint = {'type': 'eq', 'fun': lambda params: float(indeks)- objective(params)}
+    # Melakukan minimasi
+    result = minimize(objective, initial_guess, bounds=bounds, constraints=constraint)
+    indikator=[]
+    # Menampilkan hasil
+    for i in range(47):
+        indikator.append(round(result.x[i]))
+
+
+    if model.create_bulk(instansi=instansi,year=year,values=indikator):
+        return jsonify({'message': model.table_name.capitalize()+' created'}), 201
+    else:
+        return jsonify({'message': 'Failed to create '+model.table_name}), 500
+    return jsonify(indikators)
+        # print(i+1,indikator[i])
+    # key_change=[]
+    # all_fill_key=[]
+    # data_fix=[]
     
-    for i,val in enumerate(data_isi_2021):
-        initial_guess.append(Decimal(0))
-        # bound array 0 nilai max bound ke 1 nilai min
-        bounds.append([Decimal(5),Decimal(1)])
-        if(data_known[0][-1]!=data_known[1][-1]):
-            if(data_known[0][i]==data_known[1][i]):
-                data_fix.append(i)
-                bounds[i][0]=data_known[0][i]
-                initial_guess[i]=data_known[0][i]
-            elif((data_known[0][i]>data_known[1][i] and data_known[0][-1]>data_known[1][-1]) or (data_known[0][i]<data_known[1][i] and data_known[0][-1]<data_known[1][-1])):
-                max_value = max(Decimal(indeks), data_known[0][-1], data_known[1][-1])
-                min_value = min(Decimal(indeks), data_known[0][-1], data_known[1][-1])
-                if(max_value==indeks):
-                    if(min_value==data_known[0][-1]):
-                        bounds[i][1]=data_known[0][i]
-                    else:bounds[i][1]=data_known[1][i]
-                elif(max_value==data_known[0][-1]):
-                    bounds[i][0]=data_known[0][i]
-                    if(min_value==data_known[1][-1]):
-                        bounds[i][1]=data_known[1][i]
-                else:
-                    bounds[i][0]=data_known[1][i]
-                    if(min_value==data_known[0][-1]):
-                        bounds[i][1]=data_known[0][i]
-                # cek sebelahan
-                initial_guess[i]=bounds[i][1]
-                # cari data yang sama 
-                key_same=[]
-                if((i in all_fill_key)==False):
+    # for i,val in enumerate(data_isi_2021):
+    #     initial_guess.append(Decimal(0))
+    #     # bound array 0 nilai max bound ke 1 nilai min
+    #     bounds.append([Decimal(5),Decimal(1)])
+    #     if(data_known[0][-1]!=data_known[1][-1]):
+    #         if(data_known[0][i]==data_known[1][i]):
+    #             data_fix.append(i)
+    #             bounds[i][0]=data_known[0][i]
+    #             initial_guess[i]=data_known[0][i]
+    #         elif((data_known[0][i]>data_known[1][i] and data_known[0][-1]>data_known[1][-1]) or (data_known[0][i]<data_known[1][i] and data_known[0][-1]<data_known[1][-1])):
+    #             max_value = max(Decimal(indeks), data_known[0][-1], data_known[1][-1])
+    #             min_value = min(Decimal(indeks), data_known[0][-1], data_known[1][-1])
+    #             if(max_value==indeks):
+    #                 if(min_value==data_known[0][-1]):
+    #                     bounds[i][1]=data_known[0][i]
+    #                 else:bounds[i][1]=data_known[1][i]
+    #             elif(max_value==data_known[0][-1]):
+    #                 bounds[i][0]=data_known[0][i]
+    #                 if(min_value==data_known[1][-1]):
+    #                     bounds[i][1]=data_known[1][i]
+    #             else:
+    #                 bounds[i][0]=data_known[1][i]
+    #                 if(min_value==data_known[0][-1]):
+    #                     bounds[i][1]=data_known[0][i]
+    #             # cek sebelahan
+    #             initial_guess[i]=bounds[i][1]
+    #             # cari data yang sama 
+    #             key_same=[]
+    #             if((i in all_fill_key)==False):
                     
-                    for j,val_other in enumerate(data_known[0]):
-                            if(data_known[0][i]==data_known[0][j] and data_known[1][i]==data_known[1][j]):
-                                # print(i,j,data_known[0][i],data_known[0][j],data_known[1][i],data_known[1][j])
-                                key_same.append(j)
-                                all_fill_key.append(j)
-                    key_change.append([i,key_same])
+    #                 for j,val_other in enumerate(data_known[0]):
+    #                         if(data_known[0][i]==data_known[0][j] and data_known[1][i]==data_known[1][j]):
+    #                             # print(i,j,data_known[0][i],data_known[0][j],data_known[1][i],data_known[1][j])
+    #                             key_same.append(j)
+    #                             all_fill_key.append(j)
+    #                 key_change.append([i,key_same])
                 
-            else:initial_guess[i]=bounds[i][1]
-    # cari data fix yang lebih besar atau harus lebih kecil dari pola
-    # print(sorted(data_fix))
-    for i in key_change:
-        # print(i)
-        cd=i[0]
-        for j in data_fix:
-            # data harus lebih besar
-            if(data_known[0][cd]>data_known[0][j] and data_known[1][cd]>data_known[1][j]):
+    #         else:initial_guess[i]=bounds[i][1]
+    # # cari data fix yang lebih besar atau harus lebih kecil dari pola
+    # # print(sorted(data_fix))
+    # for i in key_change:
+    #     # print(i)
+    #     cd=i[0]
+    #     for j in data_fix:
+    #         # data harus lebih besar
+    #         if(data_known[0][cd]>data_known[0][j] and data_known[1][cd]>data_known[1][j]):
                 
-                bounds[cd][1]=max(initial_guess[j],bounds[cd][1])
-                # print(bounds[cd][1])
-                # data harus lebih kecil
-            if(data_known[0][cd]<data_known[0][j] and data_known[1][cd]<data_known[1][j]):
-                # print(cd,data_known[0][cd],data_known[1][cd],bounds[cd][1])
-                bounds[cd][0]=min(initial_guess[j],bounds[cd][1])
-                # print(bounds[cd][0])
+    #             bounds[cd][1]=max(initial_guess[j],bounds[cd][1])
+    #             # print(bounds[cd][1])
+    #             # data harus lebih kecil
+    #         if(data_known[0][cd]<data_known[0][j] and data_known[1][cd]<data_known[1][j]):
+    #             # print(cd,data_known[0][cd],data_known[1][cd],bounds[cd][1])
+    #             bounds[cd][0]=min(initial_guess[j],bounds[cd][1])
+    #             # print(bounds[cd][0])
         
-        initial_guess[cd]=bounds[cd][1]
-        for j in i[1]:
-            initial_guess[j]=initial_guess[cd]
-            if(bounds[cd][0]==bounds[cd][1]):data_fix.append(j)
-    print(sorted(data_fix))
-    n = len(key_change)
-    for i in range(n):
-        for j in range(0, n-i-1):
-            idx1=key_change[j][0]
-            idx2=key_change[j+1][0]
-            # print(idx1,idx2,data_known[0][idx1],data_known[0][idx1])
-            if(data_known[0][idx1]<data_known[0][idx2] and data_known[1][idx1]<data_known[1][idx2]):
-                key_change[j],key_change[j+1]=key_change[j+1],key_change[j]
-    # print(key_change)
-    counter=0
-    while(objective(initial_guess)<Decimal(indeks) and counter<len(key_change)):
-        i=key_change[counter][0]
-        if(bounds[i][0]>initial_guess[i]):
-            initial_guess[i]=initial_guess[i]+1
-            for j in key_change[counter][1]:
-                initial_guess[j]=initial_guess[i]
-            if(objective(initial_guess)>Decimal(indeks)):
-                initial_guess[i]=initial_guess[i]-1
-                for j in key_change[counter][1]:
-                    initial_guess[j]=initial_guess[i]
-                counter=counter+1
-        else:
-            counter=counter+1
+    #     initial_guess[cd]=bounds[cd][1]
+    #     for j in i[1]:
+    #         initial_guess[j]=initial_guess[cd]
+    #         if(bounds[cd][0]==bounds[cd][1]):data_fix.append(j)
+    # print(sorted(data_fix))
+    # n = len(key_change)
+    # for i in range(n):
+    #     for j in range(0, n-i-1):
+    #         idx1=key_change[j][0]
+    #         idx2=key_change[j+1][0]
+    #         # print(idx1,idx2,data_known[0][idx1],data_known[0][idx1])
+    #         if(data_known[0][idx1]<data_known[0][idx2] and data_known[1][idx1]<data_known[1][idx2]):
+    #             key_change[j],key_change[j+1]=key_change[j+1],key_change[j]
+    # # print(key_change)
+    # counter=0
+    # while(objective(initial_guess)<Decimal(indeks) and counter<len(key_change)):
+    #     i=key_change[counter][0]
+    #     if(bounds[i][0]>initial_guess[i]):
+    #         initial_guess[i]=initial_guess[i]+1
+    #         for j in key_change[counter][1]:
+    #             initial_guess[j]=initial_guess[i]
+    #         if(objective(initial_guess)>Decimal(indeks)):
+    #             initial_guess[i]=initial_guess[i]-1
+    #             for j in key_change[counter][1]:
+    #                 initial_guess[j]=initial_guess[i]
+    #             counter=counter+1
+    #     else:
+    #         counter=counter+1
     
-        # cek data yang harus berubah
-    initial_guess.append(objective(initial_guess))
+    #     # cek data yang harus berubah
+    # initial_guess.append(objective(initial_guess))
  
     
         
@@ -748,20 +766,20 @@ def insert_by_index(instansi,year,indeks):
 # Fungsi objektif untuk minimasi
 def objective(params):
     i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
-    domain1=(i1+i2+i3+i4+i5+i6+i7+i8+i9+i10)*Decimal(1.3/13)
+    domain1=(i1+i2+i3+i4+i5+i6+i7+i8+i9+i10)*(1.3/13)
     
-    aspek2=(i11+i12+i13+i14)*Decimal(2.5/10)
-    aspek3=(i15+i16+i17+i18)*Decimal(2.5/10)
-    aspek4=(i19+i20)*Decimal(2.5/5)
-    aspek5=(i21+i22+i23+i24+i25+i26+i27+i28)*Decimal(1.5/12)
-    aspek6=(i29+i30+i31)*Decimal(1.5/4.5)
-    aspek7=(i32+i33+i34+i35+i36+i37+i38+i39+i40+i41)*Decimal(2.75/27.5)
-    aspek8=(i42+i43+i44+i45+i46+i47)*Decimal(3/18)
-    domain2=(aspek2*Decimal(10/25))+(aspek3*Decimal(10/25))+(aspek4*Decimal(5/25))
-    domain3=(aspek5*Decimal(12/16.5))+(aspek6*Decimal(4.5/16.5))
-    domain4=(aspek7*Decimal(27.5/45.5))+(aspek8*Decimal(18/45.5))
+    aspek2=(i11+i12+i13+i14)*(2.5/10)
+    aspek3=(i15+i16+i17+i18)*(2.5/10)
+    aspek4=(i19+i20)*(2.5/5)
+    aspek5=(i21+i22+i23+i24+i25+i26+i27+i28)*(1.5/12)
+    aspek6=(i29+i30+i31)*(1.5/4.5)
+    aspek7=(i32+i33+i34+i35+i36+i37+i38+i39+i40+i41)*(2.75/27.5)
+    aspek8=(i42+i43+i44+i45+i46+i47)*(3/18)
+    domain2=(aspek2*(10/25))+(aspek3*(10/25))+(aspek4*(5/25))
+    domain3=(aspek5*(12/16.5))+(aspek6*(4.5/16.5))
+    domain4=(aspek7*(27.5/45.5))+(aspek8*(18/45.5))
     # print(domain1,domain2,domain3,domain4)
-    return (domain1*Decimal(13/100))+(domain2*Decimal(25/100))+(domain3*Decimal(16.5/100))+(domain4*Decimal(45.5/100))
+    return (domain1*(13/100))+(domain2*(25/100))+(domain3*(16.5/100))+(domain4*(45.5/100))
 def hitung_index(params):
     x=0
     data_aspek={};
@@ -820,7 +838,7 @@ def pcaByYear(year):
 
     fig, ax = plt.subplots(figsize=(15, 6))
     sns.scatterplot(x='PC1', y='PC2', data=pca_df, hue='Cluster',s=100, palette='Set1')
-    plt.title('PCA Plot of Institutions')
+    plt.title('PCA KMeans')
     plt.xlabel('Principal Component 1 (PC1)')
     plt.ylabel('Principal Component 2 (PC2)')
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # Adjust legend position
