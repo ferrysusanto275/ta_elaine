@@ -4,7 +4,7 @@ from app.models.isi import isiModel
 from scipy.optimize import minimize
 
 model=isiModel()
-df = pd.read_csv('Data CSV/data 2018-2020 Grup Kementerian.csv')
+df = pd.read_csv('Data CSV/Data_lengkap_part_07.csv')
 for index, row in df.iterrows():
     if(row.id!='NaN'):
         def objective(params):
@@ -21,64 +21,40 @@ for index, row in df.iterrows():
             domain2=(aspek2*(10/25))+(aspek3*(10/25))+(aspek4*(5/25))
             domain3=(aspek5*(12/16.5))+(aspek6*(4.5/16.5))
             domain4=(aspek7*(27.5/45.5))+(aspek8*(18/45.5))
-            # print(domain1,domain2,domain3,domain4)
             return (domain1*(13/100))+(domain2*(25/100))+(domain3*(16.5/100))+(domain4*(45.5/100))
         initial_guess=[]
         bounds=[]
         for i in range(47):
             initial_guess.append(1)
             bounds.append([1,5])
-        constraint_2018 = {'type': 'eq', 'fun': lambda params: float(row.indeks_2018)- objective(params)}
-        constraint_2019 = {'type': 'eq', 'fun': lambda params: float(row.indeks_2019)- objective(params)}
-        constraint_2020 = {'type': 'eq', 'fun': lambda params: float(row.indeks_2020)- objective(params)}
-        # Melakukan minimasi
-        result_2018 = minimize(objective, initial_guess, bounds=bounds, constraints=constraint_2018)
-        result_2019 = minimize(objective, initial_guess, bounds=bounds, constraints=constraint_2019)
-        result_2020 = minimize(objective, initial_guess, bounds=bounds, constraints=constraint_2020)
+        if(float(row.indeks_2018)>0):
+            constraint_2018 = {'type': 'eq', 'fun': lambda params: float(row.indeks_2018)- objective(params)}
+            result_2018 = minimize(objective, initial_guess, bounds=bounds, constraints=constraint_2018)
+        if(float(row.indeks_2019)>0):
+            constraint_2019 = {'type': 'eq', 'fun': lambda params: float(row.indeks_2019)- objective(params)}
+            result_2019 = minimize(objective, initial_guess, bounds=bounds, constraints=constraint_2019)
+        if(float(row.indeks_2020)>0):
+            constraint_2020 = {'type': 'eq', 'fun': lambda params: float(row.indeks_2020)- objective(params)}
+            result_2020 = minimize(objective, initial_guess, bounds=bounds, constraints=constraint_2020)
         indikator_2018=[]
         indikator_2019=[]
         indikator_2020=[]
         # Menampilkan hasil
         for i in range(47):
-            indikator_2018.append(result_2018.x[i])
-            indikator_2019.append(result_2019.x[i])
-            indikator_2020.append(result_2020.x[i])
-        model.create_bulk(row.id,'2018',indikator_2018)
-        model.create_bulk(row.id,'2019',indikator_2019)
-        model.create_bulk(row.id,'2020',indikator_2020)
-        # print(index,row.id,row.indeks_2018,row.indeks_2019,row.indeks_2020)
-# Target nilai x yang ingin dicapai
-# x_target = 2.70
+            if(float(row.indeks_2018)>0):
+                indikator_2018.append(result_2018.x[i])
+            if(float(row.indeks_2019)>0):
+                indikator_2019.append(result_2019.x[i])
+            if(float(row.indeks_2020)>0):
+                indikator_2020.append(result_2020.x[i])
+        print(index,float(row.indeks_2018),float(row.indeks_2019),float(row.indeks_2020))
+        if(float(row.indeks_2018)>0):
+            print("masuk 2018")        
+            model.create_bulk(row.id,'2018',indikator_2018)
+        if(float(row.indeks_2019)>0):
+            print("masuk 2019")   
+            model.create_bulk(row.id,'2019',indikator_2019)
+        if(float(row.indeks_2020)>0):
+            print("masuk 2020")   
+            model.create_bulk(row.id,'2020',indikator_2020)
 
-# # Fungsi objektif untuk minimasi
-
-
-# # Batasan nilai a, b, c, d antara 0 dan 4
-# bounds = [(1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5),
-# (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5),
-# (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5),
-# (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5),
-# (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5), (1, 5)]
-
-# # Kondisi batasan linear
-# constraint = {'type': 'eq', 'fun': lambda params: x_target - objective(params)}
-
-# # Nilai awal (initial guess)
-# initial_guess = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
-
-# # Melakukan minimasi
-# result = minimize(objective, initial_guess, bounds=bounds, constraints=constraint)
-# indikator=[]
-# # Menampilkan hasil
-# for i in range(47):
-#     indikator.append(round(result.x[i]))
-#     print(i+1,indikator[i])
-# print(objective(indikator))
-# Menghitung nilai x berdasarkan nilai a, b, c, d terbaru
-# x_calculated = (result.x[0] * ba + result.x[1] * bb + result.x[2] * bc + result.x[3] * bd) / (ba + bb + bc + bd)
-
-# # Menampilkan hasil perbandingan dengan pola data sebelumnya
-# print("\nPerbandingan dengan pola data sebelumnya:")
-# print("Nilai x yang dihitung:", x_calculated)
-# print("Nilai x yang diketahui:", x_target)
-# print("Selisih antara nilai x dihitung dan x diketahui:", abs(x_calculated - x_target))

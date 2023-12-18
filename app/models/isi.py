@@ -60,7 +60,7 @@ class isiModel:
 
     def create_bulk(self,instansi,year,values):
         db=Database()
-        query="INSERT INTO "+self.table_name
+        query="REPLACE INTO "+self.table_name
         query+=" (instansi,indikator,year,value)"
         query+=" VALUES (%s,%s,%s,%s)"
         indikators=indikator_model.getAll()

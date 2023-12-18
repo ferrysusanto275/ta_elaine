@@ -1,0 +1,616 @@
+﻿id,instansi,indeks_2018,indeks_2019,indeks_2020
+i2023110600313,"Kementerian Koordinator Bidang Politik, Hukum dan Keamanan",2.09,1.89,2.57
+i2023110600078,Kementerian Koordinator Bidang Perekonomian,2.7,3.25,3.25
+i2023110600001,Kementerian Koordinator Bidang Pembangunan Manusia dan Kebudayaan,2.72,2.61,3.07
+i2023110600079,Kementerian Koordinator Bidang Kemaritiman,1.8,2.07,2.07
+i2023110600004,Kementerian Dalam Negeri,3.16,3.2,3.2
+i2023110600005,Kementerian Luar Negeri,3.51,3.37,3.37
+i2023110600315,Kementerian Pertahanan,2.24,2.24,2.74
+i2023110600086,Kementerian Agama,2.72,2.72,2.69
+i2023110600006,Kementerian Hukum dan Hak Asasi Manusia,3.3,3.18,3.18
+i2023110600083,Kementerian Keuangan,4.53,4.39,4.39
+i2023110600084,Kementerian Pendidikan dan Kebudayaan,3.53,3.4,3.4
+i2023110600085,Kementerian Kesehatan,2.13,2.2,2.82
+i2023110600087,Kementerian Sosial,3.04,3.04,2.73
+i2023110600010,Kementerian Ketenagakerjaan,2.4,3.29,3.29
+i2023110600316,Kementerian Perindustrian,3.08,2.86,2.86
+i2023110600011,Kementerian Perdagangan,3.45,3.34,3.34
+i2023110600008,Kementerian Energi dan Sumber Daya Mineral,3.44,3.8,3.8
+i2023110600091,Kementerian Pekerjaan Umum & Perumahan Rakyat,3.85,3.85,3.85
+i2023110600009,Kementerian Perhubungan,3.71,4.31,4.31
+i2023110600090,Kementerian Komunikasi dan Informatika,3.53,3.71,3.71
+i2023110600007,Kementerian Pertanian,3.05,3.34,3.34
+i2023110600088,Kementerian Lingkungan Hidup dan Kehutanan,3.43,3.61,3.61
+i2023110600089,Kementerian Kelautan dan Perikanan,3.36,3.57,3.57
+i2023110600082,"Kementerian Desa, Pembangunan Daerah Tertinggal dan Transmigrasi",3.16,3.19,3.19
+i2023110600014,Kementerian Agraria dan Tata Ruang/Badan Pertanahan Nasional,2.23,2.6,2.6
+i2023110600102,Kementerian Perencanaan Pembangunan Nasional/Badan Perencanaan Pembangunan Nasional,3.18,3.23,3.23
+i2023110600081,Kementerian Pendayagunaan Aparatur Negara dan Reformasi Birokrasi,3.25,3.09,3.09
+i2023110600080,Kementerian Badan Usaha Milik Negara,3.07,2.94,2.94
+i2023110600002,Kementerian Koperasi dan Usaha Kecil dan Menengah,2.15,2.15,2.67
+i2023110600092,Kementerian Pariwisata dan Ekonomi Kreatif/Badan Pariwisata dan Ekonomi Kreatif,3.71,3.73,3.73
+i2023110600003,Kementerian Pemberdayaan Perempuan dan Perlindungan Anak,2.34,3.05,3.05
+i2023110600314,Kementerian Pemuda dan Olahraga,1.37,1.23,1.88
+i2023110600093,Kementerian Sekretariat Negara,3.42,3.68,3.68
+i2023110600103,Arsip Nasional Republik Indonesia,2.28,2.18,3.04
+i2023110600623,Badan Ekonomi Kreatif,2.03,2.03,2.03
+i2023110600104,Badan Informasi Geospasial,3.23,3.11,3.11
+i2023110600098,Badan Kepegawaian Negara,2.72,2.84,2.84
+i2023110600624,Badan Kependudukan dan KB Nasional,2.82,2.64,2.83
+i2023110600625,Badan Koordinasi Keamanan Laut,2.24,2.28,2.43
+i2023110600626,Badan Koordinasi Penanaman Modal,2.18,2.33,3.38
+i2023110600322,"Badan Meteorologi, Klimatologi dan Geofisika",2.88,3.01,3.01
+i2023110600112,Badan Narkotika Nasional,1.97,2.28,2.9
+i2023110600114,Badan Nasional Penanggulangan Bencana,2.61,2.61,3.24
+i2023110600326,Badan Nasional Penanggulangan Terorisme,1.54,1.54,1.99
+i2023110600119,Badan Nasional Pencarian Dan Pertolongan,2.23,2.48,2.97
+i2023110600627,Badan Nasional Penempatan Perlindungan TKI,3.32,3.33,3.33
+i2023110600110,Badan Pengawas Obat dan Makanan,2.44,3.68,3.68
+i2023110600109,Badan Pengawas Tenaga Nuklir,3.95,3.71,3.71
+i2023110600108,Badan Pengawasan Keuangan dan Pembangunan,2.5,2.7,3.37
+i2023110600107,Badan Pengkajian dan Penerapan Teknologi,3.31,3.83,3.83
+i2023110600101,Badan Pusat Statistik,3.33,3.63,3.63
+i2023110600100,Badan Tenaga Nuklir Nasional,3.25,2.9,2.9
+i2023110600012,Badan Siber dan Sandi Negara,2.01,3.99,3.99
+i2023110600015,Badan Standardisasi Nasional,2.27,3.25,3.25
+i2023110600099,Lembaga Administrasi Negara,3.2,3.05,3.05
+i2023110600320,Lembaga Ilmu Pengetahuan Indonesia,3.7,3.55,3.55
+i2023110600120,Lembaga Kebijakan Pengadaan Barang/Jasa Pemerintah,3.14,3.55,2.95
+i2023110600111,Lembaga Ketahanan Nasional RI,2.46,2.33,2.78
+i2023110600013,Lembaga Penerbangan dan Antariksa Nasional,2.83,2.65,3.85
+i2023110600321,Perpustakaan Nasional RI,3.19,3.06,3.06
+i2023110600094,Badan Intelijen Negara,3.11,3.31,3.31
+i2023110600128,Markas Besar Kepolisian Republik Indonesia,3.26,3.33,3.33
+i2023110600628,Kepolisian Daerah Aceh,1.47,1.29,
+i2023110600629,Kepolisian Daerah Bengkulu,1.17,1.82,
+i2023110600630,Kepolisian Daerah Jambi,2.52,2.32,
+i2023110600631,Kepolisian Daerah Kepulauan Bangka Belitung,1.62,2.36,
+i2023110600632,Kepolisian Daerah Kepulauan Riau,1.74,2.64,
+i2023110600633,Kepolisian Daerah Lampung,2.22,2.18,
+i2023110600634,Kepolisian Daerah Riau,1.92,2.66,
+i2023110600635,Kepolisian Daerah Sumatera Barat,2.27,2.2,
+i2023110600636,Kepolisian Daerah Sumatera Selatan,2.36,2.73,
+i2023110600637,Kepolisian Daerah Sumatera Utara,2.3,2.34,
+i2023110600638,Kepolisian Daerah Banten,1.42,2.82,
+i2023110600639,Kepolisian Daerah Metro Jaya,2.9,2.83,
+i2023110600640,Kepolisian Daerah Jawa Barat,3.18,2.95,
+i2023110600641,Kepolisian Daerah Jawa Tengah,1.84,2.19,
+i2023110600642,Kepolisian Daerah Jawa Timur,2.93,3.17,
+i2023110600643,Kepolisian Daerah Istimewa Yogyakarta,2.53,2.35,
+i2023110600644,Kepolisian Daerah Kalimantan Barat,1.95,1.84,
+i2023110600645,Kepolisian Daerah Kalimantan Selatan,1.86,1.81,
+i2023110600646,Kepolisian Daerah Kalimantan Tengah,2.41,2.26,
+i2023110600647,Kepolisian Daerah Kalimantan Timur,2.22,2.94,
+i2023110600648,Kepolisian Daerah Kalimantan Utara,1.35,2.45,
+i2023110600649,Kepolisian Daerah Bali,2.43,3.12,
+i2023110600650,Kepolisian Daerah Nusa Tenggara Barat,2.1,2.45,
+i2023110600651,Kepolisian Daerah Nusa Tenggara Timur,2.13,1.98,
+i2023110600652,Kepolisian Daerah Gorontalo,1.57,1.45,
+i2023110600653,Kepolisian Daerah Sulawesi Barat,1.55,2.13,
+i2023110600654,Kepolisian Daerah Sulawesi Selatan,1.76,2.31,
+i2023110600655,Kepolisian Daerah Sulawesi Tengah,1.92,2.47,
+i2023110600656,Kepolisian Daerah Sulawesi Tenggara,1.79,1.77,
+i2023110600657,Kepolisian Daerah Sulawesi Utara,1.88,2.59,
+i2023110600658,Kepolisian Daerah Maluku,1.56,2.17,
+i2023110600659,Kepolisian Daerah Maluku Utara,1.55,1.84,
+i2023110600660,Kepolisian Daerah Papua Barat,1.2,1.96,
+i2023110600661,Kepolisian Daerah Papua,1.49,1.33,
+i2023110600323,Sekretariat Kabinet,2.21,2.63,
+i2023110600662,Sekretariat Jenderal Majelis Permusyawaratan Rakyat,1.86,2.95,
+i2023110600663,Sekretariat Jenderal Dewan Perwakilan Rakyat,1.60,2.49,
+i2023110600664,Sekretariat Jenderal Dewan Perwakilan Daerah,1.35,2.57,
+i2023110600665,Sekretariat Mahkamah Agung RI,2.57,3.81,
+i2023110600666,Sekretariat Jenderal Mahkamah Konstitusi,2.97,2.97,
+i2023110600667,Sekretariat Jenderal Komisi Yudisial,2.50,2.5,
+i2023110600668,Sekretariat Jenderal Badan Pemeriksa Keuangan,3.57,2.49,
+i2023110600123,Radio Republik Indonesia,2.39,2.66,
+i2023110600325,Televisi Republik Indonesia,1.96,2.11,
+i2023110600669,Sekretariat Badan Amil Zakat Nasional,1.94,2.11,
+i2023110600670,Sekretariat Badan Nasional Pengelola Perbatasan,1.23,2.05,
+i2023110600671,Sekretariat Badan Nasional Sertifikasi Profesi,1.91,2.68,
+i2023110600672,Sekretariat Badan Pengawas Pemilihan Umum,1.58,3.3,
+i2023110600673,Sekretariat Dewan Jaminan Sosial Nasional,1.07,1.94,
+i2023110600674,Sekretariat Dewan Ketahanan Nasional,2.31,1.37,
+i2023110600675,Sekretariat Kantor Staf Presiden,2.36,2.27,
+i2023110600676,Sekretariat Komisi Aparatur Sipil Negara,1.15,1.21,
+i2023110600677,Sekretariat Komisi Informasi Pusat,1.23,1.23,
+i2023110600678,Sekretariat Komisi Kejaksaan,1.23,1.23,
+i2023110600679,Sekretariat Komisi Pemberantasan Korupsi,2.82,1.15,
+i2023110600680,Sekretariat Komisi Penyiaran Indonesia,1.21,1,
+i2023110600681,Sekretariat Komisi Nasional Hak Asasi Manusia,2.05,1.68,
+i2023110600682,Sekretariat Komite Akreditasi Nasional,2.23,1.91,
+i2023110600683,Sekretariat Konsil Kedokteran Indonesia,1.47,2.23,
+i2023110600684,Sekretariat Ombudsman Republik Indonesia,1.45,1.41,
+i2023110600685,Sekretariat Pusat Pelaporan dan Analisis Transaksi Keuangan,3.10,2.32,
+i2023110600017,Pemerintah Aceh,2.26,3,3
+i2023110600339,Pemerintah Kab. Aceh Barat,1.50,1.5,1.5
+i2023110600528,Pemerintah Kab. Aceh Barat Daya,1.27,1.27,1.27
+i2023110600522,Pemerintah Kab. Aceh Besar,2.16,1.97,1.97
+i2023110600530,Pemerintah Kab. Aceh Jaya,1.72,1.72,1.72
+i2023110600525,Pemerintah Kab. Aceh Selatan,1.26,1.26,1.26
+i2023110600342,Pemerintah Kab. Aceh Singkil,1.42,1.42,1.42
+i2023110600343,Pemerintah Kab. Aceh Tamiang,1.63,2.09,2.09
+i2023110600526,Pemerintah Kab. Aceh Tengah,1.55,1.41,1.41
+i2023110600527,Pemerintah Kab. Aceh Tenggara,1.47,1.47,1.47
+i2023110600338,Pemerintah Kab. Aceh Timur,1.19,2.05,2.05
+i2023110600524,Pemerintah Kab. Aceh Utara,1.36,1.36,1.36
+i2023110600345,Pemerintah Kab. Bener Meriah,1.38,1.8,1.8
+i2023110600341,Pemerintah Kab. Bireuen,1.37,1.37,1.37
+i2023110600529,Pemerintah Kab. Gayo Lues,1.37,1.37,1.37
+i2023110600344,Pemerintah Kab. Nagan Raya,1.64,1.64,1.64
+i2023110600523,Pemerintah Kab. Pidie,1.38,1.38,1.38
+i2023110600531,Pemerintah Kab. Pidie Jaya,1.75,1.59,1.59
+i2023110600129,Pemerintah Kota Banda Aceh,2.42,2.24,2.87
+i2023110600347,Pemerintah Kota Langsa,1.34,1.34,1.34
+i2023110600348,Pemerintah Kota Lhokseumawe,1.60,1.6,1.6
+i2023110600346,Pemerintah Kota Sabang,1.43,1.44,1.44
+i2023110600349,Pemerintah Kota Subulussalam,1.90,1.9,1.9
+i2023110600130,Pemerintah Provinsi Sumatera Utara,3.18,2.96,2.96
+i2023110600354,Pemerintah Kab. Asahan,1.15,1.93,1.93
+i2023110600136,Pemerintah Kab. Batubara,1.53,1.53,1.53
+i2023110600352,Pemerintah Kab. Dairi,1.42,1.42,1.42
+i2023110600131,Pemerintah Kab. Deli Serdang,2.27,2.47,2.63
+i2023110600356,Pemerintah Kab. Humbang Hasundutan,1.70,1.73,1.73
+i2023110600350,Pemerintah Kab. Karo,1.70,1.61,1.61
+i2023110600137,Pemerintah Kab. Labuhanbatu Selatan,1.72,1.72,2.93
+i2023110600138,Pemerintah Kab. Labuhanbatu Utara,1.93,2.09,1.72
+i2023110600132,Pemerintah Kab. Langkat,2.24,2.14,2.09
+i2023110600019,Pemerintah Kab. Mandailing Natal,1.70,2.14,2.14
+i2023110600533,Pemerintah Kab. Nias,1.46,1.46,1.46
+i2023110600536,Pemerintah Kab. Nias Barat,1.32,1.15,1.15
+i2023110600534,Pemerintah Kab. Nias Selatan,1.17,1.17,1.17
+i2023110600535,Pemerintah Kab. Padang Lawas,1.22,1.37,1.37
+i2023110600135,Pemerintah Kab. Padang Lawas Utara,1.15,1.15,1.15
+i2023110600134,Pemerintah Kab. Pakpak Bharat,3.19,3.05,3.05
+i2023110600020,Pemerintah Kab. Samosir,1.46,2.49,3.31
+i2023110600357,Pemerintah Kab. Serdang Bedagai,2.29,2.29,2.29
+i2023110600532,Pemerintah Kab. Simalungun,1.31,1.31,1.31
+i2023110600018,Pemerintah Kab. Tapanuli Selatan,1.81,2.75,2.68
+i2023110600351,Pemerintah Kab. Tapanuli Tengah,1.57,1.5,2.68
+i2023110600353,Pemerintah Kab. Tapanuli Utara,1.34,2.75,1.5
+i2023110600686,Pemerintah Kab. Toba Samosir,1.43,1.59,1.59
+i2023110600140,Pemerintah Kota Binjai,2.49,2.63,2.63
+i2023110600361,Pemerintah Kota Gunung Sitoli,1.55,1.98,1.98
+i2023110600139,Pemerintah Kota Medan,2.14,2.57,3.13
+i2023110600359,Pemerintah Kota Pematang Siantar,2.05,1.98,1.41
+i2023110600360,Pemerintah Kota Sibolga,1.40,1.4,1.4
+i2023110600141,Pemerintah Kota Tanjung Balai,2.05,2.42,2.39
+i2023110600358,Pemerintah Kota Tebing Tinggi,2.27,2.67,2.72
+i2023110600362,Pemerintah Provinsi Riau,3.02,3.51,3.51
+i2023110600538,Pemerintah Kab. Bengkalis,1.81,1.81,1.81
+i2023110600539,Pemerintah Kab. Indragiri Hilir,1.75,1.75,1.75
+i2023110600021,Pemerintah Kab. Indragiri Hulu,2.13,1.95,1.95
+i2023110600363,Pemerintah Kab. Kampar,1.86,2.93,2.93
+i2023110600365,Pemerintah Kab. Kepulauan Meranti,2.00,1.83,1.83
+i2023110600022,Pemerintah Kab. Kuantan Singingi,1.58,2.35,2.92
+i2023110600143,Pemerintah Kab. Pelalawan,1.59,1.59,1.59
+i2023110600540,Pemerintah Kab. Rokan Hilir,1.64,1.64,1.64
+i2023110600144,Pemerintah Kab. Rokan Hulu,1.56,2.13,2.13
+i2023110600364,Pemerintah Kab. Siak,1.71,1.61,1.61
+i2023110600145,Pemerintah Kota Dumai,2.13,2.54,2.25
+i2023110600366,Pemerintah Kota Pekanbaru,1.91,1.88,1.88
+i2023110600146,Pemerintah Provinsi Sumatera Barat,2.65,3.1,3.1
+i2023110600147,Pemerintah Kab. Agam,2.11,2.11,2.11
+i2023110600541,Pemerintah Kab. Kep. Mentawai,1.97,1.97,1.97
+i2023110600148,Pemerintah Kab. Limapuluh Kota,2.40,2.8,3.17
+i2023110600150,Pemerintah Kab. Padang Pariaman,1.19,1.41,1.41
+i2023110600153,Pemerintah Kab. Pasaman Barat,1.87,1.82,1.9
+i2023110600151,Pemerintah Kab. Pesisir Selatan,2.59,3.34,3.34
+i2023110600152,Pemerintah Kab. Sijunjung,1.46,2.04,2.04
+i2023110600149,Pemerintah Kab. Solok,2.02,2.78,3.5
+i2023110600369,Pemerintah Kab. Solok Selatan,1.90,1.74,1.74
+i2023110600368,Pemerintah Kab. Tanah Datar,1.78,1.63,1.63
+i2023110600154,Pemerintah Kota Bukittinggi,2.09,2.42,2.8
+i2023110600157,Pemerintah Kota Padang,2.63,2.78,2.96
+i2023110600155,Pemerintah Kota Padang Panjang,1.86,1.86,1.86
+i2023110600159,Pemerintah Kota Pariaman,2.61,2.87,2.87
+i2023110600158,Pemerintah Kota Payakumbuh,2.29,2.57,2.89
+i2023110600156,Pemerintah Kota Sawahlunto,1.87,2.45,2.88
+i2023110600371,Pemerintah Kota Solok,2.28,2.28,2.28
+i2023110600160,Pemerintah Provinsi Jambi,1.79,1.61,1.61
+i2023110600161,Pemerintah Kab. Batang Hari,2.22,2.6,2.6
+i2023110600373,Pemerintah Kab. Bungo,1.15,1.15,1.15
+i2023110600375,Pemerintah Kab. Kerinci,1.53,1.41,1.41
+i2023110600374,Pemerintah Kab. Merangin,1.20,1.08,1.08
+i2023110600162,Pemerintah Kab. Muaro Jambi,1.22,1.4,1.4
+i2023110600376,Pemerintah Kab. Sarolangun,1.77,2.52,2.97
+i2023110600372,Pemerintah Kab. Tanjung Jabung Barat,1.40,1.72,1.72
+i2023110600378,Pemerintah Kab. Tanjung Jabung Timur,1.67,1.81,1.81
+i2023110600377,Pemerintah Kab. Tebo,1.27,1.61,1.61
+i2023110600163,Pemerintah Kota Jambi,2.22,2.85,2.85
+i2023110600379,Pemerintah Kota Sungai Penuh,1.97,1.79,1.79
+i2023110600023,Pemerintah Provinsi Sumatera Selatan,2.83,2.83,2.83
+i2023110600168,Pemerintah Kab. Banyuasin,2.33,2.68,2.03
+i2023110600170,Pemerintah Kab. Empat Lawang,1.00,1.6,1.6
+i2023110600380,Pemerintah Kab. Lahat,1.15,2.03,2.03
+i2023110600024,Pemerintah Kab. Muara Enim,2.57,3.14,3.14
+i2023110600164,Pemerintah Kab. Musi Banyuasin,2.29,2.11,2.11
+i2023110600166,Pemerintah Kab. Musi Rawas,1.60,2.3,2.79
+i2023110600382,Pemerintah Kab. Musi Rawas Utara,1.30,1.3,1.3
+i2023110600381,Pemerintah Kab. Ogan Ilir,1.18,1.21,1.21
+i2023110600167,Pemerintah Kab. Ogan Komering Ilir,1.58,2.65,3.12
+i2023110600165,Pemerintah Kab. Ogan Komering Ulu,1.81,2.67,2.94
+i2023110600169,Pemerintah Kab. Ogan Komering Ulu Sel.,1.52,2.07,2.07
+i2023110600542,Pemerintah Kab. Ogan Komering Ulu Timur,1.16,1.16,1.16
+i2023110600173,Pemerintah Kab. Penukal Abab Lematang Ilir,1.20,1.2,1.2
+i2023110600172,Pemerintah Kota Lubuk Linggau,1.99,1.97,1.97
+i2023110600383,Pemerintah Kota Pagar Alam,1.22,1.76,1.76
+i2023110600171,Pemerintah Kota Palembang,1.90,2.47,3.02
+i2023110600025,Pemerintah Kota Prabumulih,1.57,1.72,1.72
+i2023110600180,Pemerintah Provinsi Bengkulu,1.76,2.4,2.9
+i2023110600387,Pemerintah Kab. Bengkulu Selatan,1.47,2.32,2.27
+i2023110600391,Pemerintah Kab. Bengkulu Tengah,1.42,1.43,1.43
+i2023110600386,Pemerintah Kab. Bengkulu Utara,1.17,1.82,1.82
+i2023110600543,Pemerintah Kab. Kaur,1.00,1,1
+i2023110600390,Pemerintah Kab. Kepahiang,1.15,2.03,2.03
+i2023110600181,Pemerintah Kab. Mukomuko,1.54,1.54,1.54
+i2023110600388,Pemerintah Kab. Rejang Lebong,1.66,1.66,1.66
+i2023110600389,Pemerintah Kab. Seluma,1.00,1.19,1.19
+i2023110600392,Pemerintah Kota Bengkulu,1.74,1.74,1.74
+i2023110600026,Pemerintah Provinsi Lampung,1.29,2.45,2.78
+i2023110600184,Pemerintah Kab. Lampung Barat,2.45,2.45,2.45
+i2023110600544,Pemerintah Kab. Lampung Selatan,1.48,1.41,1.41
+i2023110600393,Pemerintah Kab. Lampung Tengah,1.15,1.23,1.23
+i2023110600546,Pemerintah Kab. Lampung Timur,1.26,1.34,1.34
+i2023110600183,Pemerintah Kab. Lampung Utara,1.36,1.18,1.18
+i2023110600396,Pemerintah Kab. Mesuji,1.30,1.3,1.3
+i2023110600547,Pemerintah Kab. Pesawaran,1.40,1.22,1.22
+i2023110600548,Pemerintah Kab. Pesisir Barat,1.56,2.14,2.14
+i2023110600186,Pemerintah Kab. Pringsewu,2.29,2.18,2.93
+i2023110600394,Pemerintah Kab. Tanggamus,1.37,1.37,1.37
+i2023110600545,Pemerintah Kab. Tulang Bawang,1.56,1.52,1.52
+i2023110600395,Pemerintah Kab. Tulang Bawang Barat,1.68,1.68,1.68
+i2023110600185,Pemerintah Kab. Way Kanan,1.99,2.52,2.05
+i2023110600398,Pemerintah Kota Bandar Lampung,1.26,1.26,1.26
+i2023110600397,Pemerintah Kota Metro,2.33,2.17,2.17
+i2023110600306,Pemerintah Provinsi Kepulauan Riau,2.14,2.73,2.8
+i2023110600307,Pemerintah Kab. Bintan,2.04,2.28,2.42
+i2023110600615,Pemerintah Kab. Karimun,1.70,1.7,1.7
+i2023110600308,Pemerintah Kab. Kepulauan Anambas,2.50,2.5,2.5
+i2023110600616,Pemerintah Kab. Lingga,1.36,1.36,1.36
+i2023110600500,Pemerintah Kab. Natuna,2.43,2.71,2.71
+i2023110600309,Pemerintah Kota Batam,2.26,2.23,3.11
+i2023110600310,Pemerintah Kota Tanjungpinang,2.06,2.04,2.04
+i2023110600174,Pemerintah Provinsi Kep. Bangka Belitung,3.05,3.05,3.16
+i2023110600384,Pemerintah Kab. Bangka,2.33,2.46,2.77
+i2023110600385,Pemerintah Kab. Bangka Barat,2.31,2.31,2.31
+i2023110600177,Pemerintah Kab. Bangka Selatan,1.65,2.62,3.22
+i2023110600176,Pemerintah Kab. Bangka Tengah,1.94,1.88,1.88
+i2023110600175,Pemerintah Kab. Belitung,1.69,2.79,3.07
+i2023110600178,Pemerintah Kab. Belitung Timur,2.08,2.59,3.15
+i2023110600179,Pemerintah Kota Pangkal Pinang,1.35,1.35,1.35
+i2023110600204,Pemerintah Provinsi Banten,2.01,1.83,1.83
+i2023110600207,Pemerintah Kab. Lebak,2.94,3.52,3.52
+i2023110600206,Pemerintah Kab. Pandeglang,3.26,3.07,3.07
+i2023110600205,Pemerintah Kab. Serang,2.33,2.43,2.43
+i2023110600035,Pemerintah Kab. Tangerang,3.08,2.98,2.98
+i2023110600037,Pemerintah Kota Cilegon,3.23,3.23,3.23
+i2023110600208,Pemerintah Kota Serang,2.41,2.41,2.41
+i2023110600036,Pemerintah Kota Tangerang,3.16,3.44,3.44
+i2023110600209,Pemerintah Kota Tangerang Selatan,3.29,3.21,3.21
+i2023110600187,Pemerintah Provinsi DKI Jakarta,3.19,3.23,3.23
+i2023110600188,Pemerintah Provinsi Jawa Barat,3.21,3.12,3.12
+i2023110600028,Pemerintah Kab. Bandung,2.72,2.85,2.85
+i2023110600197,Pemerintah Kab. Bandung Barat,2.54,2.41,3.17
+i2023110600400,Pemerintah Kab. Bekasi,2.27,2.17,2.17
+i2023110600189,Pemerintah Kab. Bogor,2.58,2.58,3.27
+i2023110600030,Pemerintah Kab. Ciamis,1.44,2.35,2.64
+i2023110600190,Pemerintah Kab. Cianjur,2.19,2.75,3.19
+i2023110600194,Pemerintah Kab. Cirebon,2.63,2.89,2.89
+i2023110600193,Pemerintah Kab. Garut,2.04,2.61,3.26
+i2023110600195,Pemerintah Kab. Indramayu,1.65,2.7,3.44
+i2023110600191,Pemerintah Kab. Karawang,2.22,3.39,3.39
+i2023110600031,Pemerintah Kab. Kuningan,2.25,2.11,2.11
+i2023110600196,Pemerintah Kab. Majalengka,2.30,2.19,2.62
+i2023110600402,Pemerintah Kab. Pangandaran,1.50,2.37,3.02
+i2023110600027,Pemerintah Kab. Purwakarta,3.00,3.14,3.14
+i2023110600192,Pemerintah Kab. Subang,2.03,3.01,3.01
+i2023110600399,Pemerintah Kab. Sukabumi,2.54,2.31,2.37
+i2023110600029,Pemerintah Kab. Sumedang,2.46,2.51,3.81
+i2023110600401,Pemerintah Kab. Tasikmalaya,1.42,1.28,1.28
+i2023110600032,Pemerintah Kota Bandung,3.11,3.72,3.72
+i2023110600200,Pemerintah Kota Bekasi,2.43,3.43,3.43
+i2023110600198,Pemerintah Kota Bogor,2.91,2.97,2.97
+i2023110600202,Pemerintah Kota Cimahi,3.07,3.16,3.16
+i2023110600199,Pemerintah Kota Cirebon,2.26,2.27,3.02
+i2023110600201,Pemerintah Kota Depok,2.62,3.17,3.17
+i2023110600033,Pemerintah Kota Sukabumi,2.33,2.48,2.72
+i2023110600203,Pemerintah Kota Tasikmalaya,2.16,2.13,2.13
+i2023110600214,Pemerintah Provinsi Jawa Tengah,3.67,3.85,3.85
+i2023110600220,Pemerintah Kab. Banjarnegara,1.74,1.93,1.93
+i2023110600408,Pemerintah Kab. Banyumas,2.63,2.65,3.09
+i2023110600043,Pemerintah Kab. Batang,3.39,3.41,3.41
+i2023110600407,Pemerintah Kab. Blora,2.07,2.65,2.62
+i2023110600047,Pemerintah Kab. Boyolali,2.72,2.85,2.85
+i2023110600404,Pemerintah Kab. Brebes,1.39,2.81,2.81
+i2023110600218,Pemerintah Kab. Cilacap,2.14,2.43,3.13
+i2023110600041,Pemerintah Kab. Demak,2.96,3.74,3.74
+i2023110600216,Pemerintah Kab. Grobogan,2.11,3,3
+i2023110600045,Pemerintah Kab. Jepara,2.64,2.41,2.85
+i2023110600227,Pemerintah Kab. Karanganyar,2.04,2.99,2.99
+i2023110600224,Pemerintah Kab. Kebumen,2.11,2.64,3.42
+i2023110600040,Pemerintah Kab. Kendal,2.94,3.76,3.76
+i2023110600225,Pemerintah Kab. Klaten,2.23,3,3
+i2023110600406,Pemerintah Kab. Kudus,2.72,2.73,2.98
+i2023110600221,Pemerintah Kab. Magelang,2.18,2.74,2.94
+i2023110600405,Pemerintah Kab. Pati,2.27,3.22,3.22
+i2023110600042,Pemerintah Kab. Pekalongan,1.49,2.24,3.04
+i2023110600044,Pemerintah Kab. Pemalang,3.11,2.91,2.91
+i2023110600219,Pemerintah Kab. Purbalingga,1.94,3.04,3.04
+i2023110600223,Pemerintah Kab. Purworejo,2.04,2.96,2.96
+i2023110600217,Pemerintah Kab. Rembang,2.35,2.78,3.11
+i2023110600215,Pemerintah Kab. Semarang,2.66,3.02,3.02
+i2023110600048,Pemerintah Kab. Sragen,2.75,2.75,3.35
+i2023110600226,Pemerintah Kab. Sukoharjo,2.77,3.54,3.54
+i2023110600403,Pemerintah Kab. Tegal,2.58,2.82,2.82
+i2023110600222,Pemerintah Kab. Temanggung,1.77,2.82,2.82
+i2023110600228,Pemerintah Kab. Wonogiri,1.97,2.51,2.79
+i2023110600046,Pemerintah Kab. Wonosobo,2.94,2.94,2.94
+i2023110600230,Pemerintah Kota Magelang,2.34,2.77,3.21
+i2023110600229,Pemerintah Kota Pekalongan,2.95,3.14,3.14
+i2023110600409,Pemerintah Kota Salatiga,1.66,3.08,3.08
+i2023110600049,Pemerintah Kota Semarang,3.27,3.3,3.3
+i2023110600050,Pemerintah Kota Surakarta,2.53,3.33,3.33
+i2023110600410,Pemerintah Kota Tegal,2.33,2.54,3
+i2023110600231,Pemerintah Provinsi Jawa Timur,2.92,3.1,3.1
+i2023110600413,Pemerintah Kab. Bangkalan,1.99,1.82,1.82
+i2023110600054,Pemerintah Kab. Banyuwangi,3.43,3.22,3.22
+i2023110600056,Pemerintah Kab. Blitar,2.14,2.9,2.9
+i2023110600418,Pemerintah Kab. Bojonegoro,2.52,2.97,2.97
+i2023110600235,Pemerintah Kab. Bondowoso,1.86,2.38,2.74
+i2023110600051,Pemerintah Kab. Gresik,2.56,3.14,3.14
+i2023110600236,Pemerintah Kab. Jember,1.80,2.18,2.23
+i2023110600052,Pemerintah Kab. Jombang,1.43,1.6,1.6
+i2023110600239,Pemerintah Kab. Kediri,1.56,2.4,3.56
+i2023110600058,Pemerintah Kab. Lamongan,3.11,3.4,3.4
+i2023110600238,Pemerintah Kab. Lumajang,1.99,2.6,3.2
+i2023110600240,Pemerintah Kab. Madiun,2.10,2.55,3.3
+i2023110600241,Pemerintah Kab. Magetan,1.82,2.56,2.86
+i2023110600414,Pemerintah Kab. Malang,1.94,1.85,1.85
+i2023110600232,Pemerintah Kab. Mojokerto,1.74,1.55,1.55
+i2023110600416,Pemerintah Kab. Nganjuk,2.16,2.22,2.62
+i2023110600057,Pemerintah Kab. Ngawi,2.16,2.98,2.98
+i2023110600243,Pemerintah Kab. Pacitan,1.56,1.77,1.77
+i2023110600411,Pemerintah Kab. Pamekasan,2.31,2.22,3.01
+i2023110600237,Pemerintah Kab. Pasuruan,2.42,2.39,3.03
+i2023110600242,Pemerintah Kab. Ponorogo,1.66,3.05,3.05
+i2023110600415,Pemerintah Kab. Probolinggo,2.15,2.85,2.85
+i2023110600234,Pemerintah Kab. Sampang,1.38,1.81,1.81
+i2023110600233,Pemerintah Kab. Sidoarjo,2.55,3.13,3.13
+i2023110600053,Pemerintah Kab. Situbondo,3.24,3.48,3.48
+i2023110600412,Pemerintah Kab. Sumenep,1.88,1.94,1.94
+i2023110600417,Pemerintah Kab. Trenggalek,1.76,2.6,3.2
+i2023110600244,Pemerintah Kab. Tuban,2.36,2.17,2.17
+i2023110600055,Pemerintah Kab. Tulungagung,2.46,2.64,2.96
+i2023110600421,Pemerintah Kota Batu,2.43,2.66,2.62
+i2023110600060,Pemerintah Kota Blitar,1.52,2.71,3.31
+i2023110600420,Pemerintah Kota Kediri,2.84,2.61,3.49
+i2023110600248,Pemerintah Kota Madiun,3.16,2.82,2.82
+i2023110600246,Pemerintah Kota Malang,2.44,2.85,2.85
+i2023110600059,Pemerintah Kota Mojokerto,1.94,3.22,3.22
+i2023110600419,Pemerintah Kota Pasuruan,2.38,2.31,2.47
+i2023110600247,Pemerintah Kota Probolinggo,2.53,3.25,3.25
+i2023110600245,Pemerintah Kota Surabaya,3.61,3.72,3.72
+i2023110600210,Pemerintah D.I. Yogyakarta,3.33,3.43,3.43
+i2023110600211,Pemerintah Kab. Bantul,1.84,3.36,3.36
+i2023110600212,Pemerintah Kab. Gunungkidul,2.73,3.24,3.24
+i2023110600039,Pemerintah Kab. Kulon Progo,2.69,2.92,2.92
+i2023110600038,Pemerintah Kab. Sleman,3.13,2.91,2.91
+i2023110600213,Pemerintah Kota Yogyakarta,2.96,3.37,3.37
+i2023110600249,Pemerintah Provinsi Kalimantan Barat,2.65,2.41,3.23
+i2023110600426,Pemerintah Kab. Bengkayang,1.75,1.56,1.56
+i2023110600061,Pemerintah Kab. Kapuas Hulu,1.93,2.6,2.6
+i2023110600429,Pemerintah Kab. Kayong Utara,1.48,1.89,1.89
+i2023110600425,Pemerintah Kab. Ketapang,1.50,1.73,1.73
+i2023110600428,Pemerintah Kab. Kubu Raya,1.82,2.56,2.77
+i2023110600062,Pemerintah Kab. Landak,1.15,2.1,2.1
+i2023110600549,Pemerintah Kab. Melawi,1.15,1.15,1.15
+i2023110600424,Pemerintah Kab. Mempawah,1.46,1.33,1.33
+i2023110600422,Pemerintah Kab. Sambas,1.64,1.58,1.58
+i2023110600250,Pemerintah Kab. Sanggau,1.54,2.36,2.03
+i2023110600427,Pemerintah Kab. Sekadau,1.40,1.4,1.4
+i2023110600423,Pemerintah Kab. Sintang,1.56,1.56,1.56
+i2023110600251,Pemerintah Kota Pontianak,2.33,3.06,3.06
+i2023110600252,Pemerintah Kota Singkawang,1.74,1.9,1.9
+i2023110600430,Pemerintah Provinsi Kalimantan Tengah,2.76,1.49,1.49
+i2023110600253,Pemerintah Kab. Barito Selatan,2.65,2.65,2.65
+i2023110600434,Pemerintah Kab. Barito Timur,1.58,1.58,1.58
+i2023110600431,Pemerintah Kab. Barito Utara,1.81,1.63,1.63
+i2023110600551,Pemerintah Kab. Gunung Mas,2.29,2.29,2.29
+i2023110600550,Pemerintah Kab. Kapuas,2.17,2.17,2.17
+i2023110600065,Pemerintah Kab. Katingan,1.85,1.9,1.9
+i2023110600063,Pemerintah Kab. Kotawaringin Barat,2.47,2.37,2.85
+i2023110600432,Pemerintah Kab. Kotawaringin Timur,1.83,1.95,1.95
+i2023110600064,Pemerintah Kab. Lamandau,1.58,2.41,2.41
+i2023110600552,Pemerintah Kab. Murung Raya,1.50,1.5,1.5
+i2023110600254,Pemerintah Kab. Pulang Pisau,2.10,1.96,1.96
+i2023110600553,Pemerintah Kab. Seruyan,1.74,1.63,1.63
+i2023110600433,Pemerintah Kab. Sukamara,1.83,1.67,1.67
+i2023110600255,Pemerintah Kota Palangka Raya,1.74,1.75,1.75
+i2023110600066,Pemerintah Provinsi Kalimantan Timur,2.49,3.04,3.04
+i2023110600556,Pemerintah Kab. Berau,1.30,1.29,1.29
+i2023110600443,Pemerintah Kab. Kutai Barat,1.21,1.2,1.2
+i2023110600441,Pemerintah Kab. Kutai Kartanegara,1.82,2.21,2.97
+i2023110600444,Pemerintah Kab. Kutai Timur,1.00,1,1
+i2023110600262,Pemerintah Kab. Mahakam Ulu,1.40,1.4,1.4
+i2023110600442,Pemerintah Kab. Paser,1.85,1.69,1.69
+i2023110600445,Pemerintah Kab. Penajam Paser Utara,1.20,1.56,1.56
+i2023110600264,Pemerintah Kota Balikpapan,2.77,3.17,3.17
+i2023110600446,Pemerintah Kota Bontang,2.72,2.64,3.28
+i2023110600263,Pemerintah Kota Samarinda,2.64,2.79,3.28
+i2023110600256,Pemerintah Provinsi Kalimantan Selatan,3.05,3.03,3.03
+i2023110600260,Pemerintah Kab. Balangan,1.98,1.82,1.82
+i2023110600435,Pemerintah Kab. Banjar,1.94,2.4,2.68
+i2023110600437,Pemerintah Kab. Barito Kuala,1.99,1.94,1.94
+i2023110600554,Pemerintah Kab. Hulu Sungai Selatan,2.02,2.49,2.49
+i2023110600436,Pemerintah Kab. Hulu Sungai Tengah,1.95,2.84,2.84
+i2023110600555,Pemerintah Kab. Hulu Sungai Utara,1.46,1.88,1.88
+i2023110600259,Pemerintah Kab. Kotabaru,1.86,1.89,1.89
+i2023110600438,Pemerintah Kab. Tabalong,1.92,2.3,2.29
+i2023110600439,Pemerintah Kab. Tanah Bumbu,1.73,2.37,3
+i2023110600257,Pemerintah Kab. Tanah Laut,1.42,2.76,3.21
+i2023110600258,Pemerintah Kab. Tapin,2.07,2.31,2.16
+i2023110600440,Pemerintah Kota Banjarbaru,1.88,2.77,2.62
+i2023110600261,Pemerintah Kota Banjarmasin,1.93,3.01,3.01
+i2023110600312,Pemerintah Provinsi Kalimantan Utara,1.55,1.78,1.78
+i2023110600077,Pemerintah Kab. Bulungan,1.57,1.57,1.57
+i2023110600622,Pemerintah Kab. Tana Tidung,1.15,1.93,1.93
+i2023110600508,Pemerintah Kota Tarakan,1.32,1.32,1.32
+i2023110600288,Pemerintah Provinsi Bali,1.62,1.62,1.62
+i2023110600475,Pemerintah Kab. Badung,2.56,2.88,2.88
+i2023110600292,Pemerintah Kab. Bangli,2.33,2.17,2.17
+i2023110600289,Pemerintah Kab. Buleleng,2.99,3.7,3.7
+i2023110600290,Pemerintah Kab. Gianyar,1.76,2.51,3.17
+i2023110600071,Pemerintah Kab. Jembrana,2.77,2.65,2.66
+i2023110600291,Pemerintah Kab. Karangasem,1.74,2.05,2.05
+i2023110600474,Pemerintah Kab. Klungkung,2.10,2.78,3.1
+i2023110600293,Pemerintah Kab. Tabanan,1.23,2.82,2.82
+i2023110600294,Pemerintah Kota Denpasar,2.64,3.33,3.33
+i2023110600072,Pemerintah Provinsi NTB,2.95,2.77,2.77
+i2023110600477,Pemerintah Kab. Dompu,1.45,1.82,1.82
+i2023110600073,Pemerintah Kab. Lombok Barat,2.55,2.45,2.45
+i2023110600476,Pemerintah Kab. Lombok Tengah,2.15,2.15,2.15
+i2023110600583,Pemerintah Kab. Lombok Timur,1.36,1.36,1.36
+i2023110600478,Pemerintah Kab. Lombok Utara,1.33,1.39,1.39
+i2023110600295,Pemerintah Kab. Sumbawa,1.80,2.36,2.36
+i2023110600074,Pemerintah Kab. Sumbawa Barat,1.99,2.23,2.23
+i2023110600075,Pemerintah Kota Mataram,2.71,2.51,2.51
+i2023110600296,Pemerintah Provinsi NTT,1.26,2.23,3.26
+i2023110600481,Pemerintah Kab. Alor,1.89,1.89,1.89
+i2023110600585,Pemerintah Kab. Belu,1.46,1.56,1.56
+i2023110600484,Pemerintah Kab. Ende,1.81,1.81,1.81
+i2023110600483,Pemerintah Kab. Flores Timur,1.04,1.04,1.04
+i2023110600480,Pemerintah Kab. Kupang,1.23,1.23,1.23
+i2023110600493,Pemerintah Kab. Malaka,1.18,1.18,1.18
+i2023110600485,Pemerintah Kab. Manggarai,1.82,1.91,1.91
+i2023110600488,Pemerintah Kab. Manggarai Barat,1.72,2.15,2.15
+i2023110600489,Pemerintah Kab. Manggarai Timur,1.72,1.53,1.53
+i2023110600491,Pemerintah Kab. Nagekeo,1.76,2,2
+i2023110600586,Pemerintah Kab. Ngada,1.27,1.27,1.27
+i2023110600487,Pemerintah Kab. Rote Ndao,1.33,1.33,1.33
+i2023110600300,Pemerintah Kab. Sabu Raijua,1.00,1,1
+i2023110600482,Pemerintah Kab. Sikka,1.30,1.3,1.3
+i2023110600486,Pemerintah Kab. Sumba Barat,1.53,2,2
+i2023110600490,Pemerintah Kab. Sumba Barat Daya,1.11,1.55,1.55
+i2023110600492,Pemerintah Kab. Sumba Tengah,1.30,1.3,1.3
+i2023110600299,Pemerintah Kab. Sumba Timur,1.16,1.16,1.16
+i2023110600298,Pemerintah Kab. Timor Tengah Selatan,1.53,1.27,1.27
+i2023110600297,Pemerintah Kab. Timor Tengah Utara,1.40,1.4,1.4
+i2023110600588,Pemerintah Kota Kupang,1.64,1.47,1.47
+i2023110600447,Pemerintah Provinsi Sulawesi Utara,,1.78,1.78
+i2023110600067,Pemerintah Kab. Bolaang Mongondow,,2.14,2.14
+i2023110600267,Pemerintah Kab. Bolaang Mongondow Selatan,,1.32,1.32
+i2023110600559,Pemerintah Kab. Bolaang Mongondow Timur,,1.46,1.46
+i2023110600068,Pemerintah Kab. Bolaang Mongondow Utara,,1.3,1.3
+i2023110600449,Pemerintah Kab. Kepulauan Sangihe,,2.11,2.11
+i2023110600557,Pemerintah Kab. Minahasa Selatan,,1.25,1.25
+i2023110600266,Pemerintah Kab. Minahasa Tenggara,,2.58,2.58
+i2023110600450,Pemerintah Kab. Minahasa Utara,,1.18,1.18
+i2023110600558,Pemerintah Kab. Siau Tagulandang Biaro,,1.4,1.4
+i2023110600269,Pemerintah Kota Bitung,,1.68,1.68
+i2023110600270,Pemerintah Kota KotaMobagu,,1.15,1.15
+i2023110600268,Pemerintah Kota Manado,,2.41,2.64
+i2023110600451,Pemerintah Kota Tomohon,,1.65,1.65
+i2023110600452,Pemerintah Provinsi Gorontalo,1.48,3.18,3.18
+i2023110600272,Pemerintah Kab. Bone Bolango,1.87,2.42,2.3
+i2023110600271,Pemerintah Kab. Gorontalo,1.39,1.5,1.5
+i2023110600562,Pemerintah Kab. Gorontalo Utara,1.21,1.21,1.21
+i2023110600561,Pemerintah Kab. Pohuwato,1.34,1.34,1.34
+i2023110600453,Pemerintah Kota Gorontalo,2.11,1.95,1.95
+i2023110600505,Pemerintah Provinsi Sulawesi Barat,1.46,1.61,1.61
+i2023110600507,Pemerintah Kab. Majene,1.00,1,1
+i2023110600618,Pemerintah Kab. Mamasa,1.27,1.27,1.27
+i2023110600506,Pemerintah Kab. Mamuju,1.49,1.69,1.69
+i2023110600619,Pemerintah Kab. Mamuju Tengah,1.40,1.4,1.4
+i2023110600617,Pemerintah Kab. Pasangkayu,1.32,1.57,1.57
+i2023110600076,Pemerintah Kab. Polewali Mandar,2.51,2.57,3.3
+i2023110600273,Pemerintah Provinsi Sulawesi Tengah,2.24,2.05,2.05
+i2023110600565,Pemerintah Kab. Banggai,1.48,1.72,1.72
+i2023110600457,Pemerintah Kab. Banggai Kepulauan,1.31,1.3,1.3
+i2023110600569,Pemerintah Kab. Morowali Utara,1.47,1.47,1.47
+i2023110600566,Pemerintah Kab. Parigi Moutong,1.95,1.95,1.95
+i2023110600274,Pemerintah Kab. Sigi,2.11,1.95,1.95
+i2023110600567,Pemerintah Kab. Tojo Una Una,1.34,1.21,1.21
+i2023110600458,Pemerintah Kota Palu,1.66,1.54,1.54
+i2023110600275,Pemerintah Provinsi Sulawesi Selatan,2.08,2.66,3.08
+i2023110600463,Pemerintah Kab. Bantaeng,1.76,2.74,2.46
+i2023110600280,Pemerintah Kab. Barru,1.24,1.65,1.65
+i2023110600276,Pemerintah Kab. Bone,1.50,1.61,1.61
+i2023110600462,Pemerintah Kab. Bulukumba,2.09,2.05,2.05
+i2023110600282,Pemerintah Kab. Enrekang,1.56,2.15,2.15
+i2023110600460,Pemerintah Kab. Gowa,1.72,1.72,1.72
+i2023110600464,Pemerintah Kab. Jeneponto,1.42,2.16,2.16
+i2023110600279,Pemerintah Kab. Kepulauan Selayar,1.54,1.54,1.54
+i2023110600461,Pemerintah Kab. Luwu,1.29,1.53,1.53
+i2023110600572,Pemerintah Kab. Luwu Timur,1.89,1.89,1.89
+i2023110600070,Pemerintah Kab. Luwu Utara,2.12,2.77,2.71
+i2023110600277,Pemerintah Kab. Maros,1.92,1.92,1.92
+i2023110600465,Pemerintah Kab. Pangkajene dan Kepulauan,1.34,1.55,1.55
+i2023110600459,Pemerintah Kab. Pinrang,2.47,3.37,3.37
+i2023110600281,Pemerintah Kab. Sidenreng Rappang,1.32,1.91,1.91
+i2023110600278,Pemerintah Kab. Sinjai,1.43,1.43,1.43
+i2023110600466,Pemerintah Kab. Soppeng,1.66,2.03,2.03
+i2023110600571,Pemerintah Kab. Takalar,1.70,1.7,1.7
+i2023110600570,Pemerintah Kab. Tana Toraja,1.58,1.58,1.58
+i2023110600573,Pemerintah Kab. Toraja Utara,1.45,1.45,1.45
+i2023110600069,Pemerintah Kab. Wajo,1.41,1.26,1.26
+i2023110600283,Pemerintah Kota Makassar,2.60,2.6,2.6
+i2023110600468,Pemerintah Kota Palopo,1.88,2.07,2.07
+i2023110600467,Pemerintah Kota Parepare,2.13,2.13,2.13
+i2023110600469,Pemerintah Provinsi Sulawesi Tenggara,1.51,1.51,1.51
+i2023110600577,Pemerintah Kab. Bombana,1.67,1.69,1.69
+i2023110600575,Pemerintah Kab. Buton,1.63,1.63,1.63
+i2023110600472,Pemerintah Kab. Buton Selatan,1.07,1.07,1.07
+i2023110600286,Pemerintah Kab. Buton Tengah,1.19,1.02,1.02
+i2023110600471,Pemerintah Kab. Buton Utara,2.20,2.16,2.16
+i2023110600284,Pemerintah Kab. Kolaka,1.79,2.03,2.03
+i2023110600580,Pemerintah Kab. Kolaka Timur,1.41,1.41,1.41
+i2023110600285,Pemerintah Kab. Kolaka Utara,1.27,1.74,1.74
+i2023110600574,Pemerintah Kab. Konawe,1.70,1.73,1.73
+i2023110600581,Pemerintah Kab. Konawe Kepulauan,1.39,1.39,1.39
+i2023110600470,Pemerintah Kab. Konawe Selatan,1.75,1.75,1.75
+i2023110600579,Pemerintah Kab. Konawe Utara,1.31,1.31,1.31
+i2023110600576,Pemerintah Kab. Muna,1.77,1.66,1.66
+i2023110600582,Pemerintah Kab. Muna Barat,1.24,1.24,1.24
+i2023110600578,Pemerintah Kab. Wakatobi,1.66,1.66,1.66
+i2023110600473,Pemerintah Kota Baubau,1.59,1.59,1.59
+i2023110600287,Pemerintah Kota Kendari,2.22,2.3,2.37
+i2023110600301,Pemerintah Provinsi Maluku,1.38,1.91,1.91
+i2023110600687,Pemerintah Kab. Kepulauan Aru,1.33,1.33,1.73
+i2023110600494,Pemerintah Kab. Maluku Barat Daya,1.54,1.54,1.28
+i2023110600589,Pemerintah Kab. Maluku Tengah,1.56,1.56,1.33
+i2023110600590,Pemerintah Kab. Maluku Tenggara,1.33,1.33,1.54
+i2023110600688,Pemerintah Kab. Maluku Tenggara Barat,1.68,1.68,1.56
+i2023110600302,Pemerintah Kab. Seram Bagian Barat,1.10,1.1,1.1
+i2023110600593,Pemerintah Kab. Seram Bagian Timur,1.33,1.33,1.33
+i2023110600303,Pemerintah Kota Ambon,2.93,2.72,2.72
+i2023110600595,Pemerintah Kota Tual,1.62,1.62,1.62
+i2023110600495,Pemerintah Provinsi Maluku Utara,1.00,1,1
+i2023110600596,Pemerintah Kab. Halmahera Barat,1.91,1.91,1.91
+i2023110600689,Pemerintah Kab. Halmahera Tengah,1.00,1,1
+i2023110600690,Pemerintah Kab. Halmahera Timur,1.70,1.7,1.7
+i2023110600496,Pemerintah Kab. Halmahera Utara,1.00,1,1
+i2023110600691,Pemerintah Kab. Kepulauan Sula,1.48,1.48,1.48
+i2023110600600,Pemerintah Kota Ternate,1.38,1.38,1.38
+i2023110600497,Pemerintah Kota Tidore Kepulauan,1.64,1.64,1.64
+i2023110600501,Pemerintah Provinsi Papua Barat,1.18,1.18,1.18
+i2023110600512,Pemerintah Kab. Fak-Fak,1.00,1.47,1.47
+i2023110600513,Pemerintah Kab. Kaimana,1.37,1.37,1.37
+i2023110600311,Pemerintah Kab. Manokwari,1.91,2.41,2.41
+i2023110600503,Pemerintah Kab. Manokwari Selatan,1.28,1.28,1.28
+i2023110600510,Pemerintah Kab. Raja Ampat,1.00,1,1
+i2023110600502,Pemerintah Kab. Sorong,1.80,1.87,1.87
+i2023110600692,Pemerintah Kab. Teluk Bintuni,1.38,1.38,1.38
+i2023110600511,Pemerintah Kab. Teluk Wondama,1.05,1.05,1.05
+i2023110600504,Pemerintah Kota Sorong,1.41,1.41,1.41
+i2023110600516,Pemerintah Provinsi Papua,2.24,2.24,2.24
+i2023110600498,Pemerintah Kab. Biak Numfor,1.37,1.37,1.37
+i2023110600607,Pemerintah Kab. Boven Digoel,1.73,1.73,1.73
+i2023110600517,Pemerintah Kab. Jayapura,2.03,1.28,1.28
+i2023110600499,Pemerintah Kab. Keerom,1.01,1.69,1.69
+i2023110600608,Pemerintah Kab. Mappi,1.00,1,1
+i2023110600606,Pemerintah Kab. Mimika,1.25,1.25,1.25
+i2023110600604,Pemerintah Kab. Nabire,1.69,1.51,1.51
+i2023110600693,Pemerintah Kab. Sarmi,1.00,1,1
+i2023110600611,Pemerintah Kab. Supiori,1.02,1.02,1.02
+i2023110600305,Pemerintah Kota Jayapura,1.41,1.28,1.28

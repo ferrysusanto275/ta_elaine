@@ -137,11 +137,6 @@ def get_allYear():
 @isi_bp.route('/api/'+model.table_name+'/aspek/<string:instansi>/<string:aspek>/<string:year>')
 def getAllbyYearInstansiAspek(year,aspek,instansi):
     return jsonify(model.getAllbyYearInstansiAspek(year,aspek,instansi));
-# @isi_bp.route('/api/'+model.table_name+'/<string:indikator1>/<string:indikator2>/grup/<string:gi>')
-# def getPerbandingan(indikator1,indikator2,gi):
-#     data_gi=gi_model.getById(gi)
-#     if('id' not in data_gi):
-#         return jsonify({'message': model.table_name.capitalize()+' grup found'}), 404
 @isi_bp.route('/api/'+model.table_name+'/<string:indikator1>/<string:indikator2>')
 def getPerbandingan(indikator1,indikator2):
     
@@ -164,11 +159,6 @@ def getPerbandingan(indikator1,indikator2):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-# @isi_bp.route('/api/'+model.table_name+'/aspek/<string:aspek1>/<string:aspek2>/grup/<string:gi>')
-# def getPerbandinganAspek(aspek1,aspek2,gi):
-#     data_gi=gi_model.getById(gi)
-#     if(data_gi is None):
-#         return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
 @isi_bp.route('/api/'+model.table_name+'/aspek/<string:aspek1>/<string:aspek2>')
 def getPerbandinganAspek(aspek1,aspek2):
     dataAspek1=aspek_model.getById(aspek1)
@@ -190,11 +180,6 @@ def getPerbandinganAspek(aspek1,aspek2):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-# @isi_bp.route('/api/'+model.table_name+'/aspek_indikator/<string:aspek>/<string:indikator>/grup/<string:gi>')
-# def getPerbandinganAspekIndikator(aspek,indikator,gi):
-#     data_gi=gi_model.getById(gi)
-#     if(data_gi is None):
-#         return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
 @isi_bp.route('/api/'+model.table_name+'/aspek_indikator/<string:aspek>/<string:indikator>')
 def getPerbandinganAspekIndikator(aspek,indikator):
     dataAspek=aspek_model.getById(aspek)
@@ -216,11 +201,6 @@ def getPerbandinganAspekIndikator(aspek,indikator):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-# @isi_bp.route('/api/'+model.table_name+'/domain/<string:domain1>/<string:domain2>/grup/<string:gi>')
-# def getPerbandinganDomain(domain1,domain2,gi):
-#     data_gi=gi_model.getById(gi)
-#     if(data_gi is None):
-#         return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
 @isi_bp.route('/api/'+model.table_name+'/domain/<string:domain1>/<string:domain2>')
 def getPerbandinganDomain(domain1,domain2):
     dataDomain1=domain_model.getById(domain1)
@@ -242,12 +222,6 @@ def getPerbandinganDomain(domain1,domain2):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-
-# @isi_bp.route('/api/'+model.table_name+'/domain_aspek/<string:domain>/<string:aspek>/grup/<string:gi>')
-# def getPerbandinganDomainAspek(domain,aspek,gi):
-#     data_gi=gi_model.getById(gi)
-#     if(data_gi is None):
-#         return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
 @isi_bp.route('/api/'+model.table_name+'/domain_aspek/<string:domain>/<string:aspek>')
 def getPerbandinganDomainAspek(domain,aspek):
     dataDomain=domain_model.getById(domain)
@@ -290,11 +264,6 @@ def getPerbandinganDomainIndikator(domain,indikator):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-# @isi_bp.route('/api/'+model.table_name+'/index_domain/<string:domain>/grup/<string:gi>')
-# def get_perbandingan_index_domain(domain,gi):
-#     data_gi=gi_model.getById(gi)
-#     if(data_gi is None):
-#         return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
 @isi_bp.route('/api/'+model.table_name+'/index_domain/<string:domain>')
 def get_perbandingan_index_domain(domain):
     dataDomain=domain_model.getById(domain)
@@ -313,11 +282,6 @@ def get_perbandingan_index_domain(domain):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-# @isi_bp.route('/api/'+model.table_name+'/index_aspek/<string:aspek>/grup/<string:gi>')
-# def get_perbandingan_index_aspek(aspek,gi):
-#     data_gi=gi_model.getById(gi)
-#     if(data_gi is None):
-#         return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
 @isi_bp.route('/api/'+model.table_name+'/index_aspek/<string:aspek>')
 def get_perbandingan_index_aspek(aspek):
     dataAspek=aspek_model.getById(aspek)
@@ -336,11 +300,6 @@ def get_perbandingan_index_aspek(aspek):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-# @isi_bp.route('/api/'+model.table_name+'/index_indikator/<string:indikator>/grup/<string:gi>')
-# def get_perbandingan_index_indikator(indikator,gi):
-#     data_gi=gi_model.getById(gi)
-#     if(data_gi is None):
-#         return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
 @isi_bp.route('/api/'+model.table_name+'/index_indikator/<string:indikator>')
 def get_perbandingan_index_indikator(indikator):
     dataIndikator=indikator_model.getById(indikator)
@@ -360,192 +319,11 @@ def get_perbandingan_index_indikator(indikator):
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
 
-# @isi_bp.route('/api/'+model.table_name+'/kmeans/<string:indikator1>/<string:indikator2>')
-# def getKemeans(indikator1,indikator2):
-#     data_gi=gi_model.getById()
-#     if('id' not in data_gi):
-#         return jsonify({'message': model.table_name.capitalize()+' grup found'}), 404
-        
-#     dataIndikator1=indikator_model.getById(indikator1)
-#     if(dataIndikator1 is None):
-#         return jsonify({'message': model.table_name.capitalize()+' Indikator 1 not found'}), 404
-#     dataIndikator2=indikator_model.getById(indikator2)
-#     if(dataIndikator2 is None):
-#         return jsonify({'message': model.table_name.capitalize()+' Indikator 2 not found'}), 404
-#     dfIndikator1=model.getAllValue(indikator1)
-#     dfIndikator2=model.getAllValue(indikator2)
-#     data_df=[]
-#     for i,indikator in enumerate(dfIndikator1):
-#         data_df.append([indikator,dfIndikator2[i]])
-
-#     header_names=[dataIndikator1['name'],dataIndikator2['name']]
-#     features = pd.DataFrame(data_df, columns=header_names)
-#     K = range(2,11)
-#     inertia = []
-#     silhouette_coef = [] 
-#     model_kmeans = [] 
-
-#     for k in K:
-#         kmeans= KMeans(n_clusters=k, random_state=42)
-#         kmeans.fit(features)
-#         model_kmeans.append(kmeans)
-#         inertia.append(kmeans.inertia_)
-#         score = silhouette_score(features, kmeans.labels_, metric='euclidean')
-#         silhouette_coef.append(score)
-        
-#     # plot elbow method 
-#     fig, ax = plt.subplots()
-#     ax.plot(K, inertia, marker='o')
-#     ax.set_xlabel('Jumlah kelompok k')
-#     ax.set_ylabel('Inertia')
-#     ax.set_title("Elbow method "+dataIndikator1['name']+" Vs "+dataIndikator2['name']+" Group "+data_gi['name'])
-#    # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
-#     output = io.BytesIO()
-#     FigureCanvas(fig).print_png(output)
-
-#     # Membuat respons HTTP dengan gambar sebagai byte stream
-#     return Response(output.getvalue(), mimetype='image/png')
-# @isi_bp.route('/api/'+model.table_name+'/kmeans_aspek/<string:aspek1>/<string:aspek2>/grup/<string:gi>')
-# def getKemeansAspek(aspek1,aspek2,gi):
-#     data_gi=gi_model.getById(gi)
-#     if('id' not in data_gi):
-#         return jsonify({'message': model.table_name.capitalize()+' grup found'}), 404
-        
-#     dataAspek1=aspek_model.getById(aspek1)
-#     if(dataAspek1 is None):
-#         return jsonify({'message': model.table_name.capitalize()+' Aspek 1 not found'}), 404
-#     dataAspek2=aspek_model.getById(aspek2)
-#     if(dataAspek2 is None):
-#         return jsonify({'message': model.table_name.capitalize()+' Aspek 2 not found'}), 404
-#     dfAspek1=model.getAllAspek(aspek1,gi)
-#     dfAspek2=model.getAllAspek(aspek2,gi)
-    
-#     data_df=[]
-#     for i,val_aspek in enumerate(dfAspek1):
-#         data_df.append([val_aspek,dfAspek2[i]])
-#     header_names=[dataAspek1['name'],dataAspek2['name']]
-#     features = pd.DataFrame(data_df, columns=header_names)
-#     K = range(2,11)
-#     inertia = []
-#     silhouette_coef = [] 
-#     model_kmeans = [] 
-
-#     for k in K:
-#         kmeans= KMeans(n_clusters=k, random_state=42)
-#         kmeans.fit(features)
-#         model_kmeans.append(kmeans)
-#         inertia.append(kmeans.inertia_)
-#         score = silhouette_score(features, kmeans.labels_, metric='euclidean')
-#         silhouette_coef.append(score)
-        
-#     # plot elbow method 
-#     fig, ax = plt.subplots()
-#     ax.plot(K, inertia, marker='o')
-#     ax.set_xlabel('Jumlah kelompok k')
-#     ax.set_ylabel('Inertia')
-#     ax.set_title("Elbow method "+dataAspek1['name']+" Vs "+dataAspek2['name']+" Group "+data_gi['name'])
-#    # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
-#     output = io.BytesIO()
-#     FigureCanvas(fig).print_png(output)
-
-#     # Membuat respons HTTP dengan gambar sebagai byte stream
-#     return Response(output.getvalue(), mimetype='image/png')
-# @isi_bp.route('/api/'+model.table_name+'/kmeans_aspek_indikator/<string:aspek>/<string:indikator>/grup/<string:gi>')
-# def getKemeansAspek_indikator(aspek,indikator,gi):
-#     data_gi=gi_model.getById(gi)
-#     if('id' not in data_gi):
-#         return jsonify({'message': model.table_name.capitalize()+' grup found'}), 404
-        
-#     dataAspek=aspek_model.getById(aspek)
-#     if(dataAspek is None):
-#         return jsonify({'message': model.table_name.capitalize()+' Aspek not found'}), 404
-#     dataIndikator=indikator_model.getById(indikator)
-#     if(dataIndikator is None):
-#         return jsonify({'message': model.table_name.capitalize()+' Indikator 1 not found'}), 404
-#     dfAspek=model.getAllAspek(aspek,gi)
-#     dfIndikator=model.getAllValue(indikator,gi)
-    
-#     data_df=[]
-#     for i,val_aspek in enumerate(dfAspek):
-#         data_df.append([val_aspek,dfIndikator[i]])
-#     header_names=[dataAspek['name'],dataIndikator['name']]
-#     features = pd.DataFrame(data_df, columns=header_names)
-#     K = range(2,11)
-#     inertia = []
-#     silhouette_coef = [] 
-#     model_kmeans = [] 
-
-#     for k in K:
-#         kmeans= KMeans(n_clusters=k, random_state=42)
-#         kmeans.fit(features)
-#         model_kmeans.append(kmeans)
-#         inertia.append(kmeans.inertia_)
-#         score = silhouette_score(features, kmeans.labels_, metric='euclidean')
-#         silhouette_coef.append(score)
-        
-#     # plot elbow method 
-#     fig, ax = plt.subplots()
-#     ax.plot(K, inertia, marker='o')
-#     ax.set_xlabel('Jumlah kelompok k')
-#     ax.set_ylabel('Inertia')
-#     ax.set_title("Elbow method "+dataAspek['name']+" Vs "+dataIndikator['name']+" Group "+data_gi['name'])
-#    # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
-#     output = io.BytesIO()
-#     FigureCanvas(fig).print_png(output)
-
-#     # Membuat respons HTTP dengan gambar sebagai byte stream
-#     return Response(output.getvalue(), mimetype='image/png')
-# @isi_bp.route('/api/'+model.table_name+'/kmeans_domain/<string:domain1>/<string:domain2>/grup/<string:gi>')
-# def getKemeansDomain(domain1,domain2,gi):
-#     data_gi=gi_model.getById(gi)
-#     if(data_gi is None):
-#         return jsonify({'message': model.table_name.capitalize()+' group not found'}), 404
-#     dataDomain1=domain_model.getById(domain1)
-#     if(dataDomain1 is None):
-#         return jsonify({'message': model.table_name.capitalize()+' Domain 1 not found'}), 404
-#     dataDomain2=domain_model.getById(domain2)
-#     if(dataDomain2 is None):
-#         return jsonify({'message': model.table_name.capitalize()+' Domaian 2 not found'}), 404
-#     dfDomain1=model.getAllDomain(domain1,gi)
-#     dfDomain2=model.getAllDomain(domain2,gi)
-    
-#     data_df=[]
-#     for i,val_domain in enumerate(dfDomain1):
-#         data_df.append([val_domain,dfDomain2[i]])
-#     header_names=[dataDomain1['name'],dataDomain2['name']]
-#     features = pd.DataFrame(data_df, columns=header_names)
-#     K = range(2,11)
-#     inertia = []
-#     silhouette_coef = [] 
-#     model_kmeans = [] 
-
-#     for k in K:
-#         kmeans= KMeans(n_clusters=k, random_state=42)
-#         kmeans.fit(features)
-#         model_kmeans.append(kmeans)
-#         inertia.append(kmeans.inertia_)
-#         score = silhouette_score(features, kmeans.labels_, metric='euclidean')
-#         silhouette_coef.append(score)
-        
-#     # plot elbow method 
-#     fig, ax = plt.subplots()
-#     ax.plot(K, inertia, marker='o')
-#     ax.set_xlabel('Jumlah kelompok k')
-#     ax.set_ylabel('Inertia')
-#     ax.set_title("Elbow method "+dataDomain1['name']+" Vs "+dataDomain2['name']+" Group "+data_gi['name'])
-#    # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
-#     output = io.BytesIO()
-#     FigureCanvas(fig).print_png(output)
-
-#     # Membuat respons HTTP dengan gambar sebagai byte stream
-#     return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/kmeans')
 def get_kmeans_index():
     K = range(2,6)
     inertia = model.kmeans_res()['inertia']
-    # return jsonify(inertia['inertia'])
-        
-    # plot elbow method 
+   
     fig, ax = plt.subplots()
     ax.plot(K, inertia, marker='o')
     ax.set_xlabel('Jumlah kelompok k')
@@ -561,7 +339,6 @@ def get_kmeans_index():
 def get_kmeans_indexByYear(year):
     K = range(2,6)
     inertia = model.kmeans_resByYear(year)['inertia']
-    # return jsonify(inertia['inertia'])
         
     # plot elbow method 
     fig, ax = plt.subplots()
@@ -614,41 +391,18 @@ def plot_dend_indexByYear(year,linkage):
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
 
-# @isi_bp.route('/api/'+model.table_name+'/res_agglo/<string:year>')
-# def get_res_agglo_indexByYear(year):
-#     df_dict = model.getDfKByYear(year).to_dict(orient='records')
-#     return jsonify(df_dict)
 
 @isi_bp.route('/api/'+model.table_name+'/agglo_score/<string:year>/<string:linkage>')
 def get_agglo_score_index(year,linkage):
-    
     df=pd.DataFrame(model.getDfByYear(year))
-    # features = df[['Indeks', 'Domain 1']]
-    # agglo_model = AgglomerativeClustering(n_clusters=2, affinity='euclidean', linkage='ward')  # Adjust parameters as needed
-    # labels = agglo_model.fit_predict(features)
-
-    # # Visualize the clusters
-    # plt.figure(figsize=(10, 7))
-    # plt.scatter(features['Indeks'], features['Domain 1'], c=labels, cmap='rainbow')
-    # plt.title("Agglomerative Clustering Results")
-    # plt.xlabel("Indeks")
-    # plt.ylabel("Domain 1")
-    # plt.show()
     return jsonify(model.agglomerative(df,linkage)['silhouette_score'])
 @isi_bp.route('/api/'+model.table_name+'/res_agglo/<string:year>/<string:linkage>')
 def get_res_agglo_indexByYear(year, linkage):
     df_dict = model.getDfAByYear(year, linkage).to_dict(orient='records')
-    # return jsonify(df_dict)
-    return model.getDfAByYear(year, linkage)[['Instansi','Cluster']].to_html()
+    return jsonify(df_dict)
 
 @isi_bp.route('/api/'+model.table_name+'/insert/<string:instansi>/<string:year>/<string:indeks>')
 def insert_by_index(instansi,year,indeks):
-    
-    # data_isi_2021=model.getAllValueByYearInstansi(instansi,2021)
-    # data_isi_2022=model.getAllValueByYearInstansi(instansi,2022)
-    # data_known=[[item["val"] for item in data_isi_2021],[item["val"] for item in data_isi_2022]]
-    # data_known[0].append(hitung_index(data_isi_2021))
-    # data_known[1].append(hitung_index(data_isi_2022))
     initial_guess=[]
     bounds=[]
     for i in range(47):
@@ -667,102 +421,7 @@ def insert_by_index(instansi,year,indeks):
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
-    return jsonify(indikators)
-        # print(i+1,indikator[i])
-    # key_change=[]
-    # all_fill_key=[]
-    # data_fix=[]
-    
-    # for i,val in enumerate(data_isi_2021):
-    #     initial_guess.append(Decimal(0))
-    #     # bound array 0 nilai max bound ke 1 nilai min
-    #     bounds.append([Decimal(5),Decimal(1)])
-    #     if(data_known[0][-1]!=data_known[1][-1]):
-    #         if(data_known[0][i]==data_known[1][i]):
-    #             data_fix.append(i)
-    #             bounds[i][0]=data_known[0][i]
-    #             initial_guess[i]=data_known[0][i]
-    #         elif((data_known[0][i]>data_known[1][i] and data_known[0][-1]>data_known[1][-1]) or (data_known[0][i]<data_known[1][i] and data_known[0][-1]<data_known[1][-1])):
-    #             max_value = max(Decimal(indeks), data_known[0][-1], data_known[1][-1])
-    #             min_value = min(Decimal(indeks), data_known[0][-1], data_known[1][-1])
-    #             if(max_value==indeks):
-    #                 if(min_value==data_known[0][-1]):
-    #                     bounds[i][1]=data_known[0][i]
-    #                 else:bounds[i][1]=data_known[1][i]
-    #             elif(max_value==data_known[0][-1]):
-    #                 bounds[i][0]=data_known[0][i]
-    #                 if(min_value==data_known[1][-1]):
-    #                     bounds[i][1]=data_known[1][i]
-    #             else:
-    #                 bounds[i][0]=data_known[1][i]
-    #                 if(min_value==data_known[0][-1]):
-    #                     bounds[i][1]=data_known[0][i]
-    #             # cek sebelahan
-    #             initial_guess[i]=bounds[i][1]
-    #             # cari data yang sama 
-    #             key_same=[]
-    #             if((i in all_fill_key)==False):
-                    
-    #                 for j,val_other in enumerate(data_known[0]):
-    #                         if(data_known[0][i]==data_known[0][j] and data_known[1][i]==data_known[1][j]):
-    #                             # print(i,j,data_known[0][i],data_known[0][j],data_known[1][i],data_known[1][j])
-    #                             key_same.append(j)
-    #                             all_fill_key.append(j)
-    #                 key_change.append([i,key_same])
-                
-    #         else:initial_guess[i]=bounds[i][1]
-    # # cari data fix yang lebih besar atau harus lebih kecil dari pola
-    # # print(sorted(data_fix))
-    # for i in key_change:
-    #     # print(i)
-    #     cd=i[0]
-    #     for j in data_fix:
-    #         # data harus lebih besar
-    #         if(data_known[0][cd]>data_known[0][j] and data_known[1][cd]>data_known[1][j]):
-                
-    #             bounds[cd][1]=max(initial_guess[j],bounds[cd][1])
-    #             # print(bounds[cd][1])
-    #             # data harus lebih kecil
-    #         if(data_known[0][cd]<data_known[0][j] and data_known[1][cd]<data_known[1][j]):
-    #             # print(cd,data_known[0][cd],data_known[1][cd],bounds[cd][1])
-    #             bounds[cd][0]=min(initial_guess[j],bounds[cd][1])
-    #             # print(bounds[cd][0])
-        
-    #     initial_guess[cd]=bounds[cd][1]
-    #     for j in i[1]:
-    #         initial_guess[j]=initial_guess[cd]
-    #         if(bounds[cd][0]==bounds[cd][1]):data_fix.append(j)
-    # print(sorted(data_fix))
-    # n = len(key_change)
-    # for i in range(n):
-    #     for j in range(0, n-i-1):
-    #         idx1=key_change[j][0]
-    #         idx2=key_change[j+1][0]
-    #         # print(idx1,idx2,data_known[0][idx1],data_known[0][idx1])
-    #         if(data_known[0][idx1]<data_known[0][idx2] and data_known[1][idx1]<data_known[1][idx2]):
-    #             key_change[j],key_change[j+1]=key_change[j+1],key_change[j]
-    # # print(key_change)
-    # counter=0
-    # while(objective(initial_guess)<Decimal(indeks) and counter<len(key_change)):
-    #     i=key_change[counter][0]
-    #     if(bounds[i][0]>initial_guess[i]):
-    #         initial_guess[i]=initial_guess[i]+1
-    #         for j in key_change[counter][1]:
-    #             initial_guess[j]=initial_guess[i]
-    #         if(objective(initial_guess)>Decimal(indeks)):
-    #             initial_guess[i]=initial_guess[i]-1
-    #             for j in key_change[counter][1]:
-    #                 initial_guess[j]=initial_guess[i]
-    #             counter=counter+1
-    #     else:
-    #         counter=counter+1
-    
-    #     # cek data yang harus berubah
-    # initial_guess.append(objective(initial_guess))
- 
-    
-        
-    return jsonify({"data_2021":data_known[0],"data_2022":data_known[1],"data_"+year:initial_guess})
+   
 # Fungsi objektif untuk minimasi
 def objective(params):
     i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
@@ -805,29 +464,18 @@ def hitung_index(params):
 @isi_bp.route('/api/'+model.table_name+'/pca/<string:year>')
 def pcaByYear(year):
     df = model.getDfKByYear(year)
-    # print(df)
-    # df = df[df['Group'] == 'Kementerian Pusat']
-
-    # print(filtered_df)
-    # numerical_columns = df.columns[df.columns.str.startswith('I')]
-
-    # Selecting only the numerical columns for PCA
+   
     X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
     'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
     'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
      'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
       'I41','I42','I43','I44','I45','I46','I47','Indeks']]
-    # X=df[['I1','Indeks']]
-    # X_standardized = StandardScaler().fit_transform(X)
+    
 
     # Apply PCA
     pca = PCA(n_components=2)
     principal_components = pca.fit_transform(X)
-    # principal_components = principal_components+(7.5)
-    # if pca.components_[0, 0] < 0:
-    #     principal_components[:, 0] = -1 * principal_components[:, 0]
-    # if pca.components_[1, 0] < 0:
-    #     principal_components[:, 1] = -1 * principal_components[:, 1]
+    
 
     # Create a DataFrame with the first two principal components and additional information
     pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
@@ -842,34 +490,22 @@ def pcaByYear(year):
     plt.xlabel('Principal Component 1 (PC1)')
     plt.ylabel('Principal Component 2 (PC2)')
     plt.legend(bbox_to_anchor=(1.05, 1), loc='upper left')  # Adjust legend position
-    # plt.show()
-    # Using BytesIO to capture the plot as a byte stream
+    
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
-    # plt.savefig(output, format='png')  # Save the plot to BytesIO in PNG format
-    # plt.close(fig)  # Close the plot to release resources
-
-    # Creating an HTTP response with the plot as a byte stream
+    
     return Response(output.getvalue(), mimetype='image/png')
 
 @isi_bp.route('/api/'+model.table_name+'/svd/<string:year>')
 def svdByYear(year):
     df = model.getDfKByYear(year)
-    # print(df)
-    # df = df[df['Group'] == 'Kementerian Pusat']
-
-    # print(filtered_df)
-    # numerical_columns = df.columns[df.columns.str.startswith('I')]
-
-    # Selecting only the numerical columns for PCA
+   
     X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
     'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
     'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
      'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
       'I41','I42','I43','I44','I45','I46','I47','Indeks']]
-    # print(X)
-    # X=df[['Indeks']]
-    
+   
     target=df['Cluster'].values
     X['target']=target
     svd = TruncatedSVD(n_components=2)
@@ -886,44 +522,26 @@ def svdByYear(year):
 
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
-    # plt.savefig(output, format='png')  # Save the plot to BytesIO in PNG format
-    # plt.close(fig)  # Close the plot to release resources
-
-    # Creating an HTTP response with the plot as a byte stream
+   
     return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/pca_agglo/<string:year>/<string:linkage>')
 def pcaAggloByYear(year,linkage):
     df = model.getDfAByYear(year,linkage)
-    # print(df)
-    # df = df[df['Group'] == 'Kementerian Pusat']
-
-    # print(filtered_df)
-    # numerical_columns = df.columns[df.columns.str.startswith('I')]
-
-    # Selecting only the numerical columns for PCA
+   
     X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
     'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
     'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
      'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
       'I41','I42','I43','I44','I45','I46','I47','Indeks']]
-    # X=df[['I1','Indeks']]
-    # X_standardized = StandardScaler().fit_transform(X)
-
-    # Apply PCA
+   
     pca = PCA(n_components=2)
     principal_components = pca.fit_transform(X)
-    # principal_components = principal_components+(7.5)
-    # if pca.components_[0, 0] < 0:
-    #     principal_components[:, 0] = -1 * principal_components[:, 0]
-    # if pca.components_[1, 0] < 0:
-    #     principal_components[:, 1] = -1 * principal_components[:, 1]
-
+   
     # Create a DataFrame with the first two principal components and additional information
     pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
     pca_df['Cluster'] = df['Cluster']
 
-    # Scatter plot
-    # fig, ax = plt.subplots()
+   
 
     fig, ax = plt.subplots(figsize=(15, 6))
     sns.scatterplot(x='PC1', y='PC2', data=pca_df, hue='Cluster',s=100, palette='Set1')
@@ -935,22 +553,13 @@ def pcaAggloByYear(year,linkage):
     # Using BytesIO to capture the plot as a byte stream
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
-    # plt.savefig(output, format='png')  # Save the plot to BytesIO in PNG format
-    # plt.close(fig)  # Close the plot to release resources
-
-    # Creating an HTTP response with the plot as a byte stream
+    
     return Response(output.getvalue(), mimetype='image/png')
 
 @isi_bp.route('/api/'+model.table_name+'/svd_agglo/<string:year>/<string:linkage>')
 def svdAggloByYear(year,linkage):
     df = model.getDfAByYear(year,linkage)
-    # print(df)
-    # df = df[df['Group'] == 'Kementerian Pusat']
-
-    # print(filtered_df)
-    # numerical_columns = df.columns[df.columns.str.startswith('I')]
-
-    # Selecting only the numerical columns for PCA
+    
     X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
     'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
     'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
@@ -971,12 +580,7 @@ def svdAggloByYear(year,linkage):
     ax.set_ylabel('SVD Component 2')
     legend1 = ax.legend(*scatter.legend_elements(), title="Clusters")
     ax.add_artist(legend1)
-    # return jsonify("")
 
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
-    # plt.savefig(output, format='png')  # Save the plot to BytesIO in PNG format
-    # plt.close(fig)  # Close the plot to release resources
-
-    # Creating an HTTP response with the plot as a byte stream
     return Response(output.getvalue(), mimetype='image/png')
