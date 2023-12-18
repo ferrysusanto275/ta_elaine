@@ -1,24 +1,19 @@
-{% extends "templates.html" %}
-
-{% block main %}
-<legend>Data Clustering</legend>
+{% extends "templates.html" %} {% block main %}
+<legend>Data Clustering Kmeans</legend>
 <!-- filter -->
 <div id="filter">
   <label for="year_cb_filter">Year</label>
   <select name="year" id="year_cb_filter" class="form_control"></select>
 </div>
-<div id="chk">
-</div>
+<div id="chk"></div>
 <table class="tabel" id="tabel_data">
-  <thead id="head_data">
-  </thead>
+  <thead id="head_data"></thead>
   <tbody id="body_data">
     <tr>
       <td colspan="4" class="text_center">No Data</td>
     </tr>
   </tbody>
 </table>
-{% endblock %}
-{% block scriptJS %}
+{% endblock %} {% block scriptJS %}
 <script src="assets/js/clustering.js"></script>
 {% endblock %}
