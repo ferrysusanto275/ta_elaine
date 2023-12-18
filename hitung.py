@@ -4,7 +4,7 @@ from app.models.isi import isiModel
 from scipy.optimize import minimize
 
 model=isiModel()
-df = pd.read_csv('Data CSV/Data_lengkap_part_07.csv')
+df = pd.read_csv('Data CSV/Data_lengkap_part_08.csv')
 for index, row in df.iterrows():
     if(row.id!='NaN'):
         def objective(params):
