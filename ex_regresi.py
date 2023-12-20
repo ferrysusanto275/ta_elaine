@@ -106,7 +106,7 @@ for index, row in df.iterrows():
                 # initial_guess_2018.append(y_pred_extrapolate_int[0])
                 # initial_guess_2019.append(y_pred_extrapolate_int[1])
                 # initial_guess_2020.append(y_pred_extrapolate_int[2])
-            print(pd.DataFrame(data_full))
+            # print(pd.DataFrame(data_full))
             if(float(row.indeks_2018)>0):
                 print("masuk 2018")        
                 model.create_bulk(row.id,'2018',data_full["2018"])
