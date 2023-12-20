@@ -6,7 +6,7 @@ from app.models.indikator import indikatorModel
 
 model=isiModel()
 # indikator_model=indikatorModel();
-df = pd.read_csv('Data CSV/Data_lengkap_part_01.csv')
+df = pd.read_csv('Data CSV/Data_lengkap_part_13.csv')
 # list_indikator=indikator_model.getAll()
 def objective(params):
     i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
@@ -55,14 +55,20 @@ for index, row in df.iterrows():
                 model_regresi = LinearRegression()
                 model_regresi.fit(X_train, y_train)
                 # # Membuat prediksi untuk data di luar rentang pelatihan
-                X_extrapolate = np.array([row.indeks_2018,row.indeks_2019,row.indeks_2020]).reshape(-1, 1)
+                index_2018=0
+                if(float(row.indeks_2018)>0):index_2018=row.indeks_2018
+                index_2019=0
+                if(float(row.indeks_2019)>0):index_2018=row.indeks_2019
+                index_2020=0
+                if(float(row.indeks_2020)>0):index_2018=row.indeks_2020
+                X_extrapolate = np.array([index_2018,index_2019,index_2020]).reshape(-1, 1)
                 y_pred_extrapolate = model_regresi.predict(X_extrapolate)
                 # Modifikasi hasil prediksi menjadi bilangan bulat dalam rentang 0-5
                 y_pred_extrapolate_int = np.clip(np.round(y_pred_extrapolate), 0, 5)
                 data_full['2018'].append(y_pred_extrapolate_int[0])
                 data_full['2019'].append(y_pred_extrapolate_int[1])
                 data_full['2020'].append(y_pred_extrapolate_int[2])
-            print(len(data_full["2018"]))
+            # print(len(data_full["2018"]))
                 # regresi menurut indikator
             for i in range(len(data_full["2018"])):
                 # indikator ke i sebagai penentu
