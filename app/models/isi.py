@@ -6,6 +6,7 @@ from app.models.aspek import aspekModel
 from app.models.domain import domainModel
 import numpy as np
 import pandas as pd 
+from decimal import Decimal
 from sklearn.cluster import KMeans, AgglomerativeClustering
 import scipy.cluster.hierarchy as sch 
 import matplotlib.pyplot as plt 
@@ -41,7 +42,7 @@ class isiModel:
         if(result):
             instansi=instansi_model.getById(result[0])
             indikator=indikator_model.getById(result[1])
-            data={"instansi":instansi,"indikator":indikator,"year":result[2],"value":result[3]}
+            data={"instansi":instansi,"indikator":indikator,"year":result[3],"value":result[2]}
             # data.append({"instansi":instansi,"indikator":indikator,"tahun":result[2],"value":result[3]})
         cur.close()
         db.close()
@@ -135,6 +136,7 @@ class isiModel:
         cur.close()
         db.close()
         return data
+    
     def getAllValueByYear(self,indikator,year):
         db=Database()
         query="SELECT m.value FROM "+self.table_name+" m JOIN instansi i ON m.instansi=i.id";
@@ -211,6 +213,22 @@ class isiModel:
         cur.close()
         db.close()
         return data
+    def getAspekByYearInstansi(self,aspek,year,instansi):
+        db=Database()
+        query="SELECT ROUND(SUM(m.value*indikator.bobot)/a.bobot,2) FROM "+self.table_name+" m";
+        query+=" JOIN instansi i ON m.instansi=i.id"
+        query+=" JOIN indikator ON m.indikator=indikator.id"
+        query+=" JOIN aspek a on indikator.aspek=a.id"
+        query+=" WHERE indikator.aspek=%s AND m.year=%s AND m.instansi=%s"
+        query+=" GROUP BY i.id,m.year"
+        query+=" ORDER BY i.id,m.year"
+        cur= db.execute_query(query,(aspek,year,instansi))
+        result=cur.fetchone()
+        cur.close()
+        db.close()
+        if(result):
+            return result[0]
+        return 0
     def getAllDomain(self,domain):
         data_domain=domain_model.getById(domain)
         data_aspek=aspek_model.getAllByDomain(domain)
@@ -237,6 +255,13 @@ class isiModel:
                 jml+=value_aspek[index][i]*aspek['bobot']
             data.append(round(jml/data_domain['bobot'],2))
         return data
+    def getDomainByYearInstansi(self,domain,year,instansi):
+        data_domain=domain_model.getById(domain)
+        data_aspek=aspek_model.getAllByDomain(domain)
+        jml=0
+        for aspek in data_aspek:
+            jml+=self.getAspekByYearInstansi(aspek['id'],year,instansi)*aspek['bobot']
+        return round(jml/data_domain['bobot'],2)
     def getAllIndex(self):
         data_domains=domain_model.getAll()
         data=[]
@@ -265,6 +290,15 @@ class isiModel:
                 jml+=value_domain[index][i]*domain['bobot']
             data.append(round(jml/jml_domain,2))
         return data
+    def getIndexbyYearInstansi(self,year,instansi):
+        data_domains=domain_model.getAll()
+        jml_domain=0;
+        jml=0
+        for domain in data_domains:
+            jml+=self.getDomainByYearInstansi(domain['id'],year,instansi)*domain['bobot']
+            jml_domain+=domain['bobot']
+        return round(jml/jml_domain,2)
+    
     def getDf(self):
         db=Database()
         query="SELECT i.nama,gi.nama,m.year,m.value FROM "+self.table_name+" m";
