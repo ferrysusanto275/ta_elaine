@@ -82,7 +82,7 @@ for index, row in df.iterrows():
                         data_full['2018_'+str(i)].append(y_pred_extrapolate_int[0])
                         data_full['2019_'+str(i)].append(y_pred_extrapolate_int[1])
                         data_full['2020_'+str(i)].append(y_pred_extrapolate_int[2])
-
+            
                 # temp_2021= data_full["2021"][:i] + data_full["2021"][i + 1:]
                 # temp_2022= data_full["2022"][:i] + data_full["2022"][i + 1:]
                 # temp_2018= data_full["2018"][:i] + data_full["2018"][i + 1:]
@@ -107,6 +107,15 @@ for index, row in df.iterrows():
                 # initial_guess_2019.append(y_pred_extrapolate_int[1])
                 # initial_guess_2020.append(y_pred_extrapolate_int[2])
             print(pd.DataFrame(data_full))
+            if(float(row.indeks_2018)>0):
+                print("masuk 2018")        
+                model.create_bulk(row.id,'2018',data_full["2018"])
+            if(float(row.indeks_2019)>0):
+                print("masuk 2019")   
+                model.create_bulk(row.id,'2019',data_full["2019"])
+            if(float(row.indeks_2020)>0):
+                print("masuk 2020")   
+                model.create_bulk(row.id,'2020',data_full["2020"])
             # initial_guess_2018_tahap2=[]
             # initial_guess_2019_tahap2=[]
             # initial_guess_2020_tahap2=[]
