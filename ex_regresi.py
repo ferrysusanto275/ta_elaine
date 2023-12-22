@@ -6,8 +6,8 @@ from app.models.indikator import indikatorModel
 
 model=isiModel()
 # indikator_model=indikatorModel();
-# df = pd.read_csv('Data CSV/Data_lengkap_part_01.csv')
-df=pd.DataFrame({'id':['i2023110600313'],'indeks_2018':[2.09],'indeks_2019':[1.89],'indeks_2020':[2.57]})
+df = pd.read_csv('Data CSV/Data_lengkap.csv')
+# df=pd.DataFrame({'id':['i2023110600313'],'indeks_2018':[2.09],'indeks_2019':[1.89],'indeks_2020':[2.57]})
 # list_indikator=indikator_model.getAll()
 def objective(params):
     i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
@@ -27,135 +27,112 @@ def objective(params):
 def cari_i(index_find,index1,indikators_1,indikators_2):
     data=[]
     pilihan_data=[];
+    for i in range(47):
+        indikator1=float(indikators_1[i])
+        indikator2=float(indikators_2[i])
+        indikator_find=[];
+        if(index_find>index1):
+            if(indikator1>indikator2):
+                if(indikator1<5):
+                    indikator_find.append(indikator1+1)
+                else: indikator_find.append(5)
+            elif(indikator1==indikator2):
+                indikator_find.append(indikator1)
+                if(indikator1<5):
+                    indikator_find.append(indikator1+1)
+            else:
+                if(indikator1>1):
+                    indikator_find.append(indikator1-1);
+                indikator_find.append(indikator1)
+        elif(index_find==index1):
+            indikator_find.append(indikator1)
+        else:
+            if(indikator1<indikator2):
+                # indikator naik
+                if(indikator1>1):
+                    indikator_find.append(indikator1-1);
+                else: indikator_find.append(1);
+            elif(indikator1==indikator2):
+                if(indikator1>1):
+                    indikator_find.append(indikator1-1);
+                indikator_find.append(indikator1);
+            elif(indikator1>indikator2):
+                indikator_find.append(indikator1)
+                if(indikator1<5):
+                    indikator_find.append(indikator1+1);
+        data.append(indikator_find[0])
+        pilihan_data.append(indikator_find)
+    cnt=0
+    while(index_find>round(objective(data),2) and cnt<47):
+        if(len(pilihan_data[cnt])>1):
+            data[cnt]=pilihan_data[cnt][1]
+            
+            if(index_find<round(objective(data),2)):data[cnt]=pilihan_data[cnt][0]
+        cnt+=1
+    
+    # adjust klo masih kurang
+    if(index_find>round(objective(data),2)):
+        cnt=0
+        while(index_find>round(objective(data),2) and cnt<47):
+            if(data[cnt]<5):
+                tmp=data[cnt]
+                data[cnt]=tmp+1
+                if(index_find<round(objective(data),2)):data[cnt]=tmp
+            cnt+=1
+    else:
+        # klo lebih
+        while(index_find<round(objective(data),2) and cnt<47):
+            if(data[cnt]>1):
+                tmp=data[cnt]
+                data[cnt]=tmp-1
+                if(index_find>round(objective(data),2)):data[cnt]=tmp
+            cnt+=1
     return data
 for index, row in df.iterrows():
     if(row.id!='NaN'):
-        data_full = {"2018": [], "2019": [], "2020": [], "2021": [], "2022": []}
 #         # esktrapolasi index (regresi)
 #         # search index 2021
+        data_full={}
         index_2021=model.getIndexbyYearInstansi(instansi=row.id,year=2021);
 #         # search index 2022
         index_2022=model.getIndexbyYearInstansi(instansi=row.id,year=2022);
-        data_indikator_2021=model.getAllValueByYearInstansi(instansi=row.id,year=2021);
-        data_indikator_2022=model.getAllValueByYearInstansi(instansi=row.id,year=2022);
+        data_indikator_2021=[float(x['val']) for x in model.getAllValueByYearInstansi(instansi=row.id,year=2021)];
+        
+        data_indikator_2022=[float(x['val']) for x in model.getAllValueByYearInstansi(instansi=row.id,year=2022)];
         if(index_2021==0):
             index_2021=index_2022
             data_indikator_2021=data_indikator_2022
         if(index_2022==0):
             index_2022=index_2021
             data_indikator_2022=data_indikator_2021
+        data_full['2021']=data_indikator_2021
+        data_full['2022']=data_indikator_2022
         index_2018=0
         if(float(row.indeks_2018)>0):index_2018=row.indeks_2018
         index_2019=index_2018
         if(float(row.indeks_2019)>0):index_2019=row.indeks_2019
         index_2020=index_2019
         if(float(row.indeks_2020)>0):index_2020=row.indeks_2020
-        print("indeks_real :",index_2018,index_2019,index_2020,index_2021,index_2022)
+        # print("indeks_real :",index_2018,index_2019,index_2020,index_2021,index_2022)
         if(index_2021>0 and index_2022>0):
-            cari_i(index_find=index_2020,index1=index_2021)
-            data_2020=[]
-            pilihan_data_2020=[];
-            for i in range(47):
-                indikator_2021=float(data_indikator_2021.loc[i].val)
-                indikator_2022=float(data_indikator_2022.loc[i].val)
-                indikator_2020=[];
-                if(index_2020>index_2021):
-                    #  naik indeks
-                    if(indikator_2021>indikator_2022):
-                        # indikator naik
-                        if(indikator_2021<5):
-                            indikator_2020.append(indikator_2021+1)
-                        else: indikator_2020.append(5)
-                    elif(indikator_2021==indikator_2022):
-                        indikator_2020.append(indikator_2021);
-                        if(indikator_2021<5):
-                            indikator_2020.append(indikator_2021+1);
-                    elif(indikator_2021<indikator_2022):
-                        if(indikator_2021>1):
-                            indikator_2020.append(indikator_2021-1);
-                        else: indikator_2020.append(1);
-                        if(indikator_2021<5):
-                            indikator_2020.append(indikator_2021+1);
-                        else: indikator_2020.append(1);
-                elif(index_2020==index_2021):
-                    indikator_2020.append(indikator_2021);
-                else:
-                    if(indikator_2021<indikator_2022):
-                        # indikator naik
-                        if(indikator_2021>1):
-                            indikator_2020.append(indikator_2021-1);
-                        else: indikator_2020.append(1);
-                    elif(indikator_2021==indikator_2022):
-                        if(indikator_2021>1):
-                            indikator_2020.append(indikator_2021-1);
-                        indikator_2020.append(indikator_2021);
-                    elif(indikator_2021>indikator_2022):
-                        if(indikator_2021>1):
-                            indikator_2020.append(indikator_2021-1);
-                        else: indikator_2020.append(1);
-                        if(indikator_2021<5):
-                            indikator_2020.append(indikator_2021+1);
-                        else: indikator_2020.append(1);
-                data_2020.append(indikator_2020[0])
-                pilihan_data_2020.append([indikator_2020,0])
-            cnt=0
-            while(index_2020>objective(data_2020) and cnt<47):
-                # print(data_2020[cnt])
-                if(len(pilihan_data_2020[cnt][0])>1):
-                    data_2020[cnt]=pilihan_data_2020[cnt][0][1]
-                    if(index_2020<objective(data_2020)):data_2020[cnt]=pilihan_data_2020[cnt][0][0]
-                # print(cnt,data_2020[cnt])
-                cnt+=1
+            data_2020=cari_i(index_find=index_2020,index1=index_2021,indikators_1=data_indikator_2021,indikators_2=data_indikator_2022)
             indeks_2020=round(objective(data_2020),2)
-            # print(pd.DataFrame(data_2020))
-            # data_2019=[]
-            # pilihan_data_2019=[];
-            
-            # # print(indeks_2020,index_2019,indeks_2020>index_2019)
-            # for i in range(47):
-            #     indikator_2020=data_2020[i]
-            #     indikator_2021=float(data_indikator_2021.loc[i].val)
-            #     indikator_2019=[];
-                
-            #     if(indeks_2020>index_2019):
-            #         # print("lebih besar")
-            #         #  naik indeks
-            #         if(indikator_2020>indikator_2021):
-            #             # indikator naik
-            #             indikator_2019.append(indikator_2020+1);
-            #         elif(indikator_2020==indikator_2021):
-            #             indikator_2019.append(indikator_2020);
-            #             indikator_2019.append(indikator_2020+1);
-            #         elif(indikator_2020<indikator_2021):
-            #             indikator_2019.append(indikator_2020-1);
-            #             indikator_2019.append(indikator_2020+1);
-            #     elif(indeks_2020==index_2019):
-            #         # print("sama")
-            #         indikator_2019.append(indikator_2020);
-            #     else:
-            #         # print("lebih kecil")
-            #         if(indikator_2020<indikator_2021):
-            #             # indikator naik
-            #             indikator_2019.append(indikator_2020-1);
-            #         elif(indikator_2020==indikator_2021):
-            #             indikator_2019.append(indikator_2020-1);
-            #             indikator_2019.append(indikator_2020);
-            #         elif(indikator_2020>indikator_2021):
-            #             indikator_2019.append(indikator_2020-1);
-            #             indikator_2019.append(indikator_2020+1);
-            #     print(indikator_2021,indikator_2020,indikator_2019[0])
-            #     data_2019.append(indikator_2019[0])
-            #     pilihan_data_2019.append([indikator_2019,0])
-            # cnt=0
-            # while(index_2020>objective(data_2019) and cnt<47):
-            #     # print(data_2019[cnt])
-            #     if(len(pilihan_data_2019[cnt][0])>1):
-            #         data_2019[cnt]=pilihan_data_2019[cnt][0][1]
-            #         if(index_2020<objective(data_2019)):data_2019[cnt]=pilihan_data_2019[cnt][0][0]
-            #     # print(cnt,data_2019[cnt])
-            #     cnt+=1
-            # indeks_2019=round(objective(data_2019),2)
-            indeks_2018=0
-            indeks_2019=0
-            print("indeks_obj :",indeks_2018,indeks_2019,indeks_2020,index_2021,index_2022)
-           
+            data_2019=cari_i(index_find=index_2019,index1=indeks_2020,indikators_1=data_2020,indikators_2=data_indikator_2021)
+            indeks_2019=round(objective(data_2019),2)
+            data_2018=cari_i(index_find=index_2018,index1=indeks_2019,indikators_1=data_2019,indikators_2=data_2020)
+            indeks_2018=round(objective(data_2018),2)
+            # print("indeks_obj :",indeks_2018,indeks_2019,indeks_2020,index_2021,index_2022)
+            data_full['2020']=data_2020
+            data_full['2019']=data_2019
+            data_full['2018']=data_2018
+            data_full['2018'].append(index_2018)
+            data_full['2018'].append(indeks_2018)
+            data_full['2019'].append(index_2019)
+            data_full['2019'].append(indeks_2019)
+            data_full['2020'].append(index_2020)
+            data_full['2020'].append(indeks_2020)
+            data_full['2021'].append(index_2021)
+            data_full['2021'].append(index_2021)
+            data_full['2022'].append(index_2022)
+            data_full['2022'].append(index_2022)
+            print(pd.DataFrame(data_full))           
