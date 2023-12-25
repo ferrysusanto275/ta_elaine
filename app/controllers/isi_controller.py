@@ -461,15 +461,25 @@ def hitung_index(params):
         index+=val['val']*val['bobot']/jml_bobot
     
     return index
-@isi_bp.route('/api/'+model.table_name+'/pca/<string:year>')
-def pcaByYear(year):
+@isi_bp.route('/api/'+model.table_name+'/pca/<string:year>/<string:cari>')
+def pcaByYear(year,cari):
     df = model.getDfKByYear(year)
-   
-    X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
-    'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
-    'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
-     'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
-      'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    print(df)
+    if(cari=="semua"):
+        X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
+        'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
+        'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
+        'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
+        'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    elif(cari=="domain_1"):
+        X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10','Domain 1']]
+    elif(cari=="domain_2"):
+        X = df[['I11','I12','I13','I14','I15','I16','I17','I18','I19','I20','Domain 2']]
+    elif(cari=="domain_3"):
+        X = df[['I21','I22','I23','I24','I25','I26','I27','I28','I29','I30','I31','Domain 3']]
+    elif(cari=="domain_4"):
+        X = df[['I32','I33','I34','I35','I36','I37','I38','I39','I40',
+        'I41','I42','I43','I44','I45','I46','I47', 'Domain 4']]
     
 
     # Apply PCA
@@ -524,15 +534,25 @@ def svdByYear(year):
     FigureCanvas(fig).print_png(output)
    
     return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/pca_agglo/<string:year>/<string:linkage>')
-def pcaAggloByYear(year,linkage):
+@isi_bp.route('/api/'+model.table_name+'/pca_agglo/<string:year>/<string:linkage>/<string:cari>')
+def pcaAggloByYear(year,linkage, cari):
     df = model.getDfAByYear(year,linkage)
    
-    X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
-    'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
-    'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
-     'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
-      'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    if(cari=="semua"):
+        X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
+        'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
+        'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
+        'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
+        'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    elif(cari=="domain_1"):
+        X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10','Domain 1']]
+    elif(cari=="domain_2"):
+        X = df[['I11','I12','I13','I14','I15','I16','I17','I18','I19','I20','Domain 2']]
+    elif(cari=="domain_3"):
+        X = df[['I21','I22','I23','I24','I25','I26','I27','I28','I29','I30','I31','Domain 3']]
+    elif(cari=="domain_4"):
+        X = df[['I32','I33','I34','I35','I36','I37','I38','I39','I40',
+        'I41','I42','I43','I44','I45','I46','I47', 'Domain 4']]
    
     pca = PCA(n_components=2)
     principal_components = pca.fit_transform(X)
