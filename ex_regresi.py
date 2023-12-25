@@ -5,8 +5,10 @@ from app.models.isi import isiModel
 from app.models.indikator import indikatorModel
 
 model=isiModel()
+indikator_model=indikatorModel()
+indikators=indikator_model.getAll()
 # indikator_model=indikatorModel();
-df = pd.read_csv('Data CSV/Data_lengkap.csv')
+df = pd.read_csv('Data CSV/Data_lengkap_part_13.csv')
 # df=pd.DataFrame({'id':['i2023110600313'],'indeks_2018':[2.09],'indeks_2019':[1.89],'indeks_2020':[2.57]})
 # list_indikator=indikator_model.getAll()
 def objective(params):
@@ -88,6 +90,7 @@ def cari_i(index_find,index1,indikators_1,indikators_2):
                 if(index_find>round(objective(data),2)):data[cnt]=tmp
             cnt+=1
     return data
+data_insert=[]
 for index, row in df.iterrows():
     if(row.id!='NaN'):
 #         # esktrapolasi index (regresi)
@@ -113,26 +116,44 @@ for index, row in df.iterrows():
         if(float(row.indeks_2019)>0):index_2019=row.indeks_2019
         index_2020=index_2019
         if(float(row.indeks_2020)>0):index_2020=row.indeks_2020
-        # print("indeks_real :",index_2018,index_2019,index_2020,index_2021,index_2022)
         if(index_2021>0 and index_2022>0):
+            print("indeks_real :",index_2018,index_2019,index_2020,index_2021,index_2022)
             data_2020=cari_i(index_find=index_2020,index1=index_2021,indikators_1=data_indikator_2021,indikators_2=data_indikator_2022)
             indeks_2020=round(objective(data_2020),2)
             data_2019=cari_i(index_find=index_2019,index1=indeks_2020,indikators_1=data_2020,indikators_2=data_indikator_2021)
             indeks_2019=round(objective(data_2019),2)
             data_2018=cari_i(index_find=index_2018,index1=indeks_2019,indikators_1=data_2019,indikators_2=data_2020)
             indeks_2018=round(objective(data_2018),2)
-            # print("indeks_obj :",indeks_2018,indeks_2019,indeks_2020,index_2021,index_2022)
-            data_full['2020']=data_2020
-            data_full['2019']=data_2019
-            data_full['2018']=data_2018
-            data_full['2018'].append(index_2018)
-            data_full['2018'].append(indeks_2018)
-            data_full['2019'].append(index_2019)
-            data_full['2019'].append(indeks_2019)
-            data_full['2020'].append(index_2020)
-            data_full['2020'].append(indeks_2020)
-            data_full['2021'].append(index_2021)
-            data_full['2021'].append(index_2021)
-            data_full['2022'].append(index_2022)
-            data_full['2022'].append(index_2022)
-            print(pd.DataFrame(data_full))           
+            print("indeks_obj :",indeks_2018,indeks_2019,indeks_2020,index_2021,index_2022)
+            if(len(data_2018)>0):
+                print('insert data 2018')
+                for i,indikator in enumerate(indikators):
+                    data_insert.append((row.id,indikator['id'],2018,data_2018[i]))
+                # model.create_bulk(row.id,'2018',data_2018)
+            if(len(data_2019)>0):
+                print('insert data 2019')
+                for i,indikator in enumerate(indikators):
+                    data_insert.append((row.id,indikator['id'],2019,data_2019[i]))
+                # model.create_bulk(row.id,'2019',data_2019)
+            if(len(data_2020)>0):
+                print('insert data 2020')
+                for i,indikator in enumerate(indikators):
+                    data_insert.append((row.id,indikator['id'],2020,data_2020[i]))
+                # model.create_bulk(row.id,'2020',data_2020)
+            # data_full['2020']=data_2020
+            # data_full['2019']=data_2019
+            # data_full['2018']=data_2018
+            # data_full['2018'].append(index_2018)
+            # data_full['2018'].append(indeks_2018)
+            # data_full['2019'].append(index_2019)
+            # data_full['2019'].append(indeks_2019)
+            # data_full['2020'].append(index_2020)
+            # data_full['2020'].append(indeks_2020)
+            # data_full['2021'].append(index_2021)
+            # data_full['2021'].append(index_2021)
+            # data_full['2022'].append(index_2022)
+            # data_full['2022'].append(index_2022)
+            # print(pd.DataFrame(data_full))
+if(len(data_insert)>0):
+    print("bulk insert")         
+    model.create_bulk_by_data(data_insert)
