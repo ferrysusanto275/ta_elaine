@@ -505,6 +505,61 @@ def pcaByYear(year,cari):
     FigureCanvas(fig).print_png(output)
     
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/res_pca/<string:year>/<string:cari>')
+def respcaByYear(year,cari):
+    df = model.getDfKByYear(year)
+    # print(df)
+    if(cari=="semua"):
+        X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
+        'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
+        'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
+        'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
+        'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    elif(cari=="domain_1"):
+        X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10','Domain 1']]
+    elif(cari=="domain_2"):
+        X = df[['I11','I12','I13','I14','I15','I16','I17','I18','I19','I20','Domain 2']]
+    elif(cari=="domain_3"):
+        X = df[['I21','I22','I23','I24','I25','I26','I27','I28','I29','I30','I31','Domain 3']]
+    elif(cari=="domain_4"):
+        X = df[['I32','I33','I34','I35','I36','I37','I38','I39','I40',
+        'I41','I42','I43','I44','I45','I46','I47', 'Domain 4']]
+    
+
+    # Apply PCA
+
+    pca = PCA(n_components=2)
+    data_pca = pca.fit_transform(X)
+    PC1 = pca.components_[0]
+    PC2 = pca.components_[1]
+    PC1_values = dict(zip(X.columns, PC1))
+    PC2_values = dict(zip(X.columns, PC2))
+
+    # Tentukan threshold untuk kelompok pertama
+    # threshold_PC1 = 0.5
+    # threshold_PC2 = -0.5
+    # Tentukan threshold untuk fitur yang signifikan
+    threshold_signifikan = 0.2
+
+    # Ambil sampel yang memenuhi kriteria kelompok pertama
+    # kelompok_pertama_indices = np.where((data_pca[:, 0] > threshold_PC1) & (data_pca[:, 1] < threshold_PC2))[0]
+    # print(kelompok_pertama_indices)
+    # Ambil data asli untuk kelompok pertama
+    # kelompok_pertama_data = X.columns[kelompok_pertama_indices, :]
+    # print(kelompok_pertama_data)
+
+    # Identifikasi fitur yang signifikan dalam membentuk komponen utama
+    fitur_signifikan_PC1 = [f'{X.columns[i]}' for i in range(len(PC1)) if abs(PC1[i]) > threshold_signifikan]
+    fitur_signifikan_PC2 = [f'{X.columns[i]}' for i in range(len(PC2)) if abs(PC2[i]) > threshold_signifikan]
+    kelompok_1 = [f'{X.columns[i]}' for i in range(len(PC1)) if PC1[i] > 0 and PC2[i] > 0]#pc1>0 dan pc2>0
+    kelompok_2 = [f'{X.columns[i]}' for i in range(len(PC1)) if PC1[i] < 0 and PC2[i] > 0]#pc1<0 dan pc2>0
+    kelompok_3 = [f'{X.columns[i]}' for i in range(len(PC1)) if PC1[i] < 0 and PC2[i] < 0]#pc1<0 dan pc2<0
+    kelompok_4 = [f'{X.columns[i]}' for i in range(len(PC1)) if PC1[i] > 0 and PC2[i] < 0]#pc1>0 dan pc2<0
+
+
+    res={"PC1_values":PC1_values,"PC2_values":PC2_values,"fitur_signifikan_PC1":fitur_signifikan_PC1,"fitur_signifikan_PC2":fitur_signifikan_PC2,"kelompok_1":kelompok_1,"kelompok_2":kelompok_2,"kelompok_3":kelompok_3,"kelompok_4":kelompok_4};
+
+    return jsonify(res);
 
 @isi_bp.route('/api/'+model.table_name+'/svd/<string:year>')
 def svdByYear(year):
@@ -575,6 +630,58 @@ def pcaAggloByYear(year,linkage, cari):
     FigureCanvas(fig).print_png(output)
     
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/res_pca_agglo/<string:year>/<string:linkage>/<string:cari>')
+def respcaAggloByYear(year,linkage, cari):
+    df = model.getDfAByYear(year,linkage)
+   
+    if(cari=="semua"):
+        X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
+        'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
+        'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
+        'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
+        'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    elif(cari=="domain_1"):
+        X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10','Domain 1']]
+    elif(cari=="domain_2"):
+        X = df[['I11','I12','I13','I14','I15','I16','I17','I18','I19','I20','Domain 2']]
+    elif(cari=="domain_3"):
+        X = df[['I21','I22','I23','I24','I25','I26','I27','I28','I29','I30','I31','Domain 3']]
+    elif(cari=="domain_4"):
+        X = df[['I32','I33','I34','I35','I36','I37','I38','I39','I40',
+        'I41','I42','I43','I44','I45','I46','I47', 'Domain 4']]
+   
+    pca = PCA(n_components=2)
+    data_pca = pca.fit_transform(X)
+    PC1 = pca.components_[0]
+    PC2 = pca.components_[1]
+    PC1_values = dict(zip(X.columns, PC1))
+    PC2_values = dict(zip(X.columns, PC2))
+
+    # Tentukan threshold untuk kelompok pertama
+    # threshold_PC1 = 0.5
+    # threshold_PC2 = -0.5
+    # Tentukan threshold untuk fitur yang signifikan
+    threshold_signifikan = 0.2
+
+    # Ambil sampel yang memenuhi kriteria kelompok pertama
+    # kelompok_pertama_indices = np.where((data_pca[:, 0] > threshold_PC1) & (data_pca[:, 1] < threshold_PC2))[0]
+    # print(kelompok_pertama_indices)
+    # Ambil data asli untuk kelompok pertama
+    # kelompok_pertama_data = X.columns[kelompok_pertama_indices, :]
+    # print(kelompok_pertama_data)
+
+    # Identifikasi fitur yang signifikan dalam membentuk komponen utama
+    fitur_signifikan_PC1 = [f'{X.columns[i]}' for i in range(len(PC1)) if abs(PC1[i]) > threshold_signifikan]
+    fitur_signifikan_PC2 = [f'{X.columns[i]}' for i in range(len(PC2)) if abs(PC2[i]) > threshold_signifikan]
+    kelompok_1 = [f'{X.columns[i]}' for i in range(len(PC1)) if PC1[i] > 0 and PC2[i] > 0]#pc1>0 dan pc2>0
+    kelompok_2 = [f'{X.columns[i]}' for i in range(len(PC1)) if PC1[i] < 0 and PC2[i] > 0]#pc1<0 dan pc2>0
+    kelompok_3 = [f'{X.columns[i]}' for i in range(len(PC1)) if PC1[i] < 0 and PC2[i] < 0]#pc1<0 dan pc2<0
+    kelompok_4 = [f'{X.columns[i]}' for i in range(len(PC1)) if PC1[i] > 0 and PC2[i] < 0]#pc1>0 dan pc2<0
+
+
+    res={"PC1_values":PC1_values,"PC2_values":PC2_values,"fitur_signifikan_PC1":fitur_signifikan_PC1,"fitur_signifikan_PC2":fitur_signifikan_PC2,"kelompok_1":kelompok_1,"kelompok_2":kelompok_2,"kelompok_3":kelompok_3,"kelompok_4":kelompok_4};
+
+    return jsonify(res);
 
 @isi_bp.route('/api/'+model.table_name+'/svd_agglo/<string:year>/<string:linkage>')
 def svdAggloByYear(year,linkage):

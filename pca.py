@@ -18,7 +18,7 @@ pca = PCA(n_components=2)
 
 # Fit-transform data ke ruang PCA
 data_pca = pca.fit_transform(data_dummy)
-
+print("length component :",len(pca.components_))
 # Komponen Utama
 PC1 = pca.components_[0]
 PC2 = pca.components_[1]
