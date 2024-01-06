@@ -134,6 +134,13 @@ def clustering():
 @app.route("/assets/js/clustering.js")
 def clusteringJs():
     return send_file("static/js/clustering.js")
+@app.route("/clustering_agglo")
+def clustering_agglo():
+    return render_template("clustering_agglo.html",page_url=request
+    .path)
+@app.route("/assets/js/clustering_agglo.js")
+def clustering_aggloJs():
+    return send_file("static/js/clustering_agglo.js")
 @app.route("/elbow_indikator")
 def elbow_indikator():
     return render_template("elbow_indikator.html",page_url=request.path)
