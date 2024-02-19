@@ -124,6 +124,24 @@ def perbandingan_index_domainJs():
 @app.route("/elbow_index")
 def elbow_index():
     return render_template("elbow_index.html",page_url=request.path)
+@app.route("/assets/js/plot_kmeans.js")
+def plot_kmeansJs():
+    return render_template("static/js/plot_kmeans.js",page_url=request.path)
+@app.route("/plot_kmeans")
+def plot_kmeans():
+    return render_template("plot_kmeans.html",page_url=request.path)
+@app.route("/assets/js/pca.js")
+def pcaJs():
+    return render_template("static/js/pca.js",page_url=request.path)
+@app.route("/pca")
+def pca():
+    return render_template("pca.html",page_url=request.path)
+@app.route("/assets/js/dend_agglo_score.js")
+def dend_agglo_scoreJs():
+    return render_template("static/js/dend_agglo_score.js",page_url=request.path)
+@app.route("/dend_agglo_score")
+def dend_agglo_score():
+    return render_template("dend_agglo_score.html",page_url=request.path)
 @app.route("/assets/js/elbow_index.js")
 def elbow_indexJs():
     return send_file("static/js/elbow_index.js")

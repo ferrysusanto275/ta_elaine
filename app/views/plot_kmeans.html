@@ -1,0 +1,22 @@
+{% extends "templates.html" %} {% block linkCSS %}
+<link rel="stylesheet" href="assets/css/perbandingan_indikator.css" />
+{% endblock %} {% block main %}
+<legend>Plot Kmeans</legend>
+<div id="filter">
+  <label for="year_cb_filter">Year</label>
+  <select name="year" id="year_cb_filter" class="form_control"></select>
+</div>
+<div id="tampil_perbandingan">
+</div>
+
+<!-- <table id="score_tabel" border="1">
+  <thead>
+    <th>K</th>
+    <th>Score</th>
+  </thead>
+  <tbody id="data_score"></tbody>
+</table> -->
+{% endblock %}
+{% block scriptJS %}
+<script src="assets/js/plot_kmeans.js"></script>
+{% endblock %}
