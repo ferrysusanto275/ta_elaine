@@ -3,6 +3,7 @@ const year_api = base_api_url + "isi/year";
 const agglo_api = base_api_url + "isi/plot_dend";
 const data_score = document.getElementById('data_score')
 const year_cb_filter = document.getElementById('year_cb_filter')
+const linkage_cb_filter = document.getElementById('linkage_cb_filter')
 const cek_year = () => {
     fetch(year_api)
         .then((response) => {
@@ -36,7 +37,7 @@ const handle_year = () => {
 }
 const isi_data = () => {
     data_score.innerHTML = ""
-    fetch(score_api + '/' + year_cb_filter.value).then((response) => {
+    fetch(score_api + '/' + year_cb_filter.value + '/' + linkage_cb_filter.value).then((response) => {
         if (!response.ok) {
             throw new Error("Network response was not ok");
         }
@@ -64,17 +65,19 @@ const load_img = () => {
     tampil_perbandingan.innerHTML = "";
     tampil_perbandingan.appendChild(
         create_elbow(
-            year_cb_filter.value
+            year_cb_filter.value,
+            linkage_cb_filter.value
         )
     );
 };
-const create_link = (year) => {
-    return `${kmeans_api}/${year}`;
+const create_link = (year, linkage) => {
+    return `${agglo_api}/${year}/${linkage}`;
 };
-const create_elbow = (year) => {
+const create_elbow = (year, linkage) => {
     const img_tampil = document.createElement("img");
-    img_tampil.src = create_link(year);
+    img_tampil.src = create_link(year, linkage);
     return img_tampil;
 };
 year_cb_filter.onchange = handle_year
+linkage_cb_filter.onchange = handle_year
 cek_year()

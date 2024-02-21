@@ -126,20 +126,38 @@ def elbow_index():
     return render_template("elbow_index.html",page_url=request.path)
 @app.route("/assets/js/plot_kmeans.js")
 def plot_kmeansJs():
-    return render_template("static/js/plot_kmeans.js",page_url=request.path)
+    return send_file("static/js/plot_kmeans.js")
 @app.route("/plot_kmeans")
 def plot_kmeans():
     return render_template("plot_kmeans.html",page_url=request.path)
 @app.route("/assets/js/pca.js")
 def pcaJs():
-    return render_template("static/js/pca.js",page_url=request.path)
+    return send_file("static/js/pca.js")
 @app.route("/pca")
 def pca():
     return render_template("pca.html",page_url=request.path)
+@app.route("/assets/js/svd.js")
+def svdJs():
+    return send_file("static/js/svd.js")
+@app.route("/svd")
+def svd():
+    return render_template("svd.html",page_url=request.path)
+@app.route("/assets/js/svd_agglo.js")
+def svd_aggloJs():
+    return send_file("static/js/svd_agglo.js")
+@app.route("/svd_agglo")
+def svd_agglo():
+    return render_template("svd_agglo.html",page_url=request.path)
+@app.route("/assets/js/pca_agglo.js")
+def pcaJs_agglo():
+    return send_file("static/js/pca_agglo.js")
+@app.route("/pca_agglo")
+def pca_agglo():
+    return render_template("pca_agglo.html",page_url=request.path)
 @app.route("/assets/js/dend_agglo_score.js")
 def dend_agglo_scoreJs():
-    return render_template("static/js/dend_agglo_score.js",page_url=request.path)
-@app.route("/dend_agglo_score")
+    return send_file("static/js/dend_agglo_score.js")
+@app.route("/plot_dend")
 def dend_agglo_score():
     return render_template("dend_agglo_score.html",page_url=request.path)
 @app.route("/assets/js/elbow_index.js")

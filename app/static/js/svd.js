@@ -1,7 +1,6 @@
 const year_api = base_api_url + "isi/year";
-const pca_api = base_api_url + "isi/pca";
+const svd_api = base_api_url + "isi/svd";
 const year_cb_filter = document.getElementById("year_cb_filter");
-const cari_cb_filter = document.getElementById("cari_cb_filter");
 const cek_year = () => {
   fetch(year_api)
     .then((response) => {
@@ -30,16 +29,15 @@ const cek_year = () => {
 };
 const load_img = () => {
   tampil_perbandingan.innerHTML = "";
-  tampil_perbandingan.appendChild(create_pca(year_cb_filter.value, cari_cb_filter.value));
+  tampil_perbandingan.appendChild(create_pca(year_cb_filter.value));
 };
-const create_link = (year, cari) => {
-  return `${pca_api}/${year}/${cari}`;
+const create_link = (year) => {
+  return `${svd_api}/${year}`;
 };
-const create_pca = (year, cari) => {
+const create_pca = (year) => {
   const img_tampil = document.createElement("img");
-  img_tampil.src = create_link(year, cari);
+  img_tampil.src = create_link(year);
   return img_tampil;
 };
 year_cb_filter.onchange = load_img;
-cari_cb_filter.onchange = load_img;
 cek_year();
