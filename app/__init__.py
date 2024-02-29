@@ -6,6 +6,7 @@ from app.controllers.indikator_controller import indikator_bp
 from app.controllers.isi_controller import isi_bp
 from app.controllers.predikat_controller import predikat_bp
 from app.controllers.grup_instansi_controller import grup_instansi_bp
+from app.controllers.titik_peta_controller import titik_peta_bp
 min_year=2018
 app = Flask(__name__, template_folder='views')
 app.register_blueprint(instansi_bp)
@@ -15,6 +16,7 @@ app.register_blueprint(indikator_bp)
 app.register_blueprint(isi_bp)
 app.register_blueprint(predikat_bp)
 app.register_blueprint(grup_instansi_bp)
+app.register_blueprint(titik_peta_bp)
 # front end
 @app.route("/")
 def index():
@@ -173,6 +175,16 @@ def clusteringJs():
 @app.route("/clustering_agglo")
 def clustering_agglo():
     return render_template("clustering_agglo.html",page_url=request
+    .path)
+@app.route("/assets/js/petabuta.js")
+def petaJs():
+    return send_file("static/js/petabuta.js")
+@app.route("/assets/img/petabuta.png")
+def petaPNG():
+    return send_file("static/img/petabuta.png")
+@app.route("/peta")
+def peta_agglo():
+    return render_template("peta.html",page_url=request
     .path)
 @app.route("/assets/js/clustering_agglo.js")
 def clustering_aggloJs():

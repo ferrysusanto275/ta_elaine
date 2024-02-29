@@ -530,6 +530,7 @@ def respcaByYear(year,cari):
 
     pca = PCA(n_components=2)
     data_pca = pca.fit_transform(X)
+    # print(data_pca);
     PC1 = pca.components_[0]
     PC2 = pca.components_[1]
     PC1_values = dict(zip(X.columns, PC1))
