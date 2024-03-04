@@ -315,6 +315,7 @@ class isiModel:
             jml_domain+=domain['bobot']
         return round(jml/jml_domain,2)
     
+    
     def getDf(self):
         db=Database()
         query="SELECT i.nama,gi.nama,m.year,m.value FROM "+self.table_name+" m";

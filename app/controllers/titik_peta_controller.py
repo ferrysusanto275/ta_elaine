@@ -7,9 +7,9 @@ model=titik_petaModel()
 #         return jsonify({'message': 'Nama is required'}), 400
 #     return [nama]
 titik_peta_bp=Blueprint(model.table_name,__name__)
-@titik_peta_bp.route('/api/'+model.table_name)
-def get_all():
-    return jsonify(model.getAll());
+@titik_peta_bp.route('/api/'+model.table_name+'/<string:tipe>/<string:year>')
+def get_all(tipe,year):
+    return jsonify(model.getAll(tipe,year));
 # @grup_instansi_bp.route('/api/'+model.table_name+'/<string:id>')
 # def get_by_id(id):
 #     grup_instansi = model.getById(id)
@@ -48,3 +48,6 @@ def get_all():
 #             return jsonify({'message': 'Failed to delete '+model.table_name}), 500
 #     else:
 #         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
+
+
+

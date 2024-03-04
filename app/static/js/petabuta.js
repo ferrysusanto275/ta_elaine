@@ -1,6 +1,7 @@
 const year_api = base_api_url + "isi/year";
 const titik_peta_api = base_api_url + "titik_peta";
 const year_cb_filter = document.getElementById("year_cb_filter");
+const tipe_cb_filter = document.getElementById("tipe_cb_filter");
 const tampil_peta = document.getElementById("tampil_peta")
 const cek_year = () => {
     fetch(year_api)
@@ -32,7 +33,7 @@ const load_img = () => {
     tampil_peta.style.position = "relative"
     tampil_peta.innerHTML = "";
     tampil_peta.appendChild(create_img());
-    fetch(titik_peta_api)
+    fetch(titik_peta_api + "/" + tipe_cb_filter.value + "/" + year_cb_filter.value)
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -41,11 +42,28 @@ const load_img = () => {
         })
         .then((data) => {
             if (data.length == 0) {
-                location.href = "isi";
+                tampil_peta.innerHTML = "<h1>Data Not Found</h1>"
             } else {
                 data.forEach((element, i) => {
-                    console.log(element);
-                    tampil_peta.appendChild(create_dot('green', 'aqua', element.x, element.y, element.nama))
+                    let avg_idx = element.total_index / element.total_titik
+                    console.log(avg_idx);
+                    let color = 'green'
+                    let fc = 'aqua'
+                    if (avg_idx < 4.2) {
+                        color = 'blue'
+                    }
+                    if (avg_idx < 3.5) {
+                        color = 'yellow'
+                    }
+                    if (avg_idx < 2.6) {
+                        color = 'orange'
+                    }
+                    if (avg_idx < 1.8) {
+                        color = 'red'
+                    }
+
+
+                    tampil_peta.appendChild(create_dot(color, fc, element.x, element.y, element.nama))
                 });
             }
         })
@@ -80,3 +98,5 @@ const create_dot = (color, fontColor, x, y, nama) => {
     return dot;
 }
 cek_year()
+year_cb_filter.onchange = load_img
+tipe_cb_filter.onchange = load_img
