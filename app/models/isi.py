@@ -175,7 +175,7 @@ class isiModel:
         query+=" JOIN domain d on a.domain=d.id"
         query+=" WHERE m.instansi=%s and a.domain=%sand m.year=%s"
         query+=" GROUP BY a.id"
-        print(query)
+        # print(query)
         cur= db.execute_query(query,(instansi,domain,year))
         result=cur.fetchall()
         data=[]
@@ -195,6 +195,17 @@ class isiModel:
             data.append({"id":domain['id'],"nama":domain['nama'],"bobot":domain['bobot'],"nd":round(nd,2)})
         
         return data
+    def getAllDomainEmpat(self,instansi,year):
+        domain=domain_model.getById('d2023110400004');
+        # print(domain)
+        # data=[]
+        nd=0;
+        data_aspek=self.getAllAspekByInstansi(instansi,domain['id'],year)
+        for aspek in data_aspek:
+            nd+=round(float(aspek['na'])*float(aspek['bobot'])/float(domain['bobot']),2)
+        # data.append({"id":domain['id'],"nama":domain['name'],"bobot":domain['bobot'],"nd":round(nd,2)})
+        # print(instansi+" "+str(nd))
+        return round(nd,2)
     def getAllAspek(self,aspek):
         db=Database()
         query="SELECT ROUND(SUM(m.value*indikator.bobot)/a.bobot,2) FROM "+self.table_name+" m";
@@ -483,4 +494,5 @@ class isiModel:
             score = silhouette_score(features, agglo_model.labels_, metric='euclidean')
             silhouette_coef.append(score)
         best_num_clusters = model[np.argmax(silhouette_coef)]
-        return {"silhouette_score":silhouette_coef,"best_num_clusters":best_num_clusters}
+        return {"silhouette_score":silhouette_coef,"best_num_clusters":best_num_clusters} 
+       

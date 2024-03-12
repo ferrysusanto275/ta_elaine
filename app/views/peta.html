@@ -8,9 +8,19 @@
     <option value="0">Provinsi</option>
     <option value="1">Kota/Kabupaten</option>
   </select>
+  <select name="tipe" id="domain_cb_filter">
+    <option value="0">Index</option>
+    <option value="1">Domain 4</option>
+  </select>
 </div>
 <div id="tampil_peta"></div>
-
+<table id="name_tabel" border="1">
+  <thead>
+    <th>No</th>
+    <th>Nama</th>
+  </thead>
+  <tbody id="data_name"></tbody>
+</table>
 {% endblock %}
 {% block scriptJS %}
 <script src="assets/js/petabuta.js"></script>
