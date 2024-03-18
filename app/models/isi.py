@@ -360,6 +360,37 @@ class isiModel:
         cur.close()
         db.close()
         return data
+
+    def getDf23(self):
+        db=Database()
+        query="SELECT i.id,gi.nama,m.year,m.value FROM "+self.table_name+" m";
+        query+=" JOIN instansi i ON m.instansi=i.id"
+        query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
+        query+=" WHERE m.indikator=%s"
+        query+=" ORDER BY i.id,m.year"
+        # query+=" WHERE  m.indikator=%s"
+        data={ "Instansi":[],"Year":[]}
+        list_indikator=indikator_model.getAll()
+        for indikator in list_indikator:
+           data[indikator['nama']]=self.getAllValue(indikator['id'])
+        list_domain=domain_model.getAll()
+        for domain in list_domain:
+           data[domain['nama']]=self.getAllDomain(domain['id'])
+        data["Indeks"]=self.getAllIndex()
+
+        cur= db.execute_query(query,(list_indikator[0]['id'],))
+        result=cur.fetchall()
+        
+        for i,row in enumerate(result):
+        #    data['No'].append(i+1)
+           data['Instansi'].append(row[0])
+        #    data['Group'].append(row[1])
+           data['Year'].append(row[2])
+            
+            
+        cur.close()
+        db.close()
+        return data
     def getDfByYear(self,year):
         db=Database()
         query="SELECT i.nama,gi.nama,m.value FROM "+self.table_name+" m";
