@@ -3,68 +3,7 @@ from sklearn.linear_model import LinearRegression
 import pandas as pd
 from app.models.isi import isiModel
 from app.models.indikator import indikatorModel
-
-isi_model=isiModel()
-indikator_model=indikatorModel()
-indikators=indikator_model.getAll()
-# indikator_model=indikatorModel();
-# df = pd.read_csv('Data CSV/Data_lengkap_part_13.csv')
-# df=pd.DataFrame({'id':['i2023110600313'],'indeks_2018':[2.09],'indeks_2019':[1.89],'indeks_2020':[2.57]})
-# list_indikator=indikator_model.getAll()
-def domain(id,data_cari,data_domain,data_index):
-
-    df=pd.DataFrame(isi_model.getDf23())
-    df = df[df['Instansi']==id]
-    data_drop=['Instansi','Year', 'I1', 'I2', 'I3', 'I4', 'I5', 'I6', 'I7', 'I8', 'I9', 'I10',
-    'I11', 'I12', 'I13', 'I14', 'I15', 'I16', 'I17', 'I18', 'I19', 'I20',
-    'I21', 'I22', 'I23', 'I24', 'I25', 'I26', 'I27', 'I28', 'I29', 'I30',
-    'I31', 'I32', 'I33', 'I34', 'I35', 'I36', 'I37', 'I38', 'I39', 'I40',
-    'I41', 'I42', 'I43', 'I44', 'I45', 'I46', 'I47']
-    if(data_cari<=10):
-        data_drop.append('Domain 2')
-        data_drop.append('Domain 3')
-        data_drop.append('Domain 4')
-    elif(data_cari<=20):
-        data_drop.append('Domain 1')
-        data_drop.append('Domain 3')
-        data_drop.append('Domain 4')
-    elif(data_cari<=31):
-        data_drop.append('Domain 1')
-        data_drop.append('Domain 2')
-        data_drop.append('Domain 4')
-    else:
-        data_drop.append('Domain 1')
-        data_drop.append('Domain 2')
-        data_drop.append('Domain 3')
-    # print(data_drop)
-    y_train=df['I'+str(data_cari)].to_numpy()
-    # X_train=df['Domain 1,Index'].to_numpy()
-    X_train=df.drop(data_drop, axis = 1).to_numpy()
-    
-    model = LinearRegression()
-    model.fit(X_train, y_train)
-
-    # # Contoh data baru untuk diprediksi
-    X_new = np.array([[data_domain, data_index]])    # Prediksi untuk tahun 2022 dengan index 4
-
-    # # Lakukan prediksi
-    prediction = model.predict(X_new)
-    # Bulatkan prediksi ke integer terdekat
-    rounded_prediction = int(round(prediction[0]))
-
-    # Pastikan prediksi tetap dalam rentang 1-5
-    predicted_value = min(max(rounded_prediction, 1), 5)
-    return predicted_value
-# print(round(prediction[0]))
-def predict_indikator(instansi,domain1,domain2,domain3,domain4,index):
-    data=[]
-    for i in range(47):
-        if(i<10):data.append(domain(instansi,(i+1),domain1,index))
-        elif(i<20):data.append(domain(instansi,(i+1),domain2,index))
-        elif(i<31):data.append(domain(instansi,(i+1),domain3,index))
-        else:data.append(domain(instansi,(i+1),domain4,index))
-    data.append(objective(data))
-    return data 
+from app.models.domain import domainModel
 def objective(params):
     i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
     domain1=(i1+i2+i3+i4+i5+i6+i7+i8+i9+i10)*(1.3/13)
@@ -80,5 +19,220 @@ def objective(params):
     domain3=(aspek5*(12/16.5))+(aspek6*(4.5/16.5))
     domain4=(aspek7*(27.5/45.5))+(aspek8*(18/45.5))
     return (domain1*(13/100))+(domain2*(25/100))+(domain3*(16.5/100))+(domain4*(45.5/100))
-print(predict_indikator('i2023110600004',4.1,3.4,2.27,4.13,3.64))
-# print(predict_indikator('i2023110600005',2.0,3.9,1.18,4.02,3.26))
+def domain1(params):
+    i1,i2,i3,i4,i5,i6,i7,i8,i9,i10=params
+    return (i1+i2+i3+i4+i5+i6+i7+i8+i9+i10)*(1.3/13)
+def domain2(params):
+    i11,i12,i13,i14,i15,i16,i17,i18,i19,i20=params
+    aspek2=(i11+i12+i13+i14)*(2.5/10)  
+    aspek3=(i15+i16+i17+i18)*(2.5/10)
+    aspek4=(i19+i20)*(2.5/5)
+    return (aspek2*(10/25))+(aspek3*(10/25))+(aspek4*(5/25))
+def domain3(params):
+    i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31=params
+    aspek5=(i21+i22+i23+i24+i25+i26+i27+i28)*(1.5/12)
+    aspek6=(i29+i30+i31)*(1.5/4.5)
+    return (aspek5*(12/16.5))+(aspek6*(4.5/16.5));
+def domain4(params):
+    i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
+    aspek7=(i32+i33+i34+i35+i36+i37+i38+i39+i40+i41)*(2.75/27.5)
+    aspek8=(i42+i43+i44+i45+i46+i47)*(3/18)
+    return (aspek7*(27.5/45.5))+(aspek8*(18/45.5));
+def regresi(indikator1,indikator2,domain1,domain2):
+        res=0
+        if(domain1>domain2):
+            if(indikator1>indikator2):
+                if(indikator1<5):
+                    res=indikator1+1
+                else:
+                    res=5
+            elif(indikator1==indikator2):
+                if(indikator1<5):
+                    res =indikator1+1
+                else:
+                    res=5   
+            else:
+                if(indikator1>1):
+                    res =indikator1-1
+                else:
+                    res=indikator1
+        elif(domain1==domain2):
+            res=indikator1
+        else:
+            if(indikator1<indikator2):
+                if(indikator1>1):
+                    res=indikator1-1
+                else:
+                    res=(indikator1)
+            elif(indikator1==indikator2):
+                if(indikator1>1):
+                    res=(indikator1-1)
+                else:
+                    res=(indikator1)   
+            else:
+                if(indikator1<5):
+                    res=(indikator1+1)
+                else:
+                    res=(5)
+        return res
+def cari_indikator(domain_2023,domain_2022,indikator_2021,indikator_2022):
+    data=[]
+    # print(domain_2023,domain_2022)
+    indikator_find = []
+    for i in range(10):
+        indikator2 = float(data_indikator_2022[i])
+        indikator1 = float(data_indikator_2021[i])
+        indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[0],domain2=domain_2022[0]))    
+    cnt=0
+    while(domain_2023[0]>round(domain1(indikator_find),2)and cnt<10):
+        # cnt+=1
+        if(indikator_find[cnt]<5):
+            indikator_find[cnt]+=1
+        # print(indikator_find[cnt])
+        cnt+=1
+        if(cnt==10):
+            if(domain_2023[0]>round(domain1(indikator_find),2)):
+                cnt=0
+    while(domain_2023[0]<round(domain1(indikator_find),2)and cnt<10):
+        # cnt+=1
+        if(indikator_find[cnt]>5):
+            indikator_find[cnt]-=1
+        # print(indikator_find[cnt])
+        cnt+=1
+        if(cnt==10):
+            if(domain_2023[0]>round(domain1(indikator_find),2)):
+                cnt=0
+    for i in indikator_find:
+        data.append(i)
+    print("Domain 1",domain_2023[0],domain1(indikator_find))
+    indikator_find=[]
+
+    for i in range(10,20):
+        # print(i)
+        indikator2 = float(data_indikator_2022[i])
+        indikator1 = float(data_indikator_2021[i])
+        indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[1],domain2=domain_2022[1]))  
+    # print(indikator_find)  
+    cnt=0
+    while(domain_2023[1]>round(domain2(indikator_find),2)and cnt<10):
+        # cnt+=1
+        if(indikator_find[cnt]<5):
+            indikator_find[cnt]+=1
+        # print(indikator_find[cnt])
+        cnt+=1
+        if(cnt==10):
+            if(domain_2023[1]>round(domain2(indikator_find),2)):
+                cnt=0
+    while(domain_2023[1]<round(domain2(indikator_find),2)and cnt<10):
+        # cnt+=1
+        if(indikator_find[cnt]>5):
+            indikator_find[cnt]-=1
+        # print(indikator_find[cnt])
+        cnt+=1
+        if(cnt==10):
+            if(domain_2023[1]>round(domain2(indikator_find),2)):
+                cnt=0
+    for i in indikator_find:
+        data.append(i)
+    print("Domain 2",domain_2023[1],domain2(indikator_find))
+    indikator_find=[]
+    for i in range(20,31):
+        # print(i)
+        indikator2 = float(data_indikator_2022[i])
+        indikator1 = float(data_indikator_2021[i])
+        indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[2],domain2=domain_2022[2]))  
+    # print(indikator_find)  
+    cnt=0
+    while(domain_2023[2]>round(domain3(indikator_find),2)and cnt<11):
+        # cnt+=1
+        if(indikator_find[cnt]<5):
+            indikator_find[cnt]+=1
+        # print(indikator_find[cnt])
+        cnt+=1
+        if(cnt==11):
+            if(domain_2023[2]>round(domain3(indikator_find),2)):
+                cnt=0
+    while(domain_2023[2]<round(domain3(indikator_find),2)and cnt<11):
+        # cnt+=1
+        if(indikator_find[cnt]>5):
+            indikator_find[cnt]-=1
+        # print(indikator_find[cnt])
+        cnt+=1
+        if(cnt==11):
+            if(domain_2023[2]>round(domain3(indikator_find),2)):
+                cnt=0
+    for i in indikator_find:
+        data.append(i)
+    print("Domain 3",domain_2023[2],domain3(indikator_find))
+
+    indikator_find=[]
+    for i in range(31,47):
+        # print(i)
+        indikator2 = float(data_indikator_2022[i])
+        indikator1 = float(data_indikator_2021[i])
+        indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[3],domain2=domain_2022[3]))  
+    # print(indikator_find)  
+    cnt=0
+    while(domain_2023[3]>round(domain4(indikator_find),2)and cnt<16):
+        # cnt+=1
+        if(indikator_find[cnt]<5):
+            indikator_find[cnt]+=1
+        # print(indikator_find[cnt])
+        cnt+=1
+        if(cnt==16):
+            if(domain_2023[3]>round(domain4(indikator_find),2)):
+                cnt=0
+    while(domain_2023[3]<round(domain4(indikator_find),2)and cnt<16):
+        # cnt+=1
+        if(indikator_find[cnt]>5):
+            indikator_find[cnt]-=1
+        # print(indikator_find[cnt])
+        cnt+=1
+        if(cnt==16):
+            if(domain_2023[3]>round(domain4(indikator_find),2)):
+                cnt=0
+    for i in indikator_find:
+        data.append(i)
+
+    print("Domain 4",domain_2023[3],domain4(indikator_find))
+    # print(data)
+    
+    return data
+    # if(domain_2023>domain_2022):
+    #     indikator_2021>indikator_2022
+model=isiModel()
+indikator_model=indikatorModel()
+indikators=indikator_model.getAll()
+domain_model=domainModel()
+domains=domain_model.getAll()
+
+df = pd.read_csv('Data CSV/Data_lengkap Tahun 2023.csv')
+
+data_insert=[]
+for index, row in df.iterrows():
+    if(row.id!='NaN'):
+        index_2021=model.getIndexbyYearInstansi(instansi=row.id,year=2021)
+        index_2022=model.getIndexbyYearInstansi(instansi=row.id,year=2022)
+        data_indikator_2021=[float(x['val']) for x in model.getAllValueByYearInstansi(instansi=row.id,year=2021)]
+        data_indikator_2022=[float(x['val']) for x in model.getAllValueByYearInstansi(instansi=row.id,year=2022)]
+        domain_2021=[]
+        domain_2022=[]
+        domain_2023=[]
+        for i,domain in enumerate(domains):
+            domain_2023.append(float(row['domain'+str(i+1)]))
+            domain_2021.append(model.getDomainByYearInstansi(domain=domain['id'],year=2021,instansi=row.id))
+            domain_2022.append(model.getDomainByYearInstansi(domain=domain['id'],year=2021,instansi=row.id))
+        if(index_2021==0):
+            index_2021=index_2022
+            data_indikator_2021=data_indikator_2022
+            domain_2021=domain_2022
+        if(index_2022==0):
+            index_2022=index_2021
+            data_indikator_2022=data_indikator_2021
+            domain_2022=domain_2021
+        # print(domain_2023,domain_2022,domain_2021)
+        index_2023=0
+        if(float(row.index_2023)>0):index_2023=row.index_2023
+        if(index_2021>0 and index_2022>0):
+            data_2023=cari_indikator(domain_2023=domain_2023,domain_2022=domain_2022,indikator_2021=data_indikator_2021, indikator_2022=data_indikator_2022)
+        print(objective(data_2023),row.index_2023)
