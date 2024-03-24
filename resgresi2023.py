@@ -38,6 +38,7 @@ def domain4(params):
     aspek7=(i32+i33+i34+i35+i36+i37+i38+i39+i40+i41)*(2.75/27.5)
     aspek8=(i42+i43+i44+i45+i46+i47)*(3/18)
     return (aspek7*(27.5/45.5))+(aspek8*(18/45.5));
+
 def regresi(indikator1,indikator2,domain1,domain2):
         res=0
         if(domain1>domain2):
@@ -84,24 +85,28 @@ def cari_indikator(domain_2023,domain_2022,indikator_2021,indikator_2022):
         indikator1 = float(data_indikator_2021[i])
         indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[0],domain2=domain_2022[0]))    
     cnt=0
-    while(domain_2023[0]>round(domain1(indikator_find),2)and cnt<10):
-        # cnt+=1
-        if(indikator_find[cnt]<5):
-            indikator_find[cnt]+=1
-        # print(indikator_find[cnt])
-        cnt+=1
-        if(cnt==10):
-            if(domain_2023[0]>round(domain1(indikator_find),2)):
-                cnt=0
-    while(domain_2023[0]<round(domain1(indikator_find),2)and cnt<10):
-        # cnt+=1
-        if(indikator_find[cnt]>5):
-            indikator_find[cnt]-=1
-        # print(indikator_find[cnt])
-        cnt+=1
-        if(cnt==10):
-            if(domain_2023[0]>round(domain1(indikator_find),2)):
-                cnt=0
+    domain_target=domain_2023[0]
+    jarak=10
+    # indikator kurang
+    if(domain_target>round(domain1(indikator_find),2)):
+        while(domain_target>round(domain1(indikator_find),2)and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]<5):
+                indikator_find[cnt]+=1
+                if(domain_target<round(domain1(indikator_find),2)):
+                    indikator_find[cnt]-=1
+            cnt+=1
+            if(domain_target>round(domain1(indikator_find),2) and cnt>=jarak): cnt=0
+    else:
+        # indikator lebih
+        while(domain_target<round(domain1(indikator_find),2)and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]>1):
+                indikator_find[cnt]-=1
+                if(domain_target>round(domain1(indikator_find),2)):
+                    indikator_find[cnt]+=1
+            cnt+=1
+            if(domain_target<round(domain1(indikator_find),2) and cnt>=jarak): cnt=0
     for i in indikator_find:
         data.append(i)
     print("Domain 1",domain_2023[0],domain1(indikator_find))
@@ -114,24 +119,28 @@ def cari_indikator(domain_2023,domain_2022,indikator_2021,indikator_2022):
         indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[1],domain2=domain_2022[1]))  
     # print(indikator_find)  
     cnt=0
-    while(domain_2023[1]>round(domain2(indikator_find),2)and cnt<10):
-        # cnt+=1
-        if(indikator_find[cnt]<5):
-            indikator_find[cnt]+=1
-        # print(indikator_find[cnt])
-        cnt+=1
-        if(cnt==10):
-            if(domain_2023[1]>round(domain2(indikator_find),2)):
-                cnt=0
-    while(domain_2023[1]<round(domain2(indikator_find),2)and cnt<10):
-        # cnt+=1
-        if(indikator_find[cnt]>5):
-            indikator_find[cnt]-=1
-        # print(indikator_find[cnt])
-        cnt+=1
-        if(cnt==10):
-            if(domain_2023[1]>round(domain2(indikator_find),2)):
-                cnt=0
+    domain_target=domain_2023[1]
+    jarak=10
+    # indikator kurang
+    if(domain_target>round(domain2(indikator_find),2)):
+        while(domain_target>round(domain2(indikator_find),2)and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]<5):
+                indikator_find[cnt]+=1
+                if(domain_target<round(domain2(indikator_find),2)):
+                    indikator_find[cnt]-=1
+            cnt+=1
+            if(domain_target>round(domain2(indikator_find),2) and cnt>=jarak): cnt=0
+    else:
+        # indikator lebih
+        while(domain_target<round(domain2(indikator_find),2)and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]>1):
+                indikator_find[cnt]-=1
+                if(domain_target>round(domain2(indikator_find),2)):
+                    indikator_find[cnt]+=1
+            cnt+=1
+            if(domain_target<round(domain2(indikator_find),2) and cnt>=jarak): cnt=0
     for i in indikator_find:
         data.append(i)
     print("Domain 2",domain_2023[1],domain2(indikator_find))
@@ -143,24 +152,28 @@ def cari_indikator(domain_2023,domain_2022,indikator_2021,indikator_2022):
         indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[2],domain2=domain_2022[2]))  
     # print(indikator_find)  
     cnt=0
-    while(domain_2023[2]>round(domain3(indikator_find),2)and cnt<11):
-        # cnt+=1
-        if(indikator_find[cnt]<5):
-            indikator_find[cnt]+=1
-        # print(indikator_find[cnt])
-        cnt+=1
-        if(cnt==11):
-            if(domain_2023[2]>round(domain3(indikator_find),2)):
-                cnt=0
-    while(domain_2023[2]<round(domain3(indikator_find),2)and cnt<11):
-        # cnt+=1
-        if(indikator_find[cnt]>5):
-            indikator_find[cnt]-=1
-        # print(indikator_find[cnt])
-        cnt+=1
-        if(cnt==11):
-            if(domain_2023[2]>round(domain3(indikator_find),2)):
-                cnt=0
+    domain_target=domain_2023[2]
+    jarak=11
+    # indikator kurang
+    if(domain_target>round(domain3(indikator_find),2)):
+        while(domain_target>round(domain3(indikator_find),2)and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]<5):
+                indikator_find[cnt]+=1
+                if(domain_target<round(domain3(indikator_find),2)):
+                    indikator_find[cnt]-=1
+            cnt+=1
+            if(domain_target>round(domain3(indikator_find),2) and cnt>=jarak): cnt=0
+    else:
+        # indikator lebih
+        while(domain_target<round(domain3(indikator_find),2)and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]>1):
+                indikator_find[cnt]-=1
+                if(domain_target>round(domain3(indikator_find),2)):
+                    indikator_find[cnt]+=1
+            cnt+=1
+            if(domain_target<round(domain3(indikator_find),2) and cnt>=jarak): cnt=0
     for i in indikator_find:
         data.append(i)
     print("Domain 3",domain_2023[2],domain3(indikator_find))
@@ -173,24 +186,28 @@ def cari_indikator(domain_2023,domain_2022,indikator_2021,indikator_2022):
         indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[3],domain2=domain_2022[3]))  
     # print(indikator_find)  
     cnt=0
-    while(domain_2023[3]>round(domain4(indikator_find),2)and cnt<16):
-        # cnt+=1
-        if(indikator_find[cnt]<5):
-            indikator_find[cnt]+=1
-        # print(indikator_find[cnt])
-        cnt+=1
-        if(cnt==16):
-            if(domain_2023[3]>round(domain4(indikator_find),2)):
-                cnt=0
-    while(domain_2023[3]<round(domain4(indikator_find),2)and cnt<16):
-        # cnt+=1
-        if(indikator_find[cnt]>5):
-            indikator_find[cnt]-=1
-        # print(indikator_find[cnt])
-        cnt+=1
-        if(cnt==16):
-            if(domain_2023[3]>round(domain4(indikator_find),2)):
-                cnt=0
+    domain_target=domain_2023[3]
+    jarak=16
+    # indikator kurang
+    if(domain_target>round(domain4(indikator_find),2)):
+        while(domain_target>round(domain4(indikator_find),2)and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]<5):
+                indikator_find[cnt]+=1
+                if(domain_target<round(domain4(indikator_find),2)):
+                    indikator_find[cnt]-=1
+            cnt+=1
+            # if(domain_target>round(domain4(indikator_find),2) and cnt>=jarak): cnt=0
+    else:
+        # indikator lebih
+        while(domain_target<round(domain4(indikator_find),2)and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]>1):
+                indikator_find[cnt]-=1
+                if(domain_target>round(domain4(indikator_find),2)):
+                    indikator_find[cnt]+=1
+            cnt+=1
+            # if(domain_target<round(domain4(indikator_find),2) and cnt>=jarak): cnt=0
     for i in indikator_find:
         data.append(i)
 
