@@ -391,6 +391,26 @@ class isiModel:
         cur.close()
         db.close()
         return data
+    def getDfByYear_indikator(self,year):
+        db=Database()
+        query="SELECT i.nama,gi.nama,m.value FROM "+self.table_name+" m";
+        query+=" JOIN instansi i ON m.instansi=i.id"
+        query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
+        query+=" WHERE m.indikator=%s AND m.year=%s"
+        query+=" ORDER BY i.id,m.year"
+        list_indikator=indikator_model.getAll()
+        data={"No":[],"Instansi":[],"Group":[]}
+        cur= db.execute_query(query,(list_indikator[0]['id'],year))
+        result=cur.fetchall()
+        for i,row in enumerate(result):
+           data['No'].append(i+1)
+           data['Instansi'].append(row[0])
+           data['Group'].append(row[1])
+            
+            
+        cur.close()
+        db.close()
+        return data
     def getDfByYear(self,year):
         db=Database()
         query="SELECT i.nama,gi.nama,m.value FROM "+self.table_name+" m";

@@ -7,6 +7,9 @@ from app.controllers.isi_controller import isi_bp
 from app.controllers.predikat_controller import predikat_bp
 from app.controllers.grup_instansi_controller import grup_instansi_bp
 from app.controllers.titik_peta_controller import titik_peta_bp
+from app.controllers.grup_analisis_instansi_controller import grup_analisisbp
+from app.controllers.keluaran_controller import keluaranbp
+from app.controllers.analisis_indikator_controller import grup_analisis_indikatorbp
 min_year=2018
 app = Flask(__name__, template_folder='views')
 app.register_blueprint(instansi_bp)
@@ -17,6 +20,10 @@ app.register_blueprint(isi_bp)
 app.register_blueprint(predikat_bp)
 app.register_blueprint(grup_instansi_bp)
 app.register_blueprint(titik_peta_bp)
+app.register_blueprint(grup_analisisbp)
+app.register_blueprint(keluaranbp)
+app.register_blueprint(grup_analisis_indikatorbp)
+
 # front end
 @app.route("/")
 def index():
@@ -99,6 +106,12 @@ def perbandingan_domain_aspek():
 @app.route("/assets/js/perbandingan_domain_aspek.js")
 def perbandingan_domain_aspekJs():
     return send_file("static/js/perbandingan_domain_aspek.js")
+@app.route("/analisis_grup")
+def analisis_grup():
+    return render_template("analisis_grup.html",page_url=request.path)
+@app.route("/assets/js/analisis_grup.js")
+def analisis_grupJs():
+    return send_file("static/js/analisis_grup.js")
 @app.route("/perbandingan_domain_indikator")
 def perbandingan_domain_indikator():
     return render_template("perbandingan_domain_indikator.html",page_url=request.path)

@@ -1,0 +1,36 @@
+{% extends "templates.html" %} {% block main %}
+<legend>Hasil Instansi</legend>
+<!-- filter -->
+<div id="filter">
+  <label for="year_cb_filter">Year</label>
+  <select name="year" id="year_cb_filter" class="form_control"></select>
+  <label for="bagian_cb_filter">Bagian</label>
+  <select name="bagian" id="bagian_cb_filter" class="form_control"></select>
+  <label for="inisiatif_cb_filter">Inisiatif Strategis</label>
+  <select name="inisiatif" id="inisiatif_cb_filter" class="form_control"></select>
+  <label for="keluaran_cb_filter">Keluaran</label>
+  <select name="keluaran" id="keluaran_cb_filter" class="form_control"></select>
+  <label for="pj_cb_filter">Penanggung Jawab</label>
+  <input type="text" name="pj" id="pj" disabled class="form_control">
+
+  <label for="indikator_cb_filter">Indikator</label>
+  <select name="indikator" id="indikator_cb_filter" class="form_control"></select>
+  <label for="baik_cb_filter">Baik</label>
+  <select name="baik" id="baik_cb_filter" class="form_control">
+    <option value="0">Baik</option>
+    <option value="1">Kurang Baik</option>
+  </select>
+
+</div>
+<div id="chk"></div>
+<table class="tabel" id="tabel_data">
+  <thead id="head_data"></thead>
+  <tbody id="body_data">
+    <tr>
+      <td colspan="4" class="text_center">No Data</td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %} {% block scriptJS %}
+<script src="assets/js/analisis_grup.js"></script>
+{% endblock %}
