@@ -361,6 +361,18 @@ def get_kmeans_score_indexByYear(year):
 @isi_bp.route('/api/'+model.table_name+'/res_kmeans')
 def get_res_kmeans_index():
     return model.getDfK().to_html(classes="tabel")
+@isi_bp.route('/api/'+model.table_name+'/get_df23/<string:year>/<string:analisis>/<string:indikator>/<string:baik>')
+def get_df23(year,analisis,indikator,baik):
+    df=model.getDf23(analisis=analisis,year=year,indikator=indikator)
+    if(baik=="0"):
+        # tampil data terbaik
+        df=df[df['Value']>=3]
+        df.sort_values(by='Value', ascending=False)
+    else:
+        df=df[df['Value']<3]
+        df.sort_values(by='Value')
+    df=df.to_dict(orient='records')
+    return jsonify(df)
 @isi_bp.route('/api/'+model.table_name+'/res_kmeans/<string:year>')
 def get_res_kmeans_indexByYear(year):
     df_dict = model.getDfKByYear(year).to_dict(orient='records')

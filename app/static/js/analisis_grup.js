@@ -1,4 +1,5 @@
 const year_api = base_api_url + "isi/year";
+const df23_api = base_api_url + "isi/get_df23";
 const analisis_api = base_api_url + "analisis_grup";
 const keluaran_api = base_api_url + "analisis"
 const analisis_indikator_api = base_api_url + "analisis_indikator"
@@ -7,6 +8,8 @@ const bagian_cb_filter = document.getElementById('bagian_cb_filter')
 const inisiatif_cb_filter = document.getElementById('inisiatif_cb_filter')
 const keluaran_cb_filter = document.getElementById('keluaran_cb_filter')
 const indikator_cb_filter = document.getElementById('indikator_cb_filter')
+const baik_cb_filter = document.getElementById('baik_cb_filter')
+const body_data = document.getElementById('body_data')
 const pj = document.getElementById('pj')
 const cek_year = () => {
     fetch(year_api)
@@ -140,7 +143,37 @@ const cek_indikator = () => {
 
                     indikator_cb_filter.appendChild(option);
                 });
-                // handle_indikator()
+                load_data()
+
+            }
+        })
+        .catch((error) => {
+            console.error("Ada kesalahan:", error);
+        });
+}
+const load_data = () => {
+    body_data.innerHTML = ""
+    fetch(df23_api + "/" + year_cb_filter.value + "/" + keluaran_cb_filter.value + "/" + indikator_cb_filter.value + "/" + baik_cb_filter.value)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+        })
+        .then((data) => {
+            if (data.length == 0) {
+                body_data.innerHTML = `<tr><td colspan="2" class="text_center">No Data</td></tr>`
+            } else {
+                data.forEach((element, i) => {
+                    const newRow = document.createElement("tr")
+                    const cell1 = document.createElement('td')
+                    cell1.textContent = element.Instansi
+                    newRow.appendChild(cell1)
+                    const cell2 = document.createElement('td')
+                    cell2.textContent = element.Value
+                    newRow.appendChild(cell2)
+                    body_data.appendChild(newRow)
+                });
 
             }
         })
@@ -174,4 +207,6 @@ year_cb_filter.onchange = handle_year
 bagian_cb_filter.onchange = handle_bagian
 inisiatif_cb_filter.onchange = handle_inisiatif
 keluaran_cb_filter.onchange = handle_keluaran
+indikator_cb_filter.onchange = load_data
+baik_cb_filter.onchange = load_data
 cek_year();

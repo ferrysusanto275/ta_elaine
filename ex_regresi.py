@@ -8,7 +8,7 @@ model=isiModel()
 indikator_model=indikatorModel()
 indikators=indikator_model.getAll()
 # indikator_model=indikatorModel();
-df = pd.read_csv('Data CSV/Data_lengkap_part_13.csv')
+df = pd.read_csv('Data CSV/Data_lengkap_2023_part1 .csv')
 # df=pd.DataFrame({'id':['i2023110600313'],'indeks_2018':[2.09],'indeks_2019':[1.89],'indeks_2020':[2.57]})
 # list_indikator=indikator_model.getAll()
 def objective(params):
