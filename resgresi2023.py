@@ -226,7 +226,6 @@ domain_model=domainModel()
 domains=domain_model.getAll()
 
 df = pd.read_csv('Data CSV/Data_lengkap_2023_part22.csv')
-
 data_insert=[]
 for index, row in df.iterrows():
     if(row.id!='NaN'):
@@ -253,7 +252,8 @@ for index, row in df.iterrows():
         index_2023=0
         if(float(row.index_2023)>0):index_2023=row.index_2023
         if(index_2021>0 and index_2022>0):
-            data_2023=cari_indikator(domain_2023=domain_2023,domain_2022=domain_2022,indikator_2021=data_indikator_2021, indikator_2022=data_indikator_2022)
+            data_2023=cari_indikator(domain_2023=domain_2023,domain_2022=domain_2022,indikator_2021=data_indikator_2021, 
+            indikator_2022=data_indikator_2022)
         print(objective(data_2023),row.index_2023)
     for i,indikator in enumerate(indikators):
         data_insert.append((row.id,indikator['id'],2018,data_2023[i]))
