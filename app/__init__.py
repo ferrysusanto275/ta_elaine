@@ -84,6 +84,12 @@ def tabel_inisiatif():
 @app.route("/assets/js/inisiatif_strategis.js")
 def inisiatif_strategisJs():
     return send_file("static/js/inisiatif_strategis.js")
+@app.route("/keluaran")
+def tabel_keluaran():
+    return render_template("keluaran.html",page_url=request.path,min_year=min_year)
+@app.route("/assets/js/keluaran.js")
+def keluaranJs():
+    return send_file("static/js/keluaran.js")
 @app.route("/perbandingan_indikator")
 def perbandingan_indikator():
     return render_template("perbandingan_indikator.html",page_url=request.path)

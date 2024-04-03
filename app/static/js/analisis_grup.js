@@ -1,7 +1,7 @@
 const year_api = base_api_url + "isi/year";
 const df23_api = base_api_url + "isi/get_df23";
 const analisis_api = base_api_url + "analisis_grup/area";
-const keluaran_api = base_api_url + "analisis"
+const keluaran_api = base_api_url + "analisis/inisiatif"
 const area_api = base_api_url + "area"
 const analisis_indikator_api = base_api_url + "analisis_indikator"
 const year_cb_filter = document.getElementById('year_cb_filter')
@@ -49,7 +49,7 @@ const cek_bagian = () => {
         })
         .then((data) => {
             if (data.length == 0) {
-                // location.href = "isi";
+                location.href = "area";
             } else {
                 data.forEach((element, i) => {
                     let option = document.createElement("option");
@@ -77,12 +77,12 @@ const cek_inisiatif = () => {
         })
         .then((data) => {
             if (data.length == 0) {
-                location.href = "isi";
+                location.href = "inisiatif_strategi";
             } else {
                 data.forEach((element, i) => {
                     let option = document.createElement("option");
                     option.value = element.id;
-                    option.textContent = element.nama;
+                    option.textContent = `${element.id}. ${element.nama}`;
 
                     inisiatif_cb_filter.appendChild(option);
                 });

@@ -1,5 +1,6 @@
-const url_api = base_api_url + "analisis_grup"
+const url_api = base_api_url + "analisis"
 const area_api = base_api_url + "area"
+const inisiatif_api = base_api_url + "analisis_grup"
 //dapetin element html
 const add_btn = document.getElementById("add_btn");
 const cancel_btn = document.getElementById("cancel_btn");
@@ -8,8 +9,11 @@ const modal_form = document.getElementById("modal_form");
 const id_tf = document.getElementById("id_tf");
 const nama_tf = document.getElementById("nama_tf");
 const area_cb = document.getElementById("area_cb");
+const inisiatif_cb = document.getElementById("inisiatif_cb");
+const inisiatif_cb_filter = document.getElementById("inisiatif_cb_filter");
 const area_cb_filter = document.getElementById("area_cb_filter");
 let selected_area = "";
+let selected_inisiatif = ""
 const handle_delete = (id) => {
     fetch(`${url_api}/${id}`, {
         method: 'DELETE'
@@ -25,7 +29,7 @@ const handle_delete = (id) => {
         });
 }
 const load_data = () => {
-    let url_tuju = `${url_api}/area/${selected_area}`;
+    let url_tuju = `${url_api}/inisiatif/${selected_inisiatif}`;
     fetch(url_tuju)
         .then(response => {
             if (!response.ok) {
@@ -41,7 +45,7 @@ const load_data = () => {
                 data.forEach((element, i) => {
                     let newRow = document.createElement("tr");
                     let cell1 = document.createElement("td");
-                    cell1.textContent = element.id;
+                    cell1.textContent = i + 1;
                     newRow.appendChild(cell1);
                     let cell2 = document.createElement("td");
                     cell2.textContent = element.nama;
@@ -97,7 +101,7 @@ const handle_submit = () => {
     let url_tuju = url_api;
     let data = {
         nama: nama_tf.value,
-        grup: selected_area,
+        grup: selected_inisiatif,
     }
     let option = {
         headers: {
@@ -145,6 +149,35 @@ const cek_area = () => {
                     area_cb_filter.appendChild(option_filter);
                     if (i == 0) selected_area = element.id;
                 });
+                cek_inisiatif()
+                // load_data();
+            } else {
+                location.href = "area"
+            }
+        })
+        .catch(error => {
+            console.error('Ada kesalahan:', error);
+        });
+}
+const cek_inisiatif = () => {
+    fetch(`${inisiatif_api}/area/${selected_area}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+        })
+        .then(data => {
+            if (data.length > 0) {
+                data.forEach((element, i) => {
+                    let option = document.createElement('option');
+                    option.value = element.id;
+                    option.textContent = element.id + ". " + element.nama;
+                    let option_filter = option.cloneNode(true);
+                    inisiatif_cb.appendChild(option);
+                    inisiatif_cb_filter.appendChild(option_filter);
+                    if (i == 0) selected_inisiatif = element.id;
+                });
                 load_data();
             } else {
                 location.href = "area"
@@ -162,10 +195,22 @@ const handle_filter = () => {
         selected_area = area_cb.value;
         area_cb_filter.value = area_cb.value;
     }
+    cek_inisiatif();
+}
+const handle_filter_inisiatif = () => {
+    if (inisiatif_cb.value == selected_inisiatif) {
+        selected_inisiatif = inisiatif_cb_filter.value;
+        inisiatif_cb.value = inisiatif_cb_filter.value;
+    } else {
+        selected_inisiatif = inisiatif_cb.value;
+        inisiatif_cb_filter.value = inisiatif_cb.value;
+    }
     load_data();
 }
 area_cb.onchange = handle_filter;
 area_cb_filter.onchange = handle_filter;
+inisiatif_cb.onchange = handle_filter_inisiatif;
+inisiatif_cb_filter.onchange = handle_filter_inisiatif;
 submit_btn.onclick = handle_submit;
 cancel_btn.onclick = handle_cancel_btn;
 add_btn.onclick = handle_add_btn;
