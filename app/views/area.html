@@ -1,0 +1,28 @@
+{% extends "templates.html" %}
+
+{% block main %}
+<legend>Data Master Area</legend>
+<button class="add" id="add_btn">Add Area</button>
+<table class="tabel" id="tabel_data">
+  <thead>
+    <th>No</th>
+    <th>Nama</th>
+    <th>Aksi</th>
+  </thead>
+  <tbody id="body_data">
+    <tr>
+      <td colspan="2" class="text_center">No Data</td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}
+{% block modal_content %}
+<input type="hidden" name="id" id="id_tf">
+<div id="nama_div">
+  <label for="nama">Nama</label>
+  <input type="text" name="nama" id="nama_tf" class="form_control">
+</div>
+{% endblock %}
+{% block scriptJS %}
+<script src="assets/js/area.js"></script>
+{% endblock %}

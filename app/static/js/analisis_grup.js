@@ -1,7 +1,8 @@
 const year_api = base_api_url + "isi/year";
 const df23_api = base_api_url + "isi/get_df23";
-const analisis_api = base_api_url + "analisis_grup";
+const analisis_api = base_api_url + "analisis_grup/area";
 const keluaran_api = base_api_url + "analisis"
+const area_api = base_api_url + "area"
 const analisis_indikator_api = base_api_url + "analisis_indikator"
 const year_cb_filter = document.getElementById('year_cb_filter')
 const bagian_cb_filter = document.getElementById('bagian_cb_filter')
@@ -39,7 +40,7 @@ const cek_year = () => {
         });
 };
 const cek_bagian = () => {
-    fetch(analisis_api + "/bagian")
+    fetch(area_api)
         .then((response) => {
             if (!response.ok) {
                 throw new Error("Network response was not ok");
@@ -48,12 +49,12 @@ const cek_bagian = () => {
         })
         .then((data) => {
             if (data.length == 0) {
-                location.href = "isi";
+                // location.href = "isi";
             } else {
                 data.forEach((element, i) => {
                     let option = document.createElement("option");
-                    option.value = i;
-                    option.textContent = element;
+                    option.value = element.id;
+                    option.textContent = element.nama;
 
                     bagian_cb_filter.appendChild(option);
                 });

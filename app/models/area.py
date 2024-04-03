@@ -1,56 +1,51 @@
 from app.utils.database import Database
 from datetime import datetime
-db=Database()
-class grup_analisis_instansiModel:
-    table_name="analisis_grup"
+
+class areaModel:
+    table_name="area"
+    prefix="d"
     def getAll(self):
+        db=Database()
         query="SELECT * FROM "+self.table_name;
         cur= db.execute_query(query)
         result=cur.fetchall()
         data=[]
         for row in result:
-            data.append({"id":row[0],"nama":row[1], "grup":row[2]})
-        # cur.close()
+            data.append({"id":row[0],"nama":row[1]})
+        cur.close()
         db.close()
         return data
-    def getById(self, id):
-        query="SELECT * FROM "+self.table_name 
+    def getById(self,id):
+        db=Database()
+        query="SELECT * FROM "+self.table_name;
         query+=" WHERE id=%s"
         cur= db.execute_query(query,(id,))
         result=cur.fetchone()
         data=result
         if(result):
-            data={"id":result[0],"name":result[1],"grup":result[1]}
+            data={"id":result[0],"name":result[1]}
         cur.close()
         db.close()
+
         return data
-    def getAllByGrup(self,grup):
-        query="SELECT * FROM "+self.table_name;
-        query+=" WHERE grup=%s"
-        cur= db.execute_query(query,(grup,))
-        result=cur.fetchall()
-        data=[]
-        for row in result:
-            data.append({"id":row[0],"nama":row[1], "grup":row[2]})
-        cur.close()
-        db.close()
-        return data
-    def create(self,nama, grup):
+    def create(self,nama):
         db=Database()
+        current_date = datetime.now().date()
+        code=self.prefix+current_date.strftime("%Y%m%d")
         query="INSERT INTO "+self.table_name
-        query+=" (nama,grup)"
+        query+=" (nama)"
         query+=" VALUES (%s)"
-        cur=db.execute_query(query,(nama, grup))
+        cur=db.execute_query(query,(nama,))
         db.commit()
         cur.close()
         db.close()
         return True
-    def update(self,nama,grup,id):
+    def update(self,nama,id):
         db=Database()
         query="UPDATE "+self.table_name
-        query+=" SET nama=%s, grup=%s"
+        query+=" SET nama=%s"
         query+=" WHERE id=%s"
-        cur=db.execute_query(query,(nama,grup,id))
+        cur=db.execute_query(query,(nama,id))
         db.commit()
         cur.close()
         db.close()

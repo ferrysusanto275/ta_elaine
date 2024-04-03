@@ -10,6 +10,7 @@ from app.controllers.titik_peta_controller import titik_peta_bp
 from app.controllers.grup_analisis_instansi_controller import grup_analisisbp
 from app.controllers.keluaran_controller import keluaranbp
 from app.controllers.analisis_indikator_controller import grup_analisis_indikatorbp
+from app.controllers.area_controller import area_bp
 min_year=2018
 app = Flask(__name__, template_folder='views')
 app.register_blueprint(instansi_bp)
@@ -23,6 +24,7 @@ app.register_blueprint(titik_peta_bp)
 app.register_blueprint(grup_analisisbp)
 app.register_blueprint(keluaranbp)
 app.register_blueprint(grup_analisis_indikatorbp)
+app.register_blueprint(area_bp)
 
 # front end
 @app.route("/")
@@ -37,6 +39,9 @@ def predikat():
 @app.route("/domain")
 def domain():
     return render_template("domain.html",page_url=request.path)
+@app.route("/area")
+def area():
+    return render_template("area.html",page_url=request.path)
 @app.route("/aspek")
 def aspek():
     return render_template("aspek.html",page_url=request.path)
@@ -73,6 +78,12 @@ def tabel_domain():
 @app.route("/assets/js/tabel_domain.js")
 def tabel_domainJs():
     return send_file("static/js/tabel_domain.js")
+@app.route("/inisiatif_strategis")
+def tabel_inisiatif():
+    return render_template("inisiatif_strategis.html",page_url=request.path,min_year=min_year)
+@app.route("/assets/js/inisiatif_strategis.js")
+def inisiatif_strategisJs():
+    return send_file("static/js/inisiatif_strategis.js")
 @app.route("/perbandingan_indikator")
 def perbandingan_indikator():
     return render_template("perbandingan_indikator.html",page_url=request.path)
@@ -236,6 +247,9 @@ def grupJs():
 @app.route("/assets/js/domain.js")
 def domainJs():
     return send_file("static/js/domain.js")
+@app.route("/assets/js/area.js")
+def areaJs():
+    return send_file("static/js/area.js")
 @app.route("/assets/js/aspek.js")
 def aspekJs():
     return send_file("static/js/aspek.js")

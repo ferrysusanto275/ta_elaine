@@ -329,7 +329,7 @@ class isiModel:
     
     def getDf(self):
         db=Database()
-        query="SELECT i.nama,gi.nama,m.year,m.value FROM "+self.table_name+" m";
+        query="SELECT i.nama ,gi.nama,m.year,m.value FROM "+self.table_name+" m";
         query+=" JOIN instansi i ON m.instansi=i.id"
         query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
         query+=" WHERE m.indikator=%s"
@@ -376,8 +376,9 @@ class isiModel:
         result=cur.fetchall()
         # print(result)
         for i,row in enumerate(result):
-           data['Instansi'].append(row[0])
-           data['Value'].append(row[1])
+            print(row)
+            data['Instansi'].append(row[0])
+            data['Value'].append(row[1])
             
             
         cur.close()

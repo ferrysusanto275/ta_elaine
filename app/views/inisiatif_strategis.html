@@ -1,0 +1,37 @@
+{% extends "templates.html" %}
+
+{% block main %}
+<legend>Data Master Inisiatif Strategis</legend>
+<button class="add" id="add_btn">Add Inisiatif Strategis</button>
+<!-- filter -->
+<div id="filter">
+  <label for="area_cb_filter">Area</label>
+  <select name="area" id="area_cb_filter" class="form_control"></select>
+</div>
+<table class="tabel" id="tabel_data">
+  <thead>
+    <th>No</th>
+    <th>Nama</th>
+    <th>Aksi</th>
+  </thead>
+  <tbody id="body_data">
+    <tr>
+      <td colspan="3" class="text_center">No Data</td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}
+{% block modal_content %}
+<input type="hidden" name="id" id="id_tf">
+<div id="nama_div">
+  <label for="nama">Nama</label>
+  <input type="text" name="nama" id="nama_tf" class="form_control">
+</div>
+<div id="filter">
+  <label for="area_cb">Area</label>
+  <select name="grup" id="area_cb" class="form_control"></select>
+</div>
+{% endblock %}
+{% block scriptJS %}
+<script src="assets/js/inisiatif_strategis.js"></script>
+{% endblock %}
