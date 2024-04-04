@@ -7,6 +7,7 @@ const submit_btn = document.getElementById("submit_btn");
 const modal_form = document.getElementById("modal_form");
 const id_tf = document.getElementById("id_tf");
 const nama_tf = document.getElementById("nama_tf");
+const nama_lengkap_tf = document.getElementById("nama_lengkap_tf");
 const bobot_tf = document.getElementById("bobot_tf");
 const aspek_cb = document.getElementById("aspek_cb");
 const aspek_cb_filter = document.getElementById("aspek_cb_filter");
@@ -45,7 +46,7 @@ const load_data = () => {
                     cell1.textContent = i + 1;
                     newRow.appendChild(cell1);
                     let cell2 = document.createElement("td");
-                    cell2.textContent = element.nama;
+                    cell2.textContent = element.nama_lengkap;
                     newRow.appendChild(cell2)
                     let cell3 = document.createElement("td");
                     cell3.textContent = element.bobot;
@@ -97,12 +98,14 @@ const handle_cancel_btn = () => {
 const clear_modal_form = () => {
     id_tf.value = "";
     nama_tf.value = "";
+    nama_lengkap_tf.value
     bobot_tf.value = "";
 }
 const handle_submit = () => {
     let url_tuju = url_api;
     let data = {
         nama: nama_tf.value,
+        nama_lengkap: nama_lengkap_tf.value,
         aspek: selected_aspek,
         bobot: parseFloat(bobot_tf.value)
     }

@@ -1,24 +1,26 @@
 {% extends "templates.html" %}
 
 {% block main %}
-<legend>Data Master Inisiatif Strategis</legend>
-<button class="add" id="add_btn">Add Inisiatif Strategis</button>
+<legend>Data Master Keluaran</legend>
+<button class="add" id="add_btn">Add Keluaran</button>
 <!-- filter -->
 <div id="filter">
   <label for="area_cb_filter">Area</label>
   <select name="area" id="area_cb_filter" class="form_control"></select>
-  <label for="inisiatif_cb_filter">Inisiatif Strategis</label>
+  <label for="inisiatif_cb_filter">Keluaran</label>
   <select name="inisiatif" id="inisiatif_cb_filter" class="form_control"></select>
 </div>
 <table class="tabel" id="tabel_data">
   <thead>
     <th>No</th>
     <th>Nama</th>
+    <th>Penanggung Jawab</th>
+    <th>Target Tahun</th>
     <th>Aksi</th>
   </thead>
   <tbody id="body_data">
     <tr>
-      <td colspan="3" class="text_center">No Data</td>
+      <td colspan="5" class="text_center">No Data</td>
     </tr>
   </tbody>
 </table>
@@ -28,6 +30,14 @@
 <div id="nama_div">
   <label for="nama">Nama</label>
   <input type="text" name="nama" id="nama_tf" class="form_control">
+</div>
+<div id="penanggung_jawab_div">
+  <label for="penanggung_jawab">Penanggung Jawab</label>
+  <input type="text" name="penanggung_jawab" id="penanggung_jawab_tf" class="form_control">
+</div>
+<div id="target_tahun_div">
+  <label for="target_tahun">Target Tahun</label>
+  <input type="text" name="target_tahun" id="target_tahun_tf" class="form_control">
 </div>
 <div id="filter">
   <label for="area_cb">Area</label>

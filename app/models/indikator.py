@@ -17,7 +17,7 @@ class indikatorModel:
         data=[]
         for row in result:
             aspek=aspek_model.getById(row[1])
-            data.append({"id":row[0],"aspek":aspek,"nama":row[2],"bobot":row[3]})
+            data.append({"id":row[0],"aspek":aspek,"nama":row[2],"nama_lengkap":row[3],"bobot":row[4]})
         cur.close()
         db.close()
         return data
@@ -50,7 +50,7 @@ class indikatorModel:
         data=result
         if(result):
             aspek=aspek_model.getById(result[1])
-            data={"id":result[0],"aspek":aspek,"name":result[2],"bobot":result[3]}
+            data={"id":result[0],"aspek":aspek,"name":result[2],"nama_lengkap":result[3],"bobot":result[4]}
         cur.close()
         db.close()
         return data
@@ -70,24 +70,24 @@ class indikatorModel:
         cur.close()
         db.close()
         return code+strIdx
-    def create(self,nama,bobot,aspek):
+    def create(self,nama,bobot,aspek,nama_lengkap):
         db=Database()
         current_date = datetime.now().date()
         code=self.prefix+current_date.strftime("%Y%m%d")
         query="INSERT INTO "+self.table_name
-        query+=" (id, nama,bobot,aspek)"
-        query+=" VALUES (%s, %s,%s,%s)"
-        cur=db.execute_query(query,(self.getLastId(code),nama,bobot,aspek))
+        query+=" (id, nama,bobot,aspek,nama_lengkap)"
+        query+=" VALUES (%s, %s,%s,%s,%s)"
+        cur=db.execute_query(query,(self.getLastId(code),nama,bobot,aspek,nama_lengkap))
         db.commit()
         cur.close()
         db.close()
         return True
-    def update(self,nama,bobot,aspek,id):
+    def update(self,nama,bobot,aspek,nama_lengkap,id):
         db=Database()
         query="UPDATE "+self.table_name
-        query+=" SET nama=%s, bobot=%s, aspek=%s "
+        query+=" SET nama=%s, bobot=%s, aspek=%s, nama_lengkap=%s "
         query+=" WHERE id=%s"
-        cur=db.execute_query(query,(nama,bobot,aspek,id))
+        cur=db.execute_query(query,(nama,bobot,aspek,nama_lengkap,id))
         db.commit()
         cur.close()
         db.close()
@@ -110,7 +110,7 @@ class indikatorModel:
         data=[]
         for row in result:
             # aspek=Grup_instansi.getById(row[2])
-            data.append({"id":row[0],"nama":row[2], "bobot":row[3]})
+            data.append({"id":row[0],"nama":row[2],"nama_lengkap":row[3], "bobot":row[4]})
         cur.close()
         db.close()
         return data

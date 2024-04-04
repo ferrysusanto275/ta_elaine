@@ -368,7 +368,7 @@ class isiModel:
         query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
         query+=" WHERE m.indikator=%s"
         query+=" AND m.year=%s"
-        query+=" AND i.id in (SELECT instansi FROM instansi_analisis WHERE analisis=%s)"
+        query+=" AND i.id in (SELECT instansi FROM analisis_instansi WHERE analisis=%s)"
         query+=" ORDER BY m.value"
         data={ "Instansi":[],"Value":[]}
         # print("indikator ",indikator," ,Year ",year," ,Analisis ",analisis,", query",query)

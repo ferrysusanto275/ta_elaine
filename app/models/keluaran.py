@@ -9,7 +9,7 @@ class keluaranModel:
         result=cur.fetchall()
         data=[]
         for row in result:
-            data.append({"id":row[0],"nama":row[1], "grup":row[2]})
+            data.append({"id":row[0],"nama":row[1], "penanggung_jawab":row[2], "target_tahun":row[3], "grup":row[4]})
         db.close()
         return data
     def getAllByGrup(self,grup):
@@ -20,7 +20,7 @@ class keluaranModel:
         result=cur.fetchall()
         data=[]
         for row in result:
-            data.append({"id":row[0],"nama":row[1], "penanggung_jawab":row[2], "grup":row[3]})
+            data.append({"id":row[0],"nama":row[1], "penanggung_jawab":row[2], "target_tahun":row[3], "grup":row[4]})
         db.close()
         return data
     def getById(self, id):
@@ -31,26 +31,26 @@ class keluaranModel:
         result=cur.fetchone()
         data=result
         if(result):
-            data={"id":result[0],"name":result[1],"grup":result[1]}
+            data={"id":result[0],"name":result[1], "target_tahun":result[3], "grup":result[4]}
         cur.close()
         db.close()
         return data
-    def create(self,nama, grup):
+    def create(self,nama, penanggung_jawab, target_tahun, grup):
         db=Database()
         query="INSERT INTO "+self.table_name
-        query+=" (nama,grup)"
-        query+=" VALUES (%s)"
-        cur=db.execute_query(query,(nama, grup))
+        query+=" (nama, penanggung_jawab, target_tahun, grup)"
+        query+=" VALUES (%s,%s,%s,%s)"
+        cur=db.execute_query(query,(nama, penanggung_jawab, target_tahun, grup))
         db.commit()
         cur.close()
         db.close()
         return True
-    def update(self,nama,grup,id):
+    def update(self,nama, penanggung_jawab, target_tahun, grup, id):
         db=Database()
         query="UPDATE "+self.table_name
-        query+=" SET nama=%s, grup=%s"
+        query+=" SET nama=%s, penanggung_jawab=%s, target_tahun=%s, grup=%s"
         query+=" WHERE id=%s"
-        cur=db.execute_query(query,(nama,grup,id))
+        cur=db.execute_query(query,(nama, penanggung_jawab, target_tahun, grup,id))
         db.commit()
         cur.close()
         db.close()

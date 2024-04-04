@@ -12,6 +12,7 @@ const indikator_cb_filter = document.getElementById('indikator_cb_filter')
 const baik_cb_filter = document.getElementById('baik_cb_filter')
 const body_data = document.getElementById('body_data')
 const pj = document.getElementById('pj')
+const tt = document.getElementById('tt')
 const cek_year = () => {
     fetch(year_api)
         .then((response) => {
@@ -112,6 +113,7 @@ const cek_keluaran = () => {
                     option.value = element.id;
                     option.textContent = element.nama;
                     option.setAttribute('pj', element.penanggung_jawab)
+                    option.setAttribute('tt', element.target_tahun)
 
                     keluaran_cb_filter.appendChild(option);
                 });
@@ -200,6 +202,7 @@ const handle_keluaran = () => {
     // Mendapatkan opsi yang dipilih
     let selectedOption = keluaran_cb_filter.options[selectedIndex];
     pj.value = selectedOption.getAttribute('pj')
+    tt.value = selectedOption.getAttribute('tt')
     indikator_cb_filter.innerHTML = ""
     cek_indikator()
 }

@@ -10,6 +10,9 @@ def validasiInput():
     nama = request.json.get('nama')
     if not nama:
         return jsonify({'message': 'Nama is required'}), 400
+    nama_lengkap = request.json.get('nama_lengkap')
+    if not nama_lengkap:
+        return jsonify({'message': 'Nama Lengkap is required'}), 400
     bobot = request.json.get('bobot')
     if not bobot:
         return jsonify({'message': 'Bobot is required'}), 400
@@ -22,7 +25,7 @@ def validasiInput():
     cekAspek=aspek_model.getById(aspek)
     if not cekAspek:
         return jsonify({'message': 'Aspek not found'}), 400
-    return [nama,bobot,aspek]
+    return [nama,bobot,aspek,nama_lengkap]
 @indikator_bp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
@@ -62,7 +65,7 @@ def get_by_id(id):
 def create():
     data=validasiInput()
     if not isinstance(data,list):return data
-    if model.create(data[0],data[1],data[2]):
+    if model.create(data[0],data[1],data[2],data[3]):
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
@@ -72,7 +75,7 @@ def update(id):
     if not isinstance(data,list):return data
     instansi = model.getById(id)
     if instansi:
-        if model.update( data[0],data[1],data[2],id):
+        if model.update( data[0],data[1],data[2],data[3],id):
             return jsonify({'message': model.table_name.capitalize()+' updated'})
         else:
             return jsonify({'message': 'Failed to update '+model.table_name}), 500

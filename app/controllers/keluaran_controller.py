@@ -9,7 +9,13 @@ def validasiInput():
     grup = request.json.get('grup')
     if not grup:
         return jsonify({'message': 'grup is required'}), 400
-    return [nama,grup]
+    penanggung_jawab = request.json.get('penanggung_jawab')
+    if not penanggung_jawab:
+        return jsonify({'message': 'penanggung_jawab is required'}), 400
+    target_tahun = request.json.get('target_tahun')
+    if not target_tahun:
+        return jsonify({'message': 'target_tahun is required'}), 400
+    return [nama,penanggung_jawab, target_tahun, grup]
 @keluaranbp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
@@ -27,7 +33,7 @@ def get_by_id(id):
 def create():
     data=validasiInput()
     if not isinstance(data,list):return data
-    if model.create(data[0], data[1]):
+    if model.create(data[0], data[1], data[2], data[3]):
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
@@ -38,7 +44,7 @@ def update(id):
     if not isinstance(data,list):return data
     instansi = model.getById(id)
     if instansi:
-        if model.update( data[0],data[1],id):
+        if model.update( data[0], data[1], data[2], data[3],id):
             return jsonify({'message': model.table_name.capitalize()+' updated'})
         else:
             return jsonify({'message': 'Failed to update '+model.table_name}), 500

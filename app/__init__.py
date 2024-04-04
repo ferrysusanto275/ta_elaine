@@ -10,6 +10,7 @@ from app.controllers.titik_peta_controller import titik_peta_bp
 from app.controllers.grup_analisis_instansi_controller import grup_analisisbp
 from app.controllers.keluaran_controller import keluaranbp
 from app.controllers.analisis_indikator_controller import grup_analisis_indikatorbp
+from app.controllers.analisis_instansi_controller import grup_analisis_instansibp
 from app.controllers.area_controller import area_bp
 min_year=2018
 app = Flask(__name__, template_folder='views')
@@ -24,6 +25,7 @@ app.register_blueprint(titik_peta_bp)
 app.register_blueprint(grup_analisisbp)
 app.register_blueprint(keluaranbp)
 app.register_blueprint(grup_analisis_indikatorbp)
+app.register_blueprint(grup_analisis_instansibp)
 app.register_blueprint(area_bp)
 
 # front end
@@ -105,6 +107,18 @@ def perbandingan_aspek():
 @app.route("/assets/js/perbandingan_aspek.js")
 def perbandingan_aspekJs():
     return send_file("static/js/perbandingan_aspek.js")
+@app.route("/analisis_indikator")
+def analisis_indikator():
+    return render_template("analisis_indikator.html",page_url=request.path)
+@app.route("/assets/js/analisis_indikator.js")
+def analisis_indikatorJs():
+    return send_file("static/js/analisis_indikator.js")
+@app.route("/analisis_instansi")
+def analisis_instansi():
+    return render_template("analisis_instansi.html",page_url=request.path)
+@app.route("/assets/js/analisis_instansi.js")
+def analisis_instansiJs():
+    return send_file("static/js/analisis_instansi.js")
 @app.route("/perbandingan_aspek_indikator")
 def perbandingan_aspek_indikator():
     return render_template("perbandingan_aspek_indikator.html",page_url=request.path)
