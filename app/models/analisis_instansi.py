@@ -28,8 +28,6 @@ class analisis_instansiModel:
     
     def create(self,analisis, instansi):
         db=Database()
-        current_date = datetime.now().date()
-        code=self.prefix+current_date.strftime("%Y%m%d")
         query="INSERT INTO "+self.table_name
         query+=" (analisis, instansi)"
         query+=" VALUES (%s,%s)"
@@ -38,16 +36,6 @@ class analisis_instansiModel:
         cur.close()
         db.close()
         return True
-    # def update(self,nama,id):
-    #     db=Database()
-    #     query="UPDATE "+self.table_name
-    #     query+=" SET nama=%s"
-    #     query+=" WHERE id=%s"
-    #     cur=db.execute_query(query,(nama,id))
-    #     db.commit()
-    #     cur.close()
-    #     db.close()
-    #     return True
     def delete(self,analisis, instansi):
         db=Database()
         query="DELETE FROM "+self.table_name

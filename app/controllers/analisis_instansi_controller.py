@@ -42,8 +42,8 @@ def create():
 
 @grup_analisis_instansibp.route('/api/'+model.table_name+'/<string:analisis>/<string:instansi>', methods=['DELETE'])
 def delete_user(analisis, instansi):
-    instansi = model.getById(analisis, instansi)
-    if instansi:
+    cek = model.getById(analisis, instansi)
+    if cek:
         if model.delete(analisis, instansi):
             return jsonify({'message': model.table_name.capitalize()+' deleted'})
         else:
