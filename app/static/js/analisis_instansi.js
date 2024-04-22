@@ -218,6 +218,8 @@ const cek_inisiatif = () => {
     })
     .then((data) => {
       if (data.length > 0) {
+        inisiatif_cb.innerHTML=""
+        inisiatif_cb_filter.innerHTML=""
         data.forEach((element, i) => {
           let option = document.createElement("option");
           option.value = element.id;
