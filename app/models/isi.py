@@ -376,7 +376,7 @@ class isiModel:
         result=cur.fetchall()
         # print(result)
         for i,row in enumerate(result):
-            print(row)
+            # print(row)
             data['Instansi'].append(row[0])
             data['Value'].append(row[1])
             
