@@ -113,6 +113,12 @@ def analisis_indikator():
 @app.route("/assets/js/analisis_indikator.js")
 def analisis_indikatorJs():
     return send_file("static/js/analisis_indikator.js")
+@app.route("/analisis_prediksi")
+def analisis_prediksi():
+    return render_template("analisis_prediksi.html",page_url=request.path)
+@app.route("/assets/js/analisis_prediksi.js")
+def analisis_prediksiJs():
+    return send_file("static/js/analisis_prediksi.js")
 @app.route("/analisis_instansi")
 def analisis_instansi():
     return render_template("analisis_instansi.html",page_url=request.path)

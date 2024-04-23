@@ -1,0 +1,26 @@
+{% extends "templates.html" %} {% block main %}
+<legend>Hasil Prediksi</legend>
+<!-- filter -->
+<div id="filter">
+  <label for="bagian_cb_filter">Area</label>
+  <select name="bagian" id="bagian_cb_filter" class="form_control"></select>
+  <label for="inisiatif_cb_filter">Inisiatif Strategis</label>
+  <select name="inisiatif" id="inisiatif_cb_filter" class="form_control"></select>
+  <label for="keluaran_cb_filter">Keluaran</label>
+  <select name="keluaran" id="keluaran_cb_filter" class="form_control"></select>
+  <label for="pj_cb_filter">Penanggung Jawab</label>
+  <input type="text" name="pj" id="pj" disabled class="form_control">
+  <label for="tt_cb_filter">Target Tahun</label>
+  <input type="text" name="tt" id="tt" disabled class="form_control">
+
+  <label for="indikator_cb_filter">Indikator</label>
+  <select name="indikator" id="indikator_cb_filter" class="form_control"></select>
+  <label for="instansi_cb_filter">Instansi</label>
+  <select name="instansi_cb_filter" id="instansi_cb_filter" class="form_control"></select>
+
+</div>
+<div id="tampil_prediksi"></div>
+
+{% endblock %} {% block scriptJS %}
+<script src="assets/js/analisis_prediksi.js"></script>
+{% endblock %}

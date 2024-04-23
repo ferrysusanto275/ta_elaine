@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt 
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
@@ -12,12 +13,12 @@ indikators=indikator_model.getAll()
 
 data = {
     'tahun': [2018, 2019, 2020, 2021, 2022, 2023],
-    'value': [isi_model.getById('i2023110600344','in2023110400015',2018)['value'],
-         isi_model.getById('i2023110600344','in2023110400015',2019)['value'],
-         isi_model.getById('i2023110600344','in2023110400015',2020)['value'],
-         isi_model.getById('i2023110600344','in2023110400015',2021)['value'],
-         isi_model.getById('i2023110600344','in2023110400015',2022)['value'],
-         isi_model.getById('i2023110600344','in2023110400015',2023)['value']]
+    'value': [isi_model.getById('i2023110600081','in2023110400015',2018)['value'],
+         isi_model.getById('i2023110600081','in2023110400015',2019)['value'],
+         isi_model.getById('i2023110600081','in2023110400015',2020)['value'],
+         isi_model.getById('i2023110600081','in2023110400015',2021)['value'],
+         isi_model.getById('i2023110600081','in2023110400015',2022)['value'],
+         isi_model.getById('i2023110600081','in2023110400015',2023)['value']]
 }
 df=pd.DataFrame(data)
 
@@ -33,6 +34,19 @@ rounded_prediction = int(round(float(prediksi_2024)))
     # Pastikan prediksi tetap dalam rentang 1-5
 predicted_value = min(max(rounded_prediction, 1), 5)
     # return predicted_value
+# print(prediksi_2024)
+# print(predicted_value)
+df=df._append({"tahun":2024,"value":predicted_value}, ignore_index=True)
 print(df)
-print(prediksi_2024)
-print(predicted_value)
+# X.append(predicted_value)
+# y.append(2024)
+# Buat grafik garis
+plt.plot(df['tahun'], df['value'], label='Data')
+# plt.plot(X, model.predict(X.values.reshape(-1, 1)), label='Linear Regression')
+# plt.plot(X.max(), prediksi_2024, marker='o', color='red', label='Prediksi Tahun 2024')
+
+plt.xlabel('Tahun')
+plt.ylabel('Value')
+plt.title('Grafik Garis Linear Regresi')
+plt.legend()
+plt.show()
