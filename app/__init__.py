@@ -12,6 +12,8 @@ from app.controllers.keluaran_controller import keluaranbp
 from app.controllers.analisis_indikator_controller import grup_analisis_indikatorbp
 from app.controllers.analisis_instansi_controller import grup_analisis_instansibp
 from app.controllers.area_controller import area_bp
+from app.controllers.prediksi_controller import prediksi_bp
+
 min_year=2018
 app = Flask(__name__, template_folder='views')
 app.register_blueprint(instansi_bp)
@@ -27,6 +29,7 @@ app.register_blueprint(keluaranbp)
 app.register_blueprint(grup_analisis_indikatorbp)
 app.register_blueprint(grup_analisis_instansibp)
 app.register_blueprint(area_bp)
+app.register_blueprint(prediksi_bp)
 
 # front end
 @app.route("/")
