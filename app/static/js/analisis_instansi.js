@@ -117,6 +117,7 @@ const create_option_gi = () => {
 };
 
 const create_option_instansi = () => {
+  
   fetch(instansi_api + "/grup/" + grup_instansi_cb.value)
     .then((response) => {
       if (!response.ok) {
@@ -239,6 +240,8 @@ const cek_inisiatif = () => {
     });
 };
 const cek_keluaran = () => {
+  keluaran_cb_filter.innerHTML="";
+  keluaran_cb_filter.innerHTML=""
   // console.log("masuk");
   fetch(`${keluaran_api}/inisiatif/${selected_inisiatif}`)
     .then((response) => {

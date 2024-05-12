@@ -2,8 +2,8 @@
 <legend>Hasil Prediksi</legend>
 <!-- filter -->
 <div id="filter">
-  <label for="bagian_cb_filter">Area</label>
-  <select name="bagian" id="bagian_cb_filter" class="form_control"></select>
+  <label for="area_cb_filter">Area</label>
+  <select name="area" id="area_cb_filter" class="form_control"></select>
   <label for="inisiatif_cb_filter">Inisiatif Strategis</label>
   <select name="inisiatif" id="inisiatif_cb_filter" class="form_control"></select>
   <label for="keluaran_cb_filter">Keluaran</label>
@@ -20,7 +20,18 @@
 
 </div>
 <div id="tampil_prediksi"></div>
-
+<table border="1">
+  <tr>
+      <td>2018</td>
+      <td>2019</td>
+      <td>2020</td>
+      <td>2021</td>
+      <td>2022</td>
+      <td>2023</td>
+      <td>2024</td>
+  </tr>
+  <tr id="tabel"></tr>
+</table>
 {% endblock %} {% block scriptJS %}
 <script src="assets/js/analisis_prediksi.js"></script>
 {% endblock %}

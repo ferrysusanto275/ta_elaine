@@ -41,8 +41,9 @@ def getDfLinear(instansi, indikator):
     return df
 @prediksi_bp.route('/api/'+ an+'/df_linear_reg/<string:instansi>/<string:indikator>')
 def prediksiLinear(instansi, indikator):
-    
-    return getDfLinear(instansi,indikator).to_html(classes="tabel")
+    df_dict=getDfLinear(instansi,indikator).to_dict(orient='records')
+    return jsonify(df_dict)
+
 @prediksi_bp.route('/api/'+ an+'/png_linear_reg/<string:instansi>/<string:indikator>')
 def pngprediksiLinear(instansi, indikator):
     df=getDfLinear(instansi,indikator)
