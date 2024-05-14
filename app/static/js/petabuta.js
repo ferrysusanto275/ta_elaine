@@ -53,16 +53,16 @@ const load_img = () => {
                     console.log(avg_idx);
                     let color = 'green'
                     let fc = 'aqua'
-                    if (avg_idx < 4.2) {
-                        color = 'blue'
-                    }
-                    if (avg_idx < 3.5) {
-                        color = 'yellow'
-                    }
-                    if (avg_idx < 2.6) {
-                        color = 'orange'
-                    }
-                    if (avg_idx < 1.8) {
+                    // if (avg_idx < 4.2) {
+                    //     color = 'blue'
+                    // }
+                    // if (avg_idx < 3.5) {
+                    //     color = 'yellow'
+                    // }
+                    // if (avg_idx < 2.6) {
+                    //     color = 'orange'
+                    // }
+                    if (avg_idx < 3) {
                         color = 'red'
                     }
                     const newRow = document.createElement('tr')

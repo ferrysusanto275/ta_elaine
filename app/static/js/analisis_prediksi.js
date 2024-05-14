@@ -173,6 +173,7 @@ const cek_instansi=()=>{
 
                     instansi_cb_filter.appendChild(option);
                 });
+                $('#instansi_cb_filter').select2();
                 
                 load_data()
 
@@ -185,7 +186,7 @@ const cek_instansi=()=>{
 const load_data=()=>{
     tampil_prediksi.innerHTML = "";
     load_img()
-    // load_tabel()
+    load_tabel()
 }
 const load_tabel=()=>{
     fetch(`api/prediksi/df_linear_reg/${instansi_cb_filter.value}/${indikator_cb_filter.value}`)

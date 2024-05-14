@@ -724,3 +724,39 @@ def svdAggloByYear(year,linkage):
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
+# @isi_bp.route('/api/'+model.table_name+'/svd_agglo/<string:year>/<string:linkage>')
+# def svdAggloByYear(year,linkage):
+#     df = model.getDfAByYear(year,linkage)
+    
+#     X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
+#     'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
+#     'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
+#      'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
+#       'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+#     # print(X)
+#     # X=df[['Indeks']]
+    
+#     target=df['Cluster'].values
+#     X['target']=target
+    # svd = TruncatedSVD(n_components=2)
+    # df_svd = svd.fit_transform(X)
+    # fig, ax = plt.subplots()
+    # print(df_svd[:, 1])
+    # scatter = ax.scatter(df_svd[:, 0], df_svd[:, 1], c=df['Cluster'], cmap='viridis', edgecolors='k', alpha=0.7)
+    # ax.set_title('SVD Agglomerative')
+    # ax.set_xlabel('SVD Component 1')
+    # ax.set_ylabel('SVD Component 2')
+    # legend1 = ax.legend(*scatter.legend_elements(), title="Clusters")
+    # ax.add_artist(legend1)
+
+    # output = io.BytesIO()
+    # FigureCanvas(fig).print_png(output)
+    # return Response(output.getvalue(), mimetype='image/png')
+
+@isi_bp.route('/api/'+model.table_name+'/df_indikator')
+def allIndikator():
+    df = model.getDfAllIndikator()
+    return jsonify({"m":df})
+    
+
+

@@ -71,6 +71,15 @@ def tabel_indikator():
 @app.route("/assets/js/tabel_indikator.js")
 def tabel_indikatorJs():
     return send_file("static/js/tabel_indikator.js")
+@app.route("/assets/vendor/js/select2.min.js")
+def select2Js():
+    return send_file("static/vendor/select2/dist/js/select2.min.js")
+@app.route("/assets/vendor/jquery/jquery.min.js")
+def jquery():
+    return send_file("static/vendor/jquery/jquery.min.js")
+@app.route("/assets/vendor/css/select2.min.css")
+def select2css():
+    return send_file("static/vendor/select2/dist/css/select2.min.css")
 @app.route("/index_aspek_instansi")
 def tabel_aspek():
     return render_template("tabel_aspek.html",page_url=request.path,min_year=min_year)

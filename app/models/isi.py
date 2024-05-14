@@ -326,7 +326,20 @@ class isiModel:
             jml_domain+=domain['bobot']
         return round(jml/jml_domain,2)
     
-    
+    def getDfAllIndikator(self):
+        db=Database()
+        query="SELECT i.id,i.nama,m.year, m.value as 'i1'"
+        for i in range(2, 48):
+            noindikator = str(i).zfill(5)
+            query+=" , (SELECT value FROM isi WHERE instansi=i.id and indikator='in20231104"+noindikator+"' and year=m.year) as 'i"+str(i)+"'"
+        query+=" from instansi i"
+        query+=" JOIN isi m on m.instansi=i.id and indikator='in2023110400001'"
+        cur= db.execute_query(query)
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            data.append(row[0])
+        return data
     def getDf(self):
         db=Database()
         query="SELECT i.nama ,gi.nama,m.year,m.value FROM "+self.table_name+" m";
