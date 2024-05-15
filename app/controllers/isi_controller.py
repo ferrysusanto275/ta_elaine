@@ -753,10 +753,10 @@ def svdAggloByYear(year,linkage):
     # FigureCanvas(fig).print_png(output)
     # return Response(output.getvalue(), mimetype='image/png')
 
-@isi_bp.route('/api/'+model.table_name+'/df_indikator')
-def allIndikator():
-    df = model.getDfAllIndikator()
-    return jsonify({"m":df})
+# @isi_bp.route('/api/'+model.table_name+'/df_indikator')
+# def allIndikator():
+#     df = model.getDfAllIndikator()
+#     return jsonify(df)
     
 
 

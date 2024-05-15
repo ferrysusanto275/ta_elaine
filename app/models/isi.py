@@ -332,14 +332,45 @@ class isiModel:
         for i in range(2, 48):
             noindikator = str(i).zfill(5)
             query+=" , (SELECT value FROM isi WHERE instansi=i.id and indikator='in20231104"+noindikator+"' and year=m.year) as 'i"+str(i)+"'"
+        query+=", tp.x,tp.y"
         query+=" from instansi i"
         query+=" JOIN isi m on m.instansi=i.id and indikator='in2023110400001'"
+        query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
+        query+=" JOIN titik_peta tp ON gi.titik_peta=tp.id"
         cur= db.execute_query(query)
         result=cur.fetchall()
         data=[]
         for row in result:
-            data.append(row[0])
-        return data
+            aspek1=int(row[3])+int(row[4])+int(row[5])+int(row[6])+int(row[7])+int(row[8])+int(row[9])+int(row[10])+int(row[11])+int(row[12])
+            aspek1=float(aspek1/10)
+            aspek2=int(row[13])+int(row[14])+int(row[15])+int(row[16])
+            aspek2=float(aspek2/4)
+            aspek3=int(row[17])+int(row[18])+int(row[19])+int(row[20])
+            aspek3=float(aspek3/4)
+            aspek4=int(row[21])+int(row[22])
+            aspek4=float(aspek4/2)
+            aspek5=int(row[23])+int(row[24])+int(row[25])+int(row[26])+int(row[27])+int(row[28])+int(row[29])+int(row[30])
+            aspek5=float(aspek5/8)
+            aspek6=int(row[30])+int(row[31])+int(row[32])
+            aspek6=float(aspek6/3)
+            aspek7=int(row[33])+int(row[34])+int(row[35])+int(row[36])+int(row[37])+int(row[38])+int(row[39])+int(row[40])+int(row[41])+int(row[42])+int(row[43])
+            aspek7=float(aspek7/10)
+            aspek8=int(row[44])+int(row[45])+int(row[46])+int(row[47])+int(row[48])+int(row[49])
+            aspek8=float(aspek8/6)
+            domain2=((aspek2*10)+(aspek3*10)+(aspek4*5))/25
+            domain3=((aspek5*12)+(aspek6*4.5))/16.5
+            domain4=((aspek7*27.5)+(aspek8*18))/45.5
+            indeks=((aspek1*13)+(domain2*25)+(domain3*16.5)+(domain4*45.5))/100
+            data.append({'id':row[0], 'nama':row[1], 'year':row[2], 'i1':row[3], 'i2':row[4], 'i3':row[5], 'i4':row[6], 'i5':row[7],'i6':row[8], 'i7':row[9], 'i8':row[10], 'i9':row[11], 'i10':row[12],
+                         'i11':row[13], 'i12':row[14], 'i13':row[15], 'i14':row[16], 'i15':row[17],'i16':row[18], 'i17':row[19], 'i18':row[20], 'i19':row[21], 'i20':row[22],
+                         'i21':row[23], 'i22':row[24], 'i23':row[25], 'i24':row[26], 'i25':row[27],'i26':row[28], 'i27':row[29], 'i28':row[30], 'i29':row[31], 'i30':row[32],
+                         'i31':row[33], 'i32':row[34], 'i33':row[35], 'i34':row[36], 'i35':row[37],'i36':row[38], 'i37':row[39], 'i38':row[40], 'i39':row[41], 'i40':row[42],
+                          'i41':row[43], 'i42':row[44], 'i43':row[45], 'i44':row[46], 'i45':row[47],'i46':row[48], 'i47':row[49],
+                          'aspek1':aspek1,'aspek2':aspek2,'aspek3':aspek3,'aspek4':aspek4,'aspek5':aspek5,'aspek6':aspek6,'aspek7':aspek7,'aspek8':aspek8,
+                          'domain1':aspek1,'domain2':domain2,'domain3':domain3,'domain4':domain4,'indeks':indeks
+                          ,'x':row[50],'y':row[51]})
+        df=pd.DataFrame(data)
+        return df
     def getDf(self):
         db=Database()
         query="SELECT i.nama ,gi.nama,m.year,m.value FROM "+self.table_name+" m";
