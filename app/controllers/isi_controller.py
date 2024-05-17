@@ -363,10 +363,13 @@ def get_res_kmeans_index():
     return model.getDfK().to_html(classes="tabel")
 @isi_bp.route('/api/'+model.table_name+'/get_df23/<string:year>/<string:analisis>/<string:indikator>/<string:baik>')
 def get_df23(year,analisis,indikator,baik):
+    indikator_layanan=[];
     df=model.getDf23(analisis=analisis,year=year,indikator=indikator)
     if(baik=="0"):
         # tampil data terbaik
-        df=df[df['Value']>=3]
+        nilai_layanan=3
+        
+        df=df[df['Value']>=nilai_layanan]
         df.sort_values(by='Value', ascending=False)
     else:
         df=df[df['Value']<3]
