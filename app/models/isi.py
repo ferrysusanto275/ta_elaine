@@ -332,11 +332,12 @@ class isiModel:
         for i in range(2, 48):
             noindikator = str(i).zfill(5)
             query+=" , (SELECT value FROM isi WHERE instansi=i.id and indikator='in20231104"+noindikator+"' and year=m.year) as 'i"+str(i)+"'"
-        query+=", tp.x,tp.y"
+        query+=", tp.x,tp.y,tp.nama,gi.tipe"
         query+=" from instansi i"
         query+=" JOIN isi m on m.instansi=i.id and indikator='in2023110400001'"
         query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
         query+=" JOIN titik_peta tp ON gi.titik_peta=tp.id"
+        # print(query)
         cur= db.execute_query(query)
         result=cur.fetchall()
         data=[]
@@ -368,7 +369,7 @@ class isiModel:
                           'i41':row[43], 'i42':row[44], 'i43':row[45], 'i44':row[46], 'i45':row[47],'i46':row[48], 'i47':row[49],
                           'aspek1':aspek1,'aspek2':aspek2,'aspek3':aspek3,'aspek4':aspek4,'aspek5':aspek5,'aspek6':aspek6,'aspek7':aspek7,'aspek8':aspek8,
                           'domain1':aspek1,'domain2':domain2,'domain3':domain3,'domain4':domain4,'indeks':indeks
-                          ,'x':row[50],'y':row[51]})
+                          ,'x':row[50],'y':row[51],'nama_titik':row[52],'tipe':row[53]})
         df=pd.DataFrame(data)
         return df
     def getDf(self):

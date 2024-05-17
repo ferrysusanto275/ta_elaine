@@ -8,10 +8,14 @@ class titik_petaModel:
     prefix="tp"
     def getAll(self,tipe,year,domain_filter):
         df=isi_model.getDfAllIndikator()
-        print(df)
-        df= df.loc[df['year'] == '2018']
-        print(df)
-        # grouped_df = df.groupby(['x', 'y']).size().reset_index(name='count')
+        # print(df)
+        df= df[df['year'] == int(year)]
+        df=df[df['tipe'] == int(tipe)]
+
+        # print(df)
+        grouped_df = df.groupby(['x', 'y','nama_titik'])[domain_filter].mean().reset_index()
+        # grouped_df[domain_filter]=grouped_df[domain_filter].round(2)
+        data=grouped_df.to_dict()
         # print(grouped_df)
         # db=Database()
         # query="SELECT m.id,m.nama,m.x,m.y,i.id FROM "+self.table_name+" m";
@@ -43,5 +47,5 @@ class titik_petaModel:
         #      data.append({"id":row[0],"nama":row[1],"x":row[2],"y":row[3],"total_index":idx,"total_titik":1})
         
 
-        return 0
+        return data
     
