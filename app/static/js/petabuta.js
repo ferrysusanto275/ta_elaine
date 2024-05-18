@@ -74,7 +74,7 @@ const load_img = () => {
                     cell3.textContent = avg
                     newRow.appendChild(cell3)
                     data_name.appendChild(newRow)
-                    let fc = 'aqua'
+                    let fc = 'black'
                     let color = 'green'
                     let angkaLayanan=3
                     if(indikator_layanan.indexOf(domain_cb_filter.value)!==-1)
