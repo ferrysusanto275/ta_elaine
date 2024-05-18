@@ -5,10 +5,13 @@ import pandas as pd
 from app.models.isi import isiModel
 from app.models.indikator import indikatorModel
 from app.models.domain import domainModel
-baspek23=2.5/10
-baspek4=2.5/5
-baspek5=1.5/12
-baspek6=1.5/4.5
+baspek23=(2.5/10)*(10/25)
+baspek4=(2.5/5)*(5/25)
+baspek5=(1.5/12)*(12/16.5)
+baspek6=(1.5/4.5)*(4.5/16.5)
+baspek7=(2.75/27.5)*(27.5/45.5)
+baspek8=(3/18)*(18/45)
+print(baspek23,baspek4,baspek5,baspek6,baspek6,baspek7,baspek8)
 def objective(params):
     i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
     domain1=(i1+i2+i3+i4+i5+i6+i7+i8+i9+i10)*(1.3/13)
@@ -93,25 +96,34 @@ def cari_indikator(domain_2023,data_2022,data_2021):
     domain_target=domain_2023[0]
     jarak=10
     # indikator kurang
-    if(domain_target>round(domain1(indikator_find),2)):
-        while(domain_target>round(domain1(indikator_find),2)and cnt<jarak):
+    selisih=domain_target-round(domain2(indikator_find),2)
+    # indikator kurang
+    if(selisih>0):
+        while(selisih>0 and cnt<jarak):
             # cnt+=1
             if(indikator_find[cnt]<5):
                 indikator_find[cnt]+=1
-                if(domain_target<round(domain1(indikator_find),2)):
+                selisih=domain_target-round(domain2(indikator_find),2)
+                if(selisih<0):
                     indikator_find[cnt]-=1
             cnt+=1
-            if(domain_target>round(domain1(indikator_find),2) and cnt>=jarak): cnt=0
+            selisih=domain_target-round(domain2(indikator_find),2)
+            if(selisih>0 and cnt>=jarak): cnt=0
+            selisih=domain_target-round(domain2(indikator_find),2)
+            if(selisih<baspek23):break
     else:
         # indikator lebih
-        while(domain_target<round(domain1(indikator_find),2)and cnt<jarak):
+        while(selisih<0 and cnt<jarak):
             # cnt+=1
             if(indikator_find[cnt]>1):
                 indikator_find[cnt]-=1
-                if(domain_target>round(domain1(indikator_find),2)):
+                selisih=domain_target-round(domain2(indikator_find),2)
+                if(selisih):
                     indikator_find[cnt]+=1
             cnt+=1
-            if(domain_target<round(domain1(indikator_find),2) and cnt>=jarak): cnt=0
+            selisih=domain_target-round(domain2(indikator_find),2)
+            if(selisih>0 and cnt>=jarak): cnt=0
+            if(selisih>-baspek23):break
     for i in indikator_find:
         data.append(i)
     print("Domain 1",domain_2023[0],domain1(indikator_find))
@@ -128,152 +140,126 @@ def cari_indikator(domain_2023,data_2022,data_2021):
     
     selisih=domain_target-round(domain2(indikator_find),2)
     # indikator kurang
-    while(selisih>0):
-        if(selisih>0.5):
-            # indikator ke 9 dan 10 mengisi duluan karena bobot penambahan paling tinggi
-            if(indikator_find[8]<5):indikator_find[8]+=1
-            elif(indikator_find[9]<5):indikator_find[9]+=1
-            else:
-                # dr 1-7 karena penambahannya sama
-                
-                if(indikator_find[0]<5):indikator_find[0]+=1
-                elif(indikator_find[1]<5):indikator_find[1]+=1
-                elif(indikator_find[2]<5):indikator_find[2]+=1
-                elif(indikator_find[3]<5):indikator_find[3]+=1
-                elif(indikator_find[4]<5):indikator_find[4]+=1
-                elif(indikator_find[5]<5):indikator_find[5]+=1
-                elif(indikator_find[6]<5):indikator_find[6]+=1
-                elif(indikator_find[7]<5):indikator_find[7]+=1
-        elif(selisih>0):
-            if(indikator_find[0]<5):indikator_find[0]+=1
-            elif(indikator_find[1]<5):indikator_find[1]+=1
-            elif(indikator_find[2]<5):indikator_find[2]+=1
-            elif(indikator_find[3]<5):indikator_find[3]+=1
-            elif(indikator_find[4]<5):indikator_find[4]+=1
-            elif(indikator_find[5]<5):indikator_find[5]+=1
-            elif(indikator_find[6]<5):indikator_find[6]+=1
-            elif(indikator_find[7]<5):indikator_find[7]+=1
-        selisih=domain_target-round(domain2(indikator_find),2)
-        # print(selisih)
-        if(selisih<0.25):break
-    #indikator lebih
-    while(selisih<0):
-        if(selisih<-0.5):
-            if(indikator_find[8]>1):indikator_find[8]-=1
-            elif(indikator_find[9]>1):indikator_find[9]-=1
-            else:
-                if(indikator_find[0]>1):indikator_find[0]-=1
-                elif(indikator_find[1]>1):indikator_find[1]-=1
-                elif(indikator_find[2]>1):indikator_find[2]-=1
-                elif(indikator_find[3]>1):indikator_find[3]-=1
-                elif(indikator_find[4]>1):indikator_find[4]-=1
-                elif(indikator_find[5]>1):indikator_find[5]-=1
-                elif(indikator_find[6]>1):indikator_find[6]-=1
-                elif(indikator_find[7]>1):indikator_find[7]-=1
-        else:
-            if(indikator_find[0]>1):indikator_find[0]-=1
-            elif(indikator_find[1]>1):indikator_find[1]-=1
-            elif(indikator_find[2]>1):indikator_find[2]-=1
-            elif(indikator_find[3]>1):indikator_find[3]-=1
-            elif(indikator_find[4]>1):indikator_find[4]-=1
-            elif(indikator_find[5]>1):indikator_find[5]-=1
-            elif(indikator_find[6]>1):indikator_find[6]-=1
-            elif(indikator_find[7]>1):indikator_find[7]-=1
-        selisih=domain_target-round(domain2(indikator_find),2)
-        # print(selisih)
-        if(selisih>-0.25):break
-
-
-        
+    if(selisih>0):
+        while(selisih>0 and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]<5):
+                indikator_find[cnt]+=1
+                selisih=domain_target-round(domain2(indikator_find),2)
+                if(selisih<0):
+                    indikator_find[cnt]-=1
+            cnt+=1
+            selisih=domain_target-round(domain2(indikator_find),2)
+            if(selisih>0 and cnt>=jarak): cnt=0
+            selisih=domain_target-round(domain2(indikator_find),2)
+            if(selisih<baspek23):break
+    else:
+        # indikator lebih
+        while(selisih<0 and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]>1):
+                indikator_find[cnt]-=1
+                selisih=domain_target-round(domain2(indikator_find),2)
+                if(selisih):
+                    indikator_find[cnt]+=1
+            cnt+=1
+            selisih=domain_target-round(domain2(indikator_find),2)
+            if(selisih>0 and cnt>=jarak): cnt=0
+            if(selisih>-baspek23):break
     for i in indikator_find:
         data.append(i)
-    print("Domain 2",domain_2023[1],domain2(indikator_find))
-    # indikator_find=[]
-    # for i in range(21,32):
-    #     # print(i)
-    #     indikator2 = float(data_2022['i'+str(i)].values[0])
-    #     indikator1 = float(data_2021['i'+str(i)].values[0])
-    #     indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[1],domain2=data_2022['domain3'].values[0]))  
-    # # # print(indikator_find)  
-    # cnt=0
-    # domain_target=domain_2023[2]
-    # jarak=11
+    # print("Domain 2",domain_2023[1],domain2(indikator_find))
+    indikator_find=[]
+    for i in range(21,32):
+        # print(i)
+        indikator2 = float(data_2022['i'+str(i)].values[0])
+        indikator1 = float(data_2021['i'+str(i)].values[0])
+        indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[1],domain2=data_2022['domain3'].values[0]))  
+    # # # # print(indikator_find)  
+    cnt=0
+    domain_target=domain_2023[2]
+    jarak=11
     
-    # selisih=domain_target-round(domain3(indikator_find),2)
-    # # indikator kurang
-    # while(selisih>0):
-    #     if(selisih>baspek6):
-    #         if(indikator_find[8]<5):indikator_find[8]+=1
-    #         elif(indikator_find[9]<5):indikator_find[9]+=1
-    #         elif(indikator_find[10]<5):indikator_find[10]+=1
-    #         else:
-    #             if(indikator_find[0]<5):indikator_find[0]+=1
-    #             elif(indikator_find[1]<5):indikator_find[1]+=1
-    #             elif(indikator_find[2]<5):indikator_find[2]+=1
-    #             elif(indikator_find[3]<5):indikator_find[3]+=1
-    #             elif(indikator_find[4]<5):indikator_find[4]+=1
-    #             elif(indikator_find[5]<5):indikator_find[5]+=1
-    #             elif(indikator_find[6]<5):indikator_find[6]+=1
-    #             elif(indikator_find[7]<5):indikator_find[7]+=1
-    #         selisih=domain_target-round(domain3(indikator_find),2)
-    #         print(selisih)
-    #         if(selisih<baspek5):break
-    #     # indikator kurang
-    # while(selisih<0):
-    #     if(selisih<-baspek6):
-    #         if(indikator_find[8]>1):indikator_find[8]-=1
-    #         elif(indikator_find[9]>1):indikator_find[9]-=1
-    #         elif(indikator_find[10]>1):indikator_find[10]-=1
-    #         else:
-    #             if(indikator_find[0]<5):indikator_find[0]+=1
-    #             elif(indikator_find[1]<5):indikator_find[1]+=1
-    #             elif(indikator_find[2]<5):indikator_find[2]+=1
-    #             elif(indikator_find[3]<5):indikator_find[3]+=1
-    #             elif(indikator_find[4]<5):indikator_find[4]+=1
-    #             elif(indikator_find[5]<5):indikator_find[5]+=1
-    #             elif(indikator_find[6]<5):indikator_find[6]+=1
-    #             elif(indikator_find[7]<5):indikator_find[7]+=1
-    #         selisih=domain_target-round(domain3(indikator_find),2)
-    #         print(selisih)
-    #         if(selisih<-baspek5):break
+    selisih=domain_target-round(domain3(indikator_find),2)
+    # indikator kurang
+    if(selisih>0):
+        while(selisih>0 and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]<5):
+                indikator_find[cnt]+=1
+                selisih=domain_target-round(domain3(indikator_find),2)
+                if(selisih<0):
+                    indikator_find[cnt]-=1
+            cnt+=1
+            selisih=domain_target-round(domain3(indikator_find),2)
+            if(selisih>0 and cnt>=jarak): cnt=0
+            selisih=domain_target-round(domain3(indikator_find),2)
+            
+            if(selisih<baspek4):break
+    else:
+        # indikator lebih
+        while(selisih<0 and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]>1):
+                indikator_find[cnt]-=1
+                selisih=domain_target-round(domain3(indikator_find),2)
+                if(selisih>0):
+                    indikator_find[cnt]+=1
+            cnt+=1
+            selisih=domain_target-round(domain3(indikator_find),2)
+            
+            if(selisih>0 and cnt>=jarak): cnt=0
+            if(selisih>-baspek4):break
+            # print(selisih)
+    for i in indikator_find:
+        data.append(i)
     
-    # for i in indikator_find:
-    #     data.append(i)
-    # print("Domain 3",domain_2023[2],domain3(indikator_find))
+    # print("Domain 3",domain_target,domain3(indikator_find))
 
-    # indikator_find=[]
-    # for i in range(32,48):
-    #     indikator2 = float(data_2022['i'+str(i)].values[0])
-    #     indikator1 = float(data_2021['i'+str(i)].values[0])
-    #     indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[1],domain2=data_2022['domain4'].values[0]))  
+    indikator_find=[]
+    for i in range(32,48):
+        indikator2 = float(data_2022['i'+str(i)].values[0])
+        indikator1 = float(data_2021['i'+str(i)].values[0])
+        indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[1],domain2=data_2022['domain4'].values[0]))  
     # # print(indikator_find)  
-    # cnt=0
-    # domain_target=domain_2023[3]
-    # jarak=16
-    # # indikator kurang
-    # if(domain_target>round(domain4(indikator_find),2)):
-    #     while(domain_target>round(domain4(indikator_find),2)and cnt<jarak):
-    #         # cnt+=1
-    #         if(indikator_find[cnt]<5):
-    #             indikator_find[cnt]+=1
-    #             if(domain_target<round(domain4(indikator_find),2)):
-    #                 indikator_find[cnt]-=1
-    #         cnt+=1
-    #         # if(domain_target>round(domain4(indikator_find),2) and cnt>=jarak): cnt=0
-    # else:
-    #     # indikator lebih
-    #     while(domain_target<round(domain4(indikator_find),2)and cnt<jarak):
-    #         # cnt+=1
-    #         if(indikator_find[cnt]>1):
-    #             indikator_find[cnt]-=1
-    #             if(domain_target>round(domain4(indikator_find),2)):
-    #                 indikator_find[cnt]+=1
-    #         cnt+=1
-    #         # if(domain_target<round(domain4(indikator_find),2) and cnt>=jarak): cnt=0
-    # for i in indikator_find:
-    #     data.append(i)
+    cnt=0
+    domain_target=domain_2023[3]
+    jarak=16
+    selisih=domain_target-round(domain4(indikator_find),2)
+    # indikator kurang
+    if(selisih>0):
+        while(selisih>0 and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]<5):
+                indikator_find[cnt]+=1
+                selisih=domain_target-round(domain4(indikator_find),2)
+                if(selisih<0):
+                    indikator_find[cnt]-=1
+            cnt+=1
+            selisih=domain_target-round(domain4(indikator_find),2)
+            if(selisih>0 and cnt>=jarak): cnt=0
+            selisih=domain_target-round(domain4(indikator_find),2)
+            
+            if(selisih<baspek7):break
+    else:
+        # indikator lebih
+        while(selisih<0 and cnt<jarak):
+            # cnt+=1
+            if(indikator_find[cnt]>1):
+                indikator_find[cnt]-=1
+                selisih=domain_target-round(domain4(indikator_find),2)
+                if(selisih>0):
+                    indikator_find[cnt]+=1
+            cnt+=1
+            selisih=domain_target-round(domain4(indikator_find),2)
+            
+            if(selisih>0 and cnt>=jarak): cnt=0
+            if(selisih>baspek7):break
+            # print(selisih)
+    for i in indikator_find:
+        data.append(i)
 
-    # print("Domain 4",domain_2023[3],domain4(indikator_find))
+    # print("Domain 4",domain_target,domain4(indikator_find))
     # print(data)
     
     return data
@@ -285,7 +271,7 @@ indikators=indikator_model.getAll()
 domain_model=domainModel()
 domains=domain_model.getAll()
 
-df = pd.read_csv('Data CSV/Data_lengkap_2023_part5.csv')
+df = pd.read_csv('Data CSV/Data_lengkap_2023_part33.csv')
 df_alldata=model.getDfAllIndikator()
 # print(df_alldata)
 data_insert=[]
@@ -303,15 +289,16 @@ for index, row in df.iterrows():
             
             indeks_2021=round(data_2021['indeks'].values[0],2)
             indeks_2022=round(data_2022['indeks'].values[0],2)
-        domain_2021=[]
-        domain_2022=[]
-        domain_2023=[]
-        for i,domain in enumerate(domains):
-            domain_2023.append(float(row['domain'+str(i+1)]))
-        if(indeks_2021>0 and indeks_2022>0):
-            data_2023=cari_indikator(domain_2023=domain_2023,data_2022=data_2022,data_2021=data_2021)
+            domain_2021=[]
+            domain_2022=[]
+            domain_2023=[]
+            for i,domain in enumerate(domains):
+                domain_2023.append(float(row['domain'+str(i+1)]))
+            if(indeks_2021>0 and indeks_2022>0):
+                data_2023=cari_indikator(domain_2023=domain_2023,data_2022=data_2022,data_2021=data_2021)
 #         # print(objective(data_2023),row.index_2023)
-#     for i,indikator in enumerate(indikators):
-#         data_insert.append((row.id,indikator['id'],2018,data_2023[i]))
-# print(data_insert)
-    # model.create_bulk(row.id,'2023',data_2023)
+            for i,indikator in enumerate(indikators):
+                data_insert.append((row.id,indikator['id'],2023,data_2023[i]))
+print(data_insert)
+model.create_bulk_by_data(data_insert)
+    # print('selesai')
