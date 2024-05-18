@@ -1,4 +1,6 @@
 from app.utils.database import Database
+
+import mysql.connector.errors
 from datetime import datetime
 from app.models.instansi import instansiModel
 from app.models.indikator import indikatorModel
@@ -71,8 +73,17 @@ class isiModel:
             data.append((instansi,indikator['id'],year,values[i]))
         # print(data)
         cur=db.connection.cursor()
-        cur.executemany(query,data)
-        db.commit()
+        try:
+            cur.executemany(query,data)
+            db.commit()
+            return True
+        except mysql.connector.Error as err:
+            print("Error:", err)
+            db.connection.rollback()
+            return False
+        finally:
+            cur.close()
+            db.close()
         cur.close()
         db.close()
         return True
