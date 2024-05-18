@@ -11,7 +11,7 @@ baspek5=(1.5/12)*(12/16.5)
 baspek6=(1.5/4.5)*(4.5/16.5)
 baspek7=(2.75/27.5)*(27.5/45.5)
 baspek8=(3/18)*(18/45)
-print(baspek23,baspek4,baspek5,baspek6,baspek6,baspek7,baspek8)
+# print(baspek23,baspek4,baspek5,baspek6,baspek6,baspek7,baspek8)
 def objective(params):
     i1,i2,i3,i4,i5,i6,i7,i8,i9,i10,i11,i12,i13,i14,i15,i16,i17,i18,i19,i20,i21,i22,i23,i24,i25,i26,i27,i28,i29,i30,i31,i32,i33,i34,i35,i36,i37,i38,i39,i40,i41,i42,i43,i44,i45,i46,i47=params
     domain1=(i1+i2+i3+i4+i5+i6+i7+i8+i9+i10)*(1.3/13)
@@ -271,7 +271,7 @@ indikators=indikator_model.getAll()
 domain_model=domainModel()
 domains=domain_model.getAll()
 
-df = pd.read_csv('Data CSV/Data_lengkap_2023_part33.csv')
+df = pd.read_csv('Data CSV/Data_lengkap_2023_part32.csv')
 df_alldata=model.getDfAllIndikator()
 # print(df_alldata)
 data_insert=[]

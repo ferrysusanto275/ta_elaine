@@ -363,16 +363,19 @@ def get_res_kmeans_index():
     return model.getDfK().to_html(classes="tabel")
 @isi_bp.route('/api/'+model.table_name+'/get_df23/<string:year>/<string:analisis>/<string:indikator>/<string:baik>')
 def get_df23(year,analisis,indikator,baik):
-    indikator_layanan=[];
+    indikator_layanan=np.array(["in2023110400014","in2023110400015","in2023110400028","in2023110400030","in2023110400033","in2023110400032","in2023110400034","in2023110400035","in2023110400036","in2023110400037","in2023110400038","in2023110400039","in2023110400040","in2023110400041","in2023110400042","in2023110400043","in2023110400044","in2023110400045","in2023110400046","in2023110400047"])
+    index = np.where(indikator_layanan == indikator)[0]
+    
     df=model.getDf23(analisis=analisis,year=year,indikator=indikator)
     if(baik=="0"):
         # tampil data terbaik
         nilai_layanan=3
-        
+        if(np.any(index)):nilai_layanan=4
+        print(nilai_layanan)
         df=df[df['Value']>=nilai_layanan]
         df.sort_values(by='Value', ascending=False)
     else:
-        df=df[df['Value']<3]
+        df=df[df['Value']<nilai_layanan]
         df.sort_values(by='Value')
     df=df.to_dict(orient='records')
     return jsonify(df)

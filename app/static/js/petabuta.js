@@ -9,19 +9,19 @@ const head_name = document.getElementById("head_name");
 const indikator_layanan = [
   "i14",
   "i15",
+  "i28",
+  "i30",
   "i33",
+  "i32",
+  "i34",
   "i35",
   "i36",
   "i37",
+  "i38",
   "i39",
   "i40",
-  "i42",
-  "i28",
-  "i30",
-  "i32",
-  "i34",
-  "i38",
   "i41",
+  "i42",
   "i43",
   "i44",
   "i45",
@@ -56,62 +56,73 @@ const cek_year = () => {
     });
 };
 const load_img = () => {
-    tampil_peta.style.position = "relative"
-    tampil_peta.innerHTML = ""
-    head_name.innerHTML=""
-    data_name.innerHTML = ""
-    tampil_peta.appendChild(create_img());
-    fetch(titik_peta_api + "/" + tipe_cb_filter.value + "/" + year_cb_filter.value + "/" + domain_cb_filter.value)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
-        })
-        .then((data) => {
-            if (data.length == 0) {
-                tampil_peta.innerHTML = "<h1>Data Not Found</h1>"
-            } else {
-                const newRow_head = document.createElement('tr')
-                const cell_head1 = document.createElement('td')
-                cell_head1.textContent = "No"
-                newRow_head.appendChild(cell_head1)
-                const cell_head2 = document.createElement('td')
-                cell_head2.textContent = "Nama"
-                newRow_head.appendChild(cell_head2)
-                const cell_head3 = document.createElement('td')
-                cell_head3.textContent = 'Rerata '+domain_cb_filter.options[domain_cb_filter.selectedIndex].text
-                newRow_head.appendChild(cell_head3)
-                head_name.appendChild(newRow_head)
-                for(let key in data['nama_titik']){
-                    let avg=parseFloat(data[domain_cb_filter.value][key]).toFixed(2)
-                    const newRow = document.createElement('tr')
-                    const cell1 = document.createElement('td')
-                    cell1.textContent = parseInt(key) + 1
-                    newRow.appendChild(cell1)
-                    const cell2 = document.createElement('td')
-                    cell2.textContent = data['nama_titik'][key]
-                    newRow.appendChild(cell2)
-                    const cell3 = document.createElement('td')
-                    cell3.textContent = avg
-                    newRow.appendChild(cell3)
-                    data_name.appendChild(newRow)
-                    let fc = 'black'
-                    let color = 'green'
-                    let angkaLayanan=3
-                    if(indikator_layanan.indexOf(domain_cb_filter.value)!==-1)
-                        angkaLayanan=4
-                    if (avg < angkaLayanan) {
-                        color = 'red'
-                    }
-                    tampil_peta.appendChild(create_dot(color, fc, data['x'][key], data['y'][key], key + 1))
-                }
-                
-            }
-        })
-        .catch((error) => {
-            console.error("Ada kesalahan:", error);
-        });
+  tampil_peta.style.position = "relative";
+  tampil_peta.innerHTML = "";
+  head_name.innerHTML = "";
+  data_name.innerHTML = "";
+  tampil_peta.appendChild(create_img());
+  fetch(
+    titik_peta_api +
+      "/" +
+      tipe_cb_filter.value +
+      "/" +
+      year_cb_filter.value +
+      "/" +
+      domain_cb_filter.value
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+    })
+    .then((data) => {
+      if (data.length == 0) {
+        tampil_peta.innerHTML = "<h1>Data Not Found</h1>";
+      } else {
+        const newRow_head = document.createElement("tr");
+        const cell_head1 = document.createElement("td");
+        cell_head1.textContent = "No";
+        newRow_head.appendChild(cell_head1);
+        const cell_head2 = document.createElement("td");
+        cell_head2.textContent = "Nama";
+        newRow_head.appendChild(cell_head2);
+        const cell_head3 = document.createElement("td");
+        cell_head3.textContent =
+          "Rerata " +
+          domain_cb_filter.options[domain_cb_filter.selectedIndex].text;
+        newRow_head.appendChild(cell_head3);
+        head_name.appendChild(newRow_head);
+        for (let key in data["nama_titik"]) {
+          let avg = parseFloat(data[domain_cb_filter.value][key]).toFixed(2);
+          const newRow = document.createElement("tr");
+          const cell1 = document.createElement("td");
+          cell1.textContent = parseInt(key) + 1;
+          newRow.appendChild(cell1);
+          const cell2 = document.createElement("td");
+          cell2.textContent = data["nama_titik"][key];
+          newRow.appendChild(cell2);
+          const cell3 = document.createElement("td");
+          cell3.textContent = avg;
+          newRow.appendChild(cell3);
+          data_name.appendChild(newRow);
+          let fc = "black";
+          let color = "green";
+          let angkaLayanan = 3;
+          if (indikator_layanan.indexOf(domain_cb_filter.value) !== -1)
+            angkaLayanan = 4;
+          if (avg < angkaLayanan) {
+            color = "red";
+          }
+          tampil_peta.appendChild(
+            create_dot(color, fc, data["x"][key], data["y"][key], key + 1)
+          );
+        }
+      }
+    })
+    .catch((error) => {
+      console.error("Ada kesalahan:", error);
+    });
 };
 const create_img = () => {
   const img_tampil = document.createElement("img");
@@ -119,34 +130,6 @@ const create_img = () => {
   img_tampil.width = 600;
   return img_tampil;
 };
-
-// const isi_data = () => {
-//     data_name.innerHTML = ""
-//     fetch(titik_peta_api + "/" + tipe_cb_filter.value + "/" + year_cb_filter.value)
-//         .then((response) => {
-//             if (!response.ok) {
-//                 throw new Error("Network response was not ok");
-//             }
-//             return response.json()
-//         })
-//         .then((data) => {
-
-//             data.forEach((element, i) => {
-//                 const newRow = document.createElement('tr')
-//                 const cell1 = document.createElement('td')
-//                 cell1.textContent = i + 2
-//                 newRow.appendChild(cell1)
-//                 const cell2 = document.createElement('td')
-//                 cell2.textContent = element
-//                 newRow.appendChild(cell2)
-//                 data_name.appendChild(newRow)
-//             });
-
-//         })
-//         .catch((error) => {
-//             console.error("Ada kesalahan:", error);
-//         });
-// }
 
 const create_dot = (color, fontColor, x, y, nama) => {
   // Create a new div element
