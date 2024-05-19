@@ -1,8 +1,7 @@
 from flask import Blueprint,jsonify,request
 from app.models.keluaran import keluaranModel
-from app.models.isi import isiModel
 model=keluaranModel()
-isi=isiModel()
+
 keluaranbp=Blueprint(model.table_name,__name__)
 def validasiInput():
     nama = request.json.get('nama')
@@ -21,6 +20,12 @@ def validasiInput():
 @keluaranbp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
+@keluaranbp.route('/api/'+model.table_name+"/res_kmeans/<string:area>/<string:year>")
+def get_res_kmeans_areaByYear(area,year):
+    df_dict = model.getDfK(area,year).to_dict(orient='records')
+    return jsonify(df_dict)
+
+    # return jsonify(data_indikator);  
 @keluaranbp.route('/api/'+model.table_name+'/inisiatif/<string:grup>')
 def get_all_analisis_grup(grup):
     return jsonify(model.getAllByGrup(grup));
@@ -63,25 +68,3 @@ def delete_user(id):
             return jsonify({'message': 'Failed to delete '+model.table_name}), 500
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
-@keluaranbp.route('/api/'+model.table_name+"/df_all/<string:area>")
-def get_all_df(area):
-    data_area=model.getAllInstansiby_Area(area);
-    data_indikator=model.getAllIndikatorby_Area(area)
-    df=isi.getDfAllIndikator()
-    df=df[df['id'].astype('str').isin(data_area)]
-    # features = df[data_indikator]
-    # K = range(2,6)
-    # inertia = []
-    # silhouette_coef = [] 
-    # model = [] 
-    # for k in K:
-    #     kmeans= KMeans(n_clusters=k, random_state=42)
-    #     kmeans.fit(features)
-    #     model.append(kmeans)
-    #     inertia.append(kmeans.inertia_)
-    #     score = silhouette_score(features, kmeans.labels_, metric='euclidean')
-    #     silhouette_coef.append(score)
-    # best_num_clusters = model[np.argmax(silhouette_coef)]
-    print(df)
-    # return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df}
-    return jsonify(data_indikator);  

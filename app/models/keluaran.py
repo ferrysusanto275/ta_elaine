@@ -1,5 +1,14 @@
 from app.utils.database import Database
 from datetime import datetime
+from app.models.isi import isiModel
+import pandas as pd 
+from decimal import Decimal
+from sklearn.cluster import KMeans, AgglomerativeClustering
+import scipy.cluster.hierarchy as sch 
+from sklearn.metrics import silhouette_score
+import matplotlib.pyplot as plt 
+import numpy as np
+isi=isiModel()
 class keluaranModel:
     table_name="analisis"
     def getAll(self):
@@ -70,22 +79,45 @@ class keluaranModel:
         db= Database()
         query="SELECT id from instansi WHERE id in(SELECT instansi.id from analisis_instansi JOIN analisis on analisis_instansi.analisis=analisis.id JOIN analisis_grup on analisis.grup=analisis_grup.id WHERE analisis_grup.grup=%s)"
         cur=db.execute_query(query,(area,))
-        result=cur.fetchall()
-        data=[]
-        for row in result: data.append(row[0])
+        result = [row[0] for row in cur.fetchall()]
         cur.close()
         db.close()
-        return data
+        return result
     def getAllIndikatorby_Area(self,area):
         db= Database()
-        query="SELECT nama from indikator WHERE id in(SELECT indikator.id from analisis_indikator JOIN analisis on analisis_indikator.analisis=analisis.id JOIN analisis_grup on analisis.grup=analisis_grup.id WHERE analisis_grup.grup=%s)"
+        query="SELECT nama from indikator WHERE id in(SELECT analisis_indikator.indikator from analisis_indikator JOIN analisis on analisis_indikator.analisis=analisis.id JOIN analisis_grup on analisis.grup=analisis_grup.id WHERE analisis_grup.grup=%s) ORDER BY id"
         cur=db.execute_query(query,(area,))
-        result=cur.fetchall()
-        data=[]
-        for row in result: data.append(row[0])
+        result = [row[0].lower() for row in cur.fetchall()]
         cur.close()
         db.close()
-        return data
+        return result
+    def kmeans_res(self,area,year):
+        data_area=self.getAllInstansiby_Area(area)
+        data_indikator=self.getAllIndikatorby_Area(area)
+        df=isi.getDfAllIndikator()
+        df=df[df['id'].astype('str').isin(data_area)]
+        df=df[df['year']== int(year)]
+        features = df[data_indikator]
+        # print(features)
+        K = range(2,6)
+        inertia = []
+        silhouette_coef = [] 
+        model = [] 
+        for k in K:
+            kmeans= KMeans(n_clusters=k, random_state=42)
+            kmeans.fit(features)
+            model.append(kmeans)
+            inertia.append(kmeans.inertia_)
+            score = silhouette_score(features, kmeans.labels_, metric='euclidean')
+            silhouette_coef.append(score)
+            best_num_clusters = model[np.argmax(silhouette_coef)]
+        return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df}
+    def getDfK(self,area,year):
+        kmeans_obj=self.kmeans_res(area,year)
+        klaster_objek = kmeans_obj['best_model'].labels_
+        dfK= kmeans_obj['df'].copy()
+        dfK['Cluster'] = klaster_objek
+        return dfK
     # def getAllDf(self):
     #     db= Database()
     #     query="SELECT a.id,a.nama,a.penanggung_jawab,a.target_tahun,a.grup,ag.nama 'nama_grup',ind.nama 'nama_indikator',ind.id 'id_indikator',ins.id 'id_instansi',ins.nama 'nama_instansi',isi.year,isi.value, area.id 'id_area', area.nama 'area_nama'"
