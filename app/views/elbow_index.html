@@ -5,9 +5,12 @@
 <div id="filter">
   <label for="year_cb_filter">Year</label>
   <select name="year" id="year_cb_filter" class="form_control"></select>
+  <label for="area_cb_filter">Area</label>
+  <select name="area" id="area_cb_filter" class="form_control">
+    <option value="0">Semua</option>
+  </select>
 </div>
-<div id="tampil_perbandingan">
-</div>
+<div id="tampil_perbandingan"></div>
 
 <table id="score_tabel" border="1">
   <thead>
@@ -16,7 +19,6 @@
   </thead>
   <tbody id="data_score"></tbody>
 </table>
-{% endblock %}
-{% block scriptJS %}
+{% endblock %} {% block scriptJS %}
 <script src="assets/js/elbow_index.js"></script>
 {% endblock %}
