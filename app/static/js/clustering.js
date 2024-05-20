@@ -4,6 +4,7 @@ const area_filter = document.getElementById("area_filter");
 const domain_div = document.getElementById("domain_div");
 const aspek_div = document.getElementById("aspek_div");
 const indeks_div = document.getElementById("indeks_div");
+const search = document.getElementById("search");
 const chk = document.getElementById("chk");
 const head_data = document.getElementById("head_data");
 const body_data = document.getElementById("body_data");
@@ -250,80 +251,9 @@ const create_body = async () => {
     const cell5 = document.createElement("td");
     cell5.textContent = element.Cluster;
     newRow.appendChild(cell5);
-    body_data.appendChild(newRow);
+    if (element.nama.toLowerCase().includes(search.value))
+      body_data.appendChild(newRow);
   });
-  // fetch(`${res_kmeans_api}/${area_cb_filter.value}/${year_cb_filter.value}`)
-  //   .then((response) => {
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-  //     return response.json();
-  //   })
-  //   .then((data) => {
-  //     body_data.innerHTML = "";
-
-  //     data.forEach(async (element, i) => {
-  //       const newRow = document.createElement("tr");
-  //       const cell1 = document.createElement("td");
-  //       cell1.textContent = i + 1;
-  //       newRow.appendChild(cell1);
-  //       const cell2 = document.createElement("td");
-  //       cell2.textContent = element.nama;
-  //       newRow.appendChild(cell2);
-  //       // const cell3 = document.createElement("td");
-  //       // cell3.textContent = element.grup;
-  //       // newRow.appendChild(cell3);
-  //       if (area_cb_filter.value == 0) {
-  //         const domains_chk = document.querySelectorAll(".domain_chk");
-  //         domains_chk.forEach((domain_chk) => {
-  //           if (domain_chk.checked) {
-  //             const cell4 = document.createElement("td");
-  //             cell4.textContent = element[domain_chk.getAttribute("data-name")];
-  //             newRow.appendChild(cell4);
-  //           }
-  //         });
-  //         const aspeks_chk = document.querySelectorAll(".aspek_chk");
-  //         aspeks_chk.forEach((aspek_chk) => {
-  //           if (aspek_chk.checked) {
-  //             const cell4 = document.createElement("td");
-  //             cell4.textContent = element[aspek_chk.getAttribute("data-name")];
-  //             newRow.appendChild(cell4);
-  //           }
-  //         });
-  //         const indikator_chk = document.getElementById("indikator_chk");
-  //         if (indikator_chk.checked) {
-  //           console.log(area_cb_filter.value);
-  //           if (area_cb_filter.value != 0) {
-  //             let data_indikator = await fetchDataIndikator();
-  //             // data_indikator.forEach((element_indikator) => {
-  //             //   const cell4 = document.createElement("td");
-  //             //   cell4.textContent = element[element_indikator];
-  //             //   newRow.appendChild(cell4);
-  //             // });
-  //           } else {
-  //             for (let i = 1; i <= 47; i++) {
-  //               const cell4 = document.createElement("td");
-  //               cell4.textContent = element[`i${i}`];
-  //               newRow.appendChild(cell4);
-  //             }
-  //           }
-  //         }
-  //         const indeks_chk = document.getElementById("indeks_chk");
-  //         if (indeks_chk.checked) {
-  //           const cell4 = document.createElement("td");
-  //           cell4.textContent = element[`Indeks`];
-  //           newRow.appendChild(cell4);
-  //         }
-  //       }
-  //       const cell5 = document.createElement("td");
-  //       cell5.textContent = element.Cluster;
-  //       newRow.appendChild(cell5);
-  //       body_data.appendChild(newRow);
-  //     });
-  //   })
-  //   .catch((error) => {
-  //     console.error("Ada kesalahan:", error);
-  //   });
 };
 year_cb_filter.onchange = load_data;
 
