@@ -390,10 +390,11 @@ def get_df23(year,analisis,indikator,baik):
     index = np.where(indikator_layanan == indikator)[0]
     
     df=model.getDf23(analisis=analisis,year=year,indikator=indikator)
+    nilai_layanan=3
+    if(np.any(index)):nilai_layanan=4
     if(baik=="0"):
         # tampil data terbaik
-        nilai_layanan=3
-        if(np.any(index)):nilai_layanan=4
+       
         print(nilai_layanan)
         df=df[df['Value']>=nilai_layanan]
         df.sort_values(by='Value', ascending=False)
