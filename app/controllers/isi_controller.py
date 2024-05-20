@@ -407,15 +407,23 @@ def get_df23(year,analisis,indikator,baik):
 def get_res_kmeans_indexByYear(year):
     df_dict = model.getDfKByYear(year).to_dict(orient='records')
     return jsonify(df_dict)
-@isi_bp.route('/api/'+model.table_name+'/plot_kmeans/<string:year>')
-def plot_kmeans_indexByYear(year):
-    df = model.getDfKByYear(year)
+@isi_bp.route('/api/'+model.table_name+'/plot_kmeans/<string:year>/<string:area>')
+def plot_kmeans_indexByYear(year,area):
+    if(area!="0"):
+        data_indikator=keluaran.getAllIndikatorby_Area(area)
+    else: data_indikator=['domain1','indeks']
+    df = keluaran.getDfK(area,year)
     fig, ax = plt.subplots()
-    ax.scatter(df['Indeks'],df['Domain 1'],c=df['Cluster'], cmap='rainbow')
-    ax.set_xlabel("Index")
-    ax.set_ylabel("Domain 1")
+    X = df[data_indikator]
+    pca = PCA(n_components=2)
+    principal_components = pca.fit_transform(X)
+    pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
+
+    ax.scatter(pca_df['PC1'], pca_df['PC2'],c=df['Cluster'], cmap='rainbow')
+    ax.set_xlabel('Component 1')
+    ax.set_ylabel('Component 2')
     ax.set_title("Clustering")
-   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
 
