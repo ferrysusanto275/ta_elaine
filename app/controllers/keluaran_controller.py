@@ -20,6 +20,9 @@ def validasiInput():
 @keluaranbp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());
+@keluaranbp.route('/api/'+model.table_name+"/indikator/<string:area>")
+def get_all_indikator(area):
+    return jsonify(model.getAllIndikatorby_Area(area=area));
 @keluaranbp.route('/api/'+model.table_name+"/res_kmeans/<string:area>/<string:year>")
 def get_res_kmeans_areaByYear(area,year):
     df_dict = model.getDfK(area,year).to_dict(orient='records')

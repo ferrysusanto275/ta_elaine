@@ -92,13 +92,19 @@ class keluaranModel:
         db.close()
         return result
     def kmeans_res(self,area,year):
-        data_area=self.getAllInstansiby_Area(area)
-        data_indikator=self.getAllIndikatorby_Area(area)
+        print(area)
+        if(area!="0"):
+            data_area=self.getAllInstansiby_Area(area)
+            data_indikator=self.getAllIndikatorby_Area(area)
         df=isi.getDfAllIndikator()
-        df=df[df['id'].astype('str').isin(data_area)]
+        if(area!="0"):
+            df=df[df['id'].astype('str').isin(data_area)]
         df=df[df['year']== int(year)]
-        features = df[data_indikator]
-        # print(features)
+       
+        if(area!="0"):
+            features = df[data_indikator]
+        else: features = df[['indeks']]
+            
         K = range(2,6)
         inertia = []
         silhouette_coef = [] 
@@ -111,6 +117,8 @@ class keluaranModel:
             score = silhouette_score(features, kmeans.labels_, metric='euclidean')
             silhouette_coef.append(score)
             best_num_clusters = model[np.argmax(silhouette_coef)]
+        if(area!="0"):
+            df=df[data_indikator+['nama']]
         return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df}
     def getDfK(self,area,year):
         kmeans_obj=self.kmeans_res(area,year)
