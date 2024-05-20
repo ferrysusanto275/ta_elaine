@@ -65,7 +65,7 @@ const handle_year = () => {
 };
 const isi_data = () => {
   data_score.innerHTML = "";
-  fetch(score_api + "/" + year_cb_filter.value)
+  fetch(score_api + "/" + year_cb_filter.value + "/" + area_cb_filter.value)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -90,14 +90,16 @@ const isi_data = () => {
 };
 const load_img = () => {
   tampil_perbandingan.innerHTML = "";
-  tampil_perbandingan.appendChild(create_elbow(year_cb_filter.value));
+  tampil_perbandingan.appendChild(
+    create_elbow(year_cb_filter.value, area_cb_filter.value)
+  );
 };
-const create_link = (year) => {
-  return `${kmeans_api}/${year}`;
+const create_link = (year, area) => {
+  return `${kmeans_api}/${year}/${area}`;
 };
-const create_elbow = (year) => {
+const create_elbow = (year, area) => {
   const img_tampil = document.createElement("img");
-  img_tampil.src = create_link(year);
+  img_tampil.src = create_link(year, area);
   return img_tampil;
 };
 year_cb_filter.onchange = handle_year;

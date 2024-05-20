@@ -22,12 +22,15 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import AgglomerativeClustering
 import seaborn as sns
+from app.models.keluaran import keluaranModel
+
 model=isiModel()
 aspek_model=aspekModel()
 instansi_model=instansiModel()
 indikator_model=indikatorModel()
 gi_model=grup_instansiModel()
 domain_model=domainModel()
+keluaran=keluaranModel()
 isi_bp=Blueprint(model.table_name,__name__, template_folder='views')
 def validasiId(instansi,indikator,year):
     if not instansi:
@@ -352,12 +355,32 @@ def get_kmeans_indexByYear(year):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/kmeans/<string:year>/<string:area>')
+def get_kmeans_areaByYear(year,area):
+    K = range(2,6)
+    inertia = keluaran.kmeans_res(area,year)['inertia']
+        
+    # plot elbow method 
+    fig, ax = plt.subplots()
+    ax.plot(K, inertia, marker='o')
+    ax.set_xlabel('Jumlah kelompok k')
+    ax.set_ylabel('Inertia')
+    ax.set_title("Elbow method Indeks ")
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/kmeans_score')
 def get_kmeans_score_index():
     return jsonify(model.kmeans_res()['silhouette_coef'])
 @isi_bp.route('/api/'+model.table_name+'/kmeans_score/<string:year>')
 def get_kmeans_score_indexByYear(year):
     return jsonify(model.kmeans_resByYear(year)['silhouette_coef'])
+@isi_bp.route('/api/'+model.table_name+'/kmeans_score/<string:year>/<string:area>')
+def get_kmeans_score_areaByYear(year,area):
+    return jsonify(keluaran.kmeans_res(area,year)['silhouette_coef'])
 @isi_bp.route('/api/'+model.table_name+'/res_kmeans')
 def get_res_kmeans_index():
     return model.getDfK().to_html(classes="tabel")
