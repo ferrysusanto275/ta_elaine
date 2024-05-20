@@ -1,261 +1,260 @@
 const year_api = base_api_url + "isi/year";
-const year_cb_filter = document.getElementById('year_cb_filter')
-const chk = document.getElementById('chk')
-const head_data = document.getElementById('head_data')
-const body_data = document.getElementById('body_data')
+const year_cb_filter = document.getElementById("year_cb_filter");
+const area_filter = document.getElementById("area_filter");
+const domain_div = document.getElementById("domain_div");
+const aspek_div = document.getElementById("aspek_div");
+const indeks_div = document.getElementById("indeks_div");
+const search = document.getElementById("search");
+const chk = document.getElementById("chk");
+const head_data = document.getElementById("head_data");
+const body_data = document.getElementById("body_data");
 const indikator_api = base_api_url + "indikator";
 const aspek_api = base_api_url + "aspek";
-const res_kmeans_api = base_api_url + "isi/res_agglo";
+const res_kmeans_api = base_api_url + "analisis/res_kmeans";
+const keluaran_indikator_api = base_api_url + "analisis/indikator";
+const area_api = base_api_url + "area";
 const cek_year = () => {
-    fetch(year_api)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
-        })
-        .then((data) => {
-            if (data.length == 0) {
-                location.href = "isi";
-            } else {
-                data.forEach((element, i) => {
-                    let option = document.createElement("option");
-                    option.value = element;
-                    option.textContent = element;
+  fetch(year_api)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+    })
+    .then((data) => {
+      if (data.length == 0) {
+        location.href = "isi";
+      } else {
+        data.forEach((element, i) => {
+          let option = document.createElement("option");
+          option.value = element;
+          option.textContent = element;
 
-                    year_cb_filter.appendChild(option);
-                });
-                // handle_year()
-                cek_domain();
-            }
-        })
-        .catch((error) => {
-            console.error("Ada kesalahan:", error);
+          year_cb_filter.appendChild(option);
         });
+        // handle_year()
+        cek_area();
+      }
+    })
+    .catch((error) => {
+      console.error("Ada kesalahan:", error);
+    });
+};
+const cek_area = () => {
+  fetch(area_api)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+    })
+    .then((data) => {
+      if (data.length > 0) {
+        data.forEach((element, i) => {
+          let option = document.createElement("option");
+          option.value = element.id;
+          option.textContent = element.nama;
+          let option_filter = option.cloneNode(true);
+          // area_cb.appendChild(option);
+          area_cb_filter.appendChild(option_filter);
+        });
+        cek_domain();
+        // load_data();
+      } else {
+        location.href = "area";
+      }
+    })
+    .catch((error) => {
+      console.error("Ada kesalahan:", error);
+    });
 };
 const cek_domain = () => {
-    fetch(indikator_api + "/domain")
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            data.forEach(element => {
-                //<input id=element.id type='checkbox'>
-                let chk_box = document.createElement('input')
-                chk_box.type = "checkbox"
-                chk_box.classList.add('domain_chk')
-                chk_box.id = element.id
-                chk_box.setAttribute('data-name', element.nama)
-                chk_box.onchange = load_data
-                //<label></label>
-                // chk_box.textContent = element.name
-                let lbl_chk_box = document.createElement('label')
-                lbl_chk_box.innerText = element.nama
-                lbl_chk_box.setAttribute('for', element.id)
-                chk.appendChild(chk_box)
-                chk.appendChild(lbl_chk_box)
-
-
-                chk.append(" ")
-            });
-            chk.appendChild(document.createElement("br"))
-            cek_aspek();
-        })
-        .catch((error) => {
-            console.error("Ada kesalahan:", error);
-        });
+  if (area_cb_filter.value == 0) {
+    domain_div.style.display = "block";
+  } else {
+    domain_div.style.display = "none";
+  }
+  cek_aspek();
 };
+
+area_cb_filter.onchange = cek_domain;
 const cek_aspek = () => {
-    fetch(aspek_api)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            data.forEach(element => {
-                let chk_box = document.createElement('input')
-                chk_box.type = "checkbox"
-                chk_box.id = element.id
-                chk_box.classList.add('aspek_chk')
-                chk_box.onchange = load_data
+  if (area_cb_filter.value == 0) {
+    aspek_div.style.display = "block";
+  } else {
+    aspek_div.style.display = "none";
+  }
 
-                chk_box.setAttribute('data-name', element.nama)
-                // chk_box.textContent = element.name
-                let lbl_chk_box = document.createElement('label')
-                lbl_chk_box.innerText = element.nama
-
-                lbl_chk_box.setAttribute('for', element.id)
-                chk.appendChild(chk_box)
-                chk.appendChild(lbl_chk_box)
-
-                chk.append(" ")
-            });
-            chk.appendChild(document.createElement("br"))
-            chkIndikator()
-
-        })
-        .catch((error) => {
-            console.error("Ada kesalahan:", error);
-        });
+  chkIndeks();
 };
-const chkIndikator = () => {
-    let chk_box = document.createElement('input')
-    chk_box.type = "checkbox"
-    chk_box.id = "indikator_chk"
-    chk_box.onchange = load_data
-    // chk_box.textContent = element.name
-    let lbl_chk_box = document.createElement('label')
-    lbl_chk_box.innerText = "Indikator"
-
-    lbl_chk_box.setAttribute('for', "indikator_chk")
-    chk.appendChild(chk_box)
-    chk.appendChild(lbl_chk_box)
-    chk.appendChild(document.createElement("br"))
-    chkIndeks()
-}
 const chkIndeks = () => {
-    let chk_box = document.createElement('input')
-    chk_box.type = "checkbox"
-    chk_box.id = "indeks_chk"
-    chk_box.onchange = load_data
-    // chk_box.textContent = element.name
-    let lbl_chk_box = document.createElement('label')
-    lbl_chk_box.innerText = "Indeks"
-    lbl_chk_box.setAttribute('for', "indeks_chk")
-    chk.appendChild(chk_box)
-    chk.appendChild(lbl_chk_box)
-    load_data();
-}
+  if (area_cb_filter.value == 0) {
+    indeks_div.style.display = "block";
+  } else {
+    indeks_div.style.display = "none";
+  }
+  load_data();
+};
 const load_data = () => {
-    console.log("Masuk");
-    create_head()
-    create_body()
+  create_head();
+  create_body();
+};
+async function fetchDataIndikator() {
+  try {
+    const response = await fetch(
+      `${keluaran_indikator_api}/${area_cb_filter.value}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    const data_indikator = await response.json();
+    return data_indikator;
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    // Handle the error here if needed
+    return null;
+  }
 }
 
-const create_head = () => {
-    head_data.innerHTML = "";
-    const newRow = document.createElement("tr")
-    const cell1 = document.createElement('td')
-    cell1.textContent = "No"
-    newRow.appendChild(cell1)
-    const cell2 = document.createElement('td')
-    cell2.textContent = "Nama Instansi"
-    newRow.appendChild(cell2)
-    const cell3 = document.createElement('td')
-    cell3.textContent = "Grup Instansi"
-    newRow.appendChild(cell3)
-    const domains_chk = document.querySelectorAll(".domain_chk")
-    domains_chk.forEach(domain_chk => {
+const create_head = async () => {
+  head_data.innerHTML = "";
+  const newRow = document.createElement("tr");
+  const cell1 = document.createElement("th");
+  cell1.textContent = "No";
+  newRow.appendChild(cell1);
+  const cell2 = document.createElement("th");
+  cell2.textContent = "Nama Instansi";
+  newRow.appendChild(cell2);
+  // const cell3 = document.createElement("td");
+  // cell3.textContent = "Grup Instansi";
+  // newRow.appendChild(cell3);
+  if (area_cb_filter.value == 0) {
+    const domains_chk = document.querySelectorAll(".domain_chk");
+    domains_chk.forEach((domain_chk) => {
+      if (domain_chk.checked) {
+        const cell4 = document.createElement("th");
+        cell4.textContent = domain_chk.getAttribute("data-name");
+        newRow.appendChild(cell4);
+      }
+    });
+    const aspeks_chk = document.querySelectorAll(".aspek_chk");
+    aspeks_chk.forEach((aspek_chk) => {
+      if (aspek_chk.checked) {
+        const cell4 = document.createElement("th");
+        cell4.textContent = aspek_chk.getAttribute("data-name");
+        newRow.appendChild(cell4);
+      }
+    });
+  }
+  const indikator = document.getElementById("indikator");
+  if (indikator.checked) {
+    if (area_cb_filter.value != 0) {
+      let data_indikator = await fetchDataIndikator();
+      data_indikator.forEach((element_indikator) => {
+        const cell4 = document.createElement("th");
+        cell4.textContent = element_indikator.toUpperCase();
+        newRow.appendChild(cell4);
+      });
+    } else {
+      for (let i = 1; i <= 47; i++) {
+        const cell4 = document.createElement("th");
+        cell4.textContent = `I${i}`;
+        newRow.appendChild(cell4);
+      }
+    }
+  }
+  if (area_cb_filter.value == 0) {
+    const indeks = document.getElementById("indeks");
+    if (indeks.checked) {
+      const cell6 = document.createElement("th");
+      cell6.textContent = "Indeks";
+      newRow.appendChild(cell6);
+    }
+  }
+
+  const cell5 = document.createElement("th");
+  cell5.textContent = "Cluster";
+  newRow.appendChild(cell5);
+  head_data.appendChild(newRow);
+};
+const loadDataFrame = async () => {
+  try {
+    const response = await fetch(
+      `${res_kmeans_api}/${area_cb_filter.value}/${year_cb_filter.value}`
+    );
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    // Handle the error here if needed
+    return null;
+  }
+};
+const create_body = async () => {
+  data_indikator = await fetchDataIndikator();
+  data = await loadDataFrame();
+  body_data.innerHTML = "";
+  data.forEach((element, i) => {
+    const newRow = document.createElement("tr");
+    const cell1 = document.createElement("td");
+    cell1.textContent = i + 1;
+    newRow.appendChild(cell1);
+    const cell2 = document.createElement("td");
+    cell2.textContent = element.nama;
+    newRow.appendChild(cell2);
+    if (area_cb_filter.value == 0) {
+      const domains_chk = document.querySelectorAll(".domain_chk");
+      domains_chk.forEach((domain_chk) => {
         if (domain_chk.checked) {
-            const cell4 = document.createElement('td')
-            cell4.textContent = domain_chk.getAttribute('data-name')
-            newRow.appendChild(cell4)
-
+          const cell4 = document.createElement("td");
+          cell4.textContent = element[domain_chk.id].toFixed(2);
+          newRow.appendChild(cell4);
         }
-    })
-    const aspeks_chk = document.querySelectorAll(".aspek_chk")
-    aspeks_chk.forEach(aspek_chk => {
+      });
+      const aspeks_chk = document.querySelectorAll(".aspek_chk");
+      aspeks_chk.forEach((aspek_chk) => {
         if (aspek_chk.checked) {
-            const cell4 = document.createElement('td')
-            cell4.textContent = aspek_chk.getAttribute('data-name')
-            newRow.appendChild(cell4)
-
+          const cell4 = document.createElement("td");
+          cell4.textContent = element[aspek_chk.id].toFixed(2);
+          newRow.appendChild(cell4);
         }
-    })
-    const indikator_chk = document.getElementById('indikator_chk')
-    if (indikator_chk.checked) {
-        for (let i = 1; i <= 47; i++) {
-            const cell4 = document.createElement('td')
-            cell4.textContent = `I${i}`
-            newRow.appendChild(cell4)
-
-        }
+      });
     }
-    const indeks_chk = document.getElementById('indeks_chk')
-    if (indeks_chk.checked) {
-        const cell4 = document.createElement('td')
-        cell4.textContent = `Indeks`
-        newRow.appendChild(cell4)
-
-    }
-
-    const cell5 = document.createElement('td')
-    cell5.textContent = "Cluster"
-    newRow.appendChild(cell5)
-    head_data.appendChild(newRow)
-
-}
-const create_body = () => {
-    fetch(`${res_kmeans_api}/${year_cb_filter.value}`)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Network response was not ok");
-            }
-            return response.json();
-        })
-        .then((data) => {
-            body_data.innerHTML = "";
-
-            data.forEach((element, i) => {
-                const newRow = document.createElement("tr")
-                const cell1 = document.createElement('td')
-                cell1.textContent = i + 1
-                newRow.appendChild(cell1)
-                const cell2 = document.createElement('td')
-                cell2.textContent = element.Instansi
-                newRow.appendChild(cell2)
-                const cell3 = document.createElement('td')
-                cell3.textContent = element.Group
-                newRow.appendChild(cell3)
-                const domains_chk = document.querySelectorAll(".domain_chk")
-                domains_chk.forEach(domain_chk => {
-                    if (domain_chk.checked) {
-                        const cell4 = document.createElement('td')
-                        cell4.textContent = element[domain_chk.getAttribute('data-name')]
-                        newRow.appendChild(cell4)
-
-                    }
-                })
-                const aspeks_chk = document.querySelectorAll(".aspek_chk")
-                aspeks_chk.forEach(aspek_chk => {
-                    if (aspek_chk.checked) {
-                        const cell4 = document.createElement('td')
-                        cell4.textContent = element[aspek_chk.getAttribute('data-name')]
-                        newRow.appendChild(cell4)
-
-                    }
-                })
-                const indikator_chk = document.getElementById('indikator_chk')
-                if (indikator_chk.checked) {
-                    for (let i = 1; i <= 47; i++) {
-                        const cell4 = document.createElement('td')
-                        cell4.textContent = element[`I${i}`]
-                        newRow.appendChild(cell4)
-
-                    }
-                }
-                const indeks_chk = document.getElementById('indeks_chk')
-                if (indeks_chk.checked) {
-                    const cell4 = document.createElement('td')
-                    cell4.textContent = element[`Indeks`]
-                    newRow.appendChild(cell4)
-
-                }
-                const cell5 = document.createElement('td')
-                cell5.textContent = element.Cluster
-                newRow.appendChild(cell5)
-                body_data.appendChild(newRow)
-            });
-        })
-        .catch((error) => {
-            console.error("Ada kesalahan:", error);
+    const indikator = document.getElementById("indikator");
+    if (indikator.checked) {
+      console.log(area_cb_filter.value);
+      if (area_cb_filter.value != 0) {
+        // let data_indikator = await fetchDataIndikator();
+        data_indikator.forEach((element_indikator) => {
+          const cell4 = document.createElement("td");
+          cell4.textContent = element[element_indikator];
+          newRow.appendChild(cell4);
         });
-}
-year_cb_filter.onchange = load_data
+      } else {
+        for (let i = 1; i <= 47; i++) {
+          const cell4 = document.createElement("td");
+          cell4.textContent = element[`i${i}`];
+          newRow.appendChild(cell4);
+        }
+      }
+    }
+    if (area_cb_filter.value == 0) {
+      const indeks = document.getElementById("indeks");
+      if (indeks.checked) {
+        const cell6 = document.createElement("td");
+        cell6.textContent = element["indeks"].toFixed(2);
+        newRow.appendChild(cell6);
+      }
+    }
+    const cell5 = document.createElement("td");
+    cell5.textContent = element.Cluster;
+    newRow.appendChild(cell5);
+    if (element.nama.toLowerCase().includes(search.value))
+      body_data.appendChild(newRow);
+  });
+};
+year_cb_filter.onchange = load_data;
 
-cek_year()
+cek_year();

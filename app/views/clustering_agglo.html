@@ -4,8 +4,161 @@
 <div id="filter">
   <label for="year_cb_filter">Year</label>
   <select name="year" id="year_cb_filter" class="form_control"></select>
+  <label for="area_cb_filter">Cluster By</label>
+  <select name="area" id="area_cb_filter" class="form_control">
+    <option value="0">Semua</option>
+  </select>
 </div>
-<div id="chk"></div>
+<div id="domain_div">
+  <span id="domain1_span">
+    <input
+      type="checkbox"
+      name="domain1"
+      data-name="Domain 1"
+      id="domain1"
+      class="domain_chk"
+      onchange="load_data()"
+    /><label for="domain1">Domain 1</label>
+  </span>
+  <span id="domain2_span">
+    <input
+      type="checkbox"
+      name="domain2"
+      data-name="Domain 2"
+      id="domain2"
+      class="domain_chk"
+      onchange="load_data()"
+    /><label for="domain2">Domain 2</label>
+  </span>
+  <span id="domain3_span">
+    <input
+      type="checkbox"
+      name="domain3"
+      data-name="Domain 3"
+      id="domain3"
+      class="domain_chk"
+      onchange="load_data()"
+    /><label for="domain3">Domain 3</label>
+  </span>
+  <span id="domain4_span">
+    <input
+      type="checkbox"
+      name="domain4"
+      data-name="Domain 4"
+      id="domain4"
+      class="domain_chk"
+      onchange="load_data()"
+    /><label for="domain4">Domain 4</label>
+  </span>
+</div>
+<div id="aspek_div">
+  <span id="aspek1_span">
+    <input
+      type="checkbox"
+      name="aspek1"
+      data-name="Aspek 1"
+      id="aspek1"
+      class="aspek_chk"
+      onchange="load_data()"
+    /><label for="aspek1">Aspek 1</label>
+  </span>
+  <span id="aspek2_span">
+    <input
+      type="checkbox"
+      name="aspek2"
+      data-name="Aspek 2"
+      id="aspek2"
+      class="aspek_chk"
+      onchange="load_data()"
+    /><label for="aspek2">Aspek 2</label>
+  </span>
+  <span id="aspek3_span">
+    <input
+      type="checkbox"
+      name="aspek3"
+      data-name="Aspek 3"
+      id="aspek3"
+      class="aspek_chk"
+      onchange="load_data()"
+    /><label for="aspek2">Aspek 3</label>
+  </span>
+  <span id="aspek4_span">
+    <input
+      type="checkbox"
+      name="aspek4"
+      data-name="Aspek 4"
+      id="aspek4"
+      class="aspek_chk"
+      onchange="load_data()"
+    /><label for="aspek4">Aspek 4</label>
+  </span>
+  <span id="aspek5_span">
+    <input
+      type="checkbox"
+      name="aspek5"
+      data-name="Aspek 5"
+      id="aspek5"
+      class="aspek_chk"
+      onchange="load_data()"
+    /><label for="aspek5">Aspek 5</label>
+  </span>
+  <span id="aspek6_span">
+    <input
+      type="checkbox"
+      name="aspek6"
+      data-name="Aspek 6"
+      id="aspek6"
+      class="aspek_chk"
+      onchange="load_data()"
+    /><label for="aspek6">Aspek 6</label>
+  </span>
+  <span id="aspek7_span">
+    <input
+      type="checkbox"
+      name="aspek7"
+      data-name="Aspek 7"
+      id="aspek7"
+      class="aspek_chk"
+      onchange="load_data()"
+    /><label for="aspek7">Aspek 7</label>
+  </span>
+  <span id="aspek8_span">
+    <input
+      type="checkbox"
+      name="aspek8"
+      data-name="Aspek 8"
+      id="aspek8"
+      class="aspek_chk"
+      onchange="load_data()"
+    /><label for="aspek8">Aspek 8</label>
+  </span>
+</div>
+<div id="indikator_div">
+  <span id="indikator_span">
+    <input
+      type="checkbox"
+      name="indikator"
+      id="indikator"
+      class="indikator_chk"
+      onchange="load_data()"
+    /><label for="indikator">Indikator</label>
+  </span>
+</div>
+<div id="indeks_div">
+  <span id="indeks_span">
+    <input
+      type="checkbox"
+      name="indeks"
+      id="indeks"
+      class="indeks_chk"
+      onchange="load_data()"
+    /><label for="indeks">Indeks</label>
+  </span>
+</div>
+<div>
+  <label for="search">Search</label>
+  <input type="text" id="search" class="form_control" onchange="load_data()" />
+</div>
 <table class="tabel" id="tabel_data">
   <thead id="head_data"></thead>
   <tbody id="body_data">
