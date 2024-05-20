@@ -87,6 +87,7 @@ const load_data = () => {
 };
 const handle_add_btn = () => {
   modal_form.style.display = "flex";
+  create_option_gi();
 };
 const create_option_gi = () => {
   fetch(gi_api)
@@ -104,7 +105,7 @@ const create_option_gi = () => {
           let option = document.createElement("option");
           option.value = element.id;
           option.textContent = element.nama;
-          let option_filter = option.cloneNode(true);
+          // let option_filter = option.cloneNode(true);
 
           grup_instansi_cb.appendChild(option);
         });
@@ -117,7 +118,6 @@ const create_option_gi = () => {
 };
 
 const create_option_instansi = () => {
-  
   fetch(instansi_api + "/grup/" + grup_instansi_cb.value)
     .then((response) => {
       if (!response.ok) {
@@ -219,8 +219,8 @@ const cek_inisiatif = () => {
     })
     .then((data) => {
       if (data.length > 0) {
-        inisiatif_cb.innerHTML=""
-        inisiatif_cb_filter.innerHTML=""
+        inisiatif_cb.innerHTML = "";
+        inisiatif_cb_filter.innerHTML = "";
         data.forEach((element, i) => {
           let option = document.createElement("option");
           option.value = element.id;
@@ -240,8 +240,8 @@ const cek_inisiatif = () => {
     });
 };
 const cek_keluaran = () => {
-  keluaran_cb_filter.innerHTML="";
-  keluaran_cb_filter.innerHTML=""
+  keluaran_cb_filter.innerHTML = "";
+  keluaran_cb_filter.innerHTML = "";
   // console.log("masuk");
   fetch(`${keluaran_api}/inisiatif/${selected_inisiatif}`)
     .then((response) => {

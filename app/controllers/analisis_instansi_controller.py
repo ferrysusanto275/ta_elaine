@@ -23,7 +23,7 @@ def create():
     if(instansi):
         return jsonify({'message': 'Data sudah pernah dimasukkan'})
     if not isinstance(data,list):return data
-    if model.create(data[0]):
+    if model.create(data[0],data[1]):
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
