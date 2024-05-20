@@ -104,7 +104,7 @@ const cek_keluaran = () => {
     })
     .then((data) => {
       if (data.length == 0) {
-        location.href = "isi";
+        location.href = "inisiatif_strategis";
       } else {
         data.forEach((element, i) => {
           let option = document.createElement("option");
@@ -133,7 +133,7 @@ const cek_indikator = () => {
     })
     .then((data) => {
       if (data.length == 0) {
-        location.href = "isi";
+        location.href = "analisis_indikator";
       } else {
         data.forEach((element, i) => {
           let option = document.createElement("option");
