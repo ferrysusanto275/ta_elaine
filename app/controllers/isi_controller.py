@@ -5,6 +5,7 @@ from app.models.indikator import indikatorModel
 from app.models.aspek import aspekModel
 from app.models.domain import domainModel
 from app.models.isi import isiModel
+from app.models.area import areaModel
 from scipy.optimize import minimize
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.decomposition import TruncatedSVD
@@ -28,6 +29,7 @@ model=isiModel()
 aspek_model=aspekModel()
 instansi_model=instansiModel()
 indikator_model=indikatorModel()
+area_model=areaModel()
 gi_model=grup_instansiModel()
 domain_model=domainModel()
 keluaran=keluaranModel()
@@ -429,12 +431,20 @@ def plot_kmeans_indexByYear(year,area):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/plot_dend/<string:year>/<string:linkage>')
-def plot_dend_indexByYear(year,linkage):
-    df = model.getDfKByYear(year)
+@isi_bp.route('/api/'+model.table_name+'/plot_dend/<string:year>/<string:linkage>/<string:area>')
+def plot_dend_indexByYear(year,linkage,area):
+    if(area!="0"):
+        data_indikator=keluaran.getAllIndikatorby_Area(area)
+        data_area=area_model.getById(area)
+        namaArea=data_area['name'][3:]
+    else: 
+        data_indikator=['indeks']
+        namaArea="Indeks"
+    
+    df = keluaran.getDfAByareaYear(area,year,linkage)
     fig = plt.figure(figsize=(10, 6))
-    plt.title("Dend2 "+year)
-    features = df[['Indeks']]
+    plt.title("Dend2 "+year+" berdasarkan "+namaArea)
+    features = df[data_indikator]
     dend = sch.dendrogram(sch.linkage(features, method=linkage))
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
