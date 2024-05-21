@@ -458,10 +458,10 @@ def plot_dend_indexByYear(year,linkage,area):
     return Response(output.getvalue(), mimetype='image/png')
 
 
-@isi_bp.route('/api/'+model.table_name+'/agglo_score/<string:year>/<string:linkage>')
-def get_agglo_score_index(year,linkage):
-    df=pd.DataFrame(model.getDfByYear(year))
-    return jsonify(model.agglomerative(df,linkage)['silhouette_score'])
+@isi_bp.route('/api/'+model.table_name+'/agglo_score/<string:year>/<string:linkage>/<string:area>')
+def get_agglo_score_index(year,linkage,area):
+    df=keluaran.getDfAByareaYear(area,year,linkage)
+    return jsonify(df['silhouette_score'])
 @isi_bp.route('/api/'+model.table_name+'/res_agglo/<string:year>/<string:linkage>')
 def get_res_agglo_indexByYear(year, linkage):
     df_dict = model.getDfAByYear(year, linkage).to_dict(orient='records')
