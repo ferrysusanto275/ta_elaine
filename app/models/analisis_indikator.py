@@ -11,6 +11,7 @@ class analisis_indikatorModel:
         data=[]
         for row in result:
             data.append({"analisis":row[0],"indikator":row[1], "nama_indikator": row[2]})
+        cur.close()
         db.close()
         return data
     def getAllByAnalisis(self,analisis):
@@ -23,6 +24,7 @@ class analisis_indikatorModel:
         data=[]
         for row in result:
             data.append({"analisis":row[0],"indikator":row[1], "nama_indikator": row[2]})
+        cur.close()
         db.close()
         return data
     

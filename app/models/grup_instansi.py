@@ -11,6 +11,7 @@ class grup_instansiModel:
         data=[]
         for row in result:
             data.append({"id":row[0],"nama":row[1]})
+        cur.close()
         db.close()
         return data
     def getById(self,id):
@@ -22,6 +23,7 @@ class grup_instansiModel:
         data=result
         if(result):
             data={"id":result[0],"name":result[1]}
+        cur.close()
         db.close()
         return data
     def getLastId(self,code):

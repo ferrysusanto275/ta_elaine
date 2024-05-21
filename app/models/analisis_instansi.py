@@ -11,6 +11,7 @@ class analisis_instansiModel:
         data=[]
         for row in result:
             data.append({"analisis":row[0],"instansi":row[1], "nama_instansi": row[2]})
+        cur.close()
         db.close()
         return data
     def getAllByAnalisis(self,analisis):
@@ -23,6 +24,7 @@ class analisis_instansiModel:
         data=[]
         for row in result:
             data.append({"analisis":row[0],"instansi":row[1], "nama_instansi": row[2]})
+        cur.close()
         db.close()
         return data
     
