@@ -1,5 +1,4 @@
-{% extends "templates.html" %}
-{% block main %}
+{% extends "templates.html" %} {% block main %}
 <legend>PCA Agglomerative</legend>
 <div id="filter">
   <label for="year_cb_filter">Year</label>
@@ -21,7 +20,6 @@
 </div>
 <div id="tampil_perbandingan"></div>
 
-{% endblock %}
-{% block scriptJS %}
-<script src="assets/js/pca.js"></script>
+{% endblock %} {% block scriptJS %}
+<script src="assets/js/pca_agglo.js"></script>
 {% endblock %}
