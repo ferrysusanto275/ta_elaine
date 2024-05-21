@@ -762,15 +762,20 @@ def respcaAggloByYear(year,linkage, cari):
 
     return jsonify(res);
 
-@isi_bp.route('/api/'+model.table_name+'/svd_agglo/<string:year>/<string:linkage>')
-def svdAggloByYear(year,linkage):
-    df = model.getDfAByYear(year,linkage)
+@isi_bp.route('/api/'+model.table_name+'/svd_agglo/<string:year>/<string:linkage>/<string:area>')
+def svdAggloByYear(year,linkage,area):
+    # df = model.getDfAByYear(year,linkage)
+    df= keluaran.getDfAByareaYear(area,year,linkage)
     
-    X = df[['I1','I2','I3','I4','I5','I6','I7','I8','I9','I10',
-    'I11','I12','I13','I14','I15','I16','I17','I18','I19','I20',
-    'I21','I22','I23','I24','I25','I26','I27','I28','I29','I30',
-     'I31','I32','I33','I34','I35','I36','I37','I38','I39','I40',
-      'I41','I42','I43','I44','I45','I46','I47','Indeks']]
+    if(area=="0"):
+        X = df[['i1','i2','i3','i4','i5','i6','i7','i8','i9','i10',
+            'i11','i12','i13','i14','i15','i16','i17','i18','i19','i20',
+            'i21','i22','i23','i24','i25','i26','i27','i28','i29','i30',
+            'i31','i32','i33','i34','i35','i36','i37','i38','i39','i40',
+            'i41','i42','i43','i44','i45','i46','i47','indeks']]
+    else:
+        data_indikator=keluaran.getAllIndikatorby_Area(area)
+        X=df[data_indikator]
     # print(X)
     # X=df[['Indeks']]
     
