@@ -413,18 +413,24 @@ def get_res_kmeans_indexByYear(year):
 def plot_kmeans_indexByYear(year,area):
     if(area!="0"):
         data_indikator=keluaran.getAllIndikatorby_Area(area)
-    else: data_indikator=['domain1','indeks']
+
     df = keluaran.getDfK(area,year)
     fig, ax = plt.subplots()
-    X = df[data_indikator]
-    pca = PCA(n_components=2)
-    principal_components = pca.fit_transform(X)
-    pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
+    if(area!="0"):
+        X = df[data_indikator]
+        pca = PCA(n_components=2)
+        principal_components = pca.fit_transform(X)
+        pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
 
-    ax.scatter(pca_df['PC1'], pca_df['PC2'],c=df['Cluster'], cmap='rainbow')
-    ax.set_xlabel('Component 1')
-    ax.set_ylabel('Component 2')
-    ax.set_title("Clustering")
+        ax.scatter(pca_df['PC1'], pca_df['PC2'],c=df['Cluster'], cmap='rainbow')
+        ax.set_xlabel('Component 1')
+        ax.set_ylabel('Component 2')
+        ax.set_title("Clustering")
+    else: 
+        ax.scatter(df['domain1'], df['indeks'],c=df['Cluster'], cmap='rainbow')
+        ax.set_xlabel('Domain 1')
+        ax.set_ylabel('Indeks')
+        ax.set_title("Clustering")
     
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
