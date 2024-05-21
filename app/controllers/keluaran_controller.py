@@ -27,6 +27,10 @@ def get_all_indikator(area):
 def get_res_kmeans_areaByYear(area,year):
     df_dict = model.getDfK(area,year).to_dict(orient='records')
     return jsonify(df_dict)
+@keluaranbp.route('/api/'+model.table_name+"/res_agglo/<string:area>/<string:year>/<string:linkage>")
+def get_res_agglo_areaByYear(area,year,linkage):
+    df_dict = model.getDfAByareaYear(area,year,linkage).to_dict(orient='records')
+    return jsonify(df_dict)
 
     # return jsonify(data_indikator);  
 @keluaranbp.route('/api/'+model.table_name+'/inisiatif/<string:grup>')

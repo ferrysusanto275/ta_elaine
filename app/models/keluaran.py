@@ -92,7 +92,6 @@ class keluaranModel:
         db.close()
         return result
     def kmeans_res(self,area,year):
-        print(area)
         if(area!="0"):
             data_area=self.getAllInstansiby_Area(area)
             data_indikator=self.getAllIndikatorby_Area(area)
@@ -125,6 +124,37 @@ class keluaranModel:
         klaster_objek = kmeans_obj['best_model'].labels_
         dfK= kmeans_obj['df'].copy()
         dfK['Cluster'] = klaster_objek
+        return dfK
+    def agglo_res(self,area,year,linkage):
+        if(area!="0"):
+            data_area=self.getAllInstansiby_Area(area)
+            data_indikator=self.getAllIndikatorby_Area(area)
+        else: data_indikator=['indeks']    
+        df=isi.getDfAllIndikator()
+        if(area!="0"):
+            df=df[df['id'].astype('str').isin(data_area)]
+        df=df[df['year']== int(year)]
+       
+        features = df[data_indikator]
+        K = range(2,6)
+        silhouette_coef = []
+        model = []
+        for k in K:
+            agglo_model = AgglomerativeClustering(n_clusters=k, affinity='euclidean', linkage=linkage)
+            agglo_model.fit_predict(features)
+            
+            model.append(agglo_model)
+            # print(agglo_model)
+            score = silhouette_score(features, agglo_model.labels_, metric='euclidean')
+            silhouette_coef.append(score)
+        best_num_clusters = model[np.argmax(silhouette_coef)]
+        return {"silhouette_score":silhouette_coef,"best_num_clusters":best_num_clusters,'df':df,'data_indikator':data_indikator}
+    def getDfAByareaYear(self,area,year,linkage):
+        agglo_obj=self.agglo_res(area,year,linkage)
+        klaster_objek = agglo_obj['best_num_clusters']
+        labels = klaster_objek.fit_predict(agglo_obj['df'][agglo_obj['data_indikator']])
+        dfK = agglo_obj['df'].copy()
+        dfK['Cluster'] = labels
         return dfK
     # def getAllDf(self):
     #     db= Database()

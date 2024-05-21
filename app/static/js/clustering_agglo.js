@@ -1,6 +1,7 @@
 const year_api = base_api_url + "isi/year";
 const year_cb_filter = document.getElementById("year_cb_filter");
-const area_filter = document.getElementById("area_filter");
+const linkage_cb_filter = document.getElementById("linkage_cb_filter");
+const area_cb_filter = document.getElementById("area_cb_filter");
 const domain_div = document.getElementById("domain_div");
 const aspek_div = document.getElementById("aspek_div");
 const indeks_div = document.getElementById("indeks_div");
@@ -10,7 +11,7 @@ const head_data = document.getElementById("head_data");
 const body_data = document.getElementById("body_data");
 const indikator_api = base_api_url + "indikator";
 const aspek_api = base_api_url + "aspek";
-const res_kmeans_api = base_api_url + "analisis/res_kmeans";
+const res_kmeans_api = base_api_url + "analisis/res_agglo";
 const keluaran_indikator_api = base_api_url + "analisis/indikator";
 const area_api = base_api_url + "area";
 const cek_year = () => {
@@ -180,7 +181,7 @@ const create_head = async () => {
 const loadDataFrame = async () => {
   try {
     const response = await fetch(
-      `${res_kmeans_api}/${area_cb_filter.value}/${year_cb_filter.value}`
+      `${res_kmeans_api}/${area_cb_filter.value}/${year_cb_filter.value}/${linkage_cb_filter.value}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -256,5 +257,5 @@ const create_body = async () => {
   });
 };
 year_cb_filter.onchange = load_data;
-
+linkage_cb_filter.onchange = load_data;
 cek_year();
