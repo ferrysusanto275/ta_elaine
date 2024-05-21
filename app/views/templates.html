@@ -1,137 +1,239 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Penilaian Kinerja SPBE| Grup</title>
+    <link rel="stylesheet" href="/assets/vendor/css/select2.min.css" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    {% block linkCSS %}{% endblock %}
+  </head>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Penilaian Kinerja SPBE| Grup</title>
-  <link rel="stylesheet" href="/assets/vendor/css/select2.min.css">
-  <link rel="stylesheet" href="assets/css/main.css" />
-  {% block linkCSS %}{% endblock %}
-</head>
-
-<body>
-  <div id="warpper">
-    <div id="side_menu">
-      <a href="/" class="link {% if page_url == '/' %}active{% endif %}">
-        Home</a>
-      <div class="drop-down {% if page_url == '/analisis_instansi' %}active{% endif %} {% if page_url == '/analisis_indikator' %}active{% endif %} {% if page_url == '/keluaran' %}active{% endif %} {% if page_url == '/inisiatif_strategis' %}active{% endif %} {% if page_url == '/predikat' %}active{% endif %} {% if page_url == '/grup' %}active{% endif %} {% if page_url == '/instansi' %}active{% endif %} {% if page_url == '/domain' %}active{% endif %} {% if page_url == '/area' %}active{% endif %}{% if page_url == '/indikator' %}active{% endif %} {% if page_url == '/aspek' %}active{% endif %}">
-        <button>Master Data</button>
-        <ul>
-          <li class="{% if page_url == '/predikat' %}active{% endif %}">
-            <a href="/predikat">Predikat</a>
-          </li>
-          <li class="{% if page_url == '/grup' %}active{% endif %}">
-            <a href="/grup">Grup Instansi</a>
-          </li>
-          <li class="{% if page_url == '/instansi' %}active{% endif %}">
-            <a href="/instansi">Instansi</a>
-          </li>
-          <li class="{% if page_url == '/domain' %}active{% endif %}">
-            <a href="/domain">Domain</a>
-          </li>
-          <li class="{% if page_url == '/aspek' %}active{% endif %}">
-            <a href="/aspek">Aspek</a>
-          </li>
-          <li class="{% if page_url == '/indikator' %}active{% endif %}">
-            <a href="/indikator">Indikator</a>
-          </li>
-          <li class="{% if page_url == '/area' %}active{% endif %}">
-            <a href="/area">Area Peta Rencana</a>
-          </li>
-          <li class="{% if page_url == '/inisiatif_strategis' %}active{% endif %}">
-            <a href="/inisiatif_strategis">Inisiatif Strategis</a>
-          </li>
-          <li class="{% if page_url == '/keluaran' %}active{% endif %}">
-            <a href="/keluaran">Keluaran</a>
-          </li>
-          <li class="{% if page_url == '/analisis_indikator' %}active{% endif %}">
-            <a href="/analisis_indikator">Analisis Indikator</a>
-          </li>
-          <li class="{% if page_url == '/analisis_instansi' %}active{% endif %}">
-            <a href="/analisis_instansi">Analisis Instansi</a>
-          </li>
-        </ul>
-      </div>
-      <div class="drop-down {% if page_url == '/isi' %}active{% endif %}">
-        <button>Transaksi</button>
-        <ul>
-          <li class="{% if page_url == '/isi' %}active{% endif %}">
-            <a href="/isi">Isi Indikator</a>
-          </li>
-        </ul>
-      </div>
-      <div class="drop-down {% if page_url == '/index_indikator_instansi' %}active{% endif %}{% if page_url == '/index_aspek_instansi' %}active{% endif %}{% if page_url == '/index_domain_instansi' %}active{% endif %}">
-        <button>Laporan</button>
-        <ul>
-          <li class="{% if page_url == '/index_indikator_instansi' %}active{% endif %}">
-            <a href="/index_indikator_instansi">Tabel Index Indikator per Instansi</a>
-          </li>
-          <li class="{% if page_url == '/index_aspek_instansi' %}active{% endif %}">
-            <a href="/index_aspek_instansi">Tabel Index Aspek per Instansi</a>
-          </li>
-          <li class="{% if page_url == '/index_domain_instansi' %}active{% endif %}">
-            <a href="/index_domain_instansi">Tabel Index Domain per Instansi</a>
-          </li>
-        </ul>
-      </div>
-      <div class="drop-down {% if page_url == '/perbandingan_index_domain' %}active{% endif %} {% if page_url == '/perbandingan_index_aspek' %}active{% endif %} {% if page_url == '/perbandingan_index_indikator' %}active{% endif %} {% if page_url == '/perbandingan_domain_indikator' %}active{% endif %} {% if page_url == '/perbandingan_domain_aspek' %}active{% endif %} {% if page_url == '/perbandingan_indikator' %}active{% endif %}{% if page_url == '/perbandingan_domain' %}active{% endif %} {% if page_url == '/perbandingan_aspek' %}active{% endif %} {% if page_url == '/perbandingan_aspek_indikator' %}active{% endif %}">
-        <button>Laporan Perbandingan</button>
-        <ul>
-          <li class="{% if page_url == '/perbandingan_indikator' %}active{% endif %}">
-            <a href="/perbandingan_indikator">Perbandingan Indikator per grup</a>
-          </li>
-          <li class="{% if page_url == '/perbandingan_aspek' %}active{% endif %}">
-            <a href="/perbandingan_aspek">Perbandingan Aspek per grup</a>
-          </li>
-          <li class="{% if page_url == '/perbandingan_aspek_indikator' %}active{% endif %}">
-            <a href="/perbandingan_aspek_indikator">Perbandingan Aspek dan indikator per grup</a>
-          </li>
-          <li class="{% if page_url == '/perbandingan_domain' %}active{% endif %}">
-            <a href="/perbandingan_domain">Perbandingan Domain per grup</a>
-          </li>
-          <li class="{% if page_url == '/perbandingan_domain_aspek' %}active{% endif %}">
-            <a href="/perbandingan_domain_aspek">Perbandingan Domain dan Aspek per grup</a>
-          </li>
-          <li class="{% if page_url == '/perbandingan_domain_indikator' %}active{% endif %}">
-            <a href="/perbandingan_domain_indikator">Perbandingan Domain dan Indikator per grup</a>
-          </li>
-          <li class="{% if page_url == '/perbandingan_index_indikator' %}active{% endif %}">
-            <a href="/perbandingan_index_indikator">Perbandingan Indeks dan Indikator per grup</a>
-          </li>
-          <li class="{% if page_url == '/perbandingan_index_aspek' %}active{% endif %}">
-            <a href="/perbandingan_index_aspek">Perbandingan Indeks dan Aspek per grup</a>
-          </li>
-          <li class="{% if page_url == '/perbandingan_index_domain' %}active{% endif %}">
-            <a href="/perbandingan_index_domain">Perbandingan Indeks dan Domain per grup</a>
-          </li>
-        </ul>
-      </div>
-      <a href="/elbow_index" class="link {% if page_url == '/elbow_index' %}active{% endif %}">
-        Elbow Index Kmeans</a>
-      <a href="/clustering" class="link {% if page_url == '/clustering' %}active{% endif %}">
-        Clustering Kmeans</a>
-      <a href="/clustering_agglo" class="link {% if page_url == '/clustering_agglo' %}active{% endif %}">
-        Clustering Agglo</a>
-      <a href="/plot_kmeans" class="link {% if page_url == '/plot_kmeans' %}active{% endif %}">
-        Plot Kmeans</a>
-      <a href="/plot_dend" class="link {% if page_url == '/plot_kmeans' %}active{% endif %}">
-        Plot Dendrogram</a>
-      <a href="/pca" class="link {% if page_url == '/pca' %}active{% endif %}">
-        Hasil PCA Kmeans</a>
-      <a href="/pca_agglo" class="link {% if page_url == '/pca_agglo' %}active{% endif %}">
-        Hasil PCA Agglomerative</a>
-      <a href="/svd" class="link {% if page_url == '/svd' %}active{% endif %}">
-        Hasil SVD KMeans</a>
-      <a href="/svd" class="link {% if page_url == '/svd' %}active{% endif %}">
-        Hasil SVD Agglomerative</a>
-      <a href="/peta" class="link {% if page_url == '/peta' %}active{% endif %}">
-        Plotting Peta</a>
-      <a href="/analisis_grup" class="link {% if page_url == '/analisis_grup' %}active{% endif %}">
-        Analisis</a>
-      <a href="/analisis_prediksi" class="link {% if page_url == '/analisis_prediksi' %}active{% endif %}">
-        Prediksi</a>
-      <!-- <div
+  <body>
+    <div id="warpper">
+      <div id="side_menu">
+        <a href="/" class="link {% if page_url == '/' %}active{% endif %}">
+          Home</a
+        >
+        <div
+          class="drop-down {% if page_url == '/analisis_instansi' %}active{% endif %} {% if page_url == '/analisis_indikator' %}active{% endif %} {% if page_url == '/keluaran' %}active{% endif %} {% if page_url == '/inisiatif_strategis' %}active{% endif %} {% if page_url == '/predikat' %}active{% endif %} {% if page_url == '/grup' %}active{% endif %} {% if page_url == '/instansi' %}active{% endif %} {% if page_url == '/domain' %}active{% endif %} {% if page_url == '/area' %}active{% endif %}{% if page_url == '/indikator' %}active{% endif %} {% if page_url == '/aspek' %}active{% endif %}"
+        >
+          <button>Master Data</button>
+          <ul>
+            <li class="{% if page_url == '/predikat' %}active{% endif %}">
+              <a href="/predikat">Predikat</a>
+            </li>
+            <li class="{% if page_url == '/grup' %}active{% endif %}">
+              <a href="/grup">Grup Instansi</a>
+            </li>
+            <li class="{% if page_url == '/instansi' %}active{% endif %}">
+              <a href="/instansi">Instansi</a>
+            </li>
+            <li class="{% if page_url == '/domain' %}active{% endif %}">
+              <a href="/domain">Domain</a>
+            </li>
+            <li class="{% if page_url == '/aspek' %}active{% endif %}">
+              <a href="/aspek">Aspek</a>
+            </li>
+            <li class="{% if page_url == '/indikator' %}active{% endif %}">
+              <a href="/indikator">Indikator</a>
+            </li>
+            <li class="{% if page_url == '/area' %}active{% endif %}">
+              <a href="/area">Area Peta Rencana</a>
+            </li>
+            <li
+              class="{% if page_url == '/inisiatif_strategis' %}active{% endif %}"
+            >
+              <a href="/inisiatif_strategis">Inisiatif Strategis</a>
+            </li>
+            <li class="{% if page_url == '/keluaran' %}active{% endif %}">
+              <a href="/keluaran">Keluaran</a>
+            </li>
+            <li
+              class="{% if page_url == '/analisis_indikator' %}active{% endif %}"
+            >
+              <a href="/analisis_indikator">Analisis Indikator</a>
+            </li>
+            <li
+              class="{% if page_url == '/analisis_instansi' %}active{% endif %}"
+            >
+              <a href="/analisis_instansi">Analisis Instansi</a>
+            </li>
+          </ul>
+        </div>
+        <div class="drop-down {% if page_url == '/isi' %}active{% endif %}">
+          <button>Transaksi</button>
+          <ul>
+            <li class="{% if page_url == '/isi' %}active{% endif %}">
+              <a href="/isi">Isi Indikator</a>
+            </li>
+          </ul>
+        </div>
+        <div
+          class="drop-down {% if page_url == '/index_indikator_instansi' %}active{% endif %}{% if page_url == '/index_aspek_instansi' %}active{% endif %}{% if page_url == '/index_domain_instansi' %}active{% endif %}"
+        >
+          <button>Laporan</button>
+          <ul>
+            <li
+              class="{% if page_url == '/index_indikator_instansi' %}active{% endif %}"
+            >
+              <a href="/index_indikator_instansi"
+                >Tabel Index Indikator per Instansi</a
+              >
+            </li>
+            <li
+              class="{% if page_url == '/index_aspek_instansi' %}active{% endif %}"
+            >
+              <a href="/index_aspek_instansi">Tabel Index Aspek per Instansi</a>
+            </li>
+            <li
+              class="{% if page_url == '/index_domain_instansi' %}active{% endif %}"
+            >
+              <a href="/index_domain_instansi"
+                >Tabel Index Domain per Instansi</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div
+          class="drop-down {% if page_url == '/perbandingan_index_domain' %}active{% endif %} {% if page_url == '/perbandingan_index_aspek' %}active{% endif %} {% if page_url == '/perbandingan_index_indikator' %}active{% endif %} {% if page_url == '/perbandingan_domain_indikator' %}active{% endif %} {% if page_url == '/perbandingan_domain_aspek' %}active{% endif %} {% if page_url == '/perbandingan_indikator' %}active{% endif %}{% if page_url == '/perbandingan_domain' %}active{% endif %} {% if page_url == '/perbandingan_aspek' %}active{% endif %} {% if page_url == '/perbandingan_aspek_indikator' %}active{% endif %}"
+        >
+          <button>Laporan Perbandingan</button>
+          <ul>
+            <li
+              class="{% if page_url == '/perbandingan_indikator' %}active{% endif %}"
+            >
+              <a href="/perbandingan_indikator"
+                >Perbandingan Indikator per grup</a
+              >
+            </li>
+            <li
+              class="{% if page_url == '/perbandingan_aspek' %}active{% endif %}"
+            >
+              <a href="/perbandingan_aspek">Perbandingan Aspek per grup</a>
+            </li>
+            <li
+              class="{% if page_url == '/perbandingan_aspek_indikator' %}active{% endif %}"
+            >
+              <a href="/perbandingan_aspek_indikator"
+                >Perbandingan Aspek dan indikator per grup</a
+              >
+            </li>
+            <li
+              class="{% if page_url == '/perbandingan_domain' %}active{% endif %}"
+            >
+              <a href="/perbandingan_domain">Perbandingan Domain per grup</a>
+            </li>
+            <li
+              class="{% if page_url == '/perbandingan_domain_aspek' %}active{% endif %}"
+            >
+              <a href="/perbandingan_domain_aspek"
+                >Perbandingan Domain dan Aspek per grup</a
+              >
+            </li>
+            <li
+              class="{% if page_url == '/perbandingan_domain_indikator' %}active{% endif %}"
+            >
+              <a href="/perbandingan_domain_indikator"
+                >Perbandingan Domain dan Indikator per grup</a
+              >
+            </li>
+            <li
+              class="{% if page_url == '/perbandingan_index_indikator' %}active{% endif %}"
+            >
+              <a href="/perbandingan_index_indikator"
+                >Perbandingan Indeks dan Indikator per grup</a
+              >
+            </li>
+            <li
+              class="{% if page_url == '/perbandingan_index_aspek' %}active{% endif %}"
+            >
+              <a href="/perbandingan_index_aspek"
+                >Perbandingan Indeks dan Aspek per grup</a
+              >
+            </li>
+            <li
+              class="{% if page_url == '/perbandingan_index_domain' %}active{% endif %}"
+            >
+              <a href="/perbandingan_index_domain"
+                >Perbandingan Indeks dan Domain per grup</a
+              >
+            </li>
+          </ul>
+        </div>
+        <a
+          href="/elbow_index"
+          class="link {% if page_url == '/elbow_index' %}active{% endif %}"
+        >
+          Elbow Index Kmeans</a
+        >
+        <a
+          href="/clustering"
+          class="link {% if page_url == '/clustering' %}active{% endif %}"
+        >
+          Clustering Kmeans</a
+        >
+        <a
+          href="/clustering_agglo"
+          class="link {% if page_url == '/clustering_agglo' %}active{% endif %}"
+        >
+          Clustering Agglo</a
+        >
+        <a
+          href="/plot_kmeans"
+          class="link {% if page_url == '/plot_kmeans' %}active{% endif %}"
+        >
+          Plot Kmeans</a
+        >
+        <a
+          href="/plot_dend"
+          class="link {% if page_url == '/plot_dend' %}active{% endif %}"
+        >
+          Plot Dendrogram</a
+        >
+        <a
+          href="/pca"
+          class="link {% if page_url == '/pca' %}active{% endif %}"
+        >
+          Hasil PCA Kmeans</a
+        >
+        <a
+          href="/pca_agglo"
+          class="link {% if page_url == '/pca_agglo' %}active{% endif %}"
+        >
+          Hasil PCA Agglomerative</a
+        >
+        <a
+          href="/svd"
+          class="link {% if page_url == '/svd' %}active{% endif %}"
+        >
+          Hasil SVD KMeans</a
+        >
+        <a
+          href="/svd"
+          class="link {% if page_url == '/svd' %}active{% endif %}"
+        >
+          Hasil SVD Agglomerative</a
+        >
+        <a
+          href="/peta"
+          class="link {% if page_url == '/peta' %}active{% endif %}"
+        >
+          Plotting Peta</a
+        >
+        <a
+          href="/analisis_grup"
+          class="link {% if page_url == '/analisis_grup' %}active{% endif %}"
+        >
+          Analisis</a
+        >
+        <a
+          href="/analisis_prediksi"
+          class="link {% if page_url == '/analisis_prediksi' %}active{% endif %}"
+        >
+          Prediksi</a
+        >
+        <!-- <div
           class="drop-down {% if page_url == '/elbow_domain' %}active{% endif %}{% if page_url == '/elbow_aspek_indikator' %}active{% endif %}{% if page_url == '/elbow_aspek' %}active{% endif %}{% if page_url == '/elbow_indikator' %}active{% endif %}"
         >
           <button>Laporan Elbow</button>
@@ -156,24 +258,23 @@
             </li>
           </ul>
         </div>-->
+      </div>
+      <div id="container">
+        <h1>Penilaian Kinerja SPBE</h1>
+        <div id="main_container">{% block main %}{% endblock %}</div>
+      </div>
     </div>
-    <div id="container">
-      <h1>Penilaian Kinerja SPBE</h1>
-      <div id="main_container">{% block main %}{% endblock %}</div>
+    <div id="modal_form" class="modal">
+      <div class="modal_content">
+        {% block modal_content %}{% endblock %}
+        <button class="submit_btn" id="submit_btn">Submit</button>
+        <button class="cancel_btn" id="cancel_btn">Cancel</button>
+      </div>
     </div>
-  </div>
-  <div id="modal_form" class="modal">
-    <div class="modal_content">
-      {% block modal_content %}{% endblock %}
-      <button class="submit_btn" id="submit_btn">Submit</button>
-      <button class="cancel_btn" id="cancel_btn">Cancel</button>
-    </div>
-  </div>
 
-  <script src="assets/vendor/jquery/jquery.min.js"></script>
-  <script src="assets/vendor/js/select2.min.js"></script>
-  <script src="assets/js/main.js"></script>
-  {% block scriptJS %}{% endblock %}
-</body>
-
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/js/select2.min.js"></script>
+    <script src="assets/js/main.js"></script>
+    {% block scriptJS %}{% endblock %}
+  </body>
 </html>
