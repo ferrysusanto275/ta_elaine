@@ -43,54 +43,55 @@ labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
 
 pca_df = pd.DataFrame(pca_data, index=transposed_df.columns, columns=labels)
 
-plt.scatter(pca_df.PC1, pca_df.PC2, c=df['Cluster'], cmap='viridis')
-plt.title('My PCA Graph')
-plt.xlabel('PC1 - {0}%'.format(per_var[0]))
-plt.ylabel('PC2 - {0}%'.format(per_var[1]))
+# plt.scatter(pca_df.PC1, pca_df.PC2, c=df['Cluster'], cmap='viridis')
+# plt.title('My PCA Graph')
+# plt.xlabel('PC1 - {0}%'.format(per_var[0]))
+# plt.ylabel('PC2 - {0}%'.format(per_var[1]))
 
-for sample in pca_df.index:
-    plt.annotate(sample, (pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]))
-plt.annotate.set_visible(False)
+# for sample in pca_df.index:
+#     plt.annotate(sample, (pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]))
+# plt.annotate.set_visible(False)
 # Create a custom patch for each point
-# names = np.array(df['nama'].tolist())
-# c = df['Cluster']
+names = np.array(df['nama'].tolist())
+c = df['Cluster']
 
 # norm = plt.Normalize(1,4)
 # cmap = plt.cm.RdYlGn
 
-# fig,ax = plt.subplots()
-# sc = plt.scatter(pca_df.PC1, pca_df.PC2, c=c, s=100, cmap=cmap)
+fig,ax = plt.subplots()
+sc = plt.scatter(pca_df.PC1, pca_df.PC2, s=100,  c=df['Cluster'], cmap='viridis')
 
-# annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
-#                     bbox=dict(boxstyle="round", fc="w"),
-#                     arrowprops=dict(arrowstyle="->"))
-# annot.set_visible(False)
+annot = ax.annotate("", xy=(0,0), xytext=(20,20),textcoords="offset points",
+                    bbox=dict(boxstyle="round", fc="w"),
+                    arrowprops=dict(arrowstyle="->"))
+annot.set_visible(False)
 
-# def update_annot(ind):
+def update_annot(ind):
+    print(ind)
+    pos = sc.get_offsets()[ind["ind"][0]]
+    annot.xy = pos
+    text="abc"
+    # text = "{}, {}".format(" ".join(list(map(str,ind["ind"]))), 
+                        #    " ".join([names[n] for n in ind["ind"]]))
+    annot.set_text(text)
+    # annot.get_bbox_patch().set_facecolor(cmap(norm(c[ind["ind"][0]])))
+    # annot.get_bbox_patch().set_alpha(0.4)
     
-#     pos = sc.get_offsets()[ind["ind"][0]]
-#     annot.xy = pos
-#     text = "{}, {}".format(" ".join(list(map(str,ind["ind"]))), 
-#                            " ".join([names[n] for n in ind["ind"]]))
-#     annot.set_text(text)
-#     annot.get_bbox_patch().set_facecolor(cmap(norm(c[ind["ind"][0]])))
-#     annot.get_bbox_patch().set_alpha(0.4)
-    
 
-# def hover(event):
-#     vis = annot.get_visible()
-#     if event.inaxes == ax:
-#         cont, ind = sc.contains(event)
-#         if cont:
-#             update_annot(ind)
-#             annot.set_visible(True)
-#             fig.canvas.draw_idle()
-#         else:
-#             if vis:
-#                 annot.set_visible(False)
-#                 fig.canvas.draw_idle()
+def hover(event):
+    vis = annot.get_visible()
+    if event.inaxes == ax:
+        cont, ind = sc.contains(event)
+        if cont:
+            update_annot(ind)
+            annot.set_visible(True)
+            fig.canvas.draw_idle()
+        else:
+            if vis:
+                annot.set_visible(False)
+                fig.canvas.draw_idle()
 
-# fig.canvas.mpl_connect("motion_notify_event", hover)
+fig.canvas.mpl_connect("motion_notify_event", hover)
 
 plt.show()
 
