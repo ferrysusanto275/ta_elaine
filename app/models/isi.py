@@ -439,8 +439,8 @@ class isiModel:
         cur= db.execute_query(query)
         result=cur.fetchall()
         data=[]
-    
-        data.append({'id':row[0], 'nama':row[1], 'year':row[2], 'i1':row[3], 'i2':row[4], 'i3':row[5], 'i4':row[6], 'i5':row[7],'i6':row[8], 'i7':row[9], 'i8':row[10], 'i9':row[11], 'i10':row[12],
+        for row in result:
+            data.append({'id':row[0], 'nama':row[1], 'year':row[2], 'i1':row[3], 'i2':row[4], 'i3':row[5], 'i4':row[6], 'i5':row[7],'i6':row[8], 'i7':row[9], 'i8':row[10], 'i9':row[11], 'i10':row[12],
                          'i11':row[13], 'i12':row[14], 'i13':row[15], 'i14':row[16], 'i15':row[17],'i16':row[18], 'i17':row[19], 'i18':row[20], 'i19':row[21], 'i20':row[22],
                          'i21':row[23], 'i22':row[24], 'i23':row[25], 'i24':row[26], 'i25':row[27],'i26':row[28], 'i27':row[29], 'i28':row[30], 'i29':row[31], 'i30':row[32],
                          'i31':row[33], 'i32':row[34], 'i33':row[35], 'i34':row[36], 'i35':row[37],'i36':row[38], 'i37':row[39], 'i38':row[40], 'i39':row[41], 'i40':row[42],
