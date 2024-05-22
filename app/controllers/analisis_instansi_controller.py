@@ -30,7 +30,7 @@ def create():
 # @grup_analisis_instansibp.route('/api/'+model.table_name+'/<string:id>', methods=['PUT'])
 # def update(id):
 #     data=validasiInput()
-#     if not isinstance(data,list):return data
+#     if not isinstance(data,list)py:return data
 #     instansi = model.getById(id)
 #     if instansi:
 #         if model.update( data[0],id):
