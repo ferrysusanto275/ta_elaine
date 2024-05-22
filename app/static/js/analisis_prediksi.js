@@ -49,7 +49,7 @@ const cek_area = () => {
     });
 };
 const cek_inisiatif = () => {
-  fetch(`${inisiatif_api}/area/${selected_area}`)
+  fetch(`${inisiatif_api}/area/${area_cb_filter.value}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");

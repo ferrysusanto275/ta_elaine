@@ -1,5 +1,6 @@
 from flask import Blueprint,jsonify,request,render_template,Response
 from app.models.isi import isiModel
+from app.models.indikator import indikatorModel
 import io
 from io import BytesIO
 import matplotlib.pyplot as plt 
@@ -10,19 +11,15 @@ from sklearn.model_selection import train_test_split
 from app.models.indikator import indikatorModel
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 isi_model=isiModel()
+indikator_model=indikatorModel()
 an="prediksi"
 prediksi_bp=Blueprint(an,__name__, template_folder='views')
 def getDfLinear(instansi, indikator):
-    data = {
-    'tahun': [2018, 2019, 2020, 2021, 2022, 2023],
-    'value': [isi_model.getById(instansi,indikator,2018)['value'],
-         isi_model.getById(instansi,indikator,2019)['value'],
-         isi_model.getById(instansi,indikator,2020)['value'],
-         isi_model.getById(instansi,indikator,2021)['value'],
-         isi_model.getById(instansi,indikator,2022)['value'],
-         isi_model.getById(instansi,indikator,2023)['value']]
-        }
-    df=pd.DataFrame(data)
+    df=isi_model.getDfAllIndikatorClear()
+    df=df[df['id']==instansi]
+    data_indikator=indikator_model.getById(indikator)
+    df=df[['year',data_indikator['name'].lower()]]
+    df.columns=['tahun','value']
     y=df['value']
     X=df['tahun']
     X_train, X_test, y_train, y_test = train_test_split(X.values.reshape(-1, 1), y, test_size=0.2, random_state=42)
