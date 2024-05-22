@@ -70,7 +70,7 @@ def update_annot(ind):
     print(ind)
     pos = sc.get_offsets()[ind["ind"][0]]
     annot.xy = pos
-    text="abc"
+    text=[names[n] for n in ind["ind"]]
     # text = "{}, {}".format(" ".join(list(map(str,ind["ind"]))), 
                         #    " ".join([names[n] for n in ind["ind"]]))
     annot.set_text(text)
