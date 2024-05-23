@@ -90,7 +90,7 @@ const cek_keluaran = () => {
     .then((data) => {
       if (data.length > 0) {
         data.forEach((element, i) => {
-          console.log(element);
+          // console.log(element);
           let option = document.createElement("option");
           option.value = element.id;
           option.textContent = element.nama;
@@ -199,7 +199,7 @@ const load_tabel = () => {
       tabel.innerHTML = "";
       if (data.length > 0) {
         data.forEach((element, i) => {
-          // console.log(element);
+          console.log(element);
           let td = document.createElement("td");
           td.innerText = element.value;
           // td.textContent = element.nama_instansi;
