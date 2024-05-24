@@ -8,8 +8,9 @@ from app.models.isi import isiModel
 from app.models.keluaran import keluaranModel
 isi=isiModel()
 keluaran=keluaranModel()
-area=2
-year=2019
+area=1
+year=2018
+search="bandung"
 df=keluaran.getDfK(area,year)
 # print(df['nama'])
 # df=isi.getDfAllIndikatorBobot()
@@ -35,11 +36,11 @@ pca_data = pca.transform(scaled_data) #mendapatkan koordinat titik
 per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
 labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
 
-# plt.bar(x=range(1,len(per_var)+1), height=per_var, tick_label=labels)
-# plt.ylabel('Percentage of Explained Variance')
-# plt.xlabel('Principal Component')
-# plt.title('Scree Plot')
-# plt.show()
+plt.bar(x=range(1,len(per_var)+1), height=per_var, tick_label=labels)
+plt.ylabel('Percentage of Explained Variance')
+plt.xlabel('Principal Component')
+plt.title('Scree Plot')
+plt.show()
 
 pca_df = pd.DataFrame(pca_data, index=transposed_df.columns, columns=labels)
 
@@ -53,7 +54,7 @@ pca_df = pd.DataFrame(pca_data, index=transposed_df.columns, columns=labels)
 # plt.annotate.set_visible(False)
 # Create a custom patch for each point
 names = np.array(df['nama'].tolist())
-c = df['Cluster']
+# c = df['Cluster']
 
 # norm = plt.Normalize(1,4)
 # cmap = plt.cm.RdYlGn
@@ -89,6 +90,7 @@ def hover(event):
         else:
             if vis:
                 annot.set_visible(False)
+                
                 fig.canvas.draw_idle()
 
 fig.canvas.mpl_connect("motion_notify_event", hover)
@@ -105,7 +107,7 @@ plt.show()
 loading_scores = pd.Series(pca.components_[0], index=data_indikator)
 sorted_loading_scores = loading_scores.abs().sort_values(ascending=False)
 
-# mengambil data 10 biji
+# # mengambil data 10 biji
 top_10_genes = sorted_loading_scores[0:10].index.values
 
 print(loading_scores[top_10_genes])

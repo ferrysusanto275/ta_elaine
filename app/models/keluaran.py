@@ -92,10 +92,12 @@ class keluaranModel:
         db.close()
         return result
     def kmeans_res(self,area,year):
+        df=isi.getDfAllIndikatorWOBobot()
         if(area!="0"):
             data_area=self.getAllInstansiby_Area(area)
+            df=df[df['id'].astype('str').isin(data_area)]
             data_indikator=self.getAllIndikatorby_Area(area)
-        df=isi.getDfAllIndikator()
+
         if(area!="0"):
             df=df[df['id'].astype('str').isin(data_area)]
         df=df[df['year']== int(year)]
@@ -126,11 +128,12 @@ class keluaranModel:
         dfK['Cluster'] = klaster_objek
         return dfK
     def agglo_res(self,area,year,linkage):
+        df=isi.getDfAllIndikatorWOBobot()
         if(area!="0"):
             data_area=self.getAllInstansiby_Area(area)
             data_indikator=self.getAllIndikatorby_Area(area)
-        else: data_indikator=['indeks']    
-        df=isi.getDfAllIndikator()
+            df=df[df['id'].astype('str').isin(data_area)]
+        else: data_indikator=['indeks']  
         if(area!="0"):
             df=df[df['id'].astype('str').isin(data_area)]
         df=df[df['year']== int(year)]

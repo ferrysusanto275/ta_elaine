@@ -1,5 +1,6 @@
 const year_api = base_api_url + "isi/year";
 const kmeans_api = base_api_url + "isi/plot_kmeans";
+const bar_kmeans_api = base_api_url + "isi/bar_kmeans";
 // const score_api = base_api_url + "isi/kmeans_score";
 const year_cb_filter = document.getElementById("year_cb_filter");
 const area_cb_filter = document.getElementById("area_cb_filter");
@@ -66,11 +67,22 @@ const cek_area = () => {
 const load_img = () => {
   tampil_perbandingan.innerHTML = "";
   tampil_perbandingan.appendChild(
+    create_bar(year_cb_filter.value, area_cb_filter.value)
+  );
+  tampil_perbandingan.appendChild(
     create_elbow(year_cb_filter.value, area_cb_filter.value)
   );
 };
 const create_link = (year, area) => {
   return `${kmeans_api}/${year}/${area}`;
+};
+const create_link_bar = (year, area) => {
+  return `${bar_kmeans_api}/${year}/${area}`;
+};
+const create_bar = (year, area) => {
+  const img_tampil = document.createElement("img");
+  img_tampil.src = create_link_bar(year, area);
+  return img_tampil;
 };
 const create_elbow = (year, area) => {
   const img_tampil = document.createElement("img");
