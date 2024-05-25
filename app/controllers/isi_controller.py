@@ -416,14 +416,12 @@ def bar_kmeans_indexByYear(year,area):
     df=keluaran.getDfK(area,year)
     data_indikator=keluaran.getAllIndikatorby_Area(area)
     df_indikator=df[data_indikator]
-    transposed_df = df_indikator.T
-    scaled_data = preprocessing.scale(transposed_df.T)
+    scaled_data = preprocessing.scale(df_indikator)
     pca = PCA()
     pca.fit(scaled_data) # melakukan perhitungan PCA
-    pca_data = pca.transform(scaled_data) #mendapatkan koordinat titik
     per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
     labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
-    fig = plt.figure(figsize=(10, 6))
+    fig = plt.figure()
     plt.bar(x=range(1,len(per_var)+1), height=per_var, tick_label=labels)
     plt.ylabel('Percentage of Explained Variance')
     plt.xlabel('Principal Component')
@@ -431,28 +429,36 @@ def bar_kmeans_indexByYear(year,area):
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/plot_kmeans/<string:year>/<string:area>')
-def plot_kmeans_indexByYear(year,area):
-    if(area!="0"):
-        data_indikator=keluaran.getAllIndikatorby_Area(area)
+@isi_bp.route('/api/'+model.table_name+'/plot_kmeans/<string:year>/<string:area>/<string:search>')
+def plot_kmeans_indexByYear(year,area,search):
+    data_indikator=keluaran.getAllIndikatorby_Area(area)
 
     df = keluaran.getDfK(area,year)
+    df_indikator=df[data_indikator]
+    scaled_data = preprocessing.scale(df_indikator)
+    # names = np.array(df['nama'].tolist())
+    pca = PCA()
+    pca.fit(scaled_data) # melakukan perhitungan PCA
+    pca_data = pca.transform(scaled_data) #mendapatkan koordinat titik
+    
+    per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
+    labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
+    pca_df = pd.DataFrame(pca_data, index=df_indikator.T.columns, columns=labels)
     fig, ax = plt.subplots()
-    if(area!="0"):
-        X = df[data_indikator]
-        pca = PCA(n_components=2)
-        principal_components = pca.fit_transform(X)
-        pca_df = pd.DataFrame(data=principal_components, columns=['PC1', 'PC2'])
+    plt.scatter(pca_df.PC1, pca_df.PC2, c=df['Cluster'], cmap='plasma')
+    plt.title('My PCA Graph')
+    plt.xlabel('PC1 - {0}%'.format(per_var[0]))
+    plt.ylabel('PC2 - {0}%'.format(per_var[1]))
 
-        ax.scatter(pca_df['PC1'], pca_df['PC2'],c=df['Cluster'], cmap='rainbow')
-        ax.set_xlabel('Component 1')
-        ax.set_ylabel('Component 2')
-        ax.set_title("Clustering")
-    else: 
-        ax.scatter(df['domain1'], df['indeks'],c=df['Cluster'], cmap='rainbow')
-        ax.set_xlabel('Domain 1')
-        ax.set_ylabel('Indeks')
-        ax.set_title("Clustering")
+    for sample in pca_df.index:
+        if(search.lower() in str(df.loc[sample, 'nama']).lower()):
+            text = str(df.loc[sample, 'nama'])
+            x, y = pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]
+            xtext=x+0.3
+            ytext=y+0.3
+            plt.annotate(text, (x, y),
+                        xytext=(xtext, ytext),  # offset from the point
+                        arrowprops=dict(facecolor='black', shrink=0.05))
     
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
