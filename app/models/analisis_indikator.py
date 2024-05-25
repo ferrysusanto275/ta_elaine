@@ -30,8 +30,9 @@ class analisis_indikatorModel:
     
     def create(self,analisis, indikator):
         db=Database()
-        current_date = datetime.now().date()
-        code=self.prefix+current_date.strftime("%Y%m%d")
+        print(analisis)
+        # current_date = datetime.now().date()
+        # code=self.prefix+current_date.strftime("%Y%m%d")
         query="INSERT INTO "+self.table_name
         query+=" (analisis, indikator)"
         query+=" VALUES (%s,%s)"

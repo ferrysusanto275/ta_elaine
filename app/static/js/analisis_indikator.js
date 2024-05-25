@@ -246,8 +246,8 @@ const cek_inisiatif = () => {
     })
     .then((data) => {
       if (data.length > 0) {
-        inisiatif_cb.innerHTML=""
-        inisiatif_cb_filter.innerHTML =""
+        inisiatif_cb.innerHTML = "";
+        inisiatif_cb_filter.innerHTML = "";
         data.forEach((element, i) => {
           let option = document.createElement("option");
           option.value = element.id;
@@ -276,8 +276,8 @@ const cek_keluaran = () => {
     })
     .then((data) => {
       if (data.length > 0) {
-        keluaran_cb.innerHTML=""
-        keluaran_cb_filter.innerHTML=""
+        keluaran_cb.innerHTML = "";
+        keluaran_cb_filter.innerHTML = "";
         data.forEach((element, i) => {
           let option = document.createElement("option");
           option.value = element.id;
@@ -334,6 +334,8 @@ area_cb.onchange = handle_filter;
 area_cb_filter.onchange = handle_filter;
 inisiatif_cb.onchange = handle_filter_inisiatif;
 inisiatif_cb_filter.onchange = handle_filter_inisiatif;
+keluaran_cb_filter.onchange = handle_filter_keluaran;
+keluaran_cb.onchange = handle_filter_keluaran;
 submit_btn.onclick = handle_submit;
 cancel_btn.onclick = handle_cancel_btn;
 add_btn.onclick = handle_add_btn;
