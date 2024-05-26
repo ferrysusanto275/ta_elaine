@@ -411,18 +411,12 @@ def get_df23(year,analisis,indikator,baik):
 def get_res_kmeans_indexByYear(year):
     df_dict = model.getDfKByYear(year).to_dict(orient='records')
     return jsonify(df_dict)
+
 @isi_bp.route('/api/'+model.table_name+'/bar_kmeans/<string:year>/<string:area>')
 def bar_kmeans_indexByYear(year,area):
-    df=keluaran.getDfK(area,year)
-    data_indikator=keluaran.getAllIndikatorby_Area(area)
-    df_indikator=df[data_indikator]
-    scaled_data = preprocessing.scale(df_indikator)
-    pca = PCA()
-    pca.fit(scaled_data) # melakukan perhitungan PCA
-    per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
-    labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
+    df_all=keluaran.get_res_pca(year,area)
     fig = plt.figure()
-    plt.bar(x=range(1,len(per_var)+1), height=per_var, tick_label=labels)
+    plt.bar(x=range(1,len(df_all['per_var'])+1), height=df_all['per_var'], tick_label=df_all['labels'])
     plt.ylabel('Percentage of Explained Variance')
     plt.xlabel('Principal Component')
     plt.title('Scree Plot')
@@ -431,22 +425,16 @@ def bar_kmeans_indexByYear(year,area):
     return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/plot_kmeans/<string:year>/<string:area>/<string:search>')
 def plot_kmeans_indexByYear(year,area,search):
-    data_indikator=keluaran.getAllIndikatorby_Area(area)
+    df_all=keluaran.get_res_pca(year,area)
+    pca_df=df_all['pca_df']
+    df=df_all['df']
+    per_var=df_all['per_var']
+    data_area=area_model.getById(area)
 
-    df = keluaran.getDfK(area,year)
-    df_indikator=df[data_indikator]
-    scaled_data = preprocessing.scale(df_indikator)
-    # names = np.array(df['nama'].tolist())
-    pca = PCA()
-    pca.fit(scaled_data) # melakukan perhitungan PCA
-    pca_data = pca.transform(scaled_data) #mendapatkan koordinat titik
-    
-    per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
-    labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
-    pca_df = pd.DataFrame(pca_data, index=df_indikator.T.columns, columns=labels)
+
     fig, ax = plt.subplots()
     plt.scatter(pca_df.PC1, pca_df.PC2, c=df['Cluster'], cmap='plasma')
-    plt.title('My PCA Graph')
+    plt.title('PCA Graph '+data_area['name'])
     plt.xlabel('PC1 - {0}%'.format(per_var[0]))
     plt.ylabel('PC2 - {0}%'.format(per_var[1]))
 
@@ -465,6 +453,11 @@ def plot_kmeans_indexByYear(year,area,search):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/top10_kmeans/<string:year>/<string:area>')
+def top10_kmeans(year,area):
+    df_all=keluaran.get_res_pca(year,area)
+    # print(df_all)
+    return jsonify(df_all['top_10'].to_dict())
 @isi_bp.route('/api/'+model.table_name+'/plot_dend/<string:year>/<string:linkage>/<string:area>')
 def plot_dend_indexByYear(year,linkage,area):
     if(area!="0"):

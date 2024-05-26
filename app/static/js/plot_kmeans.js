@@ -1,10 +1,13 @@
 const year_api = base_api_url + "isi/year";
 const kmeans_api = base_api_url + "isi/plot_kmeans";
 const bar_kmeans_api = base_api_url + "isi/bar_kmeans";
+const top10_api = base_api_url + "isi/top10_kmeans";
 // const score_api = base_api_url + "isi/kmeans_score";
 const year_cb_filter = document.getElementById("year_cb_filter");
 const area_cb_filter = document.getElementById("area_cb_filter");
 const search_filter = document.getElementById("search");
+const data_top10 = document.getElementById("data_top10");
+
 const area_api = base_api_url + "area";
 const cek_year = () => {
   fetch(year_api)
@@ -34,7 +37,33 @@ const cek_year = () => {
 };
 const handle_year = () => {
   load_img();
-  isi_data();
+};
+const isi_data = () => {
+  fetch(`${top10_api}/${year_cb_filter.value}/${area_cb_filter.value}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+    })
+    .then((data) => {
+      const sortedKeys = Object.keys(data).sort((a, b) => data[b] - data[a]);
+      sortedKeys.forEach((key) => {
+        const row = document.createElement("tr");
+        data_top10.appendChild(row);
+
+        let cell = document.createElement("td");
+        cell.textContent = key;
+        row.appendChild(cell);
+
+        cell = document.createElement("td");
+        cell.textContent = data[key].toFixed(3);
+        row.appendChild(cell);
+      });
+    })
+    .catch((error) => {
+      console.error("Ada kesalahan:", error);
+    });
 };
 const cek_area = () => {
   fetch(area_api)
@@ -66,6 +95,7 @@ const cek_area = () => {
 };
 
 const load_img = () => {
+  isi_data();
   tampil_perbandingan.innerHTML = "";
   tampil_perbandingan.appendChild(
     create_bar(year_cb_filter.value, area_cb_filter.value)

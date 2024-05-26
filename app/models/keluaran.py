@@ -7,6 +7,8 @@ from sklearn.cluster import KMeans, AgglomerativeClustering
 import scipy.cluster.hierarchy as sch 
 from sklearn.metrics import silhouette_score
 import matplotlib.pyplot as plt 
+from sklearn import preprocessing
+from sklearn.decomposition import PCA
 import numpy as np
 isi=isiModel()
 class keluaranModel:
@@ -127,6 +129,25 @@ class keluaranModel:
         dfK= kmeans_obj['df'].copy()
         dfK['Cluster'] = klaster_objek
         return dfK
+    def get_res_pca(self,year,area):
+        df=self.getDfK(area,year)
+        data_indikator=self.getAllIndikatorby_Area(area)
+        df_indikator=df[data_indikator]
+        scaled_data = preprocessing.scale(df_indikator)
+        pca = PCA()
+        pca.fit(scaled_data) # melakukan perhitungan PCA
+        per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
+        labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
+        pca_data = pca.transform(scaled_data)
+        pca_df = pd.DataFrame(pca_data, index=df_indikator.T.columns, columns=labels)
+        loading_scores = pd.Series(pca.components_[0], index=data_indikator)
+        sorted_loading_scores = loading_scores.abs().sort_values(ascending=False)
+
+        # # mengambil data 10 biji
+        top_10_genes = sorted_loading_scores[0:10].index.values
+        # print(top_10_genes)
+        
+        return {"df":df,"pca":pca,'per_var':per_var,'pca_df':pca_df,'labels':labels,'top_10':loading_scores[top_10_genes]}
     def agglo_res(self,area,year,linkage):
         df=isi.getDfAllIndikatorWOBobot()
         if(area!="0"):
