@@ -39,6 +39,7 @@ const handle_year = () => {
   load_img();
 };
 const isi_data = () => {
+  data_top10.innerHTML = "";
   fetch(`${top10_api}/${year_cb_filter.value}/${area_cb_filter.value}`)
     .then((response) => {
       if (!response.ok) {
