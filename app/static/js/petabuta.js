@@ -115,7 +115,7 @@ const load_img = () => {
             color = "red";
           }
           tampil_peta.appendChild(
-            create_dot(color, fc, data["x"][key], data["y"][key], key + 1)
+            create_dot(color, fc, data["x"][key], data["y"][key], parseInt(key) + 1)
           );
         }
       }
