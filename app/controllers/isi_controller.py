@@ -361,6 +361,7 @@ def get_kmeans_indexByYear(year):
     return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/kmeans/<string:year>/<string:area>')
 def get_kmeans_areaByYear(year,area):
+    data_area=area_model.getById(area)
     K = range(2,6)
     inertia = keluaran.kmeans_res(area,year)['inertia']
         
@@ -369,7 +370,7 @@ def get_kmeans_areaByYear(year,area):
     ax.plot(K, inertia, marker='o')
     ax.set_xlabel('Jumlah kelompok k')
     ax.set_ylabel('Inertia')
-    ax.set_title("Elbow method Indeks ")
+    ax.set_title("Elbow method "+data_area['name'])
    # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
@@ -442,7 +443,7 @@ def plot_kmeans_indexByYear(year,area,search):
         if(search.lower() in str(df.loc[sample, 'nama']).lower()):
             text = str(df.loc[sample, 'nama'])
             x, y = pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]
-            xtext=x+0.3
+            xtext=x-0.3
             ytext=y+0.3
             plt.annotate(text, (x, y),
                         xytext=(xtext, ytext),  # offset from the point
