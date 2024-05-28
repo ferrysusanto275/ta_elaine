@@ -177,6 +177,7 @@ class keluaranModel:
             score = silhouette_score(features, agglo_model.labels_, metric='euclidean')
             silhouette_coef.append(score)
         best_num_clusters = model[np.argmax(silhouette_coef)]
+        df=df[data_indikator+['nama']]
         return {"silhouette_score":silhouette_coef,"best_num_clusters":best_num_clusters,'df':df,'data_indikator':data_indikator}
     def getDfAByareaYear(self,area,year,linkage):
         agglo_obj=self.agglo_res(area,year,linkage)
