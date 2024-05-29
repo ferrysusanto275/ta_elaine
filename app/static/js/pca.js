@@ -3,6 +3,7 @@ const pca_api = base_api_url + "isi/pca";
 const area_api = base_api_url + "area";
 const year_cb_filter = document.getElementById("year_cb_filter");
 const cari_cb_filter = document.getElementById("cari_cb_filter");
+const mode_filter = document.getElementById("mode_filter");
 const cek_year = () => {
   fetch(year_api)
     .then((response) => {
@@ -64,7 +65,9 @@ const load_img = () => {
   );
 };
 const create_link = (year, cari) => {
-  return `${pca_api}/${year}/${cari}`;
+  api_bobot=""
+  if(mode_filter.value==1)api_bobot="_bobot"
+  return `${pca_api}${api_bobot}/${year}/${cari}`;
 };
 const create_pca = (year, cari) => {
   const img_tampil = document.createElement("img");
@@ -73,4 +76,5 @@ const create_pca = (year, cari) => {
 };
 year_cb_filter.onchange = load_img;
 cari_cb_filter.onchange = load_img;
+mode_filter.onchange = handle_year;
 cek_year();

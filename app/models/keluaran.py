@@ -120,13 +120,46 @@ class keluaranModel:
             best_num_clusters = model[np.argmax(silhouette_coef)]
         if(area!="0"):
             df=df[data_indikator+['nama']]
-        centroids = kmeans.cluster_centers_
         # Plot the data and centroids
         # plt.scatter(features[:, 0], features[:, 1], c=best_num_clusters)
         # plt.scatter(centroids[:, 0], centroids[:, 1], marker='*', c='red', s=200)
         # plt.show()
         # print(centroids)
+        return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df}
+    def kmeans_res_bobot(self,area,year):
+        df=isi.getDfAllIndikatorBobot()
+        if(area!="0"):
+            data_area=self.getAllInstansiby_Area(area)
+            df=df[df['id'].astype('str').isin(data_area)]
+            data_indikator=self.getAllIndikatorby_Area(area)
+        df=df[df['year']== int(year)]
+        if(area!="0"):
+            features = df[data_indikator]
+            # features = preprocessing.scale(df[data_indikator])
+        else: features = df[['indeks']]
+        K = range(2,6)
+        inertia = []
+        silhouette_coef = [] 
+        model = [] 
+        for k in K:
+            kmeans= KMeans(n_clusters=k, random_state=42)
+            kmeans.fit(features)
+            model.append(kmeans)
+            inertia.append(kmeans.inertia_)
+            score = silhouette_score(features, kmeans.labels_, metric='euclidean')
+            silhouette_coef.append(score)
+            best_num_clusters = model[np.argmax(silhouette_coef)]
+        if(area!="0"):
+            df=df[data_indikator+['nama']]
+        centroids = kmeans.cluster_centers_
         return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df,'centroids':centroids}
+    def getDfK_bobot(self,area,year):
+        kmeans_obj=self.kmeans_res_bobot(area,year)
+        klaster_objek = kmeans_obj['best_model'].labels_
+        dfK= kmeans_obj['df'].copy()
+        dfK['Cluster'] = klaster_objek
+        
+        return dfK
     def getDfK(self,area,year):
         kmeans_obj=self.kmeans_res(area,year)
         klaster_objek = kmeans_obj['best_model'].labels_
@@ -134,16 +167,37 @@ class keluaranModel:
         dfK['Cluster'] = klaster_objek
         
         return dfK
+    def get_res_pca_bobot(self,year,area):
+        df=self.getDfK_bobot(area,year)
+        data_indikator=self.getAllIndikatorby_Area(area)
+        df_indikator=df[data_indikator]
+        print(df_indikator)
+        # df_indikator = preprocessing.scale(df_indikator)
+        print(df_indikator)
+        pca = PCA()
+        pca.fit(df_indikator) # melakukan perhitungan PCA
+        per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
+        labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
+        pca_data = pca.transform(df_indikator)
+        pca_df = pd.DataFrame(pca_data, index=df_indikator.T.columns, columns=labels)
+        loading_scores = pd.Series(pca.components_[0], index=data_indikator)
+        sorted_loading_scores = loading_scores.abs().sort_values(ascending=False)
+
+        # # mengambil data 10 biji
+        top_10_genes = sorted_loading_scores[0:10].index.values
+        # print(top_10_genes)
+        
+        return {"df":df,"pca":pca,'per_var':per_var,'pca_df':pca_df,'labels':labels,'top_10':loading_scores[top_10_genes]}
     def get_res_pca(self,year,area):
         df=self.getDfK(area,year)
         data_indikator=self.getAllIndikatorby_Area(area)
         df_indikator=df[data_indikator]
-        scaled_data = preprocessing.scale(df_indikator)
+        # scaled_data = preprocessing.scale(df_indikator)
         pca = PCA()
-        pca.fit(scaled_data) # melakukan perhitungan PCA
+        pca.fit(df_indikator) # melakukan perhitungan PCA
         per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
         labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
-        pca_data = pca.transform(scaled_data)
+        pca_data = pca.transform(df_indikator)
         pca_df = pd.DataFrame(pca_data, index=df_indikator.T.columns, columns=labels)
         loading_scores = pd.Series(pca.components_[0], index=data_indikator)
         sorted_loading_scores = loading_scores.abs().sort_values(ascending=False)

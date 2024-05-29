@@ -448,6 +448,7 @@ class isiModel:
                          })
         df=pd.DataFrame(data)
         return df
+    
     def getDfAllIndikatorWOBobot(self):
         db=Database()
         query="SELECT i.id,i.nama,m.year, m.value as 'i1'"

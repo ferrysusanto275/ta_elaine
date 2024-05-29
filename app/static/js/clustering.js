@@ -1,5 +1,5 @@
-const year_api = base_api_url + "isi/year";
 const year_cb_filter = document.getElementById("year_cb_filter");
+const mode_filter = document.getElementById("mode_filter");
 const area_filter = document.getElementById("area_filter");
 const domain_div = document.getElementById("domain_div");
 const aspek_div = document.getElementById("aspek_div");
@@ -8,6 +8,7 @@ const search = document.getElementById("search");
 const chk = document.getElementById("chk");
 const head_data = document.getElementById("head_data");
 const body_data = document.getElementById("body_data");
+const year_api = base_api_url + "isi/year";
 const indikator_api = base_api_url + "indikator";
 const aspek_api = base_api_url + "aspek";
 const res_kmeans_api = base_api_url + "analisis/res_kmeans";
@@ -77,7 +78,6 @@ const cek_domain = () => {
   cek_aspek();
 };
 
-area_cb_filter.onchange = cek_domain;
 const cek_aspek = () => {
   if (area_cb_filter.value == 0) {
     aspek_div.style.display = "block";
@@ -178,9 +178,11 @@ const create_head = async () => {
   head_data.appendChild(newRow);
 };
 const loadDataFrame = async () => {
+  api_bobot=""
+  if(mode_filter.value==1)api_bobot="_bobot"
   try {
     const response = await fetch(
-      `${res_kmeans_api}/${area_cb_filter.value}/${year_cb_filter.value}`
+      `${res_kmeans_api}${api_bobot}/${area_cb_filter.value}/${year_cb_filter.value}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -229,7 +231,7 @@ const create_body = async () => {
         // let data_indikator = await fetchDataIndikator();
         data_indikator.forEach((element_indikator) => {
           const cell4 = document.createElement("td");
-          cell4.textContent = element[element_indikator];
+          cell4.textContent = parseFloat(element[element_indikator]).toFixed(2);
           newRow.appendChild(cell4);
         });
       } else {
@@ -256,5 +258,6 @@ const create_body = async () => {
   });
 };
 year_cb_filter.onchange = load_data;
-
+mode_filter.onchange=load_data
+area_cb_filter.onchange = cek_domain;
 cek_year();

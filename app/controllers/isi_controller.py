@@ -377,6 +377,24 @@ def get_kmeans_areaByYear(year,area):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/kmeans_bobot/<string:year>/<string:area>')
+def get_kmeans_areaByYear_bobot(year,area):
+    data_area=area_model.getById(area)
+    K = range(2,6)
+    inertia = keluaran.kmeans_res_bobot(area,year)['inertia']
+        
+    # plot elbow method 
+    fig, ax = plt.subplots()
+    ax.plot(K, inertia, marker='o')
+    ax.set_xlabel('Jumlah kelompok k')
+    ax.set_ylabel('Inertia')
+    ax.set_title("Elbow method "+data_area['name'])
+   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/kmeans_score')
 def get_kmeans_score_index():
     return jsonify(model.kmeans_res()['silhouette_coef'])
@@ -386,6 +404,9 @@ def get_kmeans_score_indexByYear(year):
 @isi_bp.route('/api/'+model.table_name+'/kmeans_score/<string:year>/<string:area>')
 def get_kmeans_score_areaByYear(year,area):
     return jsonify(keluaran.kmeans_res(area,year)['silhouette_coef'])
+@isi_bp.route('/api/'+model.table_name+'/kmeans_score_bobot/<string:year>/<string:area>')
+def get_kmeans_score_areaByYear_bobot(year,area):
+    return jsonify(keluaran.kmeans_res_bobot(area,year)['silhouette_coef'])
 @isi_bp.route('/api/'+model.table_name+'/res_kmeans')
 def get_res_kmeans_index():
     return model.getDfK().to_html(classes="tabel")
@@ -424,6 +445,17 @@ def bar_kmeans_indexByYear(year,area):
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/bar_kmeans_bobot/<string:year>/<string:area>')
+def bar_kmeans_indexByYear_bobot(year,area):
+    df_all=keluaran.get_res_pca_bobot(year,area)
+    fig = plt.figure()
+    plt.bar(x=range(1,len(df_all['per_var'])+1), height=df_all['per_var'], tick_label=df_all['labels'])
+    plt.ylabel('Percentage of Explained Variance')
+    plt.xlabel('Principal Component')
+    plt.title('Scree Plot')
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/plot_kmeans/<string:year>/<string:area>/<string:search>')
 def plot_kmeans_indexByYear(year,area,search):
     df_all=keluaran.get_res_pca(year,area)
@@ -454,9 +486,44 @@ def plot_kmeans_indexByYear(year,area,search):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/plot_kmeans_bobot/<string:year>/<string:area>/<string:search>')
+def plot_kmeans_indexByYear_bobot(year,area,search):
+    df_all=keluaran.get_res_pca_bobot(year,area)
+    pca_df=df_all['pca_df']
+    df=df_all['df']
+    per_var=df_all['per_var']
+    data_area=area_model.getById(area)
+
+
+    fig, ax = plt.subplots()
+    plt.scatter(pca_df.PC1, pca_df.PC2, c=df['Cluster'], cmap='plasma')
+    plt.title('PCA Graph '+data_area['name'])
+    plt.xlabel('PC1 - {0}%'.format(per_var[0]))
+    plt.ylabel('PC2 - {0}%'.format(per_var[1]))
+
+    for sample in pca_df.index:
+        if(search.lower() in str(df.loc[sample, 'nama']).lower()):
+            text = str(df.loc[sample, 'nama'])
+            x, y = pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]
+            xtext=x-0.3
+            ytext=y+0.3
+            plt.annotate(text, (x, y),
+                        xytext=(xtext, ytext),  # offset from the point
+                        arrowprops=dict(facecolor='black', shrink=0.05))
+    
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/top10_kmeans/<string:year>/<string:area>')
 def top10_kmeans(year,area):
     df_all=keluaran.get_res_pca(year,area)
+    # print(df_all)
+    return jsonify(df_all['top_10'].to_dict())
+@isi_bp.route('/api/'+model.table_name+'/top10_kmeans_bobot/<string:year>/<string:area>')
+def top10_kmeans_bobot(year,area):
+    df_all=keluaran.get_res_pca_bobot(year,area)
     # print(df_all)
     return jsonify(df_all['top_10'].to_dict())
 @isi_bp.route('/api/'+model.table_name+'/plot_dend/<string:year>/<string:linkage>/<string:area>')
@@ -848,7 +915,7 @@ def svdAggloByYear(year,linkage,area):
 
 # @isi_bp.route('/api/'+model.table_name+'/df_indikator')
 # def allIndikator():
-#     df = model.getDfAllIndikator()
+#     df = model.getDfAllIndikatorBobot().to_dict()
 #     return jsonify(df)
     
 

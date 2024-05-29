@@ -5,6 +5,7 @@ const area_api = base_api_url + "area";
 const data_score = document.getElementById("data_score");
 const year_cb_filter = document.getElementById("year_cb_filter");
 const area_cb_filter = document.getElementById("area_cb_filter");
+const mode_filter = document.getElementById("mode_filter");
 const cek_year = () => {
   fetch(year_api)
     .then((response) => {
@@ -64,8 +65,10 @@ const handle_year = () => {
   isi_data();
 };
 const isi_data = () => {
+  api_bobot=""
+  if(mode_filter.value==1)api_bobot="_bobot"
   data_score.innerHTML = "";
-  fetch(score_api + "/" + year_cb_filter.value + "/" + area_cb_filter.value)
+  fetch(score_api+api_bobot + "/" + year_cb_filter.value + "/" + area_cb_filter.value)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -95,7 +98,9 @@ const load_img = () => {
   );
 };
 const create_link = (year, area) => {
-  return `${kmeans_api}/${year}/${area}`;
+  api_bobot=""
+  if(mode_filter.value==1)api_bobot="_bobot"
+  return `${kmeans_api}${api_bobot}/${year}/${area}`;
 };
 const create_elbow = (year, area) => {
   const img_tampil = document.createElement("img");
@@ -104,4 +109,5 @@ const create_elbow = (year, area) => {
 };
 year_cb_filter.onchange = handle_year;
 area_cb_filter.onchange = handle_year;
+mode_filter.onchange = handle_year;
 cek_year();
