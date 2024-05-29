@@ -35,6 +35,10 @@ def get_res_kmeans_areaByYear_bobot(area,year):
 def get_res_agglo_areaByYear(area,year,linkage):
     df_dict = model.getDfAByareaYear(area,year,linkage).to_dict(orient='records')
     return jsonify(df_dict)
+@keluaranbp.route('/api/'+model.table_name+"/res_agglo_bobot/<string:area>/<string:year>/<string:linkage>")
+def get_res_agglo_areaByYear_bobot(area,year,linkage):
+    df_dict = model.getDfAByareaYear_bobot(area,year,linkage).to_dict(orient='records')
+    return jsonify(df_dict)
 
     # return jsonify(data_indikator);  
 @keluaranbp.route('/api/'+model.table_name+'/inisiatif/<string:grup>')

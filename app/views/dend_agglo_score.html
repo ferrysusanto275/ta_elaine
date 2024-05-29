@@ -3,6 +3,11 @@
 {% endblock %} {% block main %}
 <legend>Dendrogram Agglomerative</legend>
 <div id="filter">
+  <label for="mode_filter">Mode</label>
+  <select name="mode" id="mode_filter" class="form_control">
+    <option value="0">Normal</option>
+    <option value="1">Dikali Bobot Indikator</option>
+  </select>
   <label for="year_cb_filter">Year</label>
   <select name="year" id="year_cb_filter" class="form_control"></select>
   <label for="linkage_cb_filter">Linkage</label>

@@ -545,6 +545,25 @@ def plot_dend_indexByYear(year,linkage,area):
     FigureCanvas(fig).print_png(output)
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/plot_dend_bobot/<string:year>/<string:linkage>/<string:area>')
+def plot_dend_indexByYear_bobot(year,linkage,area):
+    if(area!="0"):
+        data_indikator=keluaran.getAllIndikatorby_Area(area)
+        data_area=area_model.getById(area)
+        namaArea=data_area['name'][3:]
+    else: 
+        data_indikator=['indeks']
+        namaArea="Indeks"
+    
+    df = keluaran.getDfAByareaYear_bobot(area,year,linkage)
+    fig = plt.figure(figsize=(10, 6))
+    plt.title("Dend2 "+year+" berdasarkan "+namaArea)
+    features = df[data_indikator]
+    dend = sch.dendrogram(sch.linkage(features, method=linkage))
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    # Membuat respons HTTP dengan gambar sebagai byte stream
+    return Response(output.getvalue(), mimetype='image/png')
 
 
 @isi_bp.route('/api/'+model.table_name+'/agglo_score/<string:year>/<string:linkage>/<string:area>')
@@ -913,10 +932,10 @@ def svdAggloByYear(year,linkage,area):
     # FigureCanvas(fig).print_png(output)
     # return Response(output.getvalue(), mimetype='image/png')
 
-# @isi_bp.route('/api/'+model.table_name+'/df_indikator')
-# def allIndikator():
-#     df = model.getDfAllIndikatorBobot().to_dict()
-#     return jsonify(df)
+@isi_bp.route('/api/'+model.table_name+'/df_indikator')
+def allIndikator():
+    # df = model.getDfAllIndikatorBobot().to_dict()
+    return model.getDfAllIndikatorWOBobot().to_html()
     
 
 

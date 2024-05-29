@@ -1,4 +1,5 @@
 const score_api = base_api_url + "isi/agglo_score";
+const mode_filter = document.getElementById("mode_filter");
 const year_api = base_api_url + "isi/year";
 const agglo_api = base_api_url + "isi/plot_dend";
 const area_api = base_api_url + "area";
@@ -108,7 +109,9 @@ const load_img = () => {
   );
 };
 const create_link = (year, linkage, area) => {
-  return `${agglo_api}/${year}/${linkage}/${area}`;
+  api_bobot=""
+  if(mode_filter.value==1)api_bobot="_bobot"
+  return `${agglo_api}${api_bobot}/${year}/${linkage}/${area}`;
 };
 const create_elbow = (year, linkage, area) => {
   const img_tampil = document.createElement("img");
@@ -118,4 +121,5 @@ const create_elbow = (year, linkage, area) => {
 year_cb_filter.onchange = handle_year;
 linkage_cb_filter.onchange = handle_year;
 area_cb_filter.onchange = handle_year;
+mode_filter.onchange=handle_year
 cek_year();

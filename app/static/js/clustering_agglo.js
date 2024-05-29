@@ -1,4 +1,5 @@
 const year_api = base_api_url + "isi/year";
+const mode_filter = document.getElementById("mode_filter");
 const year_cb_filter = document.getElementById("year_cb_filter");
 const linkage_cb_filter = document.getElementById("linkage_cb_filter");
 const area_cb_filter = document.getElementById("area_cb_filter");
@@ -179,9 +180,11 @@ const create_head = async () => {
   head_data.appendChild(newRow);
 };
 const loadDataFrame = async () => {
+  api_bobot=""
+  if(mode_filter.value==1)api_bobot="_bobot"
   try {
     const response = await fetch(
-      `${res_kmeans_api}/${area_cb_filter.value}/${year_cb_filter.value}/${linkage_cb_filter.value}`
+      `${res_kmeans_api}${api_bobot}/${area_cb_filter.value}/${year_cb_filter.value}/${linkage_cb_filter.value}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -258,4 +261,5 @@ const create_body = async () => {
 };
 year_cb_filter.onchange = load_data;
 linkage_cb_filter.onchange = load_data;
+mode_filter.onchange=load_data
 cek_year();
