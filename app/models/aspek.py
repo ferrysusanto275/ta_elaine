@@ -1,7 +1,6 @@
 from app.utils.database import Database
 from datetime import datetime
 from app.models.domain import domainModel
-from app.models.instansi import instansiModel
 
 class aspekModel:
     def __init__(self):

@@ -1,17 +1,13 @@
 from app.utils.database import Database
 
 import mysql.connector.errors
-from datetime import datetime
 from app.models.instansi import instansiModel
 from app.models.indikator import indikatorModel
 from app.models.aspek import aspekModel
 from app.models.domain import domainModel
 import numpy as np
 import pandas as pd 
-from decimal import Decimal
-from sklearn.cluster import KMeans, AgglomerativeClustering
-import scipy.cluster.hierarchy as sch 
-import matplotlib.pyplot as plt 
+from sklearn.cluster import KMeans, AgglomerativeClustering 
 from sklearn.metrics import silhouette_score
 
 indikator_model=indikatorModel();
@@ -69,9 +65,7 @@ class isiModel:
         indikators=indikator_model.getAll()
         data=[]
         for i,indikator in enumerate(indikators):
-            # print(instansi)
             data.append((instansi,indikator['id'],year,values[i]))
-        # print(data)
         cur=db.connection.cursor()
         try:
             cur.executemany(query,data)
@@ -84,20 +78,11 @@ class isiModel:
         finally:
             cur.close()
             db.close()
-        cur.close()
-        db.close()
-        return True
     def create_bulk_by_data(self,data):
         db=Database()
         query="REPLACE INTO "+self.table_name
         query+=" (instansi,indikator,year,value)"
         query+=" VALUES (%s,%s,%s,%s)"
-        # indikators=indikator_model.getAll()
-        # data=[]
-        # for i,indikator in enumerate(indikators):
-        #     # print(instansi)
-        #     data.append((instansi,indikator['id'],year,values[i]))
-        # print(data)
         cur=db.connection.cursor()
         cur.executemany(query,data)
         db.commit()

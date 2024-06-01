@@ -120,11 +120,6 @@ class keluaranModel:
             best_num_clusters = model[np.argmax(silhouette_coef)]
         if(area!="0"):
             df=df[data_indikator+['nama']]
-        # Plot the data and centroids
-        # plt.scatter(features[:, 0], features[:, 1], c=best_num_clusters)
-        # plt.scatter(centroids[:, 0], centroids[:, 1], marker='*', c='red', s=200)
-        # plt.show()
-        # print(centroids)
         return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df}
     def kmeans_res_bobot(self,area,year):
         df=isi.getDfAllIndikatorBobot()
@@ -273,33 +268,4 @@ class keluaranModel:
         dfK = agglo_obj['df'].copy()
         dfK['Cluster'] = labels
         return dfK
-    # def getAllDf(self):
-    #     db= Database()
-    #     query="SELECT a.id,a.nama,a.penanggung_jawab,a.target_tahun,a.grup,ag.nama 'nama_grup',ind.nama 'nama_indikator',ind.id 'id_indikator',ins.id 'id_instansi',ins.nama 'nama_instansi',isi.year,isi.value, area.id 'id_area', area.nama 'area_nama'"
-    #     query+=" FROM analisis a"
-    #     query+=" JOIN analisis_grup ag ON a.grup=ag.id"
-    #     query+=" JOIN analisis_indikator ai ON a.id=ai.analisis"
-    #     query+=" JOIN indikator ind on ai.indikator=ind.id"
-    #     query+=" JOIN analisis_instansi ain on a.id=ain.analisis"
-    #     query+=" JOIN instansi ins on ain.instansi=ins.id"
-    #     query+=" JOIN isi on isi.instansi=ins.id and isi.indikator=ind.id"
-    #     query+=" JOIN area on ag.grup=area.id"
-    #     # print(query)
-    #     cur= db.execute_query(query)
-    #     result=cur.fetchall()
-    #     data=[]
-    #     data_tambah={}
-    #     for row in result:
-    #         # , "nama_indikator":row[6],"id_indikator":row[7],"value":row[11]
-    #         newdata= {"id_instansi":row[8],"nama_instansi":row[9], "year":row[10], "id_area":row[12],"area_nama":row[13]}
-    #         if(newdata not in data):
-    #             data.append(newdata)
-    #             data_tambah[str(newdata['id_area'])+"-"+str(newdata['year'])+"-"+str(newdata['id_instansi'])]={row[6]:row[11]}
-    #         else:data_tambah[str(newdata['id_area'])+"-"+str(newdata['year'])+"-"+str(newdata['id_instansi'])][row[6]]=row[11]
-    #     for i, row in enumerate(data):
-    #         data[i]['val_indikator']=data_tambah[str(row['id_area'])+"-"+str(row['year'])+"-"+str(row['id_instansi'])]
-            
-        
-    #     cur.close()
-    #     db.close()
-    #     return data
+  

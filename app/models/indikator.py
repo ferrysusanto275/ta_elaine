@@ -1,10 +1,6 @@
 from app.utils.database import Database
 from datetime import datetime
 from app.models.aspek import aspekModel
-from app.models.instansi import instansiModel
-# db=Database()
-# aspek_model=aspekModel();
-# instansi_model=instansiModel();
 class indikatorModel:
     table_name="indikator"
     prefix="in"
@@ -21,24 +17,6 @@ class indikatorModel:
         cur.close()
         db.close()
         return data
-    
-    # def getAll_byIndex(self,aspek,instansi,year):
-    #     query="SELECT *,(SELECT `value` FROM isi WHERE indikator=id AND instansi=%s AND year=%s) as ni FROM "+self.table_name;
-    #     query+=" WHERE aspek=%s"
-    #     cur= db.execute_query(query,(instansi,year,aspek))
-    #     result=cur.fetchall()
-    #     aspek=aspek_model.getById(aspek)
-    #     instansi=instansi_model.getById(instansi)
-    #     data=[{"aspek":aspek,"instansi":instansi,"year":year,'jml_indikator':len(result)}]
-    #     jml_res=0
-    #     for row in result:
-    #         result=row[3]*row[4]
-    #         jml_res+=result
-    #         data.append({"id":row[0],"nama":row[2],"bobot":row[3],"NI":row[4],"hasil":result})
-    #     data.append({"Jumlah (NI X BI)":jml_res})
-    #     data.append({"Index":1/aspek['bobot']*jml_res})
-    #     # db.close()
-    #     return data
     
     def getById(self,id):
         db=Database()
@@ -128,8 +106,7 @@ class indikatorModel:
     def getAllAspek(self,domain):
         db=Database()
         query="SELECT DISTINCT(a.id),a.nama,a.bobot FROM `indikator` m JOIN aspek a ON m.aspek=a.id "
-        query+=" WHERE a.domain=%s"        
-        # print(query)
+        query+=" WHERE a.domain=%s" 
         cur= db.execute_query(query,(domain,))
         result=cur.fetchall()
         data=[]
