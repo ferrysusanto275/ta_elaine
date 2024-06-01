@@ -7,22 +7,15 @@ from app.models.domain import domainModel
 from app.models.isi import isiModel
 from app.models.area import areaModel
 from scipy.optimize import minimize
-from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.decomposition import TruncatedSVD
-from sklearn import preprocessing
 import io
-from io import BytesIO
-import scipy.cluster.hierarchy as sch 
-from decimal import Decimal
+import scipy.cluster.hierarchy as sch
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
-from matplotlib.figure import Figure
 import numpy as np
 import pandas as pd 
 import matplotlib.pyplot as plt 
 from sklearn.decomposition import PCA
-from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import AgglomerativeClustering
 import seaborn as sns
 from app.models.keluaran import keluaranModel
 

@@ -1,5 +1,4 @@
 from app.utils.database import Database
-from datetime import datetime
 class analisis_instansiModel:
     table_name="analisis_instansi"
     def getAll(self):

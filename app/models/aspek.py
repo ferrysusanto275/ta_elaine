@@ -22,27 +22,6 @@ class aspekModel:
         db.close()
         return data
 
-    # def getAll_byIndex(self,domain,instansi,year):
-    #     db= Database()
-    #     domain_model=domainModel()
-    #     instansi_model=instansiModel()
-    #     query="SELECT *,(SELECT SUM(i.value*m.bobot) FROM `indikator` m JOIN isi i ON m.id=i.indikator WHERE m.aspek=aspek.id AND i.instansi=%s AND i.year=%s)*1/bobot na FROM "+self.table_name
-    #     query+=" WHERE domain=%s"
-    #     cur= db.execute_query(query,(instansi,year,domain))
-    #     result=cur.fetchall()
-    #     domain=domain_model.getById(domain)
-    #     instansi=instansi_model.getById(instansi)
-    #     data=[{"domain":domain,"instansi":instansi,"year":year,"jml_aspek":len(result)}]
-    #     jml_res=0
-    #     for row in result:
-    #         result=row[4]*row[3]
-    #         jml_res+=result
-    #         data.append({"id":row[0],"nama":row[2],"bobot":row[3],"NA":row[4],"hasil":result})
-    #     data.append({"Jumlah (NA X BA)":jml_res})
-    #     data.append({"Index":1/domain['bobot']*jml_res})
-    #     db.close()
-    #     return data
-
     def getAllByDomain(self,domain):
         db= Database()
         query="SELECT * FROM "+self.table_name;

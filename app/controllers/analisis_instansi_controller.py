@@ -27,19 +27,7 @@ def create():
         return jsonify({'message': model.table_name.capitalize()+' created'}), 201
     else:
         return jsonify({'message': 'Failed to create '+model.table_name}), 500
-# @grup_analisis_instansibp.route('/api/'+model.table_name+'/<string:id>', methods=['PUT'])
-# def update(id):
-#     data=validasiInput()
-#     if not isinstance(data,list)py:return data
-#     instansi = model.getById(id)
-#     if instansi:
-#         if model.update( data[0],id):
-#             return jsonify({'message': model.table_name.capitalize()+' updated'})
-#         else:
-#             return jsonify({'message': 'Failed to update '+model.table_name}), 500
-#     else:
-#         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
-
+    
 @grup_analisis_instansibp.route('/api/'+model.table_name+'/<string:analisis>/<string:instansi>', methods=['DELETE'])
 def delete_user(analisis, instansi):
     cek = model.getById(analisis, instansi)

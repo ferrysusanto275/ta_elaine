@@ -75,12 +75,7 @@ def getDfLinear2024(instansi, indikator):
         prediksi_2024-=1
     
     rounded_prediction = int(round(float(prediksi_2024)))
-
-        # Pastikan prediksi tetap dalam rentang 1-5
     predicted_value = min(max(rounded_prediction, 1), 5)
-        # return predicted_value
-    # print(prediksi_2024)
-    # print(predicted_value)
     df=df._append({"tahun":2024,"value":predicted_value}, ignore_index=True)
     return df
 @prediksi_bp.route('/api/'+ an+'/df_linear_reg24/<string:instansi>/<string:indikator>')

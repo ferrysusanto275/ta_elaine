@@ -33,7 +33,7 @@ const handle_delete = (instansi, indikator, year) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
       console.log(data);
@@ -47,10 +47,10 @@ const load_data = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
-      // console.log(data); // Lakukan sesuatu dengan data yang diambil
+      // Lakukan sesuatu dengan data yang diambil
       let tabel_body = document.getElementById("body_data");
       tabel_body.innerHTML = "";
       if (data.length > 0) {
@@ -60,7 +60,6 @@ const load_data = () => {
           cell1.textContent = i + 1;
           newRow.appendChild(cell1);
           let cell2 = document.createElement("td");
-          console.log(element.indikator);
           cell2.textContent = element.indikator.name;
           newRow.appendChild(cell2);
           let cell3 = document.createElement("td");
@@ -117,8 +116,9 @@ const clear_modal_form = () => {
 };
 const handle_submit = async () => {
   try {
-    let url_id = `${url_api}/${selected_instansi}/${indikator_cb.value
-      }/${parseFloat(year_tf.value)}`;
+    let url_id = `${url_api}/${selected_instansi}/${
+      indikator_cb.value
+    }/${parseFloat(year_tf.value)}`;
     let url_tuju = url_api;
     let data = {
       value: parseFloat(value_tf.value),
@@ -146,7 +146,7 @@ const handle_submit = async () => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
-        return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+        return response.json();
       })
       .then((data) => {
         console.log(data);
@@ -165,7 +165,7 @@ const cek_indikator = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
       if (data.length == 0) {
@@ -179,32 +179,34 @@ const cek_indikator = () => {
     });
 };
 const cek_gi = () => {
-  fetch(gi_api).then((response) => {
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
-    }
-    return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
-  }).then((data) => {
-    if (data.length == 0) {
-      location.href = "grup_instansi";
-    } else {
-      data.forEach((element, i) => {
-        let option = document.createElement("option");
-        option.value = element.id;
-        option.textContent = element.nama;
-        let option_filter = option.cloneNode(true);
+  fetch(gi_api)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((data) => {
+      if (data.length == 0) {
+        location.href = "grup_instansi";
+      } else {
+        data.forEach((element, i) => {
+          let option = document.createElement("option");
+          option.value = element.id;
+          option.textContent = element.nama;
+          let option_filter = option.cloneNode(true);
 
-        group_cb.appendChild(option);
-        group_cb_filter.appendChild(option_filter);
-        if (i == 0) selected_gi = element.id;
-      });
-      cek_instansi();
-    }
-  })
+          group_cb.appendChild(option);
+          group_cb_filter.appendChild(option_filter);
+          if (i == 0) selected_gi = element.id;
+        });
+        cek_instansi();
+      }
+    })
     .catch((error) => {
       console.error("Ada kesalahan:", error);
     });
-}
+};
 
 const cek_instansi = () => {
   fetch(`${instansi_api}/grup/${selected_gi}`)
@@ -212,7 +214,7 @@ const cek_instansi = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
       if (data.length == 0) {
@@ -230,6 +232,7 @@ const cek_instansi = () => {
           if (i == 0) selected_instansi = element.id;
         });
 
+        $("#instansi_cb_filter").select2();
         cek_indikator();
       }
     })

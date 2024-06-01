@@ -38,29 +38,6 @@ def get_by_id(id):
     else:
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
-# @indikator_bp.route('/api/index_'+model.table_name+'/<string:instansi>/<string:year>/<string:aspek>')
-# def get_by_aspek_instansi(aspek,instansi,year):
-#     if not aspek:
-#         return jsonify({'message': 'Aspek is required'}), 400
-#     cekAspek=aspek_model.getById(aspek)
-#     if not cekAspek:
-#         return jsonify({'message': 'Aspek not found'}), 400
-#     if not instansi:
-#         return jsonify({'message': 'Instansi is required'}), 400
-#     cekInstansi=instansi_model.getById(instansi)
-#     if not cekInstansi:
-#         return jsonify({'message': 'Instansi not found'}), 400
-#     if not year:
-#         return jsonify({'message': 'Year is required'}), 400
-#     if not isinstance(year, (int, float, complex)):
-#         return jsonify({'message': 'Year is must number'}), 400
-    
-#     indikator = model.getAll_byIndex(aspek,instansi,year)
-#     if indikator:
-#         return jsonify(indikator)
-#     else:
-#         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
-
 @indikator_bp.route('/api/'+model.table_name,methods=['POST'])
 def create():
     data=validasiInput()
@@ -83,7 +60,7 @@ def update(id):
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
 @indikator_bp.route('/api/'+model.table_name+'/<string:id>', methods=['DELETE'])
-def delete_user(id):
+def deletesi(id):
     instansi = model.getById(id)
     if instansi:
         if model.delete(id):

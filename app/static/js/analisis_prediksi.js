@@ -25,7 +25,7 @@ const cek_area = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
       if (data.length > 0) {
@@ -54,7 +54,7 @@ const cek_inisiatif = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
       if (data.length > 0) {
@@ -85,7 +85,7 @@ const cek_keluaran = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
       if (data.length > 0) {
@@ -129,7 +129,7 @@ const cek_indikator = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
       if (data.length == 0) {
@@ -157,7 +157,7 @@ const cek_instansi = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
       if (data.length == 0) {
@@ -193,7 +193,7 @@ const load_tabel = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
       tabel.innerHTML = "";

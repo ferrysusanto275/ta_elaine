@@ -1,5 +1,4 @@
 from app.utils.database import Database
-from datetime import datetime
 class analisis_indikatorModel:
     table_name="analisis_indikator"
     def getAll(self):
@@ -30,9 +29,6 @@ class analisis_indikatorModel:
     
     def create(self,analisis, indikator):
         db=Database()
-        print(analisis)
-        # current_date = datetime.now().date()
-        # code=self.prefix+current_date.strftime("%Y%m%d")
         query="INSERT INTO "+self.table_name
         query+=" (analisis, indikator)"
         query+=" VALUES (%s,%s)"
@@ -41,16 +37,6 @@ class analisis_indikatorModel:
         cur.close()
         db.close()
         return True
-    # def update(self,nama,id):
-    #     db=Database()
-    #     query="UPDATE "+self.table_name
-    #     query+=" SET nama=%s"
-    #     query+=" WHERE id=%s"
-    #     cur=db.execute_query(query,(nama,id))
-    #     db.commit()
-    #     cur.close()
-    #     db.close()
-    #     return True
     def delete(self,analisis, indikator):
         db=Database()
         query="DELETE FROM "+self.table_name

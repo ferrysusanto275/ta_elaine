@@ -46,7 +46,7 @@ def update(id):
         return jsonify({'message': model.table_name.capitalize()+' not found'}), 404
 
 @grup_analisisbp.route('/api/'+model.table_name+'/<string:id>', methods=['DELETE'])
-def delete_user(id):
+def delete(id):
     instansi = model.getById(id)
     if instansi:
         if model.delete(id):

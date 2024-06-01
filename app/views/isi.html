@@ -1,6 +1,4 @@
-{% extends "templates.html" %}
-
-{% block main %}
+{% extends "templates.html" %} {% block main %}
 <legend>Data Master Indikator</legend>
 <button class="add" id="add_btn">Add Indikator</button>
 <!-- filter -->
@@ -14,7 +12,15 @@
   <label for="aspek_cb_filter">aspek</label>
   <select name="aspek" id="aspek_cb_filter" class="form_control"></select>
   <label for="year_cb_filter">year</label>
-  <input type="number" step="1" min="{{min_year}}" name="year_tf_filter" id="year_tf_filter" class="form_control" value="{{min_year}}">
+  <input
+    type="number"
+    step="1"
+    min="{{min_year}}"
+    name="year_tf_filter"
+    id="year_tf_filter"
+    class="form_control"
+    value="{{min_year}}"
+  />
 </div>
 <table class="tabel" id="tabel_data">
   <thead>
@@ -29,8 +35,7 @@
     </tr>
   </tbody>
 </table>
-{% endblock %}
-{% block modal_content %}
+{% endblock %} {% block modal_content %}
 <div id="filter">
   <label for="group_cb">Group Instansi</label>
   <select name="group" id="group_cb" class="form_control"></select>
@@ -41,15 +46,28 @@
   <label for="aspek_cb">aspek</label>
   <select name="aspek" id="aspek_cb" class="form_control"></select>
   <label for="year_cb">year</label>
-  <input type="number" step="1" min="{{min_year}}" value="{{min_year}}" id="year_tf" class="form_control">
+  <input
+    type="number"
+    step="1"
+    min="{{min_year}}"
+    value="{{min_year}}"
+    id="year_tf"
+    class="form_control"
+  />
   <label for="indikator_cb">indikator</label>
   <select name="indikator" id="indikator_cb" class="form_control"></select>
 </div>
 <div id="value_div">
   <label for="value">value</label>
-  <input type="number" step="0.01" min="0" name="value" id="value_tf" class="form_control">
+  <input
+    type="number"
+    step="0.01"
+    min="0"
+    name="value"
+    id="value_tf"
+    class="form_control"
+  />
 </div>
-{% endblock %}
-{% block scriptJS %}
+{% endblock %} {% block scriptJS %}
 <script src="assets/js/isi.js"></script>
 {% endblock %}
