@@ -42,7 +42,7 @@ class grup_analisis_instansiModel:
         db=Database()
         query="INSERT INTO "+self.table_name
         query+=" (nama,grup)"
-        query+=" VALUES (%s)"
+        query+=" VALUES (%s,%s)"
         cur=db.execute_query(query,(nama, grup))
         db.commit()
         cur.close()
