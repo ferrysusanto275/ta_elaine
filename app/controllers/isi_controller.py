@@ -10,6 +10,7 @@ from scipy.optimize import minimize
 from sklearn.decomposition import TruncatedSVD
 import io
 import scipy.cluster.hierarchy as sch
+from sklearn.preprocessing import StandardScaler
 
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import numpy as np
@@ -435,6 +436,25 @@ def bar_kmeans_indexByYear(year,area):
     plt.ylabel('Percentage of Explained Variance')
     plt.xlabel('Principal Component')
     plt.title('Scree Plot')
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+@isi_bp.route('/api/'+model.table_name+'/centroids_kmeans/<string:year>/<string:area>')
+def centroids_kmeans_indexByYear(year,area):
+    df_all=keluaran.kmeans_res(area,year)
+    # print(df_all)
+    fig, ax = plt.subplots()
+    data=df_all['features']
+    scaler = StandardScaler()
+    data = scaler.fit_transform(data)
+    centroids=df_all['centroids']
+    print(data[:,0])
+    ax.scatter(data[:, 0], data[:, 1], label='Data Points')
+    ax.scatter(centroids[:, 0], centroids[:, 1], marker='o', s=200, c='red', label='Centroids')
+    ax.set_xlabel('Feature 1')
+    ax.set_ylabel('Feature 2')
+    ax.set_title('K-Means Clustering Results (generated server-side)')
+    ax.legend()
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')

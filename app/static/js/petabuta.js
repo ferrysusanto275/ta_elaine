@@ -161,3 +161,4 @@ cek_year();
 year_cb_filter.onchange = load_img;
 tipe_cb_filter.onchange = load_img;
 domain_cb_filter.onchange = load_img;
+$("#domain_cb_filter").select2();

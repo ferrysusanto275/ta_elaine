@@ -120,7 +120,9 @@ class keluaranModel:
             best_num_clusters = model[np.argmax(silhouette_coef)]
         if(area!="0"):
             df=df[data_indikator+['nama']]
-        return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df}
+        centroids = kmeans.cluster_centers_
+        return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df,'centroids':centroids,'features':features}
+    
     def kmeans_res_bobot(self,area,year):
         df=isi.getDfAllIndikatorBobot()
         if(area!="0"):
@@ -160,7 +162,7 @@ class keluaranModel:
         klaster_objek = kmeans_obj['best_model'].labels_
         dfK= kmeans_obj['df'].copy()
         dfK['Cluster'] = klaster_objek
-        
+        dfK['Centroid']=kmeans_obj['centroids']
         return dfK
     def get_res_pca_bobot(self,year,area):
         df=self.getDfK_bobot(area,year)
