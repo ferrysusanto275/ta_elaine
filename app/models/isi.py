@@ -443,7 +443,7 @@ class isiModel:
         query+=" from instansi i"
         query+=" JOIN isi m on m.instansi=i.id and indikator='in2023110400001'"
         query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
-        # print(query)
+        print(query)
         cur= db.execute_query(query)
         result=cur.fetchall()
         data=[]
