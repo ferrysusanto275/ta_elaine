@@ -53,13 +53,18 @@ print(minD4,minAspek7,minAspek8)
 print(minIndeks)
 isi=isiModel()
 df_allValue=isi.getAllValue()
-df = pd.read_csv('Data CSV/Data_lengkap_part_01.csv')
+df = pd.read_csv('Data CSV/Data_lengkap_part_02.csv')
 for index, row in df.iterrows():
     dfInstansi=df_allValue[df_allValue['id']==row.id]
     data_2021=dfInstansi[dfInstansi["year"]==2021]
     data_2022=dfInstansi[dfInstansi["year"]==2022]
     # cari domain 2020
-    indeks_2020=row.indeks_2020
+    indeks_2018=0
+    if(float(row.indeks_2018)>0):indeks_2018=row.indeks_2018
+    indeks_2019=indeks_2018
+    if(float(row.indeks_2019)>0):indeks_2019=row.indeks_2019
+    indeks_2020=indeks_2019
+    if(float(row.indeks_2020)>0):indeks_2020=row.indeks_2020
     if(data_2021['indeks'].values.size>0 and data_2022['indeks'].values.size>0):
         indeks_2021=data_2021['indeks'].values[0]
         domain1_2021=data_2021['domain1'].values[0]
@@ -125,6 +130,6 @@ for index, row in df.iterrows():
                 flagDomain3=True
                 flagDomain4=True
             index_res_2020=hitungIndex(domain1_2020,domain2_2020,domain3_2020,domain4_2020)
-        print(indeks_2020,domain1_2020,domain2_2020,domain3_2020,domain4_2020,index_res_2020)
+        print(row.instansi,indeks_2020,domain1_2020,domain2_2020,domain3_2020,domain4_2020,index_res_2020)
         # break
         
