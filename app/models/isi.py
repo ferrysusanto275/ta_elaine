@@ -321,7 +321,18 @@ class isiModel:
             jml+=self.getDomainByYearInstansi(domain['id'],year,instansi)*domain['bobot']
             jml_domain+=domain['bobot']
         return round(jml/jml_domain,2)
-    
+    def getAllValue(self):
+        db=Database()
+        query="SELECT * FROM indeks_isi"
+        cur= db.execute_query(query)
+        column_names = [desc[0] for desc in cur.description]
+        result=cur.fetchall()
+        data=[]
+        for row in result:
+            # Assuming result is a list of lists
+            data.append(dict(zip(column_names, row)))
+        return pd.DataFrame(data)
+
     def getDfAllIndikator(self):
         db=Database()
         query="SELECT i.id,i.nama,m.year, m.value as 'i1'"
