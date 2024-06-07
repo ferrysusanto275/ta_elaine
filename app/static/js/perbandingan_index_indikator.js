@@ -46,8 +46,6 @@ const cek_indikator = () => {
       if (data.length == 0) {
         location.href = "indikator";
       } else {
-        domain_cb_filter.innerHTML = "";
-        domain_cb.innerHTML = "";
         create_option_domain();
       }
     })
