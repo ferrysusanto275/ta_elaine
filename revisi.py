@@ -62,6 +62,28 @@ def cariDomain(indeks_target,data_ts,data_ts2):
     flagDomain4=True
     # inisialisasi domain find disamakan dengan domain ts
     domain_find={"domain1":float(data_ts.domain1),"domain2":float(data_ts.domain2),"domain3":float(data_ts.domain3),"domain4":float(data_ts.domain4)}
+    index_res=hitungIndex(domain_find['domain1'],domain_find['domain2'],domain_find['domain3'],domain_find['domain4'])
+   
+    while(indeks_target<indeks_2020-minIndeks):
+        if(domain_find['domain1']<indeks_2020 and flagDomain1): 
+            domain_find['domain1']=round(domain_find['domain1']+minD1,2)
+            flagDomain1=False
+        elif(domain_find['domain2']<indeks_2020 and flagDomain2):
+            domain_find['domain2']=round(domain_find['domain2']+minD2,2)
+            flagDomain2=False
+        elif(domain_find['domain3']<indeks_2020  and flagDomain3):
+            domain_find['domain3']=round(domain_find['domain3']+minD3,2)
+            flagDomain3=False
+        elif(domain_find['domain4']<indeks_2020 and flagDomain4):
+            domain_find['domain4']=round(domain_find['domain4']+minD4,2)
+            flagDomain4=False
+        else:
+            flagDomain1=True
+            flagDomain2=True
+            flagDomain3=True
+            flagDomain4=True
+        print(domain_find,index_res,indeks_target)
+        index_res=hitungIndex(domain_find['domain1'],domain_find['domain2'],domain_find['domain3'],domain_find['domain4'])
     # membatasi perubahan max value dengan indeks yang dicari
 
     return domain_find
@@ -90,7 +112,7 @@ for index, row in df.iterrows():
         
         # cari domain 2020
         data_2020=cariDomain(indeks_2020,data_2021,data_2022)
-        print(data_2020)
+        # print(data_2020)
     
     # print(data_2021)
     # if(data_2021['indeks'].values.size>0 and data_2022['indeks'].values.size>0):
