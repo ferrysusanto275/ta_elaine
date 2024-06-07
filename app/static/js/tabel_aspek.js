@@ -74,7 +74,7 @@ const cek_indikator = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
+      return response.json();
     })
     .then((data) => {
       if (data.length == 0) {
@@ -88,6 +88,7 @@ const cek_indikator = () => {
     });
 };
 const create_option_domain = () => {
+  domain_cb_filter.innerHTML = "";
   fetch(indikator_api + "/domain")
     .then((response) => {
       if (!response.ok) {

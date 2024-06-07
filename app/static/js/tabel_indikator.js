@@ -89,6 +89,7 @@ const cek_indikator = () => {
     });
 };
 const create_option_domain = () => {
+  domain_cb_filter.innerHTML = "";
   fetch(indikator_api + "/domain")
     .then((response) => {
       if (!response.ok) {
