@@ -39,6 +39,7 @@ minAspek3=hitungIndex(0,hitungDomain2(0,hitungAspek3(1,0,0,0),0),0,0)
 minAspek4=hitungIndex(0,hitungDomain2(0,0,hitungAspek4(1,0)),0,0)
 minD2=min(minAspek2,minAspek3,minAspek4)
 
+
 minAspek5=hitungIndex(0,0,hitungDomain3(hitungAspek5(1,0,0,0,0,0,0,0),0),0)
 minAspek6=hitungIndex(0,0,hitungDomain3(0,hitungAspek6(1,0,0)),0)
 minD3=min(minAspek5,minAspek6)
@@ -63,18 +64,18 @@ def cariDomain(indeks_target,data_ts,data_ts2):
     # inisialisasi domain find disamakan dengan domain ts
     domain_find={"domain1":float(data_ts.domain1),"domain2":float(data_ts.domain2),"domain3":float(data_ts.domain3),"domain4":float(data_ts.domain4)}
     index_res=hitungIndex(domain_find['domain1'],domain_find['domain2'],domain_find['domain3'],domain_find['domain4'])
-   
-    while(indeks_target<indeks_2020-minIndeks):
-        if(domain_find['domain1']<indeks_2020 and flagDomain1): 
+    # ajust naik
+    while(index_res<indeks_target):
+        if(domain_find['domain1']<indeks_target and flagDomain1): 
             domain_find['domain1']=round(domain_find['domain1']+minD1,2)
             flagDomain1=False
-        elif(domain_find['domain2']<indeks_2020 and flagDomain2):
+        elif(domain_find['domain2']<indeks_target and flagDomain2):
             domain_find['domain2']=round(domain_find['domain2']+minD2,2)
             flagDomain2=False
-        elif(domain_find['domain3']<indeks_2020  and flagDomain3):
+        elif(domain_find['domain3']<indeks_target  and flagDomain3):
             domain_find['domain3']=round(domain_find['domain3']+minD3,2)
             flagDomain3=False
-        elif(domain_find['domain4']<indeks_2020 and flagDomain4):
+        elif(domain_find['domain4']<indeks_target and flagDomain4):
             domain_find['domain4']=round(domain_find['domain4']+minD4,2)
             flagDomain4=False
         else:
@@ -82,15 +83,83 @@ def cariDomain(indeks_target,data_ts,data_ts2):
             flagDomain2=True
             flagDomain3=True
             flagDomain4=True
-        print(domain_find,index_res,indeks_target)
+        # print(domain_find,index_res,indeks_target)
         index_res=hitungIndex(domain_find['domain1'],domain_find['domain2'],domain_find['domain3'],domain_find['domain4'])
+    while(index_res>indeks_target):
+        if(domain_find['domain1']>1 and flagDomain1): 
+            domain_find['domain1']=round(domain_find['domain1']-minD1,2)
+            flagDomain1=False
+        elif(domain_find['domain2']>1 and flagDomain2):
+            domain_find['domain2']=round(domain_find['domain2']-minD2,2)
+            flagDomain2=False
+        elif(domain_find['domain3']>1  and flagDomain3):
+            domain_find['domain3']=round(domain_find['domain3']-minD3,2)
+            flagDomain3=False
+        elif(domain_find['domain4']>1 and flagDomain4):
+            domain_find['domain4']=round(domain_find['domain4']-minD4,2)
+            flagDomain4=False
+        else:
+            flagDomain1=True
+            flagDomain2=True
+            flagDomain3=True
+            flagDomain4=True
+        # print(domain_find,index_res,indeks_target)
+        index_res=hitungIndex(domain_find['domain1'],domain_find['domain2'],domain_find['domain3'],domain_find['domain4'])
+        # ajust turun
+    
     # membatasi perubahan max value dengan indeks yang dicari
 
     return domain_find
+def cariAspek(data_find,data_ts):
+    aspek_find=data_find
+    aspek_find['aspek1']=data_find['domain1']
+    # perhitungan domain 2
+    # inisialisasi dengan data dari tahun selanjutnya
+    aspek_find['aspek2']=float(data_ts.aspek2)
+    aspek_find['aspek3']=float(data_ts.aspek3)
+    aspek_find['aspek4']=float(data_ts.aspek4)
+    domain2_res=hitungDomain2(aspek_find['aspek2'],aspek_find['aspek3'],aspek_find['aspek4'])
+    aspek2_flag=True
+    aspek3_flag=True
+    aspek4_flag=True
+    while(domain2_res<data_find['domain2']):
+        if(aspek_find['aspek2']<data_find['domain2'] and aspek2_flag):
+           
+            aspek_find['aspek2']=round(aspek_find['aspek2']+minAspek2,2)
+            aspek2_flag=False
+        elif(aspek_find['aspek3']<data_find['domain2'] and aspek3_flag):
+            aspek_find['aspek3']=round(aspek_find['aspek3']+minAspek3,2)
+            aspek3_flag=False
+        elif(aspek_find['aspek4']<data_find['domain2']  and aspek4_flag):
+            aspek_find['aspek4']=round(aspek_find['aspek4']+minAspek4,2)
+            aspek4_flag=False
+        else:
+            aspek4_flag=True
+            aspek2_flag=True
+            aspek3_flag=True
+        domain2_res=hitungDomain2(aspek_find['aspek2'],aspek_find['aspek3'],aspek_find['aspek4'])
+    while(domain2_res>data_find['domain2']):
+        if(aspek_find['aspek2']>1 and aspek2_flag):
+           
+            aspek_find['aspek2']=round(aspek_find['aspek2']-minAspek2,2)
+            aspek2_flag=False
+        elif(aspek_find['aspek3']>1 and aspek3_flag):
+            aspek_find['aspek3']=round(aspek_find['aspek3']-minAspek3,2)
+            aspek3_flag=False
+        elif(aspek_find['aspek4']>1  and aspek4_flag):
+            aspek_find['aspek4']=round(aspek_find['aspek4']-minAspek4,2)
+            aspek4_flag=False
+        else:
+            aspek4_flag=True
+            aspek2_flag=True
+            aspek3_flag=True
+        domain2_res=hitungDomain2(aspek_find['aspek2'],aspek_find['aspek3'],aspek_find['aspek4'])
 
+
+    return aspek_find
 isi=isiModel()
 df_allValue=isi.getAllValue()
-df = pd.read_csv('Data CSV/Data_lengkap_part_02.csv')
+df = pd.read_csv('Data CSV/Data_lengkap_part_01.csv')
 for index, row in df.iterrows():
     # mendapatkan dari database semua value indikator ditahun 2021 dan 2022
     dfInstansi=df_allValue[df_allValue['id']==row.id]
@@ -112,75 +181,6 @@ for index, row in df.iterrows():
         
         # cari domain 2020
         data_2020=cariDomain(indeks_2020,data_2021,data_2022)
-        # print(data_2020)
+        data_2020=cariAspek(data_2020,data_2021)
+        print(data_2020,hitungIndex(data_2020['domain1'],data_2020['domain2'],data_2020['domain3'],data_2020['domain4']),indeks_2020)
     
-    # print(data_2021)
-    # if(data_2021['indeks'].values.size>0 and data_2022['indeks'].values.size>0):
-    #     # parse to float dibulatkan ke2 dari hasil db yang decimal
-    #     indeks_2021=float(round(data_2021['indeks'].values[0],2))
-    #     domain1_2021=data_2021['domain1'].values[0]
-    #     domain1_2022=data_2022['domain1'].values[0]
-    #     domain2_2021=data_2021['domain2'].values[0]
-    #     domain2_2022=data_2022['domain2'].values[0]
-    #     domain3_2021=data_2021['domain3'].values[0]
-    #     domain3_2022=data_2022['domain3'].values[0]
-    #     domain4_2021=data_2021['domain4'].values[0]
-    #     domain4_2022=data_2022['domain4'].values[0]
-    #     # cari domain
-    #     # domain disamakan dengan tahun setelahnya
-    #     domain1_2020=float(round(domain1_2021,2))
-    #     domain2_2020=float(round(domain2_2021,2))
-    #     domain3_2020=float(round(domain3_2021,2))
-    #     domain4_2020=float(round(domain4_2021,2))
-    #     index_res_2020=hitungIndex(domain1_2020,domain2_2020,domain3_2020,domain4_2020)
-    #     flagDomain1=True
-    #     flagDomain2=True
-    #     flagDomain3=True
-    #     flagDomain4=True
-    #     # toleransi salah sesuai deengan bobot minimum dari perbahan index
-    #     while(index_res_2020<indeks_2020-minIndeks):
-    #         # perubahan sesuai minimum bobot per domain
-    #         # max index target
-    #         if(domain1_2020<indeks_2020 and flagDomain1): 
-    #             domain1_2020=round(domain1_2020+minD1,2)
-    #             flagDomain1=False
-    #         elif(domain2_2020<indeks_2020 and flagDomain2):
-    #             domain2_2020=round(domain2_2020+minD2,2)
-    #             flagDomain2=False
-    #         elif(domain3_2020<indeks_2020  and flagDomain3):
-    #             domain3_2020=round(domain3_2020+minD3,2)
-    #             flagDomain3=False
-    #         elif(domain4_2020<indeks_2020 and flagDomain4):
-    #             # print("masuk domain4")
-    #             domain4_2020=round(domain4_2020+minD4,2)
-    #             flagDomain4=False
-    #         else:
-    #             # print("reset")
-    #             flagDomain1=True
-    #             flagDomain2=True
-    #             flagDomain3=True
-    #             flagDomain4=True
-    #         index_res_2020=hitungIndex(domain1_2020,domain2_2020,domain3_2020,domain4_2020)
-    #     while(index_res_2020>indeks_2020+minIndeks):
-
-    #         if(domain1_2020>1 and flagDomain1):
-    #             domain1_2020=round(domain1_2020-minD1,2)
-    #             flagDomain1=False
-    #         elif(domain2_2020>1 and flagDomain2):
-    #             domain2_2020=round(domain2_2020-minD2,2)
-    #             flagDomain2=False
-    #         elif(domain3_2020>1  and flagDomain3):
-    #             domain3_2020=round(domain3_2020-minD3,2)
-    #             flagDomain3=False
-    #         elif(domain4_2020>1 and flagDomain4):
-    #             domain4_2020=round(domain4_2020-minD4,2)
-    #             flagDomain4=False
-    #         else:
-    #             flagDomain1=True
-    #             flagDomain2=True
-    #             flagDomain3=True
-    #             flagDomain4=True
-    #         index_res_2020=hitungIndex(domain1_2020,domain2_2020,domain3_2020,domain4_2020)
-    #     print(row.id,row.instansi,indeks_2020,domain1_2020,domain2_2020,domain3_2020,domain4_2020,index_res_2020)
-        # break
-        
