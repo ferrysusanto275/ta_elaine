@@ -59,8 +59,7 @@ const cek_area = () => {
           // area_cb.appendChild(option);
           area_cb_filter.appendChild(option_filter);
         });
-        cek_domain();
-        // load_data();
+        load_data();
       } else {
         location.href = "area";
       }
@@ -69,32 +68,7 @@ const cek_area = () => {
       console.error("Ada kesalahan:", error);
     });
 };
-const cek_domain = () => {
-  if (area_cb_filter.value == 0) {
-    domain_div.style.display = "block";
-  } else {
-    domain_div.style.display = "none";
-  }
-  cek_aspek();
-};
 
-const cek_aspek = () => {
-  if (area_cb_filter.value == 0) {
-    aspek_div.style.display = "block";
-  } else {
-    aspek_div.style.display = "none";
-  }
-
-  chkIndeks();
-};
-const chkIndeks = () => {
-  if (area_cb_filter.value == 0) {
-    indeks_div.style.display = "block";
-  } else {
-    indeks_div.style.display = "none";
-  }
-  load_data();
-};
 const load_data = () => {
   create_head();
   create_body();
@@ -102,7 +76,7 @@ const load_data = () => {
 async function fetchDataIndikator() {
   try {
     const response = await fetch(
-      `${keluaran_indikator_api}/${area_cb_filter.value}`
+      `${keluaran_indikator_api}/${area_cb_filter.value}/${mode_filter.value}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -125,43 +99,16 @@ const create_head = async () => {
   const cell2 = document.createElement("th");
   cell2.textContent = "Nama Instansi";
   newRow.appendChild(cell2);
-  // const cell3 = document.createElement("td");
-  // cell3.textContent = "Grup Instansi";
-  // newRow.appendChild(cell3);
-  if (area_cb_filter.value == 0) {
-    const domains_chk = document.querySelectorAll(".domain_chk");
-    domains_chk.forEach((domain_chk) => {
-      if (domain_chk.checked) {
-        const cell4 = document.createElement("th");
-        cell4.textContent = domain_chk.getAttribute("data-name");
-        newRow.appendChild(cell4);
-      }
-    });
-    const aspeks_chk = document.querySelectorAll(".aspek_chk");
-    aspeks_chk.forEach((aspek_chk) => {
-      if (aspek_chk.checked) {
-        const cell4 = document.createElement("th");
-        cell4.textContent = aspek_chk.getAttribute("data-name");
-        newRow.appendChild(cell4);
-      }
-    });
-  }
+  
   const indikator = document.getElementById("indikator");
   if (indikator.checked) {
-    if (area_cb_filter.value != 0) {
       let data_indikator = await fetchDataIndikator();
       data_indikator.forEach((element_indikator) => {
         const cell4 = document.createElement("th");
-        cell4.textContent = element_indikator.toUpperCase();
+        cell4.textContent = element_indikator.replace(/_bobot$/, "").toUpperCase();
         newRow.appendChild(cell4);
       });
-    } else {
-      for (let i = 1; i <= 47; i++) {
-        const cell4 = document.createElement("th");
-        cell4.textContent = `I${i}`;
-        newRow.appendChild(cell4);
-      }
-    }
+    
   }
   if (area_cb_filter.value == 0) {
     const indeks = document.getElementById("indeks");
@@ -178,11 +125,9 @@ const create_head = async () => {
   head_data.appendChild(newRow);
 };
 const loadDataFrame = async () => {
-  api_bobot=""
-  if(mode_filter.value==1)api_bobot="_bobot"
   try {
     const response = await fetch(
-      `${res_kmeans_api}${api_bobot}/${area_cb_filter.value}/${year_cb_filter.value}`
+      `${res_kmeans_api}/${area_cb_filter.value}/${year_cb_filter.value}/${mode_filter.value}`
     );
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -190,7 +135,6 @@ const loadDataFrame = async () => {
     return await response.json();
   } catch (error) {
     console.error("Error fetching data:", error);
-    // Handle the error here if needed
     return null;
   }
 };
@@ -259,5 +203,5 @@ const create_body = async () => {
 };
 year_cb_filter.onchange = load_data;
 mode_filter.onchange=load_data
-area_cb_filter.onchange = cek_domain;
+area_cb_filter.onchange = load_data;
 cek_year();

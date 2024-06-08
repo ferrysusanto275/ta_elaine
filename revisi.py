@@ -158,7 +158,7 @@ def cariAspek(data_find,data_ts):
 
     return aspek_find
 isi=isiModel()
-df_allValue=isi.getAllValue()
+df_allValue=isi.getAllIndeks_isi()
 df = pd.read_csv('Data CSV/Data_lengkap_part_01.csv')
 for index, row in df.iterrows():
     # mendapatkan dari database semua value indikator ditahun 2021 dan 2022

@@ -85,27 +85,76 @@ class keluaranModel:
         cur.close()
         db.close()
         return result
-    def getAllIndikatorby_Area(self,area):
+    def getAllIndikatorby_Area(self,area, tipe):
+        tipe=int(tipe)
+        if(area=='I' ):
+           return['indeks']
+        elif(area=='D1'and tipe==0):
+           return['domain1']
+        elif(area=='D1'and tipe==1):
+           return['domain1_bobot']
+        elif(area=='D2'and tipe==0):
+           return['domain2']
+        elif(area=='D2'and tipe==1):
+           return['domain2_bobot']
+        elif(area=='D3'and tipe==0):
+           return['domain3']
+        elif(area=='D3'and tipe==1):
+           return['domain3_bobot']
+        elif(area=='D4'and tipe==0):
+           return['domain4']
+        elif(area=='D4'and tipe==1):
+           return['domain4_bobot']
+        elif(area=='A1'and tipe==0):
+           return['aspek1']
+        elif(area=='A1'and tipe==1):
+           return['aspek1_bobot']
+        elif(area=='A2'and tipe==0):
+           return['aspek2']
+        elif(area=='A2'and tipe==1):
+           return['aspek2_bobot']
+        elif(area=='A3'and tipe==0):
+           return['aspek3']
+        elif(area=='A3'and tipe==1):
+           return['aspek3_bobot']
+        elif(area=='A4'and tipe==0):
+           return['aspek4']
+        elif(area=='A4'and tipe==1):
+           return['aspek4_bobot']
+        elif(area=='A5'and tipe==0):
+           return['aspek5']
+        elif(area=='A5'and tipe==1):
+           return['aspek5_bobot']
+        elif(area=='A6'and tipe==0):
+           return['aspek6']
+        elif(area=='A6'and tipe==1):
+           return['aspek6_bobot']
+        elif(area=='A7'and tipe==0):
+           return['aspek7']
+        elif(area=='A7'and tipe==1):
+           return['aspek7_bobot']
+        elif(area=='A8'and tipe==0):
+           return['aspek8']
+        elif(area=='A8'and tipe==1):
+           return['aspek8_bobot']
         db= Database()
         query="SELECT nama from indikator WHERE id in(SELECT analisis_indikator.indikator from analisis_indikator JOIN analisis on analisis_indikator.analisis=analisis.id JOIN analisis_grup on analisis.grup=analisis_grup.id WHERE analisis_grup.grup=%s) ORDER BY id"
         cur=db.execute_query(query,(area,))
-        result = [row[0].lower() for row in cur.fetchall()]
+        if(tipe==0):
+            result = [row[0].lower() for row in cur.fetchall()]
+        else: result = [row[0].lower()+"_bobot" for row in cur.fetchall()]
         cur.close()
         db.close()
         return result
-    def kmeans_res(self,area,year):
-        df=isi.getDfAllIndikatorWOBobot()
-        if(area!="0"):
+    def kmeans_res(self,area,year,tipe):
+        df=isi.getAllIndeks_isi()
+        if(area==1 or area==2 or area==3 or area==4):
             data_area=self.getAllInstansiby_Area(area)
             df=df[df['id'].astype('str').isin(data_area)]
-            data_indikator=self.getAllIndikatorby_Area(area)
-
+        data_indikator=self.getAllIndikatorby_Area(area,tipe)
         df=df[df['year']== int(year)]
-       
-        if(area!="0"):
-            features = df[data_indikator]
-        else: features = df[['indeks']]
-            
+        features = df[data_indikator]
+        
         K = range(2,6)
         inertia = []
         silhouette_coef = [] 
@@ -118,51 +167,18 @@ class keluaranModel:
             score = silhouette_score(features, kmeans.labels_, metric='euclidean')
             silhouette_coef.append(score)
             best_num_clusters = model[np.argmax(silhouette_coef)]
-        if(area!="0"):
-            df=df[data_indikator+['nama']]
+        
+        df=df[data_indikator+['nama']]
         centroids = kmeans.cluster_centers_
         return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df,'centroids':centroids,'features':features}
     
-    def kmeans_res_bobot(self,area,year):
-        df=isi.getDfAllIndikatorBobot()
-        if(area!="0"):
-            data_area=self.getAllInstansiby_Area(area)
-            df=df[df['id'].astype('str').isin(data_area)]
-            data_indikator=self.getAllIndikatorby_Area(area)
-        df=df[df['year']== int(year)]
-        if(area!="0"):
-            features = df[data_indikator]
-            # features = preprocessing.scale(df[data_indikator])
-        else: features = df[['indeks']]
-        K = range(2,6)
-        inertia = []
-        silhouette_coef = [] 
-        model = [] 
-        for k in K:
-            kmeans= KMeans(n_clusters=k, random_state=42)
-            kmeans.fit(features)
-            model.append(kmeans)
-            inertia.append(kmeans.inertia_)
-            score = silhouette_score(features, kmeans.labels_, metric='euclidean')
-            silhouette_coef.append(score)
-            best_num_clusters = model[np.argmax(silhouette_coef)]
-        if(area!="0"):
-            df=df[data_indikator+['nama']]
-        centroids = kmeans.cluster_centers_
-        return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df,'centroids':centroids}
-    def getDfK_bobot(self,area,year):
-        kmeans_obj=self.kmeans_res_bobot(area,year)
+    def getDfK(self,area,year,tipe):
+        kmeans_obj=self.kmeans_res(area,year,tipe)
         klaster_objek = kmeans_obj['best_model'].labels_
         dfK= kmeans_obj['df'].copy()
         dfK['Cluster'] = klaster_objek
+        # dfK['Centroid']=(kmeans_obj['centroids'])
         
-        return dfK
-    def getDfK(self,area,year):
-        kmeans_obj=self.kmeans_res(area,year)
-        klaster_objek = kmeans_obj['best_model'].labels_
-        dfK= kmeans_obj['df'].copy()
-        dfK['Cluster'] = klaster_objek
-        dfK['Centroid']=kmeans_obj['centroids']
         return dfK
     def get_res_pca_bobot(self,year,area):
         df=self.getDfK_bobot(area,year)

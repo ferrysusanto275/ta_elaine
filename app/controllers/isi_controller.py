@@ -353,57 +353,55 @@ def get_kmeans_indexByYear(year):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/kmeans/<string:year>/<string:area>')
-def get_kmeans_areaByYear(year,area):
-    data_area=area_model.getById(area)
+@isi_bp.route('/api/'+model.table_name+'/kmeans/<string:year>/<string:area>/<string:tipe>')
+def get_kmeans_areaByYear(year,area,tipe):
+    if(area=='I'):
+        data_area="Indeks"
+    elif(area=='D1'):
+        data_area="Domain 1"
+    elif(area=='D2'):
+        data_area="Domain 2"
+    elif(area=='D3'):
+        data_area="Domain 3"
+    elif(area=='D4'):
+        data_area="Domain 4"
+    elif(area=='A1'):
+        data_area="Aspek 1"
+    elif(area=='A2'):
+        data_area="Aspek 2"
+    elif(area=='A3'):
+        data_area="Aspek 3"
+    elif(area=='A4'):
+        data_area="Aspek 4"
+    elif(area=='A5'):
+        data_area="Aspek 5"
+    elif(area=='A6'):
+        data_area="Aspek 6"
+    elif(area=='A7'):
+        data_area="Aspek 7"
+    elif(area=='A8'):
+        data_area="Aspek 8"
+    else:data_area=area_model.getById(area)['name']
     K = range(2,6)
-    inertia = keluaran.kmeans_res(area,year)['inertia']
+    inertia = keluaran.kmeans_res(area,year,tipe)['inertia']
         
     # plot elbow method 
     fig, ax = plt.subplots()
     ax.plot(K, inertia, marker='o')
     ax.set_xlabel('Jumlah kelompok k')
     ax.set_ylabel('Inertia')
-    ax.set_title("Elbow method "+data_area['name'])
+    ax.set_title("Elbow method "+data_area)
    # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/kmeans_bobot/<string:year>/<string:area>')
-def get_kmeans_areaByYear_bobot(year,area):
-    data_area=area_model.getById(area)
-    K = range(2,6)
-    inertia = keluaran.kmeans_res_bobot(area,year)['inertia']
-        
-    # plot elbow method 
-    fig, ax = plt.subplots()
-    ax.plot(K, inertia, marker='o')
-    ax.set_xlabel('Jumlah kelompok k')
-    ax.set_ylabel('Inertia')
-    ax.set_title("Elbow method "+data_area['name'])
-   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
 
-    # Membuat respons HTTP dengan gambar sebagai byte stream
-    return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/kmeans_score')
-def get_kmeans_score_index():
-    return jsonify(model.kmeans_res()['silhouette_coef'])
-@isi_bp.route('/api/'+model.table_name+'/kmeans_score/<string:year>')
-def get_kmeans_score_indexByYear(year):
-    return jsonify(model.kmeans_resByYear(year)['silhouette_coef'])
-@isi_bp.route('/api/'+model.table_name+'/kmeans_score/<string:year>/<string:area>')
-def get_kmeans_score_areaByYear(year,area):
-    return jsonify(keluaran.kmeans_res(area,year)['silhouette_coef'])
-@isi_bp.route('/api/'+model.table_name+'/kmeans_score_bobot/<string:year>/<string:area>')
-def get_kmeans_score_areaByYear_bobot(year,area):
-    return jsonify(keluaran.kmeans_res_bobot(area,year)['silhouette_coef'])
-@isi_bp.route('/api/'+model.table_name+'/res_kmeans')
-def get_res_kmeans_index():
-    return model.getDfK().to_html(classes="tabel")
+@isi_bp.route('/api/'+model.table_name+'/kmeans_score/<string:year>/<string:area>/<string:tipe>')
+def get_kmeans_score_areaByYear(year,area,tipe):
+    return jsonify(keluaran.kmeans_res(area,year,tipe)['silhouette_coef'])
+
 @isi_bp.route('/api/'+model.table_name+'/get_df23/<string:year>/<string:analisis>/<string:indikator>/<string:baik>')
 def get_df23(year,analisis,indikator,baik):
     indikator_layanan=np.array(["in2023110400014","in2023110400015","in2023110400028","in2023110400030","in2023110400033","in2023110400032","in2023110400034","in2023110400035","in2023110400036","in2023110400037","in2023110400038","in2023110400039","in2023110400040","in2023110400041","in2023110400042","in2023110400043","in2023110400044","in2023110400045","in2023110400046","in2023110400047"])

@@ -321,7 +321,7 @@ class isiModel:
             jml+=self.getDomainByYearInstansi(domain['id'],year,instansi)*domain['bobot']
             jml_domain+=domain['bobot']
         return round(jml/jml_domain,2)
-    def getAllValue(self):
+    def getAllIndeks_isi(self):
         db=Database()
         query="SELECT * FROM indeks_isi"
         cur= db.execute_query(query)

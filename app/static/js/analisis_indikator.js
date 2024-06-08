@@ -37,7 +37,6 @@ const handle_delete = (analisis, indikator) => {
     });
 };
 const load_data = () => {
-  console.log("masuk load data");
   let url_tuju = `${url_api}/${selected_keluaran}`;
   fetch(url_tuju)
     .then((response) => {
@@ -89,7 +88,7 @@ const handle_add_btn = () => {
   modal_form.style.display = "flex";
 };
 const create_option_indikator = () => {
-  fetch(indikator_api + "/aspek/" + selected_aspek)
+  fetch(indikator_api + "/aspek/" + aspek_cb.value)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
