@@ -95,7 +95,19 @@ select `i`.`id` AS `id`,`i`.`nama` AS `nama`,
 (select value from `isi`  where instansi = `i`.`id` and indikator = 'in2023110400046' and `year` = `m`.`year`) AS `i46`,
 (select bobot from indikator where id='in2023110400046') as'bobot_i46',
 (select value from `isi`  where instansi = `i`.`id` and indikator = 'in2023110400047' and `year` = `m`.`year`) AS `i47`,
-(select bobot from indikator where id='in2023110400047') as'bobot_i47'
+(select bobot from indikator where id='in2023110400047') as'bobot_i47',
+(select bobot from aspek where id='a2023110400001') as'bobot_aspek1',
+(select bobot from aspek where id='a2023110400002') as'bobot_aspek2',
+(select bobot from aspek where id='a2023110400003') as'bobot_aspek3',
+(select bobot from aspek where id='a2023110400004') as'bobot_aspek4',
+(select bobot from aspek where id='a2023110400005') as'bobot_aspek5',
+(select bobot from aspek where id='a2023110400006') as'bobot_aspek6',
+(select bobot from aspek where id='a2023110400007') as'bobot_aspek7',
+(select bobot from aspek where id='a2023110400008') as'bobot_aspek8',
+(select bobot from domain where id='d2023110400001') as'bobot_domain1',
+(select bobot from domain where id='d2023110400002') as'bobot_domain2',
+(select bobot from domain where id='d2023110400003') as'bobot_domain3',
+(select bobot from domain where id='d2023110400004') as'bobot_domain4'
 from instansi `i` 
 join `isi` `m` on`m`.`instansi` = `i`.`id` and `m`.`indikator` = 'in2023110400001' 
 join `grup_instansi` `gi` on`i`.`group_instansi` = `gi`.`id`
