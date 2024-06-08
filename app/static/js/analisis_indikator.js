@@ -56,7 +56,7 @@ const load_data = () => {
           cell1.textContent = i + 1;
           newRow.appendChild(cell1);
           let cell2 = document.createElement("td");
-          cell2.textContent = element.nama_indikator;
+          cell2.textContent = element.nama_lengkap;
           newRow.appendChild(cell2);
           let cell4 = document.createElement("td");
           let btn_delete = document.createElement("button");
