@@ -201,9 +201,9 @@ class keluaranModel:
         # print(top_10_genes)
         
         return {"df":df,"pca":pca,'per_var':per_var,'pca_df':pca_df,'labels':labels,'top_10':loading_scores[top_10_genes]}
-    def get_res_pca(self,year,area):
-        df=self.getDfK(area,year)
-        data_indikator=self.getAllIndikatorby_Area(area)
+    def get_res_pca(self,year,area,tipe):
+        df=self.getDfK(area,year,tipe)
+        data_indikator=self.getAllIndikatorby_Area(area,tipe)
         df_indikator=df[data_indikator]
         # scaled_data = preprocessing.scale(df_indikator)
         pca = PCA()
@@ -220,17 +220,13 @@ class keluaranModel:
         # print(top_10_genes)
         
         return {"df":df,"pca":pca,'per_var':per_var,'pca_df':pca_df,'labels':labels,'top_10':loading_scores[top_10_genes]}
-    def agglo_res(self,area,year,linkage):
-        df=isi.getDfAllIndikatorWOBobot()
-        if(area!="0"):
+    def agglo_res(self,area,year,linkage,tipe):
+        df=isi.getAllIndeks_isi()
+        if(area==1 or area==2 or area==3 or area==4):
             data_area=self.getAllInstansiby_Area(area)
-            data_indikator=self.getAllIndikatorby_Area(area)
             df=df[df['id'].astype('str').isin(data_area)]
-        else: data_indikator=['indeks']  
-        if(area!="0"):
-            df=df[df['id'].astype('str').isin(data_area)]
+        data_indikator=self.getAllIndikatorby_Area(area,tipe)
         df=df[df['year']== int(year)]
-       
         features = df[data_indikator]
         K = range(2,6)
         silhouette_coef = []
@@ -246,41 +242,9 @@ class keluaranModel:
         best_num_clusters = model[np.argmax(silhouette_coef)]
         df=df[data_indikator+['nama']]
         return {"silhouette_score":silhouette_coef,"best_num_clusters":best_num_clusters,'df':df,'data_indikator':data_indikator}
-    def agglo_res_bobot(self,area,year,linkage):
-        df=isi.getDfAllIndikatorBobot()
-        if(area!="0"):
-            data_area=self.getAllInstansiby_Area(area)
-            data_indikator=self.getAllIndikatorby_Area(area)
-            df=df[df['id'].astype('str').isin(data_area)]
-        else: data_indikator=['indeks']  
-        if(area!="0"):
-            df=df[df['id'].astype('str').isin(data_area)]
-        df=df[df['year']== int(year)]
-       
-        features = df[data_indikator]
-        K = range(2,6)
-        silhouette_coef = []
-        model = []
-        for k in K:
-            agglo_model = AgglomerativeClustering(n_clusters=k, affinity='euclidean', linkage=linkage)
-            agglo_model.fit_predict(features)
-            
-            model.append(agglo_model)
-            # print(agglo_model)
-            score = silhouette_score(features, agglo_model.labels_, metric='euclidean')
-            silhouette_coef.append(score)
-        best_num_clusters = model[np.argmax(silhouette_coef)]
-        df=df[data_indikator+['nama']]
-        return {"silhouette_score":silhouette_coef,"best_num_clusters":best_num_clusters,'df':df,'data_indikator':data_indikator}
-    def getDfAByareaYear(self,area,year,linkage):
-        agglo_obj=self.agglo_res(area,year,linkage)
-        klaster_objek = agglo_obj['best_num_clusters']
-        labels = klaster_objek.fit_predict(agglo_obj['df'][agglo_obj['data_indikator']])
-        dfK = agglo_obj['df'].copy()
-        dfK['Cluster'] = labels
-        return dfK
-    def getDfAByareaYear_bobot(self,area,year,linkage):
-        agglo_obj=self.agglo_res_bobot(area,year,linkage)
+    
+    def getDfAByareaYear(self,area,year,linkage,tipe):
+        agglo_obj=self.agglo_res(area,year,linkage,tipe)
         klaster_objek = agglo_obj['best_num_clusters']
         labels = klaster_objek.fit_predict(agglo_obj['df'][agglo_obj['data_indikator']])
         dfK = agglo_obj['df'].copy()

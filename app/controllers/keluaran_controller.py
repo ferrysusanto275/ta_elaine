@@ -27,16 +27,11 @@ def get_all_indikator(area,tipe):
 def get_res_kmeans_areaByYear(area,year,tipe):
     df_dict = model.getDfK(area,year,tipe).to_dict(orient='records')
     return jsonify(df_dict)
-@keluaranbp.route('/api/'+model.table_name+"/res_agglo/<string:area>/<string:year>/<string:linkage>")
-def get_res_agglo_areaByYear(area,year,linkage):
-    df_dict = model.getDfAByareaYear(area,year,linkage).to_dict(orient='records')
+@keluaranbp.route('/api/'+model.table_name+"/res_agglo/<string:area>/<string:year>/<string:linkage>/<string:tipe>")
+def get_res_agglo_areaByYear(area,year,linkage,tipe):
+    df_dict = model.getDfAByareaYear(area,year,linkage,tipe).to_dict(orient='records')
     return jsonify(df_dict)
-@keluaranbp.route('/api/'+model.table_name+"/res_agglo_bobot/<string:area>/<string:year>/<string:linkage>")
-def get_res_agglo_areaByYear_bobot(area,year,linkage):
-    df_dict = model.getDfAByareaYear_bobot(area,year,linkage).to_dict(orient='records')
-    return jsonify(df_dict)
-
-    # return jsonify(data_indikator);  
+  
 @keluaranbp.route('/api/'+model.table_name+'/inisiatif/<string:grup>')
 def get_all_analisis_grup(grup):
     return jsonify(model.getAllByGrup(grup));

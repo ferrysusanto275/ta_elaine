@@ -40,9 +40,7 @@ const handle_year = () => {
 };
 const isi_data = () => {
   data_top10.innerHTML = "";
-  api_bobot=""
-  if(mode_filter.value==1)api_bobot="_bobot"
-  fetch(`${top10_api}${api_bobot}/${year_cb_filter.value}/${area_cb_filter.value}`)
+  fetch(`${top10_api}/${year_cb_filter.value}/${area_cb_filter.value}/${mode_filter.value}`)
     .then((response) => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
@@ -112,15 +110,11 @@ const load_img = () => {
   );
 };
 const create_link = (year, area, search) => {
-  api_bobot=""
-  if(mode_filter.value==1)api_bobot="_bobot"
   if (search == "") search = "x";
-  return `${kmeans_api}${api_bobot}/${year}/${area}/${search}`;
+  return `${kmeans_api}/${year}/${area}/${search}/${mode_filter.value}`;
 };
 const create_link_bar = (year, area) => {
-  api_bobot=""
-  if(mode_filter.value==1)api_bobot="_bobot"
-  return `${bar_kmeans_api}${api_bobot}/${year}/${area}`;
+  return `${bar_kmeans_api}/${year}/${area}/${mode_filter.value}`;
 };
 const create_bar = (year, area) => {
   const img_tampil = document.createElement("img");

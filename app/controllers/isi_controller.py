@@ -426,9 +426,9 @@ def get_res_kmeans_indexByYear(year):
     df_dict = model.getDfKByYear(year).to_dict(orient='records')
     return jsonify(df_dict)
 
-@isi_bp.route('/api/'+model.table_name+'/bar_kmeans/<string:year>/<string:area>')
-def bar_kmeans_indexByYear(year,area):
-    df_all=keluaran.get_res_pca(year,area)
+@isi_bp.route('/api/'+model.table_name+'/bar_kmeans/<string:year>/<string:area>/<string:tipe>')
+def bar_kmeans_indexByYear(year,area,tipe):
+    df_all=keluaran.get_res_pca(year,area,tipe)
     fig = plt.figure()
     plt.bar(x=range(1,len(df_all['per_var'])+1), height=df_all['per_var'], tick_label=df_all['labels'])
     plt.ylabel('Percentage of Explained Variance')
@@ -456,20 +456,10 @@ def centroids_kmeans_indexByYear(year,area):
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/bar_kmeans_bobot/<string:year>/<string:area>')
-def bar_kmeans_indexByYear_bobot(year,area):
-    df_all=keluaran.get_res_pca_bobot(year,area)
-    fig = plt.figure()
-    plt.bar(x=range(1,len(df_all['per_var'])+1), height=df_all['per_var'], tick_label=df_all['labels'])
-    plt.ylabel('Percentage of Explained Variance')
-    plt.xlabel('Principal Component')
-    plt.title('Scree Plot')
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-    return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/plot_kmeans/<string:year>/<string:area>/<string:search>')
-def plot_kmeans_indexByYear(year,area,search):
-    df_all=keluaran.get_res_pca(year,area)
+
+@isi_bp.route('/api/'+model.table_name+'/plot_kmeans/<string:year>/<string:area>/<string:search>/<string:tipe>')
+def plot_kmeans_indexByYear(year,area,search,tipe):
+    df_all=keluaran.get_res_pca(year,area,tipe)
     pca_df=df_all['pca_df']
     df=df_all['df']
     per_var=df_all['per_var']
@@ -527,14 +517,9 @@ def plot_kmeans_indexByYear_bobot(year,area,search):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/top10_kmeans/<string:year>/<string:area>')
-def top10_kmeans(year,area):
-    df_all=keluaran.get_res_pca(year,area)
-    # print(df_all)
-    return jsonify(df_all['top_10'].to_dict())
-@isi_bp.route('/api/'+model.table_name+'/top10_kmeans_bobot/<string:year>/<string:area>')
-def top10_kmeans_bobot(year,area):
-    df_all=keluaran.get_res_pca_bobot(year,area)
+@isi_bp.route('/api/'+model.table_name+'/top10_kmeans/<string:year>/<string:area>/<string:tipe>')
+def top10_kmeans(year,area,tipe):
+    df_all=keluaran.get_res_pca(year,area,tipe)
     # print(df_all)
     return jsonify(df_all['top_10'].to_dict())
 @isi_bp.route('/api/'+model.table_name+'/plot_dend/<string:year>/<string:linkage>/<string:area>')
