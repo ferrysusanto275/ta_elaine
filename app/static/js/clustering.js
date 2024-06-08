@@ -105,20 +105,14 @@ const create_head = async () => {
       let data_indikator = await fetchDataIndikator();
       data_indikator.forEach((element_indikator) => {
         const cell4 = document.createElement("th");
-        cell4.textContent = element_indikator.replace(/_bobot$/, "").toUpperCase();
+        let header = element_indikator.replace(/_bobot$/, "")
+
+        cell4.textContent = header.charAt(0).toUpperCase()+header.slice(1);
         newRow.appendChild(cell4);
       });
     
   }
-  if (area_cb_filter.value == 0) {
-    const indeks = document.getElementById("indeks");
-    if (indeks.checked) {
-      const cell6 = document.createElement("th");
-      cell6.textContent = "Indeks";
-      newRow.appendChild(cell6);
-    }
-  }
-
+  
   const cell5 = document.createElement("th");
   cell5.textContent = "Cluster";
   newRow.appendChild(cell5);
