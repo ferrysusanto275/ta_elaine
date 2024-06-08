@@ -15,14 +15,16 @@ class analisis_indikatorModel:
         return data
     def getAllByAnalisis(self,analisis):
         db=Database()
-        query="SELECT m.analisis, i.id, i.nama_lengkap FROM "+self.table_name;
+        query="SELECT m.analisis, i.id,i.nama, i.nama_lengkap FROM "+self.table_name;
         query+=" m JOIN indikator i ON m.indikator=i.id";
         query+=" WHERE m.analisis=%s"
         cur= db.execute_query(query,(analisis,))
+        
+        column_names = [desc[0] for desc in cur.description]
         result=cur.fetchall()
         data=[]
         for row in result:
-            data.append({"analisis":row[0],"indikator":row[1], "nama_indikator": row[2]})
+            data.append(dict(zip(column_names, row)))
         cur.close()
         db.close()
         return data

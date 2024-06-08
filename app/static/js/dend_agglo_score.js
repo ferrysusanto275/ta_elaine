@@ -109,9 +109,8 @@ const load_img = () => {
   );
 };
 const create_link = (year, linkage, area) => {
-  api_bobot=""
-  if(mode_filter.value==1)api_bobot="_bobot"
-  return `${agglo_api}${api_bobot}/${year}/${linkage}/${area}`;
+ 
+  return `${agglo_api}/${year}/${linkage}/${area}/${mode_filter.value}`;
 };
 const create_elbow = (year, linkage, area) => {
   const img_tampil = document.createElement("img");

@@ -320,39 +320,7 @@ def get_perbandingan_index_indikator(indikator):
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
 
-@isi_bp.route('/api/'+model.table_name+'/kmeans')
-def get_kmeans_index():
-    K = range(2,6)
-    inertia = model.kmeans_res()['inertia']
-   
-    fig, ax = plt.subplots()
-    ax.plot(K, inertia, marker='o')
-    ax.set_xlabel('Jumlah kelompok k')
-    ax.set_ylabel('Inertia')
-    ax.set_title("Elbow method Indeks ")
-   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
 
-    # Membuat respons HTTP dengan gambar sebagai byte stream
-    return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/kmeans/<string:year>')
-def get_kmeans_indexByYear(year):
-    K = range(2,6)
-    inertia = model.kmeans_resByYear(year)['inertia']
-        
-    # plot elbow method 
-    fig, ax = plt.subplots()
-    ax.plot(K, inertia, marker='o')
-    ax.set_xlabel('Jumlah kelompok k')
-    ax.set_ylabel('Inertia')
-    ax.set_title("Elbow method Indeks ")
-   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-
-    # Membuat respons HTTP dengan gambar sebagai byte stream
-    return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/kmeans/<string:year>/<string:area>/<string:tipe>')
 def get_kmeans_areaByYear(year,area,tipe):
     if(area=='I'):
@@ -487,54 +455,45 @@ def plot_kmeans_indexByYear(year,area,search,tipe):
 
     # Membuat respons HTTP dengan gambar sebagai byte stream
     return Response(output.getvalue(), mimetype='image/png')
-@isi_bp.route('/api/'+model.table_name+'/plot_kmeans_bobot/<string:year>/<string:area>/<string:search>')
-def plot_kmeans_indexByYear_bobot(year,area,search):
-    df_all=keluaran.get_res_pca_bobot(year,area)
-    pca_df=df_all['pca_df']
-    df=df_all['df']
-    per_var=df_all['per_var']
-    data_area=area_model.getById(area)
-
-
-    fig, ax = plt.subplots()
-    plt.scatter(pca_df.PC1, pca_df.PC2, c=df['Cluster'], cmap='plasma')
-    plt.title('PCA Graph '+data_area['name'])
-    plt.xlabel('PC1 - {0}%'.format(per_var[0]))
-    plt.ylabel('PC2 - {0}%'.format(per_var[1]))
-
-    for sample in pca_df.index:
-        if(search.lower() in str(df.loc[sample, 'nama']).lower()):
-            text = str(df.loc[sample, 'nama'])
-            x, y = pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]
-            xtext=x-0.3
-            ytext=y+0.3
-            plt.annotate(text, (x, y),
-                        xytext=(xtext, ytext),  # offset from the point
-                        arrowprops=dict(facecolor='black', shrink=0.05))
-    
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-
-    # Membuat respons HTTP dengan gambar sebagai byte stream
-    return Response(output.getvalue(), mimetype='image/png')
 @isi_bp.route('/api/'+model.table_name+'/top10_kmeans/<string:year>/<string:area>/<string:tipe>')
 def top10_kmeans(year,area,tipe):
     df_all=keluaran.get_res_pca(year,area,tipe)
     # print(df_all)
     return jsonify(df_all['top_10'].to_dict())
-@isi_bp.route('/api/'+model.table_name+'/plot_dend/<string:year>/<string:linkage>/<string:area>')
-def plot_dend_indexByYear(year,linkage,area):
-    if(area!="0"):
-        data_indikator=keluaran.getAllIndikatorby_Area(area)
-        data_area=area_model.getById(area)
-        namaArea=data_area['name'][3:]
-    else: 
-        data_indikator=['indeks']
-        namaArea="Indeks"
+@isi_bp.route('/api/'+model.table_name+'/plot_dend/<string:year>/<string:linkage>/<string:area>/<string:tipe>')
+def plot_dend_indexByYear(year,linkage,area,tipe):
+    data_indikator=keluaran.getAllIndikatorby_Area(area,tipe)
+    if(area=='I'):
+        data_area="Indeks"
+    elif(area=='D1'):
+        data_area="Domain 1"
+    elif(area=='D2'):
+        data_area="Domain 2"
+    elif(area=='D3'):
+        data_area="Domain 3"
+    elif(area=='D4'):
+        data_area="Domain 4"
+    elif(area=='A1'):
+        data_area="Aspek 1"
+    elif(area=='A2'):
+        data_area="Aspek 2"
+    elif(area=='A3'):
+        data_area="Aspek 3"
+    elif(area=='A4'):
+        data_area="Aspek 4"
+    elif(area=='A5'):
+        data_area="Aspek 5"
+    elif(area=='A6'):
+        data_area="Aspek 6"
+    elif(area=='A7'):
+        data_area="Aspek 7"
+    elif(area=='A8'):
+        data_area="Aspek 8"
+    else:data_area=area_model.getById(area)['name']
     
-    df = keluaran.getDfAByareaYear(area,year,linkage)
+    df = keluaran.getDfAByareaYear(area,year,linkage,tipe)
     fig = plt.figure(figsize=(10, 6))
-    plt.title("Dend2 "+year+" berdasarkan "+namaArea)
+    plt.title("Dend2 "+year+" berdasarkan "+data_area)
     features = df[data_indikator]
     dend = sch.dendrogram(sch.linkage(features, method=linkage))
     output = io.BytesIO()

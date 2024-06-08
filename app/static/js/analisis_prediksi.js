@@ -137,8 +137,8 @@ const cek_indikator = () => {
       } else {
         data.forEach((element, i) => {
           let option = document.createElement("option");
-          option.value = element.indikator;
-          option.textContent = element.nama_indikator;
+          option.value = element.nama;
+          option.textContent = element.nama_lengkap;
 
           indikator_cb_filter.appendChild(option);
         });

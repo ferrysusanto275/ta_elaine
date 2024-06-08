@@ -329,7 +329,6 @@ class isiModel:
         result=cur.fetchall()
         data=[]
         for row in result:
-            # Assuming result is a list of lists
             data.append(dict(zip(column_names, row)))
         return pd.DataFrame(data)
 

@@ -1,6 +1,8 @@
 from flask import Blueprint,jsonify,request
 from app.models.instansi import instansiModel
 from app.models.grup_instansi import grup_instansiModel
+from app.models.isi import isiModel
+isi=isiModel()
 model=instansiModel()
 grup_model = grup_instansiModel()
 def validasiInput():
@@ -15,6 +17,11 @@ def validasiInput():
         return jsonify({'message': 'Grup not found'}), 400
     return [nama, grup]
 instansi_bp=Blueprint(model.table_name,__name__)
+@instansi_bp.route('/api/'+model.table_name+"/value")
+def get_all_val():
+    df=isi.getAllIndeks_isi()
+    df=df[['id','nama']].drop_duplicates()
+    return jsonify(df.to_dict(orient='records'))
 @instansi_bp.route('/api/'+model.table_name)
 def get_all():
     return jsonify(model.getAll());

@@ -15,10 +15,9 @@ indikator_model=indikatorModel()
 an="prediksi"
 prediksi_bp=Blueprint(an,__name__, template_folder='views')
 def getDfLinear(instansi, indikator):
-    df=isi_model.getDfAllIndikatorClear()
+    df=isi_model.getAllIndeks_isi()
     df=df[df['id']==instansi]
-    data_indikator=indikator_model.getById(indikator)
-    df=df[['year',data_indikator['name'].lower()]]
+    df=df[['year',indikator.lower()]]
     df.columns=['tahun','value']
     y=df['value']
     X=df['tahun']
@@ -44,47 +43,6 @@ def prediksiLinear(instansi, indikator):
 @prediksi_bp.route('/api/'+ an+'/png_linear_reg/<string:instansi>/<string:indikator>')
 def pngprediksiLinear(instansi, indikator):
     df=getDfLinear(instansi,indikator)
-    fig, ax = plt.subplots()
-    ax.plot(df['tahun'], df['value'], marker='o')
-    ax.set_xlabel('Tahun')
-    ax.set_ylabel('Value')
-    ax.set_title("Grafik Garis Linear Regresi")
-   # Menggunakan BytesIO untuk menangkap output plot sebagai byte stream
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-
-    # Membuat respons HTTP dengan gambar sebagai byte stream
-    return Response(output.getvalue(), mimetype='image/png')
-
-def getDfLinear2024(instansi, indikator):
-    data = {
-    'tahun': [2018, 2019, 2020, 2021, 2022, 2023],
-    'value': [isi_model.getById(instansi,indikator,2018)['value'],
-         isi_model.getById(instansi,indikator,2019)['value'],
-         isi_model.getById(instansi,indikator,2020)['value'],
-         isi_model.getById(instansi,indikator,2021)['value'],
-         isi_model.getById(instansi,indikator,2022)['value'],
-         isi_model.getById(instansi,indikator,2023)['value']]
-        }
-    df=pd.DataFrame(data)
-    prediksi_2024=data['value'][5]
-    if(data['value'][4]<data['value'][5]) & (prediksi_2024<5):
-        prediksi_2024+=1
-
-    elif (data['value'][4]>data['value'][5]) & (prediksi_2024>1):
-        prediksi_2024-=1
-    
-    rounded_prediction = int(round(float(prediksi_2024)))
-    predicted_value = min(max(rounded_prediction, 1), 5)
-    df=df._append({"tahun":2024,"value":predicted_value}, ignore_index=True)
-    return df
-@prediksi_bp.route('/api/'+ an+'/df_linear_reg24/<string:instansi>/<string:indikator>')
-def prediksiLinear24(instansi, indikator):
-    
-    return getDfLinear2024(instansi,indikator).to_html(classes="tabel")
-@prediksi_bp.route('/api/'+ an+'/png_linear_reg24/<string:instansi>/<string:indikator>')
-def pngprediksiLinear24(instansi, indikator):
-    df=getDfLinear2024(instansi,indikator)
     fig, ax = plt.subplots()
     ax.plot(df['tahun'], df['value'], marker='o')
     ax.set_xlabel('Tahun')

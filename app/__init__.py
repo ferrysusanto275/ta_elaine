@@ -71,6 +71,12 @@ def tabel_indikator():
 @app.route("/assets/js/tabel_indikator.js")
 def tabel_indikatorJs():
     return send_file("static/js/tabel_indikator.js")
+@app.route("/prediksi_index")
+def prediksi_index():
+    return render_template("prediksi_index.html",page_url=request.path,min_year=min_year)
+@app.route("/assets/js/prediksi_index.js")
+def prediksi_indexJs():
+    return send_file("static/js/prediksi_index.js")
 @app.route("/assets/vendor/js/select2.min.js")
 def select2Js():
     return send_file("static/vendor/select2/dist/js/select2.min.js")
