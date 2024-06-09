@@ -17,7 +17,6 @@ const area_cb_filter = document.getElementById("area_cb_filter");
 const keluaran_cb_filter = document.getElementById("keluaran_cb_filter");
 const aspek_cb = document.getElementById("aspek_cb");
 const domain_cb = document.getElementById("domain_cb");
-
 let selected_area = "";
 let selected_inisiatif = "";
 let selected_keluaran = "";
@@ -63,7 +62,7 @@ const load_data = () => {
           btn_delete.textContent = "Delete";
           btn_delete.classList.add("delete_btn");
           btn_delete.onclick = function () {
-            handle_delete(element.analisis, element.indikator);
+            handle_delete(element.analisis, element.id);
           };
           cell4.appendChild(btn_delete);
           newRow.appendChild(cell4);

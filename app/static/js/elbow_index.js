@@ -65,7 +65,6 @@ const handle_year = () => {
   isi_data();
 };
 const isi_data = () => {
-  data_score.innerHTML = "";
   fetch(score_api + "/" + year_cb_filter.value + "/" + area_cb_filter.value+"/"+mode_filter.value)
     .then((response) => {
       if (!response.ok) {
@@ -74,6 +73,7 @@ const isi_data = () => {
       return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
     })
     .then((data) => {
+    data_score.innerHTML = "";
       data.forEach((element, i) => {
         const newRow = document.createElement("tr");
         const cell1 = document.createElement("td");

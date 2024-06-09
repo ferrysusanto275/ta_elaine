@@ -177,32 +177,34 @@ class keluaranModel:
         klaster_objek = kmeans_obj['best_model'].labels_
         dfK= kmeans_obj['df'].copy()
         dfK['Cluster'] = klaster_objek
-        # dfK['Centroid']=(kmeans_obj['centroids'])
+      #   dfK['Centroid0']=(kmeans_obj['centroids'][:,0])
+      #   dfK['Centroid1']=(kmeans_obj['centroids'][:,1])
         
         return dfK
-    def get_res_pca_bobot(self,year,area):
-        df=self.getDfK_bobot(area,year)
-        data_indikator=self.getAllIndikatorby_Area(area)
-        df_indikator=df[data_indikator]
-        print(df_indikator)
-        # df_indikator = preprocessing.scale(df_indikator)
-        print(df_indikator)
-        pca = PCA()
-        pca.fit(df_indikator) # melakukan perhitungan PCA
-        per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
-        labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
-        pca_data = pca.transform(df_indikator)
-        pca_df = pd.DataFrame(pca_data, index=df_indikator.T.columns, columns=labels)
-        loading_scores = pd.Series(pca.components_[0], index=data_indikator)
-        sorted_loading_scores = loading_scores.abs().sort_values(ascending=False)
+   #  def get_res_pca_bobot(self,year,area):
+   #      df=self.getDfK_bobot(area,year)
+   #      data_indikator=self.getAllIndikatorby_Area(area)
+   #      df_indikator=df[data_indikator]
+   #      print(df_indikator)
+   #      # df_indikator = preprocessing.scale(df_indikator)
+   #      print(df_indikator)
+   #      pca = PCA()
+   #      pca.fit(df_indikator) # melakukan perhitungan PCA
+   #      per_var = np.round(pca.explained_variance_ratio_* 100, decimals=1)
+   #      labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
+   #      pca_data = pca.transform(df_indikator)
+   #      pca_df = pd.DataFrame(pca_data, index=df_indikator.T.columns, columns=labels)
+   #      loading_scores = pd.Series(pca.components_[0], index=data_indikator)
+   #      sorted_loading_scores = loading_scores.abs().sort_values(ascending=False)
 
-        # # mengambil data 10 biji
-        top_10_genes = sorted_loading_scores[0:10].index.values
-        # print(top_10_genes)
+   #      # # mengambil data 10 biji
+   #      top_10_genes = sorted_loading_scores[0:10].index.values
+   #      # print(top_10_genes)
         
-        return {"df":df,"pca":pca,'per_var':per_var,'pca_df':pca_df,'labels':labels,'top_10':loading_scores[top_10_genes]}
+   #      return {"df":df,"pca":pca,'per_var':per_var,'pca_df':pca_df,'labels':labels,'top_10':loading_scores[top_10_genes]}
     def get_res_pca(self,year,area,tipe):
         df=self.getDfK(area,year,tipe)
+        data_res=self.kmeans_res(area,year,tipe)
         data_indikator=self.getAllIndikatorby_Area(area,tipe)
         df_indikator=df[data_indikator]
         # scaled_data = preprocessing.scale(df_indikator)
@@ -219,7 +221,7 @@ class keluaranModel:
         top_10_genes = sorted_loading_scores[0:10].index.values
         # print(top_10_genes)
         
-        return {"df":df,"pca":pca,'per_var':per_var,'pca_df':pca_df,'labels':labels,'top_10':loading_scores[top_10_genes]}
+        return {"df":df,"pca":pca,'per_var':per_var,'pca_df':pca_df,'labels':labels,'top_10':loading_scores[top_10_genes],'centroids':data_res['centroids']}
     def agglo_res(self,area,year,linkage,tipe):
         df=isi.getAllIndeks_isi()
         if(area==1 or area==2 or area==3 or area==4):

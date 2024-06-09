@@ -15,6 +15,8 @@ from sklearn.preprocessing import StandardScaler
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import numpy as np
 import pandas as pd 
+import matplotlib
+from matplotlib import patches
 import matplotlib.pyplot as plt 
 from sklearn.decomposition import PCA
 import seaborn as sns
@@ -433,23 +435,37 @@ def plot_kmeans_indexByYear(year,area,search,tipe):
     per_var=df_all['per_var']
     data_area=area_model.getById(area)
 
-
     fig, ax = plt.subplots()
-    plt.scatter(pca_df.PC1, pca_df.PC2, c=df['Cluster'], cmap='plasma')
-    plt.title('PCA Graph '+data_area['name'])
-    plt.xlabel('PC1 - {0}%'.format(per_var[0]))
-    plt.ylabel('PC2 - {0}%'.format(per_var[1]))
+    if(area==1 or area==2 or area==3 or area==4):
+    # plt.scatter(df_all["centroids"][:, 0], df_all["centroids"][:, 1], marker='x', s=150, c='black', label='Centroids')
+        plt.scatter(pca_df.PC1, pca_df.PC2, c=df['Cluster'], cmap='plasma')
+        plt.title('PCA Graph '+data_area['name'])
+        plt.xlabel('PC1 - {0}%'.format(per_var[0]))
+        plt.ylabel('PC2 - {0}%'.format(per_var[1]))
 
-    for sample in pca_df.index:
-        if(search.lower() in str(df.loc[sample, 'nama']).lower()):
-            text = str(df.loc[sample, 'nama'])
-            x, y = pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]
-            xtext=x-0.3
-            ytext=y+0.3
-            plt.annotate(text, (x, y),
-                        xytext=(xtext, ytext),  # offset from the point
-                        arrowprops=dict(facecolor='black', shrink=0.05))
-    
+        for sample in pca_df.index:
+            if(search.lower() in str(df.loc[sample, 'nama']).lower()):
+                text = str(df.loc[sample, 'nama'])
+                x, y = pca_df.PC1.loc[sample], pca_df.PC2.loc[sample]
+                xtext=x-0.3
+                ytext=y+0.3
+                plt.annotate(text, (x, y),
+                            xytext=(xtext, ytext),  # offset from the point
+                            arrowprops=dict(facecolor='black', shrink=0.05))
+    else:
+        plt.xlabel("Nilai Indeks")
+        plt.ylabel("Frekuensi")
+        plt.title("Distribusi Nilai Indeks")
+        counts, bins, patches = plt.hist(df['indeks'], bins=10, edgecolor='black', alpha=0.7)
+        # plt.show()
+        colors = ['red', 'green', 'blue']  # Adjust colors for k clusters
+        for i, cluster in enumerate(df['Cluster']):
+            # Use counts instead of plt.hist output for indexing
+            rect = plt.Rectangle((i, 0), width=1, height=counts[i], color=colors[cluster])
+            plt.gca().add_patch(rect)
+
+        plt.legend(title='Cluster')
+        # print(df)
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
 
@@ -521,9 +537,11 @@ def plot_dend_indexByYear_bobot(year,linkage,area):
     return Response(output.getvalue(), mimetype='image/png')
 
 
-@isi_bp.route('/api/'+model.table_name+'/agglo_score/<string:year>/<string:linkage>/<string:area>')
-def get_agglo_score_index(year,linkage,area):
-    df=keluaran.getDfAByareaYear(area,year,linkage)
+@isi_bp.route('/api/'+model.table_name+'/agglo_score/<string:year>/<string:linkage>/<string:area>/<string:tipe>')
+def get_agglo_score_index(year,linkage,area, tipe):
+    df=keluaran.agglo_res(area=area,year=year,linkage=linkage,tipe=tipe)
+    print(df)
+    # return jsonify([])
     return jsonify(df['silhouette_score'])
 @isi_bp.route('/api/'+model.table_name+'/res_agglo/<string:year>/<string:linkage>')
 def get_res_agglo_indexByYear(year, linkage):
