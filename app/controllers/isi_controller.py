@@ -436,7 +436,8 @@ def plot_kmeans_indexByYear(year,area,search,tipe):
     data_area=area_model.getById(area)
 
     fig, ax = plt.subplots()
-    if(area==1 or area==2 or area==3 or area==4):
+    print(area)
+    if(area=='1' or area=='2' or area=='3' or area=='4'):
     # plt.scatter(df_all["centroids"][:, 0], df_all["centroids"][:, 1], marker='x', s=150, c='black', label='Centroids')
         plt.scatter(pca_df.PC1, pca_df.PC2, c=df['Cluster'], cmap='plasma')
         plt.title('PCA Graph '+data_area['name'])
