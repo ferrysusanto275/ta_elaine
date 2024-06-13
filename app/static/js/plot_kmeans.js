@@ -39,7 +39,6 @@ const handle_year = () => {
   load_img();
 };
 const isi_data = () => {
-  data_top10.innerHTML = "";
   fetch(`${top10_api}/${year_cb_filter.value}/${area_cb_filter.value}/${mode_filter.value}`)
     .then((response) => {
       if (!response.ok) {
@@ -48,6 +47,7 @@ const isi_data = () => {
       return response.json(); // Ganti dengan response.text() jika Anda mengharapkan data dalam bentuk teks
     })
     .then((data) => {
+      data_top10.innerHTML = "";
       const sortedKeys = Object.keys(data).sort((a, b) => data[b] - data[a]);
       sortedKeys.forEach((key) => {
         const row = document.createElement("tr");

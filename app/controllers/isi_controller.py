@@ -15,8 +15,8 @@ from sklearn.preprocessing import StandardScaler
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 import numpy as np
 import pandas as pd 
-import matplotlib
-from matplotlib import patches
+# import matplotlib
+# from matplotlib import patches
 import matplotlib.pyplot as plt 
 from sklearn.decomposition import PCA
 import seaborn as sns

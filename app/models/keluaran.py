@@ -207,6 +207,7 @@ class keluaranModel:
         data_res=self.kmeans_res(area,year,tipe)
         data_indikator=self.getAllIndikatorby_Area(area,tipe)
         df_indikator=df[data_indikator]
+        print(data_indikator)
         # scaled_data = preprocessing.scale(df_indikator)
         pca = PCA()
         pca.fit(df_indikator) # melakukan perhitungan PCA
