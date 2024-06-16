@@ -466,39 +466,39 @@ class isiModel:
                          })
         df=pd.DataFrame(data)
         return df
-    def getDf(self):
-        db=Database()
-        query="SELECT i.nama ,gi.nama,m.year,m.value FROM "+self.table_name+" m";
-        query+=" JOIN instansi i ON m.instansi=i.id"
-        query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
-        query+=" WHERE m.indikator=%s"
-        query+=" ORDER BY i.id,m.year"
-        # query+=" WHERE  m.indikator=%s"
-        data={"No":[],"Instansi":[],"Group":[],"Year":[]}
-        list_indikator=indikator_model.getAll()
-        for indikator in list_indikator:
-           data[indikator['nama']]=self.getAllValue(indikator['id'])
-        list_aspek=aspek_model.getAll()
-        for aspek in list_aspek:
-           data[aspek['nama']]=self.getAllAspek(aspek['id'])
-        list_domain=domain_model.getAll()
-        for domain in list_domain:
-           data[domain['nama']]=self.getAllDomain(domain['id'])
-        data["Indeks"]=self.getAllIndex()
+    # def getDf(self):
+    #     db=Database()
+    #     query="SELECT i.nama ,gi.nama,m.year,m.value FROM "+self.table_name+" m";
+    #     query+=" JOIN instansi i ON m.instansi=i.id"
+    #     query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
+    #     query+=" WHERE m.indikator=%s"
+    #     query+=" ORDER BY i.id,m.year"
+    #     # query+=" WHERE  m.indikator=%s"
+    #     data={"No":[],"Instansi":[],"Group":[],"Year":[]}
+    #     list_indikator=indikator_model.getAll()
+    #     for indikator in list_indikator:
+    #        data[indikator['nama']]=self.getAllValue(indikator['id'])
+    #     list_aspek=aspek_model.getAll()
+    #     for aspek in list_aspek:
+    #        data[aspek['nama']]=self.getAllAspek(aspek['id'])
+    #     list_domain=domain_model.getAll()
+    #     for domain in list_domain:
+    #        data[domain['nama']]=self.getAllDomain(domain['id'])
+    #     data["Indeks"]=self.getAllIndex()
 
-        cur= db.execute_query(query,(list_indikator[0]['id'],))
-        result=cur.fetchall()
+    #     cur= db.execute_query(query,(list_indikator[0]['id'],))
+    #     result=cur.fetchall()
         
-        for i,row in enumerate(result):
-           data['No'].append(i+1)
-           data['Instansi'].append(row[0])
-           data['Group'].append(row[1])
-           data['Year'].append(row[2])
+    #     for i,row in enumerate(result):
+    #        data['No'].append(i+1)
+    #        data['Instansi'].append(row[0])
+    #        data['Group'].append(row[1])
+    #        data['Year'].append(row[2])
             
             
-        cur.close()
-        db.close()
-        return data
+    #     cur.close()
+    #     db.close()
+    #     return data
 
     def getDf23(self,indikator,analisis,year):
         db=Database()
@@ -525,92 +525,92 @@ class isiModel:
         df=pd.DataFrame(data)
         return df
         # return data
-    def getDfByYear_indikator(self,year):
-        db=Database()
-        query="SELECT i.nama,gi.nama,m.value FROM "+self.table_name+" m";
-        query+=" JOIN instansi i ON m.instansi=i.id"
-        query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
-        query+=" WHERE m.indikator=%s AND m.year=%s"
-        query+=" ORDER BY i.id,m.year"
-        list_indikator=indikator_model.getAll()
-        data={"No":[],"Instansi":[],"Group":[]}
-        cur= db.execute_query(query,(list_indikator[0]['id'],year))
-        result=cur.fetchall()
-        for i,row in enumerate(result):
-           data['No'].append(i+1)
-           data['Instansi'].append(row[0])
-           data['Group'].append(row[1])
+    # def getDfByYear_indikator(self,year):
+    #     db=Database()
+    #     query="SELECT i.nama,gi.nama,m.value FROM "+self.table_name+" m";
+    #     query+=" JOIN instansi i ON m.instansi=i.id"
+    #     query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
+    #     query+=" WHERE m.indikator=%s AND m.year=%s"
+    #     query+=" ORDER BY i.id,m.year"
+    #     list_indikator=indikator_model.getAll()
+    #     data={"No":[],"Instansi":[],"Group":[]}
+    #     cur= db.execute_query(query,(list_indikator[0]['id'],year))
+    #     result=cur.fetchall()
+    #     for i,row in enumerate(result):
+    #        data['No'].append(i+1)
+    #        data['Instansi'].append(row[0])
+    #        data['Group'].append(row[1])
             
             
-        cur.close()
-        db.close()
-        return data
-    def getDfByYear(self,year):
-        db=Database()
-        query="SELECT i.nama,gi.nama,m.value FROM "+self.table_name+" m";
-        query+=" JOIN instansi i ON m.instansi=i.id"
-        query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
-        query+=" WHERE m.indikator=%s AND m.year=%s"
-        query+=" ORDER BY i.id,m.year"
-        # query+=" WHERE  m.indikator=%s"
-        data={"No":[],"Instansi":[],"Group":[]}
-        list_indikator=indikator_model.getAll()
-        for indikator in list_indikator:
-           data[indikator['nama']]=self.getAllValueByYear(indikator['id'],year)
-        list_aspek=aspek_model.getAll()
-        for aspek in list_aspek:
-           data[aspek['nama']]=self.getAllAspekByYear(aspek['id'],year)
-        list_domain=domain_model.getAll()
-        for domain in list_domain:
-           data[domain['nama']]=self.getAllDomainByYear(domain['id'], year)
-        data["Indeks"]=self.getAllIndexbyYear(year)
+    #     cur.close()
+    #     db.close()
+    #     return data
+    # def getDfByYear(self,year):
+    #     db=Database()
+    #     query="SELECT i.nama,gi.nama,m.value FROM "+self.table_name+" m";
+    #     query+=" JOIN instansi i ON m.instansi=i.id"
+    #     query+=" JOIN grup_instansi gi ON i.group_instansi=gi.id"
+    #     query+=" WHERE m.indikator=%s AND m.year=%s"
+    #     query+=" ORDER BY i.id,m.year"
+    #     # query+=" WHERE  m.indikator=%s"
+    #     data={"No":[],"Instansi":[],"Group":[]}
+    #     list_indikator=indikator_model.getAll()
+    #     for indikator in list_indikator:
+    #        data[indikator['nama']]=self.getAllValueByYear(indikator['id'],year)
+    #     list_aspek=aspek_model.getAll()
+    #     for aspek in list_aspek:
+    #        data[aspek['nama']]=self.getAllAspekByYear(aspek['id'],year)
+    #     list_domain=domain_model.getAll()
+    #     for domain in list_domain:
+    #        data[domain['nama']]=self.getAllDomainByYear(domain['id'], year)
+    #     data["Indeks"]=self.getAllIndexbyYear(year)
 
-        cur= db.execute_query(query,(list_indikator[0]['id'],year))
-        result=cur.fetchall()
+    #     cur= db.execute_query(query,(list_indikator[0]['id'],year))
+    #     result=cur.fetchall()
         
-        for i,row in enumerate(result):
-           data['No'].append(i+1)
-           data['Instansi'].append(row[0])
-           data['Group'].append(row[1])
-        #    data['Year'].append(row[2])
+    #     for i,row in enumerate(result):
+    #        data['No'].append(i+1)
+    #        data['Instansi'].append(row[0])
+    #        data['Group'].append(row[1])
+    #     #    data['Year'].append(row[2])
             
             
-        cur.close()
-        db.close()
-        return data
-    def res_kmeans(self,df):
-        features = df[['Indeks']]
-        K = range(2,6)
-        inertia = []
-        silhouette_coef = [] 
-        model = [] 
-        for k in K:
-            kmeans= KMeans(n_clusters=k, random_state=42)
-            kmeans.fit(features)
-            model.append(kmeans)
-            inertia.append(kmeans.inertia_)
-            score = silhouette_score(features, kmeans.labels_, metric='euclidean')
-            silhouette_coef.append(score)
-        best_num_clusters = model[np.argmax(silhouette_coef)]
-        return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df}
-    def kmeans_res(self):
-        df=pd.DataFrame(self.getDf())
-        return self.res_kmeans(df)
-    def kmeans_resByYear(self,year):
-        df=pd.DataFrame(self.getDfByYear(year))
-        return self.res_kmeans(df)
-    def getDfK(self):
-        kmeans_obj=self.kmeans_res()
-        klaster_objek = kmeans_obj['best_model'].labels_
-        dfK= kmeans_obj['df'].copy()
-        dfK['Cluster'] = klaster_objek
-        return dfK
-    def getDfKByYear(self,year):
-        kmeans_obj=self.kmeans_resByYear(year)
-        klaster_objek = kmeans_obj['best_model'].labels_
-        dfK= kmeans_obj['df'].copy()
-        dfK['Cluster'] = klaster_objek
-        return dfK
+    #     cur.close()
+    #     db.close()
+    #     return data
+    # def res_kmeans(self,df):
+    #     features = df[['Indeks']]
+    #     K = range(2,6)
+    #     inertia = []
+    #     silhouette_coef = [] 
+    #     model = [] 
+    #     for k in K:
+    #         kmeans= KMeans(n_clusters=k, random_state=42)
+    #         kmeans.fit(features)
+    #         model.append(kmeans)
+    #         inertia.append(kmeans.inertia_)
+    #         score = silhouette_score(features, kmeans.labels_, metric='euclidean')
+    #         silhouette_coef.append(score)
+    #     best_num_clusters = model[np.argmax(silhouette_coef)]
+    #     return {"inertia":inertia,"silhouette_coef":silhouette_coef,'best_model':best_num_clusters,'df':df}
+    # def kmeans_res(self):
+    #     df=pd.DataFrame(self.getDf())
+    #     return self.res_kmeans(df)
+    # def kmeans_resByYear(self,year):
+    #     df=pd.DataFrame(self.getDfByYear(year))
+    #     return self.res_kmeans(df)
+    # def getDfK(self):
+    #     kmeans_obj=self.kmeans_res()
+    #     klaster_objek = kmeans_obj['best_model'].labels_
+    #     dfK= kmeans_obj['df'].copy()
+    #     dfK['Cluster'] = klaster_objek
+    #     return dfK
+    # def getDfKByYear(self,year):
+    #     kmeans_obj=self.kmeans_resByYear(year)
+    #     klaster_objek = kmeans_obj['best_model'].labels_
+    #     dfK= kmeans_obj['df'].copy()
+    #     dfK['Cluster'] = klaster_objek
+    #     return dfK
     def getAllValueByYearInstansi(self,instansi,year):
         db=Database()
         query="SELECT m.value,ind.id,ind.bobot,a.id,a.bobot,d.id,d.bobot FROM "+self.table_name+" m"
@@ -630,14 +630,14 @@ class isiModel:
         db.close()
         return data
     
-    def getDfAByYear(self,year,linkage):
-        df=pd.DataFrame(self.getDfByYear(year))
-        agglo_obj=self.agglomerative(df,linkage)
-        klaster_objek = agglo_obj['best_num_clusters']
-        labels = klaster_objek.fit_predict(df[['Indeks']])
-        dfK = df.copy()
-        dfK['Cluster'] = labels
-        return dfK
+    # def getDfAByYear(self,year,linkage):
+    #     df=pd.DataFrame(self.getDfByYear(year))
+    #     agglo_obj=self.agglomerative(df,linkage)
+    #     klaster_objek = agglo_obj['best_num_clusters']
+    #     labels = klaster_objek.fit_predict(df[['Indeks']])
+    #     dfK = df.copy()
+    #     dfK['Cluster'] = labels
+    #     return dfK
     # def agglomerative(self, df,linkage, silhouette_threshold=0.5):
     #     features = df[['Indeks']]
     #     num_samples = len(features)

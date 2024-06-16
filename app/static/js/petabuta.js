@@ -27,6 +27,8 @@ const indikator_layanan = [
   "i45",
   "i46",
   "i47",
+  "aspek7",
+  "aspek8",
   "domain4",
 ];
 const cek_year = () => {
