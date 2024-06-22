@@ -203,7 +203,9 @@ class keluaranModel:
         
    #      return {"df":df,"pca":pca,'per_var':per_var,'pca_df':pca_df,'labels':labels,'top_10':loading_scores[top_10_genes]}
     def get_res_pca(self,year,area,tipe):
+        #melakukan kmeans untuk dptin df 
         df=self.getDfK(area,year,tipe)
+        #melakukan perhitungan untuk silhouette score dan elbow indx
         data_res=self.kmeans_res(area,year,tipe)
         data_indikator=self.getAllIndikatorby_Area(area,tipe)
         df_indikator=df[data_indikator]

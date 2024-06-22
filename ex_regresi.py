@@ -35,40 +35,55 @@ def cari_i(index_find,index1,indikators_1,indikators_2):
         indikator_find=[];
         if(index_find>index1):
             if(indikator1>indikator2):
-                if(indikator1<indikator_find):
+                if(indikator1<index_find):
+                    #pilihan 1 
                     indikator_find.append(indikator1+1)
-                else: indikator_find.append(5)
+                else: indikator_find.append(int(index_find))
             elif(indikator1==indikator2):
+                #pilihan 1
                 indikator_find.append(indikator1)
-                if(indikator1<indikator_find):
+                if(indikator1<index_find):
+                    #pilihan 2
                     indikator_find.append(indikator1+1)
             else:
                 if(indikator1>1):
+                    #pilihan 1
                     indikator_find.append(indikator1-1);
+                #pilihan 2
                 indikator_find.append(indikator1)
         elif(index_find==index1):
+            #pilihan 1
             indikator_find.append(indikator1)
         else:
             if(indikator1<indikator2):
                 # indikator naik
                 if(indikator1>1):
+                    #pilihan 1
                     indikator_find.append(indikator1-1);
                 else: indikator_find.append(1);
             elif(indikator1==indikator2):
                 if(indikator1>1):
+                    #pilihan 1
                     indikator_find.append(indikator1-1);
+                #pilihan 2
                 indikator_find.append(indikator1);
             elif(indikator1>indikator2):
+                #pilihan 1
                 indikator_find.append(indikator1)
-                if(indikator1<indikator_find):
+                if(indikator1<index_find):
+                    #pilihan2
                     indikator_find.append(indikator1+1);
+        #ambil pilihan 1
         data.append(indikator_find[0])
+        #ambil pilihan 1 dan 2 
         pilihan_data.append(indikator_find)
     cnt=0
     while(index_find>round(objective(data),2) and cnt<47):
+        #kalau ada dua pilihan
         if(len(pilihan_data[cnt])>1):
+            #cobain pilihan kedua
             data[cnt]=pilihan_data[cnt][1]
-            
+            #kalau jadi kelebihan balikin ke pilihan 1 
             if(index_find<round(objective(data),2)):data[cnt]=pilihan_data[cnt][0]
         cnt+=1
     
@@ -76,7 +91,7 @@ def cari_i(index_find,index1,indikators_1,indikators_2):
     if(index_find>round(objective(data),2)):
         cnt=0
         while(index_find>round(objective(data),2) and cnt<47):
-            if(data[cnt]<indikator_find):
+            if(data[cnt]<index_find):
                 tmp=data[cnt]
                 data[cnt]=tmp+1
                 if(index_find<round(objective(data),2)):data[cnt]=tmp
@@ -90,6 +105,8 @@ def cari_i(index_find,index1,indikators_1,indikators_2):
                 if(index_find>round(objective(data),2)):data[cnt]=tmp
             cnt+=1
     return data
+
+#ini perhitungannya 
 data_insert=[]
 for index, row in df.iterrows():
     if(row.id!='NaN'):
@@ -100,22 +117,27 @@ for index, row in df.iterrows():
 #         # search index 2022
         index_2022=model.getIndexbyYearInstansi(instansi=row.id,year=2022);
         data_indikator_2021=[float(x['val']) for x in model.getAllValueByYearInstansi(instansi=row.id,year=2021)];
-        
+        #fdari sql itu decimal, perhitungan di sini butuh loat(x['val'])
         data_indikator_2022=[float(x['val']) for x in model.getAllValueByYearInstansi(instansi=row.id,year=2022)];
+        #kalau data 2021 nya gaada, data ikut thn 2022. dan sebaliknya
         if(index_2021==0):
             index_2021=index_2022
             data_indikator_2021=data_indikator_2022
         if(index_2022==0):
             index_2022=index_2021
             data_indikator_2022=data_indikator_2021
+        #nampilin array 
         data_full['2021']=data_indikator_2021
         data_full['2022']=data_indikator_2022
+        #dapetin dr excel 
         index_2018=0
         if(float(row.indeks_2018)>0):index_2018=row.indeks_2018
         index_2019=index_2018
         if(float(row.indeks_2019)>0):index_2019=row.indeks_2019
         index_2020=index_2019
         if(float(row.indeks_2020)>0):index_2020=row.indeks_2020
+
+        #panggil perhitungan metode cari i 
         if(index_2021>0 and index_2022>0):
             print("indeks_real :",index_2018,index_2019,index_2020,index_2021,index_2022)
             data_2020=cari_i(index_find=index_2020,index1=index_2021,indikators_1=data_indikator_2021,indikators_2=data_indikator_2022)
@@ -133,6 +155,7 @@ for index, row in df.iterrows():
             if(len(data_2019)>0):
                 print('insert data 2019')
                 for i,indikator in enumerate(indikators):
+                    #row.id = instansi 
                     data_insert.append((row.id,indikator['id'],2019,data_2019[i]))
                 # model.create_bulk(row.id,'2019',data_2019)
             if(len(data_2020)>0):
@@ -140,6 +163,7 @@ for index, row in df.iterrows():
                 for i,indikator in enumerate(indikators):
                     data_insert.append((row.id,indikator['id'],2020,data_2020[i]))
                 # model.create_bulk(row.id,'2020',data_2020)
+            #jadiin dataframe. 
             data_full['2020']=data_2020
             data_full['2019']=data_2019
             data_full['2018']=data_2018

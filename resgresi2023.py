@@ -48,6 +48,8 @@ def domain4(params):
     return (aspek7*(27.5/45.5))+(aspek8*(18/45.5));
 
 def regresi(indikator1,indikator2,domain1,domain2):
+        #domain1 = domain 2023 domain2 = domain 2022 domain_find=domain1
+        #indikator1 = indikator 2021 indikator2 = indikator 2022 
         res=0
         if(domain1>domain2):
             if(indikator1>indikator2):
@@ -65,8 +67,8 @@ def regresi(indikator1,indikator2,domain1,domain2):
                     res =indikator1-1
                 else:
                     res=indikator1
-        elif(domain1==domain2):
-            res=indikator1
+        elif(domain1==domain2): 
+            res=indikator2
         else:
             if(indikator1<indikator2):
                 if(indikator1>1):
@@ -89,27 +91,31 @@ def cari_indikator(domain_2023,data_2022,data_2021):
     # print(domain_2023,domain_2022)
     indikator_find = []
     for i in range(1,11):
+        #ambil data dr sql 
         indikator2 = float(data_2022['i'+str(i)].values[0])
         indikator1 = float(data_2021['i'+str(i)].values[0])
         indikator_find.append(regresi(indikator1=indikator1,indikator2=indikator2,domain1=domain_2023[0],domain2=data_2022['domain1'].values[0]))    
     cnt=0
+    #adjust domain 1
     domain_target=domain_2023[0]
     jarak=10
     # indikator kurang
-    selisih=domain_target-round(domain2(indikator_find),2)
+    selisih=domain_target-round(domain1(indikator_find),2)
     # indikator kurang
     if(selisih>0):
         while(selisih>0 and cnt<jarak):
             # cnt+=1
             if(indikator_find[cnt]<5):
                 indikator_find[cnt]+=1
-                selisih=domain_target-round(domain2(indikator_find),2)
+                selisih=domain_target-round(domain1(indikator_find),2)
                 if(selisih<0):
+                    #balik ke sebelumnya, kan tadi di plus
                     indikator_find[cnt]-=1
             cnt+=1
-            selisih=domain_target-round(domain2(indikator_find),2)
+            selisih=domain_target-round(domain1(indikator_find),2)
             if(selisih>0 and cnt>=jarak): cnt=0
-            selisih=domain_target-round(domain2(indikator_find),2)
+            selisih=domain_target-round(domain1(indikator_find),2)
+            #kl selisihnya udh lebih kecil dari minimum bobot 
             if(selisih<baspek23):break
     else:
         # indikator lebih
@@ -117,16 +123,19 @@ def cari_indikator(domain_2023,data_2022,data_2021):
             # cnt+=1
             if(indikator_find[cnt]>1):
                 indikator_find[cnt]-=1
-                selisih=domain_target-round(domain2(indikator_find),2)
+                selisih=domain_target-round(domain1(indikator_find),2)
                 if(selisih):
                     indikator_find[cnt]+=1
             cnt+=1
-            selisih=domain_target-round(domain2(indikator_find),2)
+            selisih=domain_target-round(domain1(indikator_find),2)
             if(selisih>0 and cnt>=jarak): cnt=0
             if(selisih>-baspek23):break
+            #baspek =-0.1
+            #selisih=-0.8
     for i in indikator_find:
         data.append(i)
     print("Domain 1",domain_2023[0],domain1(indikator_find))
+    #domain2
     indikator_find=[]
     for i in range(11,21):
         # print(i)
