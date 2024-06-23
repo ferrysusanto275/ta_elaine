@@ -280,7 +280,7 @@ indikators=indikator_model.getAll()
 domain_model=domainModel()
 domains=domain_model.getAll()
 
-df = pd.read_csv('Data CSV/Data_lengkap_2023_part32.csv')
+df = pd.read_csv('Data CSV/Data_lengkap_2023_part33.csv')
 df_alldata=model.getDfAllIndikator()
 # print(df_alldata)
 data_insert=[]
