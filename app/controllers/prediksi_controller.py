@@ -36,9 +36,11 @@ def getDfLinear(instansi, indikator):
     # print(predicted_value)
     df=df._append({"tahun":2024,"value":predicted_value}, ignore_index=True)
     
-    # Calculate the MSE
+    # Calculate the MSE and MAE
     mse = 1 - model.score(X_train, y_train)
+    mae = np.mean(np.abs(y_test - model.predict(X_test)))
     print("mse :",mse)
+    print("mae :",mae)
     # Add the MSE as a new column to the DataFrame
     # df['mse'] = mse
     return df
