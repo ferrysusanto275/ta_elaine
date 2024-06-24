@@ -217,7 +217,7 @@ class keluaranModel:
         labels = ['PC' + str(x) for x in range(1, len(per_var)+1)] #labelin diagram
         pca_data = pca.transform(df_indikator)
         pca_df = pd.DataFrame(pca_data, index=df_indikator.T.columns, columns=labels)
-        loading_scores = pd.Series(pca.components_[0], index=data_indikator)
+        loading_scores = pd.Series(pca.components_[0], index=data_indikator).abs()
         sorted_loading_scores = loading_scores.abs().sort_values(ascending=False)
 
         # # mengambil data 10 biji
