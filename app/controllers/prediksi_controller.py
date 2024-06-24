@@ -30,10 +30,19 @@ def getDfLinear(instansi, indikator):
 
         # Pastikan prediksi tetap dalam rentang 1-5
     predicted_value = min(max(rounded_prediction, 1), 5)
+    
         # return predicted_value
     # print(prediksi_2024)
     # print(predicted_value)
     df=df._append({"tahun":2024,"value":predicted_value}, ignore_index=True)
+    
+    # Calculate the MSE and MAE
+    mse = 1 - model.score(X_train, y_train)
+    mae = np.mean(np.abs(y_test - model.predict(X_test)))
+    print("mse :",mse)
+    print("mae :",mae)
+    # Add the MSE as a new column to the DataFrame
+    # df['mse'] = mse
     return df
 @prediksi_bp.route('/api/'+ an+'/df_linear_reg/<string:instansi>/<string:indikator>')
 def prediksiLinear(instansi, indikator):
